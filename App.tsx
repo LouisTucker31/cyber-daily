@@ -1,19 +1,24 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
-  answer, completeDay, dateKey, ensureToday, loadState, parseBank, saveState, shownStreak,
-  type Question, type State
+  answer, completeDay, dateKey, drawPractice, ensureToday, learnedIds, loadState, parseBank, saveState,
+  shownStreak, type PracticeSession, type Question, type State
 } from './quiz.ts';
 import Header from './Header.tsx';
+import Home from './Home.tsx';
 import QuestionView from './QuestionView.tsx';
 import DoneView from './DoneView.tsx';
+import useCountdown from './useCountdown.ts';
 import { ArrowIcon } from './icons.tsx';
 
 type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bank: Question[] };
+type View = 'home' | 'daily' | 'practice';
 
 export default function App() {
   const [load, setLoad] = useState<Load>({ status: 'loading' });
   const [state, setState] = useState<State | null>(null);
   const stateRef = useRef<State | null>(null);
+  const [view, setView] = useState<View>('home');
+  const [practice, setPractice] = useState<PracticeSession | null>(null);
 
   const bank = load.status === 'ready' ? load.bank : null;
   const byId = useMemo(() => new Map((bank ?? []).map((q) => [q.id, q])), [bank]);
@@ -62,61 +67,143 @@ export default function App() {
   }, [state, rollover]);
 
   const day = state?.day ?? null;
-  const finished = !!day && day.items.length > 0 && day.index >= day.items.length;
+  const dayDone = !!day && day.items.length > 0 && day.index >= day.items.length;
+  const countdown = useCountdown(day?.date, rollover);
 
   // record the streak once the day's set is finished
   useEffect(() => {
-    if (finished && day && !day.completed) update(completeDay);
-  }, [finished, day, update]);
+    if (dayDone && day && !day.completed) update(completeDay);
+  }, [dayDone, day, update]);
 
-  const item = day && !finished ? day.items[day.index] : null;
-  const question = item ? byId.get(item.id) : undefined;
-  const showBar = !!item && item.chosen !== null;
+  const go = useCallback((v: View) => {
+    setView(v);
+    window.scrollTo(0, 0);
+  }, []);
 
-  let body: ReactNode;
+  const startPractice = useCallback(() => {
+    if (!bank) return;
+    let items: PracticeSession['items'] = [];
+    update((s) => { items = drawPractice(bank, s); });
+    setPractice({ items, index: 0 });
+    go('practice');
+  }, [bank, update, go]);
+
+  /* ---------- work out what to show ---------- */
+
+  let body: ReactNode = null;
+  let barButton: ReactNode = null;
+  let nav: { label: string; onHome: () => void } | undefined;
+
   if (load.status === 'loading') {
     body = <p className="status">Loading questions…</p>;
-  } else if (load.status === 'error') {
+  } else if (load.status === 'error' || !state || !day) {
     body = <p className="status error">Couldn’t load questions.json. Check you’re online for the first launch.</p>;
-  } else if (!day || day.items.length === 0) {
-    body = <p className="status error">No questions found in questions.json.</p>;
-  } else if (finished) {
-    body = <DoneView day={day} byId={byId} onNewDay={rollover} />;
-  } else if (question) {
+  } else if (view === 'home') {
     body = (
-      <QuestionView
+      <Home
         day={day}
-        question={question}
-        onAnswer={(i) => bank && update((s) => answer(s, bank, i))}
-        onHint={() => update((s) => { if (s.day) s.day.items[s.day.index].hint = true; })}
+        learned={learnedIds(state, bank!).length}
+        countdown={countdown}
+        onDaily={() => go('daily')}
+        onPractice={startPractice}
       />
     );
+  } else if (view === 'daily') {
+    nav = { label: 'Today’s 10', onHome: () => go('home') };
+    if (dayDone) {
+      body = <DoneView mode="daily" items={day.items} byId={byId} countdown={countdown} />;
+      barButton = (
+        <button type="button" className="btn" onClick={() => go('home')}>Back to home</button>
+      );
+    } else {
+      const item = day.items[day.index];
+      const q = byId.get(item.id);
+      if (q) {
+        body = (
+          <QuestionView
+            mode="daily"
+            items={day.items}
+            index={day.index}
+            question={q}
+            onAnswer={(i) => update((s) => answer(s, bank!, i))}
+            onHint={() => update((s) => { if (s.day) s.day.items[s.day.index].hint = true; })}
+          />
+        );
+      }
+      if (item.chosen !== null) {
+        const last = day.index === day.items.length - 1;
+        barButton = (
+          <button
+            type="button"
+            className="btn"
+            onClick={() => { update((s) => { if (s.day) s.day.index += 1; }); window.scrollTo(0, 0); }}
+          >
+            {last ? 'See today’s results' : 'Next question'}
+            <ArrowIcon />
+          </button>
+        );
+      }
+    }
+  } else if (view === 'practice' && practice) {
+    nav = { label: 'Practice', onHome: () => go('home') };
+    if (practice.index >= practice.items.length) {
+      body = <DoneView mode="practice" items={practice.items} byId={byId} />;
+      barButton = (
+        <button type="button" className="btn" onClick={startPractice}>
+          Another round
+          <ArrowIcon />
+        </button>
+      );
+    } else {
+      const item = practice.items[practice.index];
+      const q = byId.get(item.id);
+      if (q) {
+        body = (
+          <QuestionView
+            mode="practice"
+            items={practice.items}
+            index={practice.index}
+            question={q}
+            onAnswer={(i) => setPractice((p) => {
+              if (!p) return p;
+              const items = p.items.map((it, n) => n === p.index && it.chosen === null
+                ? { ...it, chosen: i, correct: it.order[i] === q.correctIndex }
+                : it);
+              return { ...p, items };
+            })}
+            onHint={() => setPractice((p) => p && {
+              ...p,
+              items: p.items.map((it, n) => (n === p.index ? { ...it, hint: true } : it))
+            })}
+          />
+        );
+      }
+      if (item.chosen !== null) {
+        const last = practice.index === practice.items.length - 1;
+        barButton = (
+          <button
+            type="button"
+            className="btn"
+            onClick={() => { setPractice((p) => p && { ...p, index: p.index + 1 }); window.scrollTo(0, 0); }}
+          >
+            {last ? 'See results' : 'Next question'}
+            <ArrowIcon />
+          </button>
+        );
+      }
+    }
   }
-
-  const isLast = !!day && day.index === day.items.length - 1;
 
   return (
     <>
-      <div className={'app' + (showBar ? ' has-bar' : '')}>
-        <Header streak={state ? shownStreak(state) : 0} />
+      <div className={'app' + (barButton ? ' has-bar' : '')}>
+        <Header streak={state ? shownStreak(state) : 0} nav={nav} />
         <main>{body}</main>
       </div>
 
-      {showBar && (
+      {barButton && (
         <div className="actionbar">
-          <div className="actionbar-inner">
-            <button
-              type="button"
-              className="btn"
-              onClick={() => {
-                update((s) => { if (s.day) s.day.index += 1; });
-                window.scrollTo(0, 0);
-              }}
-            >
-              {isLast ? 'See today’s results' : 'Next question'}
-              <ArrowIcon />
-            </button>
-          </div>
+          <div className="actionbar-inner">{barButton}</div>
         </div>
       )}
     </>

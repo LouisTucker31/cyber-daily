@@ -37,6 +37,21 @@ export interface State {
   prevSet: string[];                // ids shown on the previous day
   streak: { count: number; last: string | null };
   day: Day | null;
+  learned: string[];                    // every id ever answered correctly (feeds Practice)
+  practiceSeen: Record<string, string>; // id -> date last practised
+}
+
+export interface PracticeItem {
+  id: string;
+  order: number[];
+  chosen: number | null;
+  correct: boolean | null;
+  hint: boolean;
+}
+
+export interface PracticeSession {
+  items: PracticeItem[];
+  index: number;
 }
 
 /* ---------- dates & randomness ---------- */
@@ -82,7 +97,9 @@ export function freshState(): State {
     lastSeen: {},
     prevSet: [],
     streak: { count: 0, last: null },
-    day: null
+    day: null,
+    learned: [],
+    practiceSeen: {}
   };
 }
 
@@ -90,7 +107,12 @@ export function loadState(): State {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return freshState();
-    return { ...freshState(), ...(JSON.parse(raw) as Partial<State>) };
+    const s: State = { ...freshState(), ...(JSON.parse(raw) as Partial<State>) };
+    // older versions had no 'learned' list: rebuild it from what we know was answered correctly
+    const learned = new Set([...s.learned, ...s.mastered]);
+    s.day?.items.forEach((it) => { if (it.correct) learned.add(it.id); });
+    s.learned = [...learned];
+    return s;
   } catch {
     return freshState();
   }
@@ -195,6 +217,31 @@ export function answer(state: State, bank: Question[], displayIdx: number): void
   if (item.correct && !item.review && !state.mastered.includes(item.id)) {
     state.mastered.push(item.id);
   }
+  if (item.correct && !state.learned.includes(item.id)) state.learned.push(item.id);
+}
+
+/* ---------- practice ----------
+ * Draws from questions you've already answered correctly, least recently
+ * practised first. Doesn't touch daily progress. */
+export const PRACTICE_COUNT = 10;
+
+export function learnedIds(state: State, bank: Question[]): string[] {
+  const ids = new Set(bank.map((q) => q.id));
+  return state.learned.filter((id) => ids.has(id));
+}
+
+export function drawPractice(bank: Question[], state: State, count = PRACTICE_COUNT): PracticeItem[] {
+  const byId = new Map(bank.map((q) => [q.id, q]));
+  const ids = bySeenThenRandom(learnedIds(state, bank), state.practiceSeen).slice(0, count);
+  const today = dateKey();
+  ids.forEach((id) => { state.practiceSeen[id] = today; });
+  return shuffle(ids).map((id) => ({
+    id,
+    order: shuffle(byId.get(id)!.options.map((_, i) => i)),
+    chosen: null,
+    correct: null,
+    hint: false
+  }));
 }
 
 export function completeDay(state: State): void {

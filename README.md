@@ -8,9 +8,12 @@ Built with React, TypeScript and Vite. Every source file lives in the repo root.
 | --- | --- |
 | `index.html` | Page shell |
 | `main.tsx` | Starts the app, zoom lock, service worker registration and auto-update |
-| `App.tsx` | Loads questions, holds state, routes between screens |
+| `App.tsx` | Loads questions, holds state, switches between Home, Today's 10 and Practice |
+| `Home.tsx` | Home screen tile grid: Today's 10 (locks with a countdown once done) and Practice |
+| `Tile.tsx` | A single home-screen tile |
+| `useCountdown.ts` | Countdown to the next daily set |
 | `QuestionView.tsx` | Question, answers, hint and result |
-| `DoneView.tsx` | End-of-day summary and countdown |
+| `DoneView.tsx` | End-of-set summary for both modes |
 | `Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
 | `quiz.ts` | All quiz logic: daily draw, progress, streak, storage |
 | `styles.css` | All styling |
@@ -43,6 +46,12 @@ Each build stamps `sw.js` with a new cache version, so old copies are cleared au
 - Answer order is shuffled every time a question appears.
 
 Progress is stored on the device (localStorage, same key as the original version, so existing progress carries over).
+
+## Adding a home-screen tile
+In `Home.tsx`, add an entry to the `tiles` list. Each tile has a `title`, `icon`, one-line `meta`, optional `foot`, a `tone` (`feature` orange, `feature-done` soft orange, `plain` white, `locked` grey) and an `onOpen` action. Tiles flow into the two-column grid automatically; set `wide: true` to span both columns.
+
+## Practice
+Practice rounds of up to 10 use questions you've answered correctly at least once, least recently practised first. A wrong answer shows the right one and the explanation. Practice never changes daily progress or the streak.
 
 ## Adding questions
 Add entries to `questions.json` with a new unique `id`:
