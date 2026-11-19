@@ -16,7 +16,7 @@ Built with React, TypeScript and Vite. Every source file lives in the repo root.
 | `DoneView.tsx` | End-of-set summary for both modes |
 | `Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
 | `quiz.ts` | All quiz logic: daily draw, progress, streak, storage |
-| `styles.css` | All styling |
+| `styles.css` | All styling, including the dark theme (follows the phone's light/dark setting) |
 | `questions.json` | The question bank |
 | `sw.js` | Service worker (offline + updates) |
 | `manifest.json`, icons, `figtree.woff2` | PWA manifest, icons and font |
