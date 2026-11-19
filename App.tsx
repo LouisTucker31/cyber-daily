@@ -8,10 +8,13 @@ import Home from './Home.tsx';
 import QuestionView from './QuestionView.tsx';
 import DoneView from './DoneView.tsx';
 import useCountdown from './useCountdown.ts';
+import useEdgeSwipe from './useEdgeSwipe.ts';
+import { haptic } from './haptics.ts';
 import { ArrowIcon } from './icons.tsx';
 
 type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bank: Question[] };
 type View = 'home' | 'daily' | 'practice';
+type Motion = 'forward' | 'back' | 'none';
 
 export default function App() {
   const [load, setLoad] = useState<Load>({ status: 'loading' });
@@ -19,6 +22,8 @@ export default function App() {
   const stateRef = useRef<State | null>(null);
   const [view, setView] = useState<View>('home');
   const [practice, setPractice] = useState<PracticeSession | null>(null);
+  const [motion, setMotion] = useState<Motion>('none');
+  const [round, setRound] = useState(0); // bumps on each new screen so the slide animation replays
 
   const bank = load.status === 'ready' ? load.bank : null;
   const byId = useMemo(() => new Map((bank ?? []).map((q) => [q.id, q])), [bank]);
@@ -75,18 +80,56 @@ export default function App() {
     if (dayDone && day && !day.completed) update(completeDay);
   }, [dayDone, day, update]);
 
-  const go = useCallback((v: View) => {
+  /* Navigation. Opening a mode adds a history entry, so Android's back button
+     (and the edge swipe) returns Home like a native app. */
+  const skipMotion = useRef(false);
+
+  // a fresh launch always starts at Home with a clean history entry
+  useEffect(() => { if (history.state?.view) history.replaceState(null, ''); }, []);
+
+  const open = useCallback((v: Exclude<View, 'home'>) => {
+    if (history.state?.view) history.replaceState({ view: v }, '');
+    else history.pushState({ view: v }, '');
+    setMotion('forward');
+    setRound((r) => r + 1);
     setView(v);
     window.scrollTo(0, 0);
   }, []);
+
+  const goHome = useCallback((animate = true) => {
+    skipMotion.current = !animate;
+    if (history.state?.view) history.back(); // popstate below finishes the job
+    else {
+      setMotion(animate ? 'back' : 'none');
+      setRound((r) => r + 1);
+      setView('home');
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onPop = () => {
+      setMotion(skipMotion.current ? 'none' : 'back');
+      skipMotion.current = false;
+      setRound((r) => r + 1);
+      setView('home');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  const swipeBack = useCallback(() => goHome(false), [goHome]);
+  useEdgeSwipe(view !== 'home', swipeBack);
 
   const startPractice = useCallback(() => {
     if (!bank) return;
     let items: PracticeSession['items'] = [];
     update((s) => { items = drawPractice(bank, s); });
     setPractice({ items, index: 0 });
-    go('practice');
-  }, [bank, update, go]);
+    haptic();
+    open('practice');
+  }, [bank, update, open]);
 
   /* ---------- work out what to show ---------- */
 
@@ -104,16 +147,16 @@ export default function App() {
         day={day}
         learned={learnedIds(state, bank!).length}
         countdown={countdown}
-        onDaily={() => go('daily')}
+        onDaily={() => { haptic(); open('daily'); }}
         onPractice={startPractice}
       />
     );
   } else if (view === 'daily') {
-    nav = { label: 'Today’s 10', onHome: () => go('home') };
+    nav = { label: 'Today’s 10', onHome: () => goHome() };
     if (dayDone) {
       body = <DoneView mode="daily" items={day.items} byId={byId} countdown={countdown} />;
       barButton = (
-        <button type="button" className="btn" onClick={() => go('home')}>Back to home</button>
+        <button type="button" className="btn" onClick={() => goHome()}>Back to home</button>
       );
     } else {
       const item = day.items[day.index];
@@ -125,7 +168,10 @@ export default function App() {
             items={day.items}
             index={day.index}
             question={q}
-            onAnswer={(i) => update((s) => answer(s, bank!, i))}
+            onAnswer={(i) => {
+              haptic(item.order[i] === q.correctIndex ? 'success' : 'error');
+              update((s) => answer(s, bank!, i));
+            }}
             onHint={() => update((s) => { if (s.day) s.day.items[s.day.index].hint = true; })}
           />
         );
@@ -145,7 +191,7 @@ export default function App() {
       }
     }
   } else if (view === 'practice' && practice) {
-    nav = { label: 'Practice', onHome: () => go('home') };
+    nav = { label: 'Practice', onHome: () => goHome() };
     if (practice.index >= practice.items.length) {
       body = <DoneView mode="practice" items={practice.items} byId={byId} />;
       barButton = (
@@ -164,13 +210,13 @@ export default function App() {
             items={practice.items}
             index={practice.index}
             question={q}
-            onAnswer={(i) => setPractice((p) => {
+            onAnswer={(i) => { haptic(item.order[i] === q.correctIndex ? 'success' : 'error'); setPractice((p) => {
               if (!p) return p;
               const items = p.items.map((it, n) => n === p.index && it.chosen === null
                 ? { ...it, chosen: i, correct: it.order[i] === q.correctIndex }
                 : it);
               return { ...p, items };
-            })}
+            }); }}
             onHint={() => setPractice((p) => p && {
               ...p,
               items: p.items.map((it, n) => (n === p.index ? { ...it, hint: true } : it))
@@ -198,7 +244,7 @@ export default function App() {
     <>
       <div className={'app' + (barButton ? ' has-bar' : '')}>
         <Header streak={state ? shownStreak(state) : 0} nav={nav} />
-        <main>{body}</main>
+        <main key={view + round} className={'screen screen-' + motion}>{body}</main>
       </div>
 
       {barButton && (

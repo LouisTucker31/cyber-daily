@@ -26,7 +26,7 @@
   --press: #f0f0ec;
   --soft: #efefea;                /* hint box */
   --locked: #ecece7;
-  --bar-bg: rgba(247, 247, 245, 0.96);
+  --glass: rgba(247, 247, 245, 0.78);
   --shadow: 0 2px 10px rgba(21, 24, 29, 0.08);
 
   /* Today's 10 orange */
@@ -72,7 +72,7 @@
   --press: #23272d;
   --soft: #22262c;
   --locked: #1f2227;
-  --bar-bg: rgba(18, 20, 23, 0.96);
+  --glass: rgba(18, 20, 23, 0.74);
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 
   --orange: #c2410c;
@@ -103,7 +103,16 @@ html, body {
   font-feature-settings: "tnum" 0;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
-  overscroll-behavior-y: none;
+  /* native rubber-band scrolling: the page stretches past the ends and springs back */
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* App-like touch: no text-selection or long-press menus on controls */
+button, .tile, .topbar, .actionbar, .next-pill, .ticks {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* 16px minimum on anything interactive so iOS never auto-zooms */
@@ -121,19 +130,30 @@ button { -webkit-appearance: none; appearance: none; }
   min-height: 100vh;
   min-height: 100dvh;
   padding:
-    calc(env(safe-area-inset-top) + 18px)
+    0
     calc(env(safe-area-inset-right) + var(--pad))
     calc(env(safe-area-inset-bottom) + 32px)
     calc(env(safe-area-inset-left) + var(--pad));
 }
 .app.has-bar { padding-bottom: calc(env(safe-area-inset-bottom) + var(--bar-h) + 24px); }
 
-/* ---------- header ---------- */
+/* ---------- header: stays at the top with a frosted-glass background ---------- */
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding-bottom: 18px;
+  margin: 0 calc(-1 * (env(safe-area-inset-right) + var(--pad))) 0 calc(-1 * (env(safe-area-inset-left) + var(--pad)));
+  padding:
+    calc(env(safe-area-inset-top) + 18px)
+    calc(env(safe-area-inset-right) + var(--pad))
+    16px
+    calc(env(safe-area-inset-left) + var(--pad));
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--line);
 }
 .wordmark {
@@ -207,8 +227,9 @@ button { -webkit-appearance: none; appearance: none; }
   line-height: 1.4;
   color: var(--ink);
   cursor: pointer;
-  transition: border-color .12s, background-color .12s;
+  transition: border-color .12s, background-color .12s, transform .12s;
 }
+.option:active:not(:disabled) { transform: scale(0.99); }
 .option .key {
   font-weight: 700;
   color: var(--muted);
@@ -273,8 +294,11 @@ button { -webkit-appearance: none; appearance: none; }
 .actionbar {
   position: fixed;
   left: 0; right: 0; bottom: 0;
-  background: var(--bar-bg);
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
   border-top: 1px solid var(--line);
+  z-index: 10;
   padding:
     12px
     calc(env(safe-area-inset-right) + var(--pad))
@@ -296,7 +320,7 @@ button { -webkit-appearance: none; appearance: none; }
   cursor: pointer;
 }
 .btn svg { width: 18px; height: 18px; }
-.btn:active { background: var(--btn-press); }
+.btn:active { background: var(--btn-press); transform: scale(0.985); }
 
 /* ---------- end of day ---------- */
 .done-title {
@@ -484,3 +508,16 @@ div.tile-locked { cursor: default; }
   text-decoration-color: var(--line-strong);
   text-underline-offset: 4px;
 }
+
+/* ---------- screen transitions (iOS-style push / pop) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .screen-forward { animation: push-in .32s cubic-bezier(.2, .9, .25, 1) both; }
+  .screen-back { animation: pop-in .32s cubic-bezier(.2, .9, .25, 1) both; }
+  @keyframes push-in { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
+  @keyframes pop-in { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+  .btn, .tile-cta { transition: transform .12s ease, background-color .12s; }
+}
+
+/* edge-swipe back: soft shadow down the left edge while dragging */
+.swiping .app { box-shadow: -12px 0 24px rgba(0, 0, 0, 0.12); }
+.swiping body { overflow: hidden; }

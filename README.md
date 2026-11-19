@@ -12,6 +12,8 @@ Built with React, TypeScript and Vite. Every source file lives in the repo root.
 | `Home.tsx` | Home screen tile grid: Today's 10 (locks with a countdown once done) and Practice |
 | `Tile.tsx` | A single home-screen tile |
 | `useCountdown.ts` | Countdown to the next daily set |
+| `useEdgeSwipe.ts` | Swipe from the left edge to go back Home |
+| `haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
 | `QuestionView.tsx` | Question, answers, hint and result |
 | `DoneView.tsx` | End-of-set summary for both modes |
 | `Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
