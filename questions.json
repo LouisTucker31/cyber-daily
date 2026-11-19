@@ -1,0 +1,1405 @@
+{
+  "version": 2,
+  "questions": [
+    {
+      "id": "CYB-001",
+      "category": "Cybersecurity Fundamentals",
+      "question": "Which part of the CIA triad is about keeping information away from unauthorised people?",
+      "options": [
+        "Integrity",
+        "Confidentiality",
+        "Availability",
+        "Accountability"
+      ],
+      "correctIndex": 1,
+      "hint": "Think about secrecy rather than accuracy or uptime.",
+      "explanation": "Confidentiality means information can only be seen by people who are authorised to see it. Controls such as access permissions, encryption and MFA all support it. A data leak or someone reading files they shouldn't is a confidentiality failure."
+    },
+    {
+      "id": "CYB-002",
+      "category": "Cybersecurity Fundamentals",
+      "question": "Someone secretly changes a company's records. Which security principle has been compromised?",
+      "options": [
+        "Authentication",
+        "Confidentiality",
+        "Availability",
+        "Integrity"
+      ],
+      "correctIndex": 3,
+      "hint": "The records still exist and are reachable, but can you still trust them?",
+      "explanation": "Integrity is about information staying accurate, complete and unaltered unless an authorised change is made. Unauthorised edits, tampering and corruption all break integrity. Controls like change logs, checksums, digital signatures and tight edit permissions help protect it."
+    },
+    {
+      "id": "CYB-003",
+      "category": "Cybersecurity Fundamentals",
+      "question": "A website is offline and legitimate customers cannot use it. Which CIA triad principle is affected?",
+      "options": [
+        "Non-repudiation",
+        "Confidentiality",
+        "Availability",
+        "Integrity"
+      ],
+      "correctIndex": 2,
+      "hint": "Nobody has stolen or changed anything; the problem is getting to it.",
+      "explanation": "Availability means systems and data are there when legitimate users need them. Outages, DDoS attacks, ransomware and hardware failure all hit availability. Redundancy, backups and good capacity planning help keep services running."
+    },
+    {
+      "id": "CYB-004",
+      "category": "Cybersecurity Fundamentals",
+      "question": "In cybersecurity, what is an asset?",
+      "options": [
+        "Only a company's cash and equipment",
+        "A piece of malicious software",
+        "A known weakness in a network",
+        "Something valuable that needs protecting, such as a system or data"
+      ],
+      "correctIndex": 3,
+      "hint": "Ask yourself what an attacker would actually want to get their hands on.",
+      "explanation": "An asset is anything of value to an organisation that needs protecting: data, devices, applications, cloud services, people's accounts and even reputation. Knowing what your assets are is the first step in security, because you can't protect what you don't know you have."
+    },
+    {
+      "id": "CYB-005",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What is a vulnerability?",
+      "options": [
+        "A security rule that blocks all attacks",
+        "A person responsible for security",
+        "A weakness that could be exploited",
+        "A confirmed data breach"
+      ],
+      "correctIndex": 2,
+      "hint": "It's a gap or flaw, not the person or thing taking advantage of it.",
+      "explanation": "A vulnerability is a weakness that could be exploited, such as unpatched software, a misconfiguration, a weak password or a poor process. On its own it causes no harm; the risk comes when a threat is able to exploit it."
+    },
+    {
+      "id": "CYB-006",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What does the term 'threat' mean in cybersecurity?",
+      "options": [
+        "A guarantee that an attack will succeed",
+        "Something capable of causing harm to a system or information",
+        "A backup copy of important data",
+        "An automatically blocked email"
+      ],
+      "correctIndex": 1,
+      "hint": "It's about the potential to do damage, not certainty.",
+      "explanation": "A threat is anything that could cause harm: a criminal group, malware, an insider, or even a flood or power cut. Threats exploit vulnerabilities, and the combination of the two, plus the impact, is what creates risk."
+    },
+    {
+      "id": "CYB-007",
+      "category": "Cybersecurity Fundamentals",
+      "question": "Which statement best describes cybersecurity risk?",
+      "options": [
+        "The total number of computers in a business",
+        "Any software update released by a vendor",
+        "A list of all employees' passwords",
+        "The potential harm from a threat, considering likelihood and impact"
+      ],
+      "correctIndex": 3,
+      "hint": "Two factors combine here: how probable, and how bad.",
+      "explanation": "Risk is usually described as likelihood multiplied by impact. Organisations assess risks so they can prioritise, deciding whether to reduce, accept, transfer (e.g. insurance) or avoid each one. Not every risk can be eliminated, so prioritising matters."
+    },
+    {
+      "id": "CYB-008",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What does 'attack surface' refer to?",
+      "options": [
+        "The number of people working in IT",
+        "All the possible points an attacker might try to exploit",
+        "Only the public website of an organisation",
+        "The physical size of a server room"
+      ],
+      "correctIndex": 1,
+      "hint": "Picture every door, window and gap an intruder could try.",
+      "explanation": "The attack surface is the sum of all the points where an attacker could try to get in: internet-facing servers, email, user accounts, APIs, remote access, third-party connections and even people. Reducing the attack surface, by switching off unused services and removing old accounts, cuts the number of options available to an attacker."
+    },
+    {
+      "id": "CYB-009",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What does the principle of least privilege mean?",
+      "options": [
+        "Give people only the access they need for their tasks",
+        "Allow access only during office hours",
+        "Require everyone to use the same account",
+        "Give every employee administrator access"
+      ],
+      "correctIndex": 0,
+      "hint": "The word 'least' is doing the work here.",
+      "explanation": "Least privilege means each person, account or system has only the access it needs to do its job, and nothing more. If an account is compromised, the damage is limited to what that account could reach. It also reduces accidental damage by well-meaning users."
+    },
+    {
+      "id": "CYB-010",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What is the main idea behind 'zero trust' security?",
+      "options": [
+        "Block all internet access permanently",
+        "Remove the need to verify identities",
+        "Trust every device once it joins the office Wi-Fi",
+        "Do not automatically trust a user or device just because it is on the network"
+      ],
+      "correctIndex": 3,
+      "hint": "Being 'inside' isn't a free pass.",
+      "explanation": "Zero trust assumes no user or device is trustworthy simply because of where it is on the network. Every access request is verified using identity, device health and context. It developed because remote working and cloud services made the old idea of a trusted internal network unreliable."
+    },
+    {
+      "id": "CYB-011",
+      "category": "Passwords and Authentication",
+      "question": "What does MFA stand for?",
+      "options": [
+        "Multi-Factor Authentication",
+        "Mainframe Account Administration",
+        "Multiple File Approval",
+        "Managed Firewall Access"
+      ],
+      "correctIndex": 0,
+      "hint": "It's about proving who you are with more than one thing.",
+      "explanation": "Multi-Factor Authentication combines two or more factors: something you know (password), something you have (phone or security key) and something you are (fingerprint or face). Even if a password is stolen, the attacker usually still needs the second factor, which blocks most account takeover attempts."
+    },
+    {
+      "id": "CYB-012",
+      "category": "Passwords and Authentication",
+      "question": "Which is the best general approach to passwords for different accounts?",
+      "options": [
+        "Use the company name with the current year",
+        "Change one character on the same password each time",
+        "Use a long, unique password for each account",
+        "Reuse one complex password everywhere"
+      ],
+      "correctIndex": 2,
+      "hint": "Think about what happens to your other accounts when one site gets breached.",
+      "explanation": "Using a long, unique password for every account means a breach at one service can't be used to get into your others. Length matters more than complexity, and a password manager makes keeping them all unique practical."
+    },
+    {
+      "id": "CYB-013",
+      "category": "Passwords and Authentication",
+      "question": "What is a passphrase?",
+      "options": [
+        "An email that confirms your identity",
+        "The name of your password manager",
+        "A code sent by a mobile network",
+        "A password formed from a sequence of words"
+      ],
+      "correctIndex": 3,
+      "hint": "The name gives away the building blocks.",
+      "explanation": "A passphrase is a password made from several words, such as three random words. The NCSC recommends this approach because it creates long passwords that are hard to crack but easier for people to remember than a short string of random characters."
+    },
+    {
+      "id": "CYB-014",
+      "category": "Passwords and Authentication",
+      "question": "What is the main benefit of a password manager?",
+      "options": [
+        "It helps create and store unique passwords securely",
+        "It automatically shares passwords with colleagues",
+        "It removes the need for all security updates",
+        "It guarantees no account can ever be hacked"
+      ],
+      "correctIndex": 0,
+      "hint": "It solves the problem of remembering dozens of different passwords.",
+      "explanation": "A password manager generates strong, unique passwords and stores them in an encrypted vault, so you only need to remember one strong master password. Many also autofill only on the genuine website, which gives some protection against fake login pages."
+    },
+    {
+      "id": "CYB-015",
+      "category": "Passwords and Authentication",
+      "question": "What is a passkey?",
+      "options": [
+        "A spare copy of your office key",
+        "A security question based on your birthplace",
+        "A one-time password written on paper",
+        "A sign-in method using cryptographic credentials instead of a reusable password"
+      ],
+      "correctIndex": 3,
+      "hint": "Cryptography replaces something you'd normally type.",
+      "explanation": "Passkeys use public-key cryptography: a private key stays on your device and the website only holds the public key. There's no reusable password to steal or phish, and passkeys only work on the genuine site they were created for. They're unlocked with your device's biometrics or PIN."
+    },
+    {
+      "id": "CYB-016",
+      "category": "Passwords and Authentication",
+      "question": "What is 'credential stuffing'?",
+      "options": [
+        "Sending lots of harmless emails to a mailbox",
+        "Giving every employee a new work account",
+        "Trying stolen username-and-password pairs on other services",
+        "Encrypting a hard drive for backup"
+      ],
+      "correctIndex": 2,
+      "hint": "It relies on people using the same login in more than one place.",
+      "explanation": "Credential stuffing uses huge lists of usernames and passwords leaked from earlier breaches and automatically tries them on other sites. It works because many people reuse passwords. Unique passwords and MFA are the main defences."
+    },
+    {
+      "id": "CYB-017",
+      "category": "Passwords and Authentication",
+      "question": "What is a brute-force password attack?",
+      "options": [
+        "Disabling a computer's screen",
+        "Recording a video of someone's office",
+        "Stealing a physical access card",
+        "Trying many possible passwords until one works"
+      ],
+      "correctIndex": 3,
+      "hint": "No cleverness involved, just persistence and lots of attempts.",
+      "explanation": "A brute-force attack tries large numbers of possible passwords until one works. Long passwords make this impractical, and defences like account lockouts, rate limiting and MFA stop attackers trying endlessly."
+    },
+    {
+      "id": "CYB-018",
+      "category": "Passwords and Authentication",
+      "question": "You receive an MFA code you did not request, and someone calls asking for it. What should you do?",
+      "options": [
+        "Do not share it and report the suspicious request",
+        "Read it out because they know your name",
+        "Post the code in the team chat",
+        "Approve the request to make the notifications stop"
+      ],
+      "correctIndex": 0,
+      "hint": "A genuine service will never need you to read that out to anyone.",
+      "explanation": "Never share an MFA code or approve a prompt you didn't start. An unexpected code or prompt means someone may already have your password. Attackers often call pretending to be IT support to get the code, or spam prompts hoping you'll approve one to make them stop (MFA fatigue). Report it and change your password."
+    },
+    {
+      "id": "CYB-019",
+      "category": "Passwords and Authentication",
+      "question": "Where should backup account recovery codes be kept?",
+      "options": [
+        "In an email to everyone in the company",
+        "On a sticky note attached to the laptop",
+        "In a public document anyone can open",
+        "In a secure place separate from the account they protect"
+      ],
+      "correctIndex": 3,
+      "hint": "Treat them like a spare key to the account.",
+      "explanation": "Recovery codes let you into an account if you lose your MFA device, so anyone who finds them can do the same. Keep them somewhere secure and separate from the account itself, such as a password manager or a locked safe, never in an email or on a note stuck to your laptop."
+    },
+    {
+      "id": "CYB-020",
+      "category": "Passwords and Authentication",
+      "question": "What does SSO stand for in account access?",
+      "options": [
+        "Secure Software Operation",
+        "Shared Session Output",
+        "System Safety Override",
+        "Single Sign-On"
+      ],
+      "correctIndex": 3,
+      "hint": "Log in once, get into several things.",
+      "explanation": "Single Sign-On lets a user authenticate once with a central identity provider and then access multiple authorised apps without logging in again. It reduces password fatigue and lets IT control and remove access in one place, although it makes that one account very valuable, so it should always be protected with MFA."
+    },
+    {
+      "id": "CYB-021",
+      "category": "Phishing and Social Engineering",
+      "question": "What is phishing?",
+      "options": [
+        "Tricking people with fraudulent messages to obtain information or access",
+        "Installing a new operating system",
+        "Making encrypted backups",
+        "Testing a firewall's performance"
+      ],
+      "correctIndex": 0,
+      "hint": "The name comes from dangling bait and waiting for a bite.",
+      "explanation": "Phishing uses fake messages, usually email, that impersonate trusted organisations or people to trick you into clicking a link, opening an attachment, entering credentials or sending money. It's one of the most common ways cyberattacks start, which is why reporting suspicious messages is so important."
+    },
+    {
+      "id": "CYB-022",
+      "category": "Phishing and Social Engineering",
+      "question": "How is spear phishing different from general phishing?",
+      "options": [
+        "It never includes attachments",
+        "It is tailored to a specific person or group",
+        "It only targets mobile phones",
+        "It can happen only through social media"
+      ],
+      "correctIndex": 1,
+      "hint": "A spear is aimed; a net is not.",
+      "explanation": "Spear phishing is targeted at a specific person or group, using details like their name, job, colleagues or current projects to make the message believable. Attackers often research targets through LinkedIn and company websites. Because it's personalised, it's much harder to spot than mass phishing."
+    },
+    {
+      "id": "CYB-023",
+      "category": "Phishing and Social Engineering",
+      "question": "What is 'smishing'?",
+      "options": [
+        "Malware hidden in a software update",
+        "Phishing carried out through SMS or text messages",
+        "Phishing through a voice call",
+        "Repeatedly guessing a password"
+      ],
+      "correctIndex": 1,
+      "hint": "The first letter hints at the channel used.",
+      "explanation": "Smishing is phishing by SMS text message, such as fake parcel delivery, bank or tax refund texts with a link. Texts feel personal and links are harder to check on a small screen. In the UK, you can forward suspicious texts to 7726 for free."
+    },
+    {
+      "id": "CYB-024",
+      "category": "Phishing and Social Engineering",
+      "question": "What is 'vishing'?",
+      "options": [
+        "A virus that infects spreadsheets",
+        "Phishing via a text message",
+        "Phishing carried out through voice calls",
+        "A secure form of video meeting"
+      ],
+      "correctIndex": 2,
+      "hint": "The 'v' stands for something you'd use on a phone call.",
+      "explanation": "Vishing is voice phishing: attackers phone you pretending to be your bank, IT support, the police or a supplier. They create urgency and may spoof caller ID. If in doubt, hang up and call back on a number you've found yourself."
+    },
+    {
+      "id": "CYB-025",
+      "category": "Phishing and Social Engineering",
+      "question": "What does BEC stand for in cybercrime?",
+      "options": [
+        "Backup Endpoint Configuration",
+        "Basic Encryption Certificate",
+        "Browser Extension Control",
+        "Business Email Compromise"
+      ],
+      "correctIndex": 3,
+      "hint": "It's about the business inbox being abused.",
+      "explanation": "Business Email Compromise is where attackers use a hacked or spoofed business email account, often a senior leader or a supplier, to trick staff into paying fake invoices, changing bank details or sending sensitive data. It causes some of the biggest financial losses of any cybercrime."
+    },
+    {
+      "id": "CYB-026",
+      "category": "Phishing and Social Engineering",
+      "question": "An email apparently from your manager urgently asks you to pay a new bank account. What is the safest response?",
+      "options": [
+        "Verify the request through a trusted, separate contact method",
+        "Forward the request to every customer",
+        "Reply with your own bank details",
+        "Pay immediately because it says urgent"
+      ],
+      "correctIndex": 0,
+      "hint": "Don't use the same channel the request arrived on.",
+      "explanation": "Always verify payment requests or bank detail changes using a separate, trusted contact method, such as a known phone number or in person. Urgency and pressure to bypass normal process are classic warning signs of BEC fraud. A genuine manager won't mind you checking."
+    },
+    {
+      "id": "CYB-027",
+      "category": "Phishing and Social Engineering",
+      "question": "Why can an unfamiliar QR code be a security risk?",
+      "options": [
+        "Every QR code automatically installs software",
+        "It might open a malicious website or fraudulent login page",
+        "QR codes cannot contain links",
+        "Scanning it always disables antivirus"
+      ],
+      "correctIndex": 1,
+      "hint": "You can't see where it's taking you just by looking at it.",
+      "explanation": "A QR code is just a link you can't read before scanning, and attackers place fake codes on posters, parking meters and emails ('quishing'). Check the website address that opens before entering any details, and be wary of codes stuck over existing ones."
+    },
+    {
+      "id": "CYB-028",
+      "category": "Phishing and Social Engineering",
+      "question": "In social engineering, what is 'pretexting'?",
+      "options": [
+        "Inventing a believable story to persuade someone to share information or provide access",
+        "Testing whether a backup can be restored",
+        "Writing a secure password policy",
+        "Blocking malicious traffic at a firewall"
+      ],
+      "correctIndex": 0,
+      "hint": "Think of the 'pretext': the cover story.",
+      "explanation": "Pretexting is when an attacker invents a believable scenario, such as posing as an auditor, new starter or IT engineer, to build trust and get information or access. It often uses details gathered beforehand to make the story convincing. Verifying identity through official channels is the defence."
+    },
+    {
+      "id": "CYB-029",
+      "category": "Phishing and Social Engineering",
+      "question": "What does 'tailgating' mean in physical security?",
+      "options": [
+        "Following an authorised person into a restricted area without using your own access",
+        "Reading a colleague's public LinkedIn profile",
+        "Driving too close to another vehicle",
+        "Entering your password too quickly"
+      ],
+      "correctIndex": 0,
+      "hint": "Picture someone close behind you at a secure door.",
+      "explanation": "Tailgating (or piggybacking) is when an unauthorised person follows someone through a secure door without using their own pass. People often hold doors to be polite, which attackers exploit. It's fine to politely ask to see a badge or direct someone to reception."
+    },
+    {
+      "id": "CYB-030",
+      "category": "Phishing and Social Engineering",
+      "question": "How might a deepfake be used in a cyber scam?",
+      "options": [
+        "To imitate a trusted person's voice or appearance",
+        "To speed up a computer's processor",
+        "To repair damaged backup files",
+        "To make a wireless network more secure"
+      ],
+      "correctIndex": 0,
+      "hint": "AI can fake what you see and hear.",
+      "explanation": "Deepfakes use AI to create realistic fake audio or video of real people. Criminals have used them to impersonate executives on video calls and authorise large payments. Agreed verification steps, such as call-backs or code words, help counter them."
+    },
+    {
+      "id": "CYB-031",
+      "category": "Malware and Attacks",
+      "question": "What does ransomware typically do?",
+      "options": [
+        "Locks or encrypts data and demands payment",
+        "Improves a computer's performance",
+        "Filters unwanted adverts from websites",
+        "Creates an authorised password backup"
+      ],
+      "correctIndex": 0,
+      "hint": "The name tells you what the attacker wants in return.",
+      "explanation": "Ransomware encrypts files or systems and demands payment, usually in cryptocurrency, for the key. Many groups now steal data first and threaten to leak it (double extortion). Paying doesn't guarantee recovery, which is why offline backups and a tested response plan are vital."
+    },
+    {
+      "id": "CYB-032",
+      "category": "Malware and Attacks",
+      "question": "What is a Trojan in cybersecurity?",
+      "options": [
+        "A secure method of copying files",
+        "Malicious software disguised as something legitimate",
+        "A device that blocks phishing emails",
+        "A password made from several words"
+      ],
+      "correctIndex": 1,
+      "hint": "Think about a famous wooden horse.",
+      "explanation": "A Trojan pretends to be legitimate software, like a free tool, game or document, so you install it yourself. Once running it might steal data, give remote access or download other malware. Unlike worms and viruses, Trojans don't usually replicate on their own."
+    },
+    {
+      "id": "CYB-033",
+      "category": "Malware and Attacks",
+      "question": "What makes a computer worm different from many other types of malware?",
+      "options": [
+        "It can spread between systems without a person manually copying it",
+        "It always requires a USB cable",
+        "It cannot affect networks",
+        "It can only exist on paper documents"
+      ],
+      "correctIndex": 0,
+      "hint": "It doesn't need anyone's help to get around.",
+      "explanation": "Worms self-replicate and spread automatically across networks by exploiting vulnerabilities, without needing a user to open anything. WannaCry in 2017 was a worm, spreading rapidly and badly affecting the NHS. Patching quickly is the key defence."
+    },
+    {
+      "id": "CYB-034",
+      "category": "Malware and Attacks",
+      "question": "What is a computer virus?",
+      "options": [
+        "A type of hardware firewall",
+        "A normal software licence check",
+        "Malicious code that attaches to a file or program and can replicate when run",
+        "A secure cloud storage method"
+      ],
+      "correctIndex": 2,
+      "hint": "It needs a host, like its biological namesake.",
+      "explanation": "A computer virus attaches itself to a legitimate file or program and spreads when that file is run or shared. The term is often used loosely for all malware, but technically a virus needs a host and user action to spread, unlike a worm."
+    },
+    {
+      "id": "CYB-035",
+      "category": "Malware and Attacks",
+      "question": "What is spyware designed to do?",
+      "options": [
+        "Secretly gather information about a user or device",
+        "Replace outdated network cables",
+        "Make backup drives faster",
+        "Display public weather forecasts"
+      ],
+      "correctIndex": 0,
+      "hint": "The name says what it does: it watches.",
+      "explanation": "Spyware secretly monitors activity and collects information such as browsing history, messages, location or credentials, and sends it to someone else. It can arrive bundled with free software or through malicious apps. Stalkerware is a type used to spy on partners or family."
+    },
+    {
+      "id": "CYB-036",
+      "category": "Malware and Attacks",
+      "question": "What does a keylogger record?",
+      "options": [
+        "The temperature of a server",
+        "Keystrokes typed on a device",
+        "The age of installed software",
+        "Which cables connect to a router"
+      ],
+      "correctIndex": 1,
+      "hint": "Think about what your fingers do on a keyboard.",
+      "explanation": "A keylogger records every keystroke typed, capturing passwords, messages and card numbers. They can be software (malware) or small hardware devices plugged between keyboard and computer. MFA and passkeys reduce the damage because a stolen password alone isn't enough."
+    },
+    {
+      "id": "CYB-037",
+      "category": "Malware and Attacks",
+      "question": "What is a botnet?",
+      "options": [
+        "A type of encrypted password",
+        "A collection of approved company laptops",
+        "A schedule for installing patches",
+        "A group of compromised devices controlled together"
+      ],
+      "correctIndex": 3,
+      "hint": "Break the word into two parts: robots and network.",
+      "explanation": "A botnet is a network of infected devices (bots or zombies), often including smart devices like cameras and routers, controlled remotely by an attacker. They're used for DDoS attacks, spam and credential stuffing. Owners usually have no idea their device is part of one."
+    },
+    {
+      "id": "CYB-038",
+      "category": "Malware and Attacks",
+      "question": "What does DDoS stand for?",
+      "options": [
+        "Direct Device Operating Standard",
+        "Digital Defence on Servers",
+        "Distributed Denial of Service",
+        "Data Download over Secure Systems"
+      ],
+      "correctIndex": 2,
+      "hint": "The aim is to stop a service being usable, from many directions at once.",
+      "explanation": "A Distributed Denial of Service attack floods a website or service with traffic from many sources, often a botnet, so legitimate users can't get through. It's an attack on availability. Organisations use DDoS protection services to absorb and filter the traffic."
+    },
+    {
+      "id": "CYB-039",
+      "category": "Malware and Attacks",
+      "question": "What does the word 'malware' mean?",
+      "options": [
+        "Mandatory login",
+        "Managed hardware",
+        "Manual firewall",
+        "Malicious software"
+      ],
+      "correctIndex": 3,
+      "hint": "The first part of the word is the same as in 'malicious'.",
+      "explanation": "Malware is short for malicious software: any program designed to harm, exploit or gain unauthorised access. It's an umbrella term covering viruses, worms, Trojans, ransomware, spyware and more."
+    },
+    {
+      "id": "CYB-040",
+      "category": "Malware and Attacks",
+      "question": "What helps an organisation recover files after a ransomware attack?",
+      "options": [
+        "Ignoring warnings from endpoint protection",
+        "Clean, tested backups that can be restored",
+        "Reusing the same password on every system",
+        "Disabling all activity logs"
+      ],
+      "correctIndex": 1,
+      "hint": "Something you made before the attack happened.",
+      "explanation": "Clean, tested backups, ideally kept offline or immutable so ransomware can't encrypt them, let you restore data without paying. Testing restores is just as important as taking backups. You still need to find out how attackers got in, or they may simply return."
+    },
+    {
+      "id": "CYB-041",
+      "category": "Networks and the Web",
+      "question": "What does VPN stand for?",
+      "options": [
+        "Virtual Password Number",
+        "Visual Protection Node",
+        "Virtual Private Network",
+        "Verified Public Name"
+      ],
+      "correctIndex": 2,
+      "hint": "The 'P' isn't about passwords or the public.",
+      "explanation": "A Virtual Private Network creates an encrypted tunnel between your device and a VPN server, protecting your traffic from anyone watching the local network. Businesses use VPNs for secure remote access. A VPN doesn't make you anonymous or protect you from phishing or malware."
+    },
+    {
+      "id": "CYB-042",
+      "category": "Networks and the Web",
+      "question": "What does HTTPS mainly indicate about a connection to a website?",
+      "options": [
+        "The website cannot contain malware",
+        "The website is guaranteed to be honest",
+        "Data is encrypted in transit between your browser and the website",
+        "Every file on the website has been independently checked"
+      ],
+      "correctIndex": 2,
+      "hint": "It protects the journey, not the destination.",
+      "explanation": "HTTPS (the padlock) means the connection is encrypted, so others can't read or alter the data in transit. It says nothing about whether the site is honest; most phishing sites now use HTTPS too. Always check the actual web address."
+    },
+    {
+      "id": "CYB-043",
+      "category": "Networks and the Web",
+      "question": "What is TLS commonly used for?",
+      "options": [
+        "Securing network communications with encryption",
+        "Creating usernames for new staff",
+        "Removing malicious software from printers",
+        "Measuring a hard drive's free space"
+      ],
+      "correctIndex": 0,
+      "hint": "It's the technology behind the 'S' in HTTPS.",
+      "explanation": "Transport Layer Security encrypts data travelling between two systems and verifies the server's identity using certificates. It secures websites (HTTPS), email, VPNs and many apps. It replaced the older, insecure SSL, though people still often say 'SSL certificate'."
+    },
+    {
+      "id": "CYB-044",
+      "category": "Networks and the Web",
+      "question": "What does DNS do?",
+      "options": [
+        "Stores a user's passwords",
+        "Encrypts every file on a computer",
+        "Translates domain names into IP addresses",
+        "Automatically removes viruses"
+      ],
+      "correctIndex": 2,
+      "hint": "Often called the internet's phone book.",
+      "explanation": "The Domain Name System converts human-friendly names like ncsc.gov.uk into IP addresses computers use to connect. Because it's so fundamental, attackers target it through DNS hijacking or spoofing, and many security tools use DNS filtering to block malicious sites."
+    },
+    {
+      "id": "CYB-045",
+      "category": "Networks and the Web",
+      "question": "What is an IP address used for?",
+      "options": [
+        "Measuring battery health",
+        "Confirming a person's legal identity",
+        "Identifying a network interface so data can be routed",
+        "Proving a website is safe to visit"
+      ],
+      "correctIndex": 2,
+      "hint": "Like a postal address, but for devices.",
+      "explanation": "An IP address identifies a device or network interface so data can be routed to the right place. It doesn't reliably identify a person, as addresses can be shared, change or be hidden behind VPNs. Security teams use IP addresses in logs to spot unusual connections."
+    },
+    {
+      "id": "CYB-046",
+      "category": "Networks and the Web",
+      "question": "What is the main job of a firewall?",
+      "options": [
+        "Replacing files deleted by accident",
+        "Making every website load instantly",
+        "Allowing or blocking network traffic according to rules",
+        "Writing secure passwords for everyone"
+      ],
+      "correctIndex": 2,
+      "hint": "Think of a bouncer checking a list at the door.",
+      "explanation": "A firewall monitors network traffic and allows or blocks it based on rules, such as which ports, addresses or applications are permitted. Firewalls exist on networks and on individual devices. They are an important layer but can't stop threats that arrive through allowed traffic, such as phishing email."
+    },
+    {
+      "id": "CYB-047",
+      "category": "Networks and the Web",
+      "question": "What does a router generally do?",
+      "options": [
+        "Stores only employee email addresses",
+        "Directs data between different networks",
+        "Checks every document for spelling mistakes",
+        "Converts passwords into fingerprints"
+      ],
+      "correctIndex": 1,
+      "hint": "It decides which way data should go.",
+      "explanation": "A router forwards data between networks, for example between your home network and the internet. Home routers often include a firewall and Wi-Fi. Changing default passwords and keeping router firmware updated is important, because compromised routers are often used in botnets."
+    },
+    {
+      "id": "CYB-048",
+      "category": "Networks and the Web",
+      "question": "Why should you be cautious on an unfamiliar public Wi-Fi network?",
+      "options": [
+        "Every Wi-Fi network is controlled by criminals",
+        "Using Wi-Fi disables device encryption",
+        "Public Wi-Fi always deletes your files",
+        "An attacker might try to intercept traffic or trick you into using a fake hotspot"
+      ],
+      "correctIndex": 3,
+      "hint": "You don't know who's running it or who else is on it.",
+      "explanation": "On public Wi-Fi you can't be sure who controls the network. Attackers can set up fake hotspots with convincing names ('evil twins') or monitor traffic on poorly secured networks. Using HTTPS, a VPN or your phone's own data connection reduces the risk."
+    },
+    {
+      "id": "CYB-049",
+      "category": "Networks and the Web",
+      "question": "What is a man-in-the-middle attack?",
+      "options": [
+        "A user forgetting to lock their screen",
+        "An authorised administrator updating a firewall",
+        "A computer overheating during a video call",
+        "An attacker intercepts communications between two parties"
+      ],
+      "correctIndex": 3,
+      "hint": "Someone has quietly placed themselves in the conversation.",
+      "explanation": "In a man-in-the-middle (or adversary-in-the-middle) attack, the attacker secretly relays or alters communications between two parties who think they're talking directly. Modern phishing kits use this technique to steal passwords and MFA session cookies in real time. Encryption like TLS and phishing-resistant MFA help defend against it."
+    },
+    {
+      "id": "CYB-050",
+      "category": "Networks and the Web",
+      "question": "Which website address is most suspicious if you are trying to visit your bank?",
+      "options": [
+        "The bank's official app link already installed",
+        "The address shown on a statement you received from the bank",
+        "The bank's exact bookmarked website address",
+        "One with a slightly misspelt version of the bank's domain"
+      ],
+      "correctIndex": 3,
+      "hint": "Look closely; attackers rely on you not looking closely.",
+      "explanation": "Lookalike domains (typosquatting) use small changes like swapped letters, extra characters or different endings (e.g. 'barclays-secure.co' or 'rnybank' instead of 'mybank'). Using bookmarks or the official app is safer than clicking links or typing addresses from messages."
+    },
+    {
+      "id": "CYB-051",
+      "category": "Devices and Endpoint Security",
+      "question": "Why is it important to install security updates?",
+      "options": [
+        "They always make a device completely immune to attacks",
+        "They prevent every form of phishing",
+        "They often fix vulnerabilities that attackers could exploit",
+        "They remove the need for MFA"
+      ],
+      "correctIndex": 2,
+      "hint": "They close gaps that have become publicly known.",
+      "explanation": "Security updates (patches) fix vulnerabilities that attackers could otherwise exploit. Once a fix is released, criminals often study it and target unpatched systems within days. Turning on automatic updates is one of the simplest and most effective protections."
+    },
+    {
+      "id": "CYB-052",
+      "category": "Devices and Endpoint Security",
+      "question": "What does EDR stand for?",
+      "options": [
+        "Endpoint Detection and Response",
+        "External Device Register",
+        "Encrypted Data Recovery",
+        "Email Delivery Relay"
+      ],
+      "correctIndex": 0,
+      "hint": "It's about the devices people use, plus spotting and acting.",
+      "explanation": "Endpoint Detection and Response tools continuously monitor laptops, servers and other endpoints for suspicious behaviour, not just known malware. They record activity so analysts can investigate, and can isolate a device or kill a process to stop an attack spreading."
+    },
+    {
+      "id": "CYB-053",
+      "category": "Devices and Endpoint Security",
+      "question": "What is the main purpose of antivirus software?",
+      "options": [
+        "Guaranteeing that no cyberattack can succeed",
+        "Replacing all user passwords daily",
+        "Managing a company's electricity bill",
+        "Detecting and blocking malicious software"
+      ],
+      "correctIndex": 3,
+      "hint": "A protective layer, but not a magic shield.",
+      "explanation": "Antivirus detects and blocks known malware using signatures and behaviour analysis. It's an important baseline control, but it can't catch everything, especially new threats, phishing or attacks using legitimate tools. It works best alongside updates, MFA, backups and user awareness."
+    },
+    {
+      "id": "CYB-054",
+      "category": "Devices and Endpoint Security",
+      "question": "How does full-disk encryption help protect a stolen laptop?",
+      "options": [
+        "It makes stored data difficult to read without the required unlock credentials",
+        "It automatically wipes every cloud account",
+        "It physically prevents anyone from taking the laptop",
+        "It guarantees the laptop can be located"
+      ],
+      "correctIndex": 0,
+      "hint": "It helps the data, not the hardware itself.",
+      "explanation": "Full-disk encryption (like BitLocker or FileVault) scrambles all stored data so it's unreadable without the correct password, PIN or key. A thief can take the laptop but can't easily read what's on it. It protects best when the device is fully powered off or locked."
+    },
+    {
+      "id": "CYB-055",
+      "category": "Devices and Endpoint Security",
+      "question": "Why should you lock your screen when leaving your desk?",
+      "options": [
+        "To improve the monitor's colour accuracy",
+        "To make websites load faster",
+        "To stop someone using your open session without permission",
+        "To install antivirus updates automatically"
+      ],
+      "correctIndex": 2,
+      "hint": "Someone could sit down at your desk and be 'you'.",
+      "explanation": "An unlocked computer gives anyone passing full access to your accounts and data, as if they were you. That could mean reading emails, sending messages in your name or installing malware. A quick shortcut (Windows key + L, or Ctrl + Cmd + Q on a Mac) locks the screen instantly."
+    },
+    {
+      "id": "CYB-056",
+      "category": "Devices and Endpoint Security",
+      "question": "You find an unknown USB drive in the office. What is the safest action?",
+      "options": [
+        "Do not connect it; hand it to the appropriate IT or security team",
+        "Upload all its files to a public website",
+        "Try it on a colleague's computer",
+        "Plug it in to identify its owner"
+      ],
+      "correctIndex": 0,
+      "hint": "Curiosity is exactly what the attacker is hoping for.",
+      "explanation": "Attackers deliberately leave infected USB drives for people to find and plug in ('baiting'). Some contain malware, while others are disguised devices that act as keyboards and type malicious commands. Hand unknown drives to IT or security rather than trying to find the owner yourself."
+    },
+    {
+      "id": "CYB-057",
+      "category": "Devices and Endpoint Security",
+      "question": "What does BYOD stand for?",
+      "options": [
+        "Block Your Online Downloads",
+        "Backup Your Office Data",
+        "Bring Your Own Device",
+        "Browse Your Official Documents"
+      ],
+      "correctIndex": 2,
+      "hint": "It's about whose device it is.",
+      "explanation": "Bring Your Own Device means staff use personal phones, tablets or laptops for work. It's convenient but raises security challenges, as the organisation has less control over updates and apps. Tools like mobile device management (MDM) and app protection policies help keep work data separate and secure."
+    },
+    {
+      "id": "CYB-058",
+      "category": "Devices and Endpoint Security",
+      "question": "Where is the safest place to obtain software for a work device?",
+      "options": [
+        "An unknown file-sharing website",
+        "A link in an unexpected pop-up advert",
+        "An attachment from an unsolicited email",
+        "An approved or official source"
+      ],
+      "correctIndex": 3,
+      "hint": "Where would your IT team want you to get it from?",
+      "explanation": "Software should come from official vendor sites, official app stores or your organisation's approved software portal. Downloads from pop-ups, unsolicited emails or file-sharing sites may be tampered with to include malware. Fake installers for popular apps are a common attack method."
+    },
+    {
+      "id": "CYB-059",
+      "category": "Devices and Endpoint Security",
+      "question": "What is a major security concern with unsupported operating systems?",
+      "options": [
+        "They may no longer receive fixes for newly discovered security weaknesses",
+        "They are automatically encrypted twice",
+        "They always disconnect from Wi-Fi",
+        "They cannot store any documents"
+      ],
+      "correctIndex": 0,
+      "hint": "Think about what stops happening once support ends.",
+      "explanation": "When an operating system reaches end of life, the vendor stops releasing security patches. Any new vulnerability discovered after that stays open permanently, making the device an easy target. Upgrading, replacing or isolating unsupported systems is important."
+    },
+    {
+      "id": "CYB-060",
+      "category": "Devices and Endpoint Security",
+      "question": "What should you do first if you lose a phone containing work information?",
+      "options": [
+        "Assume the screen lock means there is no risk",
+        "Report it promptly to your IT or security team",
+        "Post your work passwords in a group chat",
+        "Wait a week in case it turns up"
+      ],
+      "correctIndex": 1,
+      "hint": "Time matters here.",
+      "explanation": "Report a lost or stolen device to IT or security straight away. They can remotely lock or wipe it, sign it out of accounts and reset credentials before anyone can misuse it. The sooner you report, the less chance of a data breach."
+    },
+    {
+      "id": "CYB-061",
+      "category": "Data Protection and Privacy",
+      "question": "Which of these is an example of personal data?",
+      "options": [
+        "A generic weather forecast",
+        "An email address that identifies a particular person",
+        "The name of a programming language",
+        "A publicly available definition of malware"
+      ],
+      "correctIndex": 1,
+      "hint": "Could it be linked to one specific individual?",
+      "explanation": "Under UK GDPR, personal data is any information relating to an identified or identifiable living person, such as names, email addresses, phone numbers, location data and online identifiers. Work email addresses like firstname.surname@company.com count too."
+    },
+    {
+      "id": "CYB-062",
+      "category": "Data Protection and Privacy",
+      "question": "Why do organisations classify data?",
+      "options": [
+        "To give every file the same password",
+        "To apply suitable handling and protection based on sensitivity",
+        "To make all documents publicly accessible",
+        "To replace the need for backups"
+      ],
+      "correctIndex": 1,
+      "hint": "Not everything needs the same level of protection.",
+      "explanation": "Data classification labels information by sensitivity (for example Public, Internal, Confidential) so people know how to handle it. Highly sensitive data gets stronger controls such as encryption and restricted access, while public information doesn't need them. It helps focus effort where it matters most."
+    },
+    {
+      "id": "CYB-063",
+      "category": "Data Protection and Privacy",
+      "question": "What is 'data minimisation'?",
+      "options": [
+        "Collecting and keeping only the personal data needed for a purpose",
+        "Making every file as small as possible",
+        "Storing every possible detail about customers",
+        "Deleting all audit records immediately"
+      ],
+      "correctIndex": 0,
+      "hint": "Less can be more, especially when it comes to customer data.",
+      "explanation": "Data minimisation is a core UK GDPR principle: collect only the personal data you actually need, use it only for that purpose and don't keep it longer than necessary. Less data held means less to lose in a breach and less to manage."
+    },
+    {
+      "id": "CYB-064",
+      "category": "Data Protection and Privacy",
+      "question": "What does 'encryption at rest' protect?",
+      "options": [
+        "The temperature of a network switch",
+        "Data while it is stored on a device or system",
+        "The physical door to a server room",
+        "Only data moving between websites"
+      ],
+      "correctIndex": 1,
+      "hint": "The data isn't going anywhere; it's sitting still.",
+      "explanation": "Encryption at rest protects data while it's stored on laptops, phones, servers, databases or backups. If someone steals the device or copies the files, they can't read them without the key. It complements encryption in transit, which protects data as it moves."
+    },
+    {
+      "id": "CYB-065",
+      "category": "Data Protection and Privacy",
+      "question": "What is 'encryption in transit'?",
+      "options": [
+        "Keeping printed documents in a locked cupboard",
+        "Protecting data while it travels between systems",
+        "Deleting old accounts after employees leave",
+        "Saving a password in a notebook"
+      ],
+      "correctIndex": 1,
+      "hint": "The data is on a journey.",
+      "explanation": "Encryption in transit protects data while it moves between systems, across the internet or a network, using technologies like TLS and VPNs. It stops anyone intercepting the traffic from reading or altering it."
+    },
+    {
+      "id": "CYB-066",
+      "category": "Data Protection and Privacy",
+      "question": "What does anonymisation aim to achieve?",
+      "options": [
+        "Making it no longer reasonably possible to identify the individual from the data",
+        "Publishing every customer's details openly",
+        "Encrypting the data with a shared password",
+        "Replacing a person's name with an ID while keeping a lookup table"
+      ],
+      "correctIndex": 0,
+      "hint": "Be careful: one of the wrong answers describes a similar but different technique.",
+      "explanation": "Anonymisation removes the ability to identify individuals so thoroughly that it can't reasonably be reversed. Anonymised data is no longer personal data under UK GDPR. Replacing names with IDs while keeping a lookup table is pseudonymisation, which is still personal data because it can be reversed."
+    },
+    {
+      "id": "CYB-067",
+      "category": "Data Protection and Privacy",
+      "question": "What does 'need-to-know' mean when sharing information?",
+      "options": [
+        "Always publish it on the company website",
+        "Let anyone with a company email address see it",
+        "Only share it with people who have a legitimate reason to access it",
+        "Send it to everyone to avoid missing anyone"
+      ],
+      "correctIndex": 2,
+      "hint": "Access should be justified by role, not just by being part of the organisation.",
+      "explanation": "Need-to-know means sharing information only with people who genuinely require it for their role, even if others are trusted colleagues. It limits accidental exposure and reduces damage if an account is compromised. It's closely linked to least privilege."
+    },
+    {
+      "id": "CYB-068",
+      "category": "Data Protection and Privacy",
+      "question": "What does the '3-2-1' backup rule recommend?",
+      "options": [
+        "Three servers, two users and one administrator",
+        "Three updates daily, two weekly and one monthly",
+        "Three copies of data, on two media types, with one copy off-site",
+        "Three passwords, two accounts, and one phone"
+      ],
+      "correctIndex": 2,
+      "hint": "Count down: copies, then types of storage, then location.",
+      "explanation": "The 3-2-1 rule means keeping three copies of your data (the original plus two backups), on two different types of storage, with one copy off-site. Many now extend it to 3-2-1-1-0: one copy offline or immutable, and zero errors in restore testing, to protect against ransomware."
+    },
+    {
+      "id": "CYB-069",
+      "category": "Data Protection and Privacy",
+      "question": "How should a company dispose of a drive containing confidential information?",
+      "options": [
+        "Rename the files and then give it away",
+        "Use an approved secure wiping or destruction process",
+        "Put it straight into an ordinary rubbish bin",
+        "Donate it without checking the contents"
+      ],
+      "correctIndex": 1,
+      "hint": "Deleting isn't the same as destroying.",
+      "explanation": "Deleting files or formatting a drive often leaves data recoverable with simple tools. Drives should be securely wiped using approved methods or physically destroyed, ideally by a certified provider who issues a certificate of destruction."
+    },
+    {
+      "id": "CYB-070",
+      "category": "Data Protection and Privacy",
+      "question": "You accidentally email a confidential file to the wrong person. What should you do?",
+      "options": [
+        "Report the mistake promptly through the organisation's process",
+        "Say nothing unless the recipient complains",
+        "Delete your sent email and assume the copy is gone",
+        "Forward the same file to more people"
+      ],
+      "correctIndex": 0,
+      "hint": "Hiding mistakes usually makes them worse.",
+      "explanation": "Report misdirected emails straight away. The organisation may be able to recall the message, ask the recipient to delete it and assess whether it's a reportable data breach. Under UK GDPR, serious breaches must be reported to the ICO within 72 hours, so quick internal reporting really matters."
+    },
+    {
+      "id": "CYB-071",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does SOC stand for in cybersecurity?",
+      "options": [
+        "Software Ownership Certificate",
+        "Security Operations Centre",
+        "System Output Controller",
+        "Secure Office Connection"
+      ],
+      "correctIndex": 1,
+      "hint": "It's a team and a place where security is watched around the clock.",
+      "explanation": "A Security Operations Centre is a team, in-house or outsourced, that monitors an organisation's systems, often 24/7, to detect, investigate and respond to threats. SOC analysts triage alerts from tools such as SIEM and EDR and escalate real incidents."
+    },
+    {
+      "id": "CYB-072",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does SIEM stand for?",
+      "options": [
+        "Software Inspection and Encryption Module",
+        "System Integration and Endpoint Maintenance",
+        "Secure Internet Email Messaging",
+        "Security Information and Event Management"
+      ],
+      "correctIndex": 3,
+      "hint": "It brings together information and events.",
+      "explanation": "Security Information and Event Management platforms collect logs from across an organisation (firewalls, servers, cloud, endpoints) into one place. They correlate events to spot suspicious patterns and raise alerts for SOC analysts, and also help with investigations and compliance."
+    },
+    {
+      "id": "CYB-073",
+      "category": "Security Monitoring and Incident Response",
+      "question": "You clicked a suspicious link in a work email. What is the best next step?",
+      "options": [
+        "Report it promptly and follow the organisation's security instructions",
+        "Disable security software before trying again",
+        "Send the link to colleagues to see whether it works",
+        "Keep quiet because the page looked normal"
+      ],
+      "correctIndex": 0,
+      "hint": "The security team can only help with what they know about.",
+      "explanation": "Report it immediately, even if nothing obvious happened. Many malicious links silently steal credentials or download malware. Early reporting lets the security team reset passwords, check your device and block the link for others. Good organisations encourage reporting rather than blaming."
+    },
+    {
+      "id": "CYB-074",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In incident response, what does 'containment' mean?",
+      "options": [
+        "Publishing all company data openly",
+        "Limiting an incident so it does not spread or cause further harm",
+        "Deleting all security logs immediately",
+        "Closing an incident without investigating"
+      ],
+      "correctIndex": 1,
+      "hint": "Think about stopping a fire from spreading to the next room.",
+      "explanation": "Containment means stopping an incident from spreading or causing more damage, for example disconnecting an infected device, disabling a compromised account or blocking malicious traffic. It comes before full eradication and recovery, and buys time to investigate properly."
+    },
+    {
+      "id": "CYB-075",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which statement about security events and incidents is most accurate?",
+      "options": [
+        "Not every security event is an incident requiring a response",
+        "Incidents can only involve stolen laptops",
+        "Every login is a confirmed security incident",
+        "An incident is always caused by malware"
+      ],
+      "correctIndex": 0,
+      "hint": "Not everything logged is a problem.",
+      "explanation": "A security event is any observable occurrence, such as a login, a file change or a blocked connection. Systems record millions of these. An incident is an event, or series of events, that actually threatens or harms security and needs a response. Telling the two apart is a key part of a SOC analyst's job."
+    },
+    {
+      "id": "CYB-076",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What are system logs useful for?",
+      "options": [
+        "Guaranteeing that a network can never be attacked",
+        "Replacing all user training",
+        "Automatically proving a person committed a crime",
+        "Recording activity that can help investigate suspicious behaviour"
+      ],
+      "correctIndex": 3,
+      "hint": "They're a record of what happened, and when.",
+      "explanation": "Logs record activity like logins, file access, configuration changes and errors. They're essential for spotting attacks and investigating what happened, how and when. Logs should be kept securely and for long enough, as attackers often try to delete them to cover their tracks."
+    },
+    {
+      "id": "CYB-077",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does IoC stand for in threat detection?",
+      "options": [
+        "Indicator of Compromise",
+        "Identity of Customer",
+        "Inspection of Code",
+        "Internet of Computers"
+      ],
+      "correctIndex": 0,
+      "hint": "A clue that something bad may have already happened.",
+      "explanation": "Indicators of Compromise are pieces of evidence that suggest a breach, such as known malicious IP addresses, domains, file hashes or unusual behaviour. Threat intelligence feeds share IoCs so organisations can search for and block known threats."
+    },
+    {
+      "id": "CYB-078",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a 'false positive' security alert?",
+      "options": [
+        "An alert triggered by activity that is actually benign",
+        "A confirmed malicious file",
+        "An attack that no tool detected",
+        "An incorrect password entered on purpose by an attacker"
+      ],
+      "correctIndex": 0,
+      "hint": "The alarm went off, but was there really a fire?",
+      "explanation": "A false positive is an alert for activity that turns out to be harmless. Too many false positives cause alert fatigue, where analysts start missing real threats. The opposite, a false negative, is a real attack that isn't detected at all."
+    },
+    {
+      "id": "CYB-079",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why might two account logins from distant countries only minutes apart be suspicious?",
+      "options": [
+        "They prove the user has changed their password",
+        "They show antivirus has finished updating",
+        "They may suggest that someone else is using the account",
+        "They mean the account has been permanently deleted"
+      ],
+      "correctIndex": 2,
+      "hint": "Could one person physically do that?",
+      "explanation": "This is known as 'impossible travel': a person can't be in London and then Singapore ten minutes later. It often means stolen credentials are being used elsewhere. VPNs or cloud services can sometimes cause false alarms, so alerts still need checking."
+    },
+    {
+      "id": "CYB-080",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does 'root cause' mean when investigating an incident?",
+      "options": [
+        "The first person to notice an alert",
+        "The underlying issue that allowed or led to the incident",
+        "The total cost of a new computer",
+        "The title of the incident report"
+      ],
+      "correctIndex": 1,
+      "hint": "Dig below the symptoms.",
+      "explanation": "Root cause analysis looks beyond what happened to why it happened, such as an unpatched server, missing MFA or a process gap. Fixing only the symptoms, like removing malware, without addressing the root cause leaves the door open for the same attack to happen again."
+    },
+    {
+      "id": "CYB-081",
+      "category": "Cloud and Application Security",
+      "question": "What is the 'shared responsibility model' in cloud security?",
+      "options": [
+        "The customer has no security responsibilities",
+        "The cloud provider and customer each have security responsibilities",
+        "The cloud provider is responsible for every customer password",
+        "Every cloud user gets administrator access"
+      ],
+      "correctIndex": 1,
+      "hint": "The clue is in the word 'shared'.",
+      "explanation": "In the shared responsibility model, the cloud provider secures the underlying infrastructure (the security of the cloud) and the customer is responsible for how they use it (security in the cloud), such as data, user access and configuration. The split varies between IaaS, PaaS and SaaS. Many cloud breaches come from customer misconfiguration."
+    },
+    {
+      "id": "CYB-082",
+      "category": "Cloud and Application Security",
+      "question": "Which is an example of a cloud security misconfiguration?",
+      "options": [
+        "Keeping security logs enabled",
+        "Accidentally making a private storage bucket publicly accessible",
+        "Using MFA on a cloud account",
+        "Restricting user permissions to what is needed"
+      ],
+      "correctIndex": 1,
+      "hint": "Which of these options is a mistake rather than a good practice?",
+      "explanation": "Misconfigurations, such as publicly accessible storage buckets, open databases, overly broad permissions or disabled logging, are among the most common causes of cloud data exposure. Attackers constantly scan for them. Configuration reviews and cloud security posture tools help catch them."
+    },
+    {
+      "id": "CYB-083",
+      "category": "Cloud and Application Security",
+      "question": "What does API stand for?",
+      "options": [
+        "Account Protection Indicator",
+        "Advanced Privacy Installation",
+        "Application Programming Interface",
+        "Automated Password Inspector"
+      ],
+      "correctIndex": 2,
+      "hint": "It's how one application talks to another.",
+      "explanation": "An Application Programming Interface lets software systems communicate and share data, for example an app fetching weather data or a payment system talking to a bank. APIs need proper authentication, authorisation and rate limiting, as insecure APIs are a growing source of data breaches."
+    },
+    {
+      "id": "CYB-084",
+      "category": "Cloud and Application Security",
+      "question": "What is a software supply-chain attack?",
+      "options": [
+        "An attack that compromises software or a dependency used by others",
+        "A user entering a password incorrectly",
+        "A temporary loss of office electricity",
+        "A stolen delivery van carrying keyboards"
+      ],
+      "correctIndex": 0,
+      "hint": "Attack the supplier to reach the customers.",
+      "explanation": "A supply-chain attack compromises a trusted supplier, software vendor, update or open-source package so that malicious code reaches every downstream user. SolarWinds (2020) and the MOVEit breach (2023) are well-known examples. Vetting suppliers and monitoring dependencies help reduce the risk."
+    },
+    {
+      "id": "CYB-085",
+      "category": "Cloud and Application Security",
+      "question": "Why should developers keep third-party software libraries updated?",
+      "options": [
+        "Old libraries cannot run any code",
+        "Updates may fix known security vulnerabilities",
+        "New versions always prevent phishing",
+        "Updates eliminate the need to test applications"
+      ],
+      "correctIndex": 1,
+      "hint": "Older versions may carry known flaws that attackers already understand.",
+      "explanation": "Third-party libraries make up much of modern software, and vulnerabilities in them, such as Log4Shell in 2021, can affect thousands of applications at once. Keeping dependencies updated closes known holes, but updates should still be tested to avoid breaking things."
+    },
+    {
+      "id": "CYB-086",
+      "category": "Cloud and Application Security",
+      "question": "What is a penetration test?",
+      "options": [
+        "A way to encrypt a spreadsheet",
+        "A routine check of office fire alarms",
+        "An unapproved attack on a competitor",
+        "An authorised attempt to find and demonstrate exploitable security weaknesses"
+      ],
+      "correctIndex": 3,
+      "hint": "The key word is permission.",
+      "explanation": "A penetration test is an authorised, simulated attack by ethical hackers to find and demonstrate exploitable weaknesses before real attackers do. It follows agreed scope and rules of engagement. Testing without permission is illegal under the Computer Misuse Act."
+    },
+    {
+      "id": "CYB-087",
+      "category": "Cloud and Application Security",
+      "question": "What is a vulnerability scan mainly used for?",
+      "options": [
+        "Identifying potential known security weaknesses in systems or software",
+        "Guaranteeing that every weakness has been fixed",
+        "Reconstructing every deleted file",
+        "Replacing all network equipment"
+      ],
+      "correctIndex": 0,
+      "hint": "It's automated and looks for things already documented.",
+      "explanation": "Vulnerability scanners automatically check systems and software against databases of known vulnerabilities, such as missing patches or weak configurations. They're broad and quick but can produce false positives, so results need reviewing and prioritising. They're less in-depth than a penetration test."
+    },
+    {
+      "id": "CYB-088",
+      "category": "Cloud and Application Security",
+      "question": "In simple terms, what is SQL injection?",
+      "options": [
+        "Signing in with a hardware security key",
+        "Sending too many video files to a server",
+        "Using malicious input to manipulate an application's database query",
+        "Encrypting a database for backup"
+      ],
+      "correctIndex": 2,
+      "hint": "Look at the 'SQL' part: what does that language talk to?",
+      "explanation": "SQL injection happens when an application puts user input directly into a database query without proper handling. An attacker can type specially crafted input to read, change or delete data. Using parameterised queries and input validation prevents it, yet it's still common in poorly written apps."
+    },
+    {
+      "id": "CYB-089",
+      "category": "Cloud and Application Security",
+      "question": "What is cross-site scripting (XSS)?",
+      "options": [
+        "Injecting malicious scripts into web content viewed by other users",
+        "A method for building secure network cables",
+        "Scanning a hard drive for physical damage",
+        "Copying data between two authorised spreadsheets"
+      ],
+      "correctIndex": 0,
+      "hint": "The script runs in someone else's browser.",
+      "explanation": "Cross-site scripting happens when a website includes untrusted input in its pages without proper handling, letting an attacker inject scripts that run in other users' browsers. This can steal session cookies, redirect users or change page content. Encoding output and using a Content Security Policy help prevent it."
+    },
+    {
+      "id": "CYB-090",
+      "category": "Cloud and Application Security",
+      "question": "Why separate a test environment from a live production system?",
+      "options": [
+        "To make every account use the same password",
+        "To reduce the risk that testing disrupts real services or data",
+        "To prevent developers from ever finding bugs",
+        "To allow confidential customer data to be published"
+      ],
+      "correctIndex": 1,
+      "hint": "Mistakes happen when testing; where would you rather they happen?",
+      "explanation": "Keeping test and production separate means bugs, experiments or failed updates don't affect real customers or live data. Test environments should use dummy or anonymised data rather than real personal data, and shouldn't have open access to production systems."
+    },
+    {
+      "id": "CYB-091",
+      "category": "Resilience and Security Management",
+      "question": "What is an incident response plan for?",
+      "options": [
+        "Listing all staff birthdays",
+        "Replacing the need for security monitoring",
+        "Making every cyberattack impossible",
+        "Defining how an organisation detects, manages and recovers from security incidents"
+      ],
+      "correctIndex": 3,
+      "hint": "It's a playbook for when things go wrong.",
+      "explanation": "An incident response plan sets out who does what when a security incident happens: roles, contacts, escalation, communication and steps for detecting, containing and recovering. Having it agreed and rehearsed in advance (for example through tabletop exercises) means faster, calmer decisions under pressure."
+    },
+    {
+      "id": "CYB-092",
+      "category": "Resilience and Security Management",
+      "question": "What is the main goal of business continuity?",
+      "options": [
+        "Preventing employees from working remotely",
+        "Keeping essential activities running during disruption",
+        "Changing all passwords every morning",
+        "Ensuring no system ever needs maintenance"
+      ],
+      "correctIndex": 1,
+      "hint": "The word 'continuity' says it all.",
+      "explanation": "Business continuity is about keeping the organisation's critical activities running during and after disruption, whether a cyberattack, power cut, flood or pandemic. It covers people, processes, premises and suppliers, not just IT. Disaster recovery is the part focused on restoring technology."
+    },
+    {
+      "id": "CYB-093",
+      "category": "Resilience and Security Management",
+      "question": "What does disaster recovery mainly focus on?",
+      "options": [
+        "Choosing a new office location",
+        "Writing job descriptions for staff",
+        "Designing a company's logo",
+        "Restoring systems and technology after serious disruption"
+      ],
+      "correctIndex": 3,
+      "hint": "It's the technology-focused side of bouncing back.",
+      "explanation": "Disaster recovery focuses on restoring IT systems, data and infrastructure after a major disruption. It relies on backups, recovery sites and documented procedures, and uses targets such as RTO and RPO. It sits within wider business continuity planning."
+    },
+    {
+      "id": "CYB-094",
+      "category": "Resilience and Security Management",
+      "question": "What does RTO stand for in recovery planning?",
+      "options": [
+        "Recovery Threat Overview",
+        "Remote Testing Operation",
+        "Recovery Time Objective",
+        "Risk Transfer Order"
+      ],
+      "correctIndex": 2,
+      "hint": "It's a target measured on the clock.",
+      "explanation": "Recovery Time Objective is the maximum acceptable time a system or service can be down before the impact becomes unacceptable. A payment system might have an RTO of minutes; an internal archive might have days. It drives decisions about how much to invest in recovery capability."
+    },
+    {
+      "id": "CYB-095",
+      "category": "Resilience and Security Management",
+      "question": "What does RPO stand for in backup and recovery planning?",
+      "options": [
+        "Remote Protection Option",
+        "Recovery Point Objective",
+        "Risk Prevention Order",
+        "Rapid Patch Operation"
+      ],
+      "correctIndex": 1,
+      "hint": "It's about how far back in time you'd have to go.",
+      "explanation": "Recovery Point Objective is the maximum amount of data, measured in time, you can afford to lose. An RPO of 4 hours means backups need to run at least every 4 hours. RPO looks backwards at data loss; RTO looks forwards at downtime."
+    },
+    {
+      "id": "CYB-096",
+      "category": "Resilience and Security Management",
+      "question": "What is the purpose of a cybersecurity risk assessment?",
+      "options": [
+        "Identifying and evaluating threats, weaknesses and potential consequences",
+        "Choosing the fastest office internet package",
+        "Guaranteeing no attack will ever happen",
+        "Counting how many emails were sent today"
+      ],
+      "correctIndex": 0,
+      "hint": "It's about understanding what could go wrong before deciding what to do.",
+      "explanation": "A risk assessment identifies assets, threats and vulnerabilities, then evaluates the likelihood and impact of each risk. The results help prioritise security spending and controls on the biggest risks, rather than trying to protect everything equally. It should be reviewed regularly as things change."
+    },
+    {
+      "id": "CYB-097",
+      "category": "Resilience and Security Management",
+      "question": "What happens in a cybersecurity tabletop exercise?",
+      "options": [
+        "A team discusses its decisions during a simulated incident",
+        "Attackers are invited to access live systems",
+        "Every staff member receives a new laptop",
+        "A team physically builds a new server"
+      ],
+      "correctIndex": 0,
+      "hint": "It happens around a table, and nothing real is under attack.",
+      "explanation": "A tabletop exercise is a discussion-based session where a team works through a simulated incident scenario, talking through decisions, roles and communications. It reveals gaps in plans and builds confidence without touching live systems. The NCSC's 'Exercise in a Box' is a free tool for running them."
+    },
+    {
+      "id": "CYB-098",
+      "category": "Resilience and Security Management",
+      "question": "What is the main aim of security awareness training?",
+      "options": [
+        "Making security solely the IT team's responsibility",
+        "Turning every employee into a programmer",
+        "Helping people recognise risks and respond safely",
+        "Removing the need for technical controls"
+      ],
+      "correctIndex": 2,
+      "hint": "It's about people, not technology.",
+      "explanation": "Security awareness training helps staff spot threats like phishing and social engineering, handle data safely and report concerns quickly. People are a key line of defence, but training works best alongside good technical controls, not instead of them, and with a no-blame reporting culture."
+    },
+    {
+      "id": "CYB-099",
+      "category": "Resilience and Security Management",
+      "question": "What is third-party cyber risk?",
+      "options": [
+        "A type of antivirus subscription",
+        "Only the risk of someone forgetting a password",
+        "Security exposure arising from suppliers, partners or other outside providers",
+        "The cost of buying a third monitor"
+      ],
+      "correctIndex": 2,
+      "hint": "Your security also depends on the organisations you work with.",
+      "explanation": "Third-party risk comes from suppliers, contractors, cloud providers and partners who access your systems or handle your data. If they're breached, you can be affected too. Supplier due diligence, contract security clauses and limiting their access help manage it."
+    },
+    {
+      "id": "CYB-100",
+      "category": "Resilience and Security Management",
+      "question": "Why is it valuable for employees to report security mistakes quickly?",
+      "options": [
+        "It lets employees avoid following security procedures",
+        "It gives the organisation a better chance to limit harm",
+        "It means the incident can never spread",
+        "It guarantees no investigation will be needed"
+      ],
+      "correctIndex": 1,
+      "hint": "Speed of response makes a big difference to how bad things get.",
+      "explanation": "Quick reporting gives security teams the best chance to contain an incident before it spreads, for example by resetting a password before an attacker uses it. A supportive, no-blame culture encourages people to report early instead of hiding mistakes out of fear."
+    }
+  ]
+}
