@@ -9,7 +9,7 @@
         "Integrity",
         "Confidentiality",
         "Availability",
-        "Accountability"
+        "Authorisation"
       ],
       "correctIndex": 1,
       "hint": "Think about secrecy rather than accuracy or uptime.",
@@ -20,7 +20,7 @@
       "category": "Cybersecurity Fundamentals",
       "question": "Someone secretly changes a company's records. Which security principle has been compromised?",
       "options": [
-        "Authentication",
+        "Non-repudiation",
         "Confidentiality",
         "Availability",
         "Integrity"
@@ -48,9 +48,9 @@
       "category": "Cybersecurity Fundamentals",
       "question": "In cybersecurity, what is an asset?",
       "options": [
-        "Only a company's cash and equipment",
-        "A piece of malicious software",
-        "A known weakness in a network",
+        "Any hardware recorded on the company's fixed asset register",
+        "A system an attacker could use as a launch point into the network",
+        "A known weakness that has been logged for remediation",
         "Something valuable that needs protecting, such as a system or data"
       ],
       "correctIndex": 3,
@@ -62,10 +62,10 @@
       "category": "Cybersecurity Fundamentals",
       "question": "What is a vulnerability?",
       "options": [
-        "A security rule that blocks all attacks",
-        "A person responsible for security",
+        "Something with the potential to cause harm to a system",
+        "The likelihood and impact of a harmful event",
         "A weakness that could be exploited",
-        "A confirmed data breach"
+        "Code written to take advantage of a flaw"
       ],
       "correctIndex": 2,
       "hint": "It's a gap or flaw, not the person or thing taking advantage of it.",
@@ -76,10 +76,10 @@
       "category": "Cybersecurity Fundamentals",
       "question": "What does the term 'threat' mean in cybersecurity?",
       "options": [
-        "A guarantee that an attack will succeed",
+        "A weakness in a system that could be exploited",
         "Something capable of causing harm to a system or information",
-        "A backup copy of important data",
-        "An automatically blocked email"
+        "The measured likelihood and impact of a security event",
+        "A control put in place to reduce the chance of harm"
       ],
       "correctIndex": 1,
       "hint": "It's about the potential to do damage, not certainty.",
@@ -90,9 +90,9 @@
       "category": "Cybersecurity Fundamentals",
       "question": "Which statement best describes cybersecurity risk?",
       "options": [
-        "The total number of computers in a business",
-        "Any software update released by a vendor",
-        "A list of all employees' passwords",
+        "Any weakness identified during a vulnerability scan",
+        "Any person or group with the intent to attack a system",
+        "The total value of the information assets an organisation holds",
         "The potential harm from a threat, considering likelihood and impact"
       ],
       "correctIndex": 3,
@@ -104,10 +104,10 @@
       "category": "Cybersecurity Fundamentals",
       "question": "What does 'attack surface' refer to?",
       "options": [
-        "The number of people working in IT",
+        "The number of attacks a SOC detects in a given period",
         "All the possible points an attacker might try to exploit",
-        "Only the public website of an organisation",
-        "The physical size of a server room"
+        "Only the internet-facing servers in an organisation's DMZ",
+        "The set of systems an attacker has already compromised"
       ],
       "correctIndex": 1,
       "hint": "Picture every door, window and gap an intruder could try.",
@@ -119,9 +119,9 @@
       "question": "What does the principle of least privilege mean?",
       "options": [
         "Give people only the access they need for their tasks",
-        "Allow access only during office hours",
-        "Require everyone to use the same account",
-        "Give every employee administrator access"
+        "Grant access based on seniority within the organisation",
+        "Require two people to approve every sensitive action",
+        "Remove all access rights when an account becomes inactive"
       ],
       "correctIndex": 0,
       "hint": "The word 'least' is doing the work here.",
@@ -132,10 +132,10 @@
       "category": "Cybersecurity Fundamentals",
       "question": "What is the main idea behind 'zero trust' security?",
       "options": [
-        "Block all internet access permanently",
-        "Remove the need to verify identities",
-        "Trust every device once it joins the office Wi-Fi",
-        "Do not automatically trust a user or device just because it is on the network"
+        "Trust devices once they connect through the corporate VPN",
+        "Block all external traffic and allow only internal connections",
+        "Rely on a strong perimeter firewall to keep attackers out",
+        "Don't trust a user or device just because it's on the network"
       ],
       "correctIndex": 3,
       "hint": "Being 'inside' isn't a free pass.",
@@ -147,9 +147,9 @@
       "question": "What does MFA stand for?",
       "options": [
         "Multi-Factor Authentication",
-        "Mainframe Account Administration",
-        "Multiple File Approval",
-        "Managed Firewall Access"
+        "Multi-Factor Authorisation",
+        "Managed Federated Access",
+        "Multi-Function Authentication"
       ],
       "correctIndex": 0,
       "hint": "It's about proving who you are with more than one thing.",
@@ -160,10 +160,10 @@
       "category": "Passwords and Authentication",
       "question": "Which is the best general approach to passwords for different accounts?",
       "options": [
-        "Use the company name with the current year",
-        "Change one character on the same password each time",
+        "Use one very complex password across all accounts",
+        "Change every password every 30 days",
         "Use a long, unique password for each account",
-        "Reuse one complex password everywhere"
+        "Use short passwords mixing symbols, numbers and capitals"
       ],
       "correctIndex": 2,
       "hint": "Think about what happens to your other accounts when one site gets breached.",
@@ -174,9 +174,9 @@
       "category": "Passwords and Authentication",
       "question": "What is a passphrase?",
       "options": [
-        "An email that confirms your identity",
-        "The name of your password manager",
-        "A code sent by a mobile network",
+        "A one-time code generated by an authenticator app",
+        "A password that must mix upper case, lower case, numbers and symbols",
+        "A security question answer used for account recovery",
         "A password formed from a sequence of words"
       ],
       "correctIndex": 3,
@@ -189,9 +189,9 @@
       "question": "What is the main benefit of a password manager?",
       "options": [
         "It helps create and store unique passwords securely",
-        "It automatically shares passwords with colleagues",
-        "It removes the need for all security updates",
-        "It guarantees no account can ever be hacked"
+        "It removes the need for multi-factor authentication",
+        "It lets you safely reuse one strong password across sites",
+        "It automatically changes all your passwords every day"
       ],
       "correctIndex": 0,
       "hint": "It solves the problem of remembering dozens of different passwords.",
@@ -202,10 +202,10 @@
       "category": "Passwords and Authentication",
       "question": "What is a passkey?",
       "options": [
-        "A spare copy of your office key",
-        "A security question based on your birthplace",
-        "A one-time password written on paper",
-        "A sign-in method using cryptographic credentials instead of a reusable password"
+        "A one-time code sent to your phone by text message",
+        "A master password that unlocks a password manager",
+        "A physical token that displays a rotating six-digit code",
+        "A sign-in using a cryptographic key pair instead of a password"
       ],
       "correctIndex": 3,
       "hint": "Cryptography replaces something you'd normally type.",
@@ -216,10 +216,10 @@
       "category": "Passwords and Authentication",
       "question": "What is 'credential stuffing'?",
       "options": [
-        "Sending lots of harmless emails to a mailbox",
-        "Giving every employee a new work account",
+        "Trying one common password across many different accounts",
+        "Capturing passwords by injecting code into a login page",
         "Trying stolen username-and-password pairs on other services",
-        "Encrypting a hard drive for backup"
+        "Overloading a login page with requests to take it offline"
       ],
       "correctIndex": 2,
       "hint": "It relies on people using the same login in more than one place.",
@@ -230,9 +230,9 @@
       "category": "Passwords and Authentication",
       "question": "What is a brute-force password attack?",
       "options": [
-        "Disabling a computer's screen",
-        "Recording a video of someone's office",
-        "Stealing a physical access card",
+        "Using leaked passwords from one breach on other websites",
+        "Tricking a user into typing their password into a fake site",
+        "Capturing a password as it travels over the network",
         "Trying many possible passwords until one works"
       ],
       "correctIndex": 3,
@@ -244,10 +244,10 @@
       "category": "Passwords and Authentication",
       "question": "You receive an MFA code you did not request, and someone calls asking for it. What should you do?",
       "options": [
-        "Do not share it and report the suspicious request",
-        "Read it out because they know your name",
-        "Post the code in the team chat",
-        "Approve the request to make the notifications stop"
+        "Do not share it, and report the suspicious request",
+        "Share it only if the caller can confirm your employee number",
+        "Approve the prompt, then change your password straight away",
+        "Read it out if the caller ID shows your company's IT desk"
       ],
       "correctIndex": 0,
       "hint": "A genuine service will never need you to read that out to anyone.",
@@ -258,9 +258,9 @@
       "category": "Passwords and Authentication",
       "question": "Where should backup account recovery codes be kept?",
       "options": [
-        "In an email to everyone in the company",
-        "On a sticky note attached to the laptop",
-        "In a public document anyone can open",
+        "In a note on your phone so they are always to hand",
+        "In your email inbox so you can search for them",
+        "Printed out and kept in your laptop bag",
         "In a secure place separate from the account they protect"
       ],
       "correctIndex": 3,
@@ -272,9 +272,9 @@
       "category": "Passwords and Authentication",
       "question": "What does SSO stand for in account access?",
       "options": [
-        "Secure Software Operation",
-        "Shared Session Output",
-        "System Safety Override",
+        "Secure Session Ownership",
+        "Shared Sign-On",
+        "Single Session Override",
         "Single Sign-On"
       ],
       "correctIndex": 3,
@@ -286,10 +286,10 @@
       "category": "Phishing and Social Engineering",
       "question": "What is phishing?",
       "options": [
-        "Tricking people with fraudulent messages to obtain information or access",
-        "Installing a new operating system",
-        "Making encrypted backups",
-        "Testing a firewall's performance"
+        "Using fraudulent messages to trick people into giving access",
+        "Intercepting traffic on an unsecured wireless network",
+        "Exploiting a software flaw to run code on a victim's device",
+        "Guessing passwords using lists of commonly used words"
       ],
       "correctIndex": 0,
       "hint": "The name comes from dangling bait and waiting for a bite.",
@@ -300,10 +300,10 @@
       "category": "Phishing and Social Engineering",
       "question": "How is spear phishing different from general phishing?",
       "options": [
-        "It never includes attachments",
+        "It uses text messages instead of email",
         "It is tailored to a specific person or group",
-        "It only targets mobile phones",
-        "It can happen only through social media"
+        "It specifically targets senior executives",
+        "It is sent to as many people as possible at once"
       ],
       "correctIndex": 1,
       "hint": "A spear is aimed; a net is not.",
@@ -314,10 +314,10 @@
       "category": "Phishing and Social Engineering",
       "question": "What is 'smishing'?",
       "options": [
-        "Malware hidden in a software update",
+        "Phishing through a malicious QR code",
         "Phishing carried out through SMS or text messages",
-        "Phishing through a voice call",
-        "Repeatedly guessing a password"
+        "Phishing carried out through voice calls",
+        "Phishing through messages on social media platforms"
       ],
       "correctIndex": 1,
       "hint": "The first letter hints at the channel used.",
@@ -328,10 +328,10 @@
       "category": "Phishing and Social Engineering",
       "question": "What is 'vishing'?",
       "options": [
-        "A virus that infects spreadsheets",
-        "Phishing via a text message",
+        "Phishing that uses a deepfake video",
+        "Phishing carried out through text messages",
         "Phishing carried out through voice calls",
-        "A secure form of video meeting"
+        "Phishing that redirects you from a legitimate website"
       ],
       "correctIndex": 2,
       "hint": "The 'v' stands for something you'd use on a phone call.",
@@ -342,9 +342,9 @@
       "category": "Phishing and Social Engineering",
       "question": "What does BEC stand for in cybercrime?",
       "options": [
-        "Backup Endpoint Configuration",
-        "Basic Encryption Certificate",
-        "Browser Extension Control",
+        "Business Endpoint Compromise",
+        "Bulk Email Campaign",
+        "Brand Email Cloning",
         "Business Email Compromise"
       ],
       "correctIndex": 3,
@@ -356,10 +356,10 @@
       "category": "Phishing and Social Engineering",
       "question": "An email apparently from your manager urgently asks you to pay a new bank account. What is the safest response?",
       "options": [
-        "Verify the request through a trusted, separate contact method",
-        "Forward the request to every customer",
-        "Reply with your own bank details",
-        "Pay immediately because it says urgent"
+        "Verify it through a separate, trusted contact method",
+        "Reply to the email asking your manager to confirm it",
+        "Make the payment, then flag it to finance afterwards",
+        "Check the sender's display name matches your manager"
       ],
       "correctIndex": 0,
       "hint": "Don't use the same channel the request arrived on.",
@@ -370,10 +370,10 @@
       "category": "Phishing and Social Engineering",
       "question": "Why can an unfamiliar QR code be a security risk?",
       "options": [
-        "Every QR code automatically installs software",
+        "The image itself can carry malware that runs when scanned",
         "It might open a malicious website or fraudulent login page",
-        "QR codes cannot contain links",
-        "Scanning it always disables antivirus"
+        "Scanning it shares your location with whoever created it",
+        "It bypasses your phone's browser security settings"
       ],
       "correctIndex": 1,
       "hint": "You can't see where it's taking you just by looking at it.",
@@ -384,10 +384,10 @@
       "category": "Phishing and Social Engineering",
       "question": "In social engineering, what is 'pretexting'?",
       "options": [
-        "Inventing a believable story to persuade someone to share information or provide access",
-        "Testing whether a backup can be restored",
-        "Writing a secure password policy",
-        "Blocking malicious traffic at a firewall"
+        "Inventing a believable story to get information or access",
+        "Leaving infected USB drives where people will find them",
+        "Following someone through a secure door",
+        "Offering a reward in exchange for login details"
       ],
       "correctIndex": 0,
       "hint": "Think of the 'pretext': the cover story.",
@@ -398,13 +398,13 @@
       "category": "Phishing and Social Engineering",
       "question": "What does 'tailgating' mean in physical security?",
       "options": [
-        "Following an authorised person into a restricted area without using your own access",
-        "Reading a colleague's public LinkedIn profile",
-        "Driving too close to another vehicle",
-        "Entering your password too quickly"
+        "Following someone through a secure door without using your own pass",
+        "Watching someone type their PIN or password over their shoulder",
+        "Searching through discarded documents for sensitive information",
+        "Cloning an access card by reading it from a short distance"
       ],
       "correctIndex": 0,
-      "hint": "Picture someone close behind you at a secure door.",
+      "hint": "The name borrows from driving too close to the car in front.",
       "explanation": "Tailgating (or piggybacking) is when an unauthorised person follows someone through a secure door without using their own pass. People often hold doors to be polite, which attackers exploit. It's fine to politely ask to see a badge or direct someone to reception."
     },
     {
@@ -413,9 +413,9 @@
       "question": "How might a deepfake be used in a cyber scam?",
       "options": [
         "To imitate a trusted person's voice or appearance",
-        "To speed up a computer's processor",
-        "To repair damaged backup files",
-        "To make a wireless network more secure"
+        "To hide malware inside an image or video file",
+        "To bypass a website's CAPTCHA checks automatically",
+        "To generate convincing fake websites at scale"
       ],
       "correctIndex": 0,
       "hint": "AI can fake what you see and hear.",
@@ -427,9 +427,9 @@
       "question": "What does ransomware typically do?",
       "options": [
         "Locks or encrypts data and demands payment",
-        "Improves a computer's performance",
-        "Filters unwanted adverts from websites",
-        "Creates an authorised password backup"
+        "Secretly records activity and sends it to an attacker",
+        "Floods a service with traffic until it goes offline",
+        "Runs in the background mining cryptocurrency"
       ],
       "correctIndex": 0,
       "hint": "The name tells you what the attacker wants in return.",
@@ -440,10 +440,10 @@
       "category": "Malware and Attacks",
       "question": "What is a Trojan in cybersecurity?",
       "options": [
-        "A secure method of copying files",
+        "Malware that spreads across networks on its own",
         "Malicious software disguised as something legitimate",
-        "A device that blocks phishing emails",
-        "A password made from several words"
+        "Malware that attaches itself to other files to spread",
+        "Malware that hides deep in the operating system to avoid detection"
       ],
       "correctIndex": 1,
       "hint": "Think about a famous wooden horse.",
@@ -454,10 +454,10 @@
       "category": "Malware and Attacks",
       "question": "What makes a computer worm different from many other types of malware?",
       "options": [
-        "It can spread between systems without a person manually copying it",
-        "It always requires a USB cable",
-        "It cannot affect networks",
-        "It can only exist on paper documents"
+        "It spreads between systems without anyone copying it",
+        "It disguises itself as a legitimate program",
+        "It encrypts files and demands a payment",
+        "It changes its own code to avoid antivirus detection"
       ],
       "correctIndex": 0,
       "hint": "It doesn't need anyone's help to get around.",
@@ -468,10 +468,10 @@
       "category": "Malware and Attacks",
       "question": "What is a computer virus?",
       "options": [
-        "A type of hardware firewall",
-        "A normal software licence check",
-        "Malicious code that attaches to a file or program and can replicate when run",
-        "A secure cloud storage method"
+        "Malicious code that spreads across a network by itself",
+        "Software that pretends to be useful while hiding harmful functions",
+        "Code that attaches to a file or program and spreads when it runs",
+        "Code that hides the presence of other malware on a system"
       ],
       "correctIndex": 2,
       "hint": "It needs a host, like its biological namesake.",
@@ -483,9 +483,9 @@
       "question": "What is spyware designed to do?",
       "options": [
         "Secretly gather information about a user or device",
-        "Replace outdated network cables",
-        "Make backup drives faster",
-        "Display public weather forecasts"
+        "Display unwanted adverts to generate revenue",
+        "Use a device's processing power to mine cryptocurrency",
+        "Encrypt files and demand payment to unlock them"
       ],
       "correctIndex": 0,
       "hint": "The name says what it does: it watches.",
@@ -496,10 +496,10 @@
       "category": "Malware and Attacks",
       "question": "What does a keylogger record?",
       "options": [
-        "The temperature of a server",
+        "Websites visited and how long was spent on each",
         "Keystrokes typed on a device",
-        "The age of installed software",
-        "Which cables connect to a router"
+        "Network traffic passing through a device",
+        "Login attempts made against an account"
       ],
       "correctIndex": 1,
       "hint": "Think about what your fingers do on a keyboard.",
@@ -510,9 +510,9 @@
       "category": "Malware and Attacks",
       "question": "What is a botnet?",
       "options": [
-        "A type of encrypted password",
-        "A collection of approved company laptops",
-        "A schedule for installing patches",
+        "A network of servers used to filter malicious traffic",
+        "A set of automated scripts that test websites for flaws",
+        "A private network criminals use to sell stolen data",
         "A group of compromised devices controlled together"
       ],
       "correctIndex": 3,
@@ -524,10 +524,10 @@
       "category": "Malware and Attacks",
       "question": "What does DDoS stand for?",
       "options": [
-        "Direct Device Operating Standard",
-        "Digital Defence on Servers",
+        "Distributed Disruption of Systems",
+        "Direct Denial of Service",
         "Distributed Denial of Service",
-        "Data Download over Secure Systems"
+        "Dynamic DNS over Servers"
       ],
       "correctIndex": 2,
       "hint": "The aim is to stop a service being usable, from many directions at once.",
@@ -538,9 +538,9 @@
       "category": "Malware and Attacks",
       "question": "What does the word 'malware' mean?",
       "options": [
-        "Mandatory login",
-        "Managed hardware",
-        "Manual firewall",
+        "Malformed software",
+        "Managed software",
+        "Malfunctioning hardware",
         "Malicious software"
       ],
       "correctIndex": 3,
@@ -552,10 +552,10 @@
       "category": "Malware and Attacks",
       "question": "What helps an organisation recover files after a ransomware attack?",
       "options": [
-        "Ignoring warnings from endpoint protection",
+        "Paying the ransom to receive the decryption key",
         "Clean, tested backups that can be restored",
-        "Reusing the same password on every system",
-        "Disabling all activity logs"
+        "Running a full antivirus scan on infected devices",
+        "Restoring files from synced cloud storage folders"
       ],
       "correctIndex": 1,
       "hint": "Something you made before the attack happened.",
@@ -566,10 +566,10 @@
       "category": "Networks and the Web",
       "question": "What does VPN stand for?",
       "options": [
-        "Virtual Password Number",
-        "Visual Protection Node",
+        "Virtual Public Network",
+        "Verified Private Network",
         "Virtual Private Network",
-        "Verified Public Name"
+        "Virtual Protected Node"
       ],
       "correctIndex": 2,
       "hint": "The 'P' isn't about passwords or the public.",
@@ -580,10 +580,10 @@
       "category": "Networks and the Web",
       "question": "What does HTTPS mainly indicate about a connection to a website?",
       "options": [
-        "The website cannot contain malware",
-        "The website is guaranteed to be honest",
+        "The website has been verified as legitimate by a trusted body",
+        "The website has been scanned and is free from malware",
         "Data is encrypted in transit between your browser and the website",
-        "Every file on the website has been independently checked"
+        "Your browsing is hidden from your internet provider"
       ],
       "correctIndex": 2,
       "hint": "It protects the journey, not the destination.",
@@ -595,9 +595,9 @@
       "question": "What is TLS commonly used for?",
       "options": [
         "Securing network communications with encryption",
-        "Creating usernames for new staff",
-        "Removing malicious software from printers",
-        "Measuring a hard drive's free space"
+        "Assigning IP addresses to devices on a network",
+        "Translating domain names into IP addresses",
+        "Authenticating users against a directory service"
       ],
       "correctIndex": 0,
       "hint": "It's the technology behind the 'S' in HTTPS.",
@@ -608,10 +608,10 @@
       "category": "Networks and the Web",
       "question": "What does DNS do?",
       "options": [
-        "Stores a user's passwords",
-        "Encrypts every file on a computer",
+        "Assigns IP addresses to devices when they join a network",
+        "Routes data packets between different networks",
         "Translates domain names into IP addresses",
-        "Automatically removes viruses"
+        "Encrypts traffic between a browser and a web server"
       ],
       "correctIndex": 2,
       "hint": "Often called the internet's phone book.",
@@ -622,10 +622,10 @@
       "category": "Networks and the Web",
       "question": "What is an IP address used for?",
       "options": [
-        "Measuring battery health",
-        "Confirming a person's legal identity",
+        "Identifying the physical hardware of a network card",
+        "Confirming the identity of the person using a device",
         "Identifying a network interface so data can be routed",
-        "Proving a website is safe to visit"
+        "Encrypting traffic between two devices"
       ],
       "correctIndex": 2,
       "hint": "Like a postal address, but for devices.",
@@ -636,10 +636,10 @@
       "category": "Networks and the Web",
       "question": "What is the main job of a firewall?",
       "options": [
-        "Replacing files deleted by accident",
-        "Making every website load instantly",
+        "Scanning files on a device for known malware",
+        "Encrypting traffic between remote users and the office",
         "Allowing or blocking network traffic according to rules",
-        "Writing secure passwords for everyone"
+        "Assigning network addresses to connected devices"
       ],
       "correctIndex": 2,
       "hint": "Think of a bouncer checking a list at the door.",
@@ -650,10 +650,10 @@
       "category": "Networks and the Web",
       "question": "What does a router generally do?",
       "options": [
-        "Stores only employee email addresses",
+        "Connects devices within the same local network only",
         "Directs data between different networks",
-        "Checks every document for spelling mistakes",
-        "Converts passwords into fingerprints"
+        "Translates website names into IP addresses",
+        "Filters malicious content out of incoming email"
       ],
       "correctIndex": 1,
       "hint": "It decides which way data should go.",
@@ -664,10 +664,10 @@
       "category": "Networks and the Web",
       "question": "Why should you be cautious on an unfamiliar public Wi-Fi network?",
       "options": [
-        "Every Wi-Fi network is controlled by criminals",
-        "Using Wi-Fi disables device encryption",
-        "Public Wi-Fi always deletes your files",
-        "An attacker might try to intercept traffic or trick you into using a fake hotspot"
+        "Public Wi-Fi turns off your device's built-in encryption",
+        "Joining it automatically shares your saved passwords",
+        "Public networks block secure HTTPS connections",
+        "An attacker could intercept traffic or run a fake hotspot"
       ],
       "correctIndex": 3,
       "hint": "You don't know who's running it or who else is on it.",
@@ -678,9 +678,9 @@
       "category": "Networks and the Web",
       "question": "What is a man-in-the-middle attack?",
       "options": [
-        "A user forgetting to lock their screen",
-        "An authorised administrator updating a firewall",
-        "A computer overheating during a video call",
+        "An attacker floods a server with traffic from many sources",
+        "An attacker tricks a user into revealing their password",
+        "An attacker uses stolen credentials on multiple websites",
         "An attacker intercepts communications between two parties"
       ],
       "correctIndex": 3,
@@ -692,10 +692,10 @@
       "category": "Networks and the Web",
       "question": "Which website address is most suspicious if you are trying to visit your bank?",
       "options": [
-        "The bank's official app link already installed",
-        "The address shown on a statement you received from the bank",
-        "The bank's exact bookmarked website address",
-        "One with a slightly misspelt version of the bank's domain"
+        "https://www.mybank.co.uk/login",
+        "https://online.mybank.co.uk",
+        "https://mybank.co.uk/personal",
+        "https://www.rnybank.co.uk/login"
       ],
       "correctIndex": 3,
       "hint": "Look closely; attackers rely on you not looking closely.",
@@ -706,10 +706,10 @@
       "category": "Devices and Endpoint Security",
       "question": "Why is it important to install security updates?",
       "options": [
-        "They always make a device completely immune to attacks",
-        "They prevent every form of phishing",
+        "They mainly add new features and improve performance",
+        "They reset security settings to the vendor's defaults",
         "They often fix vulnerabilities that attackers could exploit",
-        "They remove the need for MFA"
+        "They are needed to keep software licences valid"
       ],
       "correctIndex": 2,
       "hint": "They close gaps that have become publicly known.",
@@ -721,9 +721,9 @@
       "question": "What does EDR stand for?",
       "options": [
         "Endpoint Detection and Response",
-        "External Device Register",
-        "Encrypted Data Recovery",
-        "Email Delivery Relay"
+        "Endpoint Defence and Recovery",
+        "Encrypted Data Response",
+        "Event Detection and Reporting"
       ],
       "correctIndex": 0,
       "hint": "It's about the devices people use, plus spotting and acting.",
@@ -734,9 +734,9 @@
       "category": "Devices and Endpoint Security",
       "question": "What is the main purpose of antivirus software?",
       "options": [
-        "Guaranteeing that no cyberattack can succeed",
-        "Replacing all user passwords daily",
-        "Managing a company's electricity bill",
+        "Blocking unauthorised network connections",
+        "Encrypting files to protect them from theft",
+        "Monitoring user behaviour for insider threats",
         "Detecting and blocking malicious software"
       ],
       "correctIndex": 3,
@@ -748,10 +748,10 @@
       "category": "Devices and Endpoint Security",
       "question": "How does full-disk encryption help protect a stolen laptop?",
       "options": [
-        "It makes stored data difficult to read without the required unlock credentials",
-        "It automatically wipes every cloud account",
-        "It physically prevents anyone from taking the laptop",
-        "It guarantees the laptop can be located"
+        "Stored data can't be read without the unlock credentials",
+        "It lets the laptop be remotely tracked and wiped",
+        "It stops malware from running on the device",
+        "It encrypts data while it is sent over the internet"
       ],
       "correctIndex": 0,
       "hint": "It helps the data, not the hardware itself.",
@@ -762,10 +762,10 @@
       "category": "Devices and Endpoint Security",
       "question": "Why should you lock your screen when leaving your desk?",
       "options": [
-        "To improve the monitor's colour accuracy",
-        "To make websites load faster",
-        "To stop someone using your open session without permission",
-        "To install antivirus updates automatically"
+        "To save power and extend battery life",
+        "To let pending security updates install",
+        "To stop someone using your open session",
+        "To clear cached passwords from memory"
       ],
       "correctIndex": 2,
       "hint": "Someone could sit down at your desk and be 'you'.",
@@ -776,10 +776,10 @@
       "category": "Devices and Endpoint Security",
       "question": "You find an unknown USB drive in the office. What is the safest action?",
       "options": [
-        "Do not connect it; hand it to the appropriate IT or security team",
-        "Upload all its files to a public website",
-        "Try it on a colleague's computer",
-        "Plug it in to identify its owner"
+        "Don't plug it in; hand it to your IT or security team",
+        "Plug it into a computer with up-to-date antivirus first",
+        "Open it only on a computer that isn't on the network",
+        "Check the files to find the owner, but don't run any programs"
       ],
       "correctIndex": 0,
       "hint": "Curiosity is exactly what the attacker is hoping for.",
@@ -790,10 +790,10 @@
       "category": "Devices and Endpoint Security",
       "question": "What does BYOD stand for?",
       "options": [
-        "Block Your Online Downloads",
-        "Backup Your Office Data",
+        "Bring Your Own Data",
+        "Build Your Own Device",
         "Bring Your Own Device",
-        "Browse Your Official Documents"
+        "Bring Your Own Domain"
       ],
       "correctIndex": 2,
       "hint": "It's about whose device it is.",
@@ -804,10 +804,10 @@
       "category": "Devices and Endpoint Security",
       "question": "Where is the safest place to obtain software for a work device?",
       "options": [
-        "An unknown file-sharing website",
-        "A link in an unexpected pop-up advert",
-        "An attachment from an unsolicited email",
-        "An approved or official source"
+        "The top result from a search engine",
+        "A download link shared by a trusted colleague",
+        "A well-known third-party download site",
+        "Your organisation's approved or official source"
       ],
       "correctIndex": 3,
       "hint": "Where would your IT team want you to get it from?",
@@ -818,10 +818,10 @@
       "category": "Devices and Endpoint Security",
       "question": "What is a major security concern with unsupported operating systems?",
       "options": [
-        "They may no longer receive fixes for newly discovered security weaknesses",
-        "They are automatically encrypted twice",
-        "They always disconnect from Wi-Fi",
-        "They cannot store any documents"
+        "They no longer get fixes for new security weaknesses",
+        "They can no longer connect to modern networks",
+        "Their files become unreadable by newer software",
+        "Antivirus software immediately stops working on them"
       ],
       "correctIndex": 0,
       "hint": "Think about what stops happening once support ends.",
@@ -832,10 +832,10 @@
       "category": "Devices and Endpoint Security",
       "question": "What should you do first if you lose a phone containing work information?",
       "options": [
-        "Assume the screen lock means there is no risk",
+        "Change your work email password, then report it if it doesn't turn up",
         "Report it promptly to your IT or security team",
-        "Post your work passwords in a group chat",
-        "Wait a week in case it turns up"
+        "Use a 'find my phone' app and give it a day to turn up",
+        "Remotely wipe it yourself before telling anyone"
       ],
       "correctIndex": 1,
       "hint": "Time matters here.",
@@ -846,10 +846,10 @@
       "category": "Data Protection and Privacy",
       "question": "Which of these is an example of personal data?",
       "options": [
-        "A generic weather forecast",
+        "An anonymised summary of customer survey results",
         "An email address that identifies a particular person",
-        "The name of a programming language",
-        "A publicly available definition of malware"
+        "A company's registered office address",
+        "A generic team mailbox such as info@company.com"
       ],
       "correctIndex": 1,
       "hint": "Could it be linked to one specific individual?",
@@ -860,10 +860,10 @@
       "category": "Data Protection and Privacy",
       "question": "Why do organisations classify data?",
       "options": [
-        "To give every file the same password",
-        "To apply suitable handling and protection based on sensitivity",
-        "To make all documents publicly accessible",
-        "To replace the need for backups"
+        "To decide which files need to be backed up",
+        "To protect information according to its sensitivity",
+        "To organise files into folders for easier searching",
+        "To reduce the amount of storage the organisation needs"
       ],
       "correctIndex": 1,
       "hint": "Not everything needs the same level of protection.",
@@ -874,10 +874,10 @@
       "category": "Data Protection and Privacy",
       "question": "What is 'data minimisation'?",
       "options": [
-        "Collecting and keeping only the personal data needed for a purpose",
-        "Making every file as small as possible",
-        "Storing every possible detail about customers",
-        "Deleting all audit records immediately"
+        "Collecting and keeping only the personal data you need",
+        "Compressing data so it takes up less storage space",
+        "Removing duplicate records from a database",
+        "Masking personal data so only partial details are shown"
       ],
       "correctIndex": 0,
       "hint": "Less can be more, especially when it comes to customer data.",
@@ -888,10 +888,10 @@
       "category": "Data Protection and Privacy",
       "question": "What does 'encryption at rest' protect?",
       "options": [
-        "The temperature of a network switch",
+        "Data while it is being processed in memory",
         "Data while it is stored on a device or system",
-        "The physical door to a server room",
-        "Only data moving between websites"
+        "Data while it travels between two systems",
+        "Data while it is displayed on a screen"
       ],
       "correctIndex": 1,
       "hint": "The data isn't going anywhere; it's sitting still.",
@@ -902,10 +902,10 @@
       "category": "Data Protection and Privacy",
       "question": "What is 'encryption in transit'?",
       "options": [
-        "Keeping printed documents in a locked cupboard",
+        "Protecting data stored on a laptop's hard drive",
         "Protecting data while it travels between systems",
-        "Deleting old accounts after employees leave",
-        "Saving a password in a notebook"
+        "Protecting backups held in an off-site location",
+        "Protecting data while an application processes it"
       ],
       "correctIndex": 1,
       "hint": "The data is on a journey.",
@@ -916,9 +916,9 @@
       "category": "Data Protection and Privacy",
       "question": "What does anonymisation aim to achieve?",
       "options": [
-        "Making it no longer reasonably possible to identify the individual from the data",
-        "Publishing every customer's details openly",
-        "Encrypting the data with a shared password",
+        "Making it impossible to reasonably identify the individual",
+        "Encrypting the data so only authorised key holders can read it",
+        "Masking part of each value, such as showing only the last four digits",
         "Replacing a person's name with an ID while keeping a lookup table"
       ],
       "correctIndex": 0,
@@ -930,10 +930,10 @@
       "category": "Data Protection and Privacy",
       "question": "What does 'need-to-know' mean when sharing information?",
       "options": [
-        "Always publish it on the company website",
-        "Let anyone with a company email address see it",
-        "Only share it with people who have a legitimate reason to access it",
-        "Send it to everyone to avoid missing anyone"
+        "Share it with anyone at the same security clearance level",
+        "Share it with your whole team so no one is left out",
+        "Only share it with people who genuinely need it",
+        "Share it only once a manager has approved it"
       ],
       "correctIndex": 2,
       "hint": "Access should be justified by role, not just by being part of the organisation.",
@@ -944,10 +944,10 @@
       "category": "Data Protection and Privacy",
       "question": "What does the '3-2-1' backup rule recommend?",
       "options": [
-        "Three servers, two users and one administrator",
-        "Three updates daily, two weekly and one monthly",
+        "Three backups a day, two a week and one a month",
+        "Three copies of data, two of them encrypted, and one in the cloud",
         "Three copies of data, on two media types, with one copy off-site",
-        "Three passwords, two accounts, and one phone"
+        "Three days' retention, two restore tests and one offline copy"
       ],
       "correctIndex": 2,
       "hint": "Count down: copies, then types of storage, then location.",
@@ -958,10 +958,10 @@
       "category": "Data Protection and Privacy",
       "question": "How should a company dispose of a drive containing confidential information?",
       "options": [
-        "Rename the files and then give it away",
+        "Delete the files and empty the recycle bin",
         "Use an approved secure wiping or destruction process",
-        "Put it straight into an ordinary rubbish bin",
-        "Donate it without checking the contents"
+        "Reformat the drive before reusing or donating it",
+        "Remove the partition table so the files can't be found"
       ],
       "correctIndex": 1,
       "hint": "Deleting isn't the same as destroying.",
@@ -973,9 +973,9 @@
       "question": "You accidentally email a confidential file to the wrong person. What should you do?",
       "options": [
         "Report the mistake promptly through the organisation's process",
-        "Say nothing unless the recipient complains",
-        "Delete your sent email and assume the copy is gone",
-        "Forward the same file to more people"
+        "Ask the recipient to delete it and leave it at that",
+        "Recall the email and, if the recall works, take no further action",
+        "Report it only if the file contained customer data"
       ],
       "correctIndex": 0,
       "hint": "Hiding mistakes usually makes them worse.",
@@ -986,10 +986,10 @@
       "category": "Security Monitoring and Incident Response",
       "question": "What does SOC stand for in cybersecurity?",
       "options": [
-        "Software Ownership Certificate",
+        "Security Operations Control",
         "Security Operations Centre",
-        "System Output Controller",
-        "Secure Office Connection"
+        "System Oversight Centre",
+        "Secure Operations Command"
       ],
       "correctIndex": 1,
       "hint": "It's a team and a place where security is watched around the clock.",
@@ -1000,9 +1000,9 @@
       "category": "Security Monitoring and Incident Response",
       "question": "What does SIEM stand for?",
       "options": [
-        "Software Inspection and Encryption Module",
-        "System Integration and Endpoint Maintenance",
-        "Secure Internet Email Messaging",
+        "Security Incident and Event Monitoring",
+        "System Information and Event Management",
+        "Security Intelligence and Endpoint Management",
         "Security Information and Event Management"
       ],
       "correctIndex": 3,
@@ -1014,10 +1014,10 @@
       "category": "Security Monitoring and Incident Response",
       "question": "You clicked a suspicious link in a work email. What is the best next step?",
       "options": [
-        "Report it promptly and follow the organisation's security instructions",
-        "Disable security software before trying again",
-        "Send the link to colleagues to see whether it works",
-        "Keep quiet because the page looked normal"
+        "Report it promptly and follow your security team's advice",
+        "Run an antivirus scan, and report it if anything is found",
+        "Change your password and carry on if nothing looks wrong",
+        "Close the browser and clear your cache and cookies"
       ],
       "correctIndex": 0,
       "hint": "The security team can only help with what they know about.",
@@ -1028,10 +1028,10 @@
       "category": "Security Monitoring and Incident Response",
       "question": "In incident response, what does 'containment' mean?",
       "options": [
-        "Publishing all company data openly",
+        "Removing the malware and closing the vulnerability it used",
         "Limiting an incident so it does not spread or cause further harm",
-        "Deleting all security logs immediately",
-        "Closing an incident without investigating"
+        "Restoring affected systems to normal operation",
+        "Confirming that an incident has actually taken place"
       ],
       "correctIndex": 1,
       "hint": "Think about stopping a fire from spreading to the next room.",
@@ -1043,9 +1043,9 @@
       "question": "Which statement about security events and incidents is most accurate?",
       "options": [
         "Not every security event is an incident requiring a response",
-        "Incidents can only involve stolen laptops",
-        "Every login is a confirmed security incident",
-        "An incident is always caused by malware"
+        "Every security event should be treated as an incident",
+        "An incident only occurs once data has been stolen",
+        "Events and incidents are two words for the same thing"
       ],
       "correctIndex": 0,
       "hint": "Not everything logged is a problem.",
@@ -1056,10 +1056,10 @@
       "category": "Security Monitoring and Incident Response",
       "question": "What are system logs useful for?",
       "options": [
-        "Guaranteeing that a network can never be attacked",
-        "Replacing all user training",
-        "Automatically proving a person committed a crime",
-        "Recording activity that can help investigate suspicious behaviour"
+        "Blocking suspicious activity as it happens",
+        "Encrypting user activity for compliance purposes",
+        "Preventing users from making unauthorised changes",
+        "Recording activity to help investigate suspicious behaviour"
       ],
       "correctIndex": 3,
       "hint": "They're a record of what happened, and when.",
@@ -1071,9 +1071,9 @@
       "question": "What does IoC stand for in threat detection?",
       "options": [
         "Indicator of Compromise",
-        "Identity of Customer",
-        "Inspection of Code",
-        "Internet of Computers"
+        "Index of Compromise",
+        "Incident of Concern",
+        "Indicator of Concern"
       ],
       "correctIndex": 0,
       "hint": "A clue that something bad may have already happened.",
@@ -1085,9 +1085,9 @@
       "question": "What is a 'false positive' security alert?",
       "options": [
         "An alert triggered by activity that is actually benign",
-        "A confirmed malicious file",
-        "An attack that no tool detected",
-        "An incorrect password entered on purpose by an attacker"
+        "A real attack that security tools failed to detect",
+        "An alert that has been confirmed as malicious",
+        "An alert that was closed without being investigated"
       ],
       "correctIndex": 0,
       "hint": "The alarm went off, but was there really a fire?",
@@ -1098,10 +1098,10 @@
       "category": "Security Monitoring and Incident Response",
       "question": "Why might two account logins from distant countries only minutes apart be suspicious?",
       "options": [
-        "They prove the user has changed their password",
-        "They show antivirus has finished updating",
+        "They show the account's MFA has been switched off",
+        "They mean the user's session expired and restarted",
         "They may suggest that someone else is using the account",
-        "They mean the account has been permanently deleted"
+        "They indicate the account is being used by a scheduled service"
       ],
       "correctIndex": 2,
       "hint": "Could one person physically do that?",
@@ -1112,10 +1112,10 @@
       "category": "Security Monitoring and Incident Response",
       "question": "What does 'root cause' mean when investigating an incident?",
       "options": [
-        "The first person to notice an alert",
-        "The underlying issue that allowed or led to the incident",
-        "The total cost of a new computer",
-        "The title of the incident report"
+        "The first system where the attacker was detected",
+        "The underlying issue that led to the incident",
+        "The person whose mistake triggered the incident",
+        "The most severe business impact of the incident"
       ],
       "correctIndex": 1,
       "hint": "Dig below the symptoms.",
@@ -1126,10 +1126,10 @@
       "category": "Cloud and Application Security",
       "question": "What is the 'shared responsibility model' in cloud security?",
       "options": [
-        "The customer has no security responsibilities",
+        "The provider handles all security once data is in the cloud",
         "The cloud provider and customer each have security responsibilities",
-        "The cloud provider is responsible for every customer password",
-        "Every cloud user gets administrator access"
+        "Customers share security tools with other tenants on the platform",
+        "Security costs are split equally between provider and customer"
       ],
       "correctIndex": 1,
       "hint": "The clue is in the word 'shared'.",
@@ -1140,13 +1140,13 @@
       "category": "Cloud and Application Security",
       "question": "Which is an example of a cloud security misconfiguration?",
       "options": [
-        "Keeping security logs enabled",
-        "Accidentally making a private storage bucket publicly accessible",
-        "Using MFA on a cloud account",
-        "Restricting user permissions to what is needed"
+        "Storing data in a cloud region outside the UK",
+        "Making a private storage bucket publicly accessible",
+        "Using the provider's default managed encryption keys",
+        "Enabling automatic scaling for a web application"
       ],
       "correctIndex": 1,
-      "hint": "Which of these options is a mistake rather than a good practice?",
+      "hint": "Which of these could leave data open to anyone, without a single hack?",
       "explanation": "Misconfigurations, such as publicly accessible storage buckets, open databases, overly broad permissions or disabled logging, are among the most common causes of cloud data exposure. Attackers constantly scan for them. Configuration reviews and cloud security posture tools help catch them."
     },
     {
@@ -1154,10 +1154,10 @@
       "category": "Cloud and Application Security",
       "question": "What does API stand for?",
       "options": [
-        "Account Protection Indicator",
-        "Advanced Privacy Installation",
+        "Application Protocol Interface",
+        "Automated Programming Interface",
         "Application Programming Interface",
-        "Automated Password Inspector"
+        "Application Process Integration"
       ],
       "correctIndex": 2,
       "hint": "It's how one application talks to another.",
@@ -1169,9 +1169,9 @@
       "question": "What is a software supply-chain attack?",
       "options": [
         "An attack that compromises software or a dependency used by others",
-        "A user entering a password incorrectly",
-        "A temporary loss of office electricity",
-        "A stolen delivery van carrying keyboards"
+        "An attack that targets a company's logistics and delivery systems",
+        "An attack that floods a supplier's website with traffic",
+        "An attack that steals customer data from an online shop"
       ],
       "correctIndex": 0,
       "hint": "Attack the supplier to reach the customers.",
@@ -1182,10 +1182,10 @@
       "category": "Cloud and Application Security",
       "question": "Why should developers keep third-party software libraries updated?",
       "options": [
-        "Old libraries cannot run any code",
+        "Older libraries stop working when browsers update",
         "Updates may fix known security vulnerabilities",
-        "New versions always prevent phishing",
-        "Updates eliminate the need to test applications"
+        "Updates are needed to keep open-source licences valid",
+        "New versions run faster and use less memory"
       ],
       "correctIndex": 1,
       "hint": "Older versions may carry known flaws that attackers already understand.",
@@ -1196,10 +1196,10 @@
       "category": "Cloud and Application Security",
       "question": "What is a penetration test?",
       "options": [
-        "A way to encrypt a spreadsheet",
-        "A routine check of office fire alarms",
-        "An unapproved attack on a competitor",
-        "An authorised attempt to find and demonstrate exploitable security weaknesses"
+        "An automated scan that lists known vulnerabilities",
+        "A review of security policies against a recognised standard",
+        "A simulated phishing campaign sent to staff",
+        "An authorised, simulated attack to find exploitable weaknesses"
       ],
       "correctIndex": 3,
       "hint": "The key word is permission.",
@@ -1210,10 +1210,10 @@
       "category": "Cloud and Application Security",
       "question": "What is a vulnerability scan mainly used for?",
       "options": [
-        "Identifying potential known security weaknesses in systems or software",
-        "Guaranteeing that every weakness has been fixed",
-        "Reconstructing every deleted file",
-        "Replacing all network equipment"
+        "Identifying known security weaknesses in systems",
+        "Proving weaknesses can be exploited by actively attacking them",
+        "Monitoring network traffic for attacks in progress",
+        "Checking source code for bugs before it is released"
       ],
       "correctIndex": 0,
       "hint": "It's automated and looks for things already documented.",
@@ -1224,10 +1224,10 @@
       "category": "Cloud and Application Security",
       "question": "In simple terms, what is SQL injection?",
       "options": [
-        "Signing in with a hardware security key",
-        "Sending too many video files to a server",
-        "Using malicious input to manipulate an application's database query",
-        "Encrypting a database for backup"
+        "Overloading a database with too many requests",
+        "Stealing a database backup from cloud storage",
+        "Using malicious input to manipulate a database query",
+        "Injecting scripts into a web page viewed by other users"
       ],
       "correctIndex": 2,
       "hint": "Look at the 'SQL' part: what does that language talk to?",
@@ -1239,9 +1239,9 @@
       "question": "What is cross-site scripting (XSS)?",
       "options": [
         "Injecting malicious scripts into web content viewed by other users",
-        "A method for building secure network cables",
-        "Scanning a hard drive for physical damage",
-        "Copying data between two authorised spreadsheets"
+        "Manipulating a database query using malicious input",
+        "Tricking a logged-in user's browser into sending an unwanted request",
+        "Loading a site inside a hidden frame to capture clicks"
       ],
       "correctIndex": 0,
       "hint": "The script runs in someone else's browser.",
@@ -1252,10 +1252,10 @@
       "category": "Cloud and Application Security",
       "question": "Why separate a test environment from a live production system?",
       "options": [
-        "To make every account use the same password",
-        "To reduce the risk that testing disrupts real services or data",
-        "To prevent developers from ever finding bugs",
-        "To allow confidential customer data to be published"
+        "So test environments can safely use real customer data",
+        "To stop testing disrupting real services or data",
+        "To make performance testing results more accurate",
+        "To avoid paying for extra production software licences"
       ],
       "correctIndex": 1,
       "hint": "Mistakes happen when testing; where would you rather they happen?",
@@ -1266,10 +1266,10 @@
       "category": "Resilience and Security Management",
       "question": "What is an incident response plan for?",
       "options": [
-        "Listing all staff birthdays",
-        "Replacing the need for security monitoring",
-        "Making every cyberattack impossible",
-        "Defining how an organisation detects, manages and recovers from security incidents"
+        "Listing the security controls an organisation has in place",
+        "Defining how quickly IT must restore systems after an outage",
+        "Recording which staff have completed security training",
+        "Setting out how to handle and recover from security incidents"
       ],
       "correctIndex": 3,
       "hint": "It's a playbook for when things go wrong.",
@@ -1280,10 +1280,10 @@
       "category": "Resilience and Security Management",
       "question": "What is the main goal of business continuity?",
       "options": [
-        "Preventing employees from working remotely",
+        "Restoring IT systems after a cyberattack",
         "Keeping essential activities running during disruption",
-        "Changing all passwords every morning",
-        "Ensuring no system ever needs maintenance"
+        "Preventing any disruption from happening in the first place",
+        "Recovering financial losses through cyber insurance"
       ],
       "correctIndex": 1,
       "hint": "The word 'continuity' says it all.",
@@ -1294,9 +1294,9 @@
       "category": "Resilience and Security Management",
       "question": "What does disaster recovery mainly focus on?",
       "options": [
-        "Choosing a new office location",
-        "Writing job descriptions for staff",
-        "Designing a company's logo",
+        "Keeping all business operations running during disruption",
+        "Preventing attackers from gaining access to systems",
+        "Investigating how an incident happened",
         "Restoring systems and technology after serious disruption"
       ],
       "correctIndex": 3,
@@ -1308,10 +1308,10 @@
       "category": "Resilience and Security Management",
       "question": "What does RTO stand for in recovery planning?",
       "options": [
-        "Recovery Threat Overview",
-        "Remote Testing Operation",
+        "Recovery Threshold Objective",
+        "Restore Time Operation",
         "Recovery Time Objective",
-        "Risk Transfer Order"
+        "Recovery Target Outcome"
       ],
       "correctIndex": 2,
       "hint": "It's a target measured on the clock.",
@@ -1322,10 +1322,10 @@
       "category": "Resilience and Security Management",
       "question": "What does RPO stand for in backup and recovery planning?",
       "options": [
-        "Remote Protection Option",
+        "Restore Point Operation",
         "Recovery Point Objective",
-        "Risk Prevention Order",
-        "Rapid Patch Operation"
+        "Recovery Process Objective",
+        "Risk Point Objective"
       ],
       "correctIndex": 1,
       "hint": "It's about how far back in time you'd have to go.",
@@ -1336,10 +1336,10 @@
       "category": "Resilience and Security Management",
       "question": "What is the purpose of a cybersecurity risk assessment?",
       "options": [
-        "Identifying and evaluating threats, weaknesses and potential consequences",
-        "Choosing the fastest office internet package",
-        "Guaranteeing no attack will ever happen",
-        "Counting how many emails were sent today"
+        "Identifying threats and weaknesses and judging their impact",
+        "Testing systems by simulating a real attack against them",
+        "Checking compliance against a recognised security standard",
+        "Scanning systems for missing patches and misconfigurations"
       ],
       "correctIndex": 0,
       "hint": "It's about understanding what could go wrong before deciding what to do.",
@@ -1350,10 +1350,10 @@
       "category": "Resilience and Security Management",
       "question": "What happens in a cybersecurity tabletop exercise?",
       "options": [
-        "A team discusses its decisions during a simulated incident",
-        "Attackers are invited to access live systems",
-        "Every staff member receives a new laptop",
-        "A team physically builds a new server"
+        "A team talks through decisions in a simulated incident",
+        "A red team attacks live systems to test the defences",
+        "Staff are sent simulated phishing emails to test them",
+        "Backups are restored to check that they work"
       ],
       "correctIndex": 0,
       "hint": "It happens around a table, and nothing real is under attack.",
@@ -1364,10 +1364,10 @@
       "category": "Resilience and Security Management",
       "question": "What is the main aim of security awareness training?",
       "options": [
-        "Making security solely the IT team's responsibility",
-        "Turning every employee into a programmer",
+        "Ensuring staff can configure their own security settings",
+        "Meeting a legal requirement to train staff once a year",
         "Helping people recognise risks and respond safely",
-        "Removing the need for technical controls"
+        "Teaching staff how to investigate security incidents"
       ],
       "correctIndex": 2,
       "hint": "It's about people, not technology.",
@@ -1378,10 +1378,10 @@
       "category": "Resilience and Security Management",
       "question": "What is third-party cyber risk?",
       "options": [
-        "A type of antivirus subscription",
-        "Only the risk of someone forgetting a password",
-        "Security exposure arising from suppliers, partners or other outside providers",
-        "The cost of buying a third monitor"
+        "Risk from attackers outside the organisation",
+        "Risk transferred to an insurer through a cyber policy",
+        "Security exposure that comes from suppliers and partners",
+        "Risk from staff using unapproved software"
       ],
       "correctIndex": 2,
       "hint": "Your security also depends on the organisations you work with.",
@@ -1392,10 +1392,10 @@
       "category": "Resilience and Security Management",
       "question": "Why is it valuable for employees to report security mistakes quickly?",
       "options": [
-        "It lets employees avoid following security procedures",
+        "It helps identify who was responsible for the mistake",
         "It gives the organisation a better chance to limit harm",
-        "It means the incident can never spread",
-        "It guarantees no investigation will be needed"
+        "It is required before IT can reset any passwords",
+        "It reduces the organisation's cyber insurance premiums"
       ],
       "correctIndex": 1,
       "hint": "Speed of response makes a big difference to how bad things get.",
