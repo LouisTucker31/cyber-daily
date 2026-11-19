@@ -1,56 +1,54 @@
-/* Bump CACHE_VERSION with every release so phones drop the old copy. */
-var CACHE_VERSION = 'cyber-daily-v2';
-var ASSETS = [
+/* The build replaces the version placeholder below with a timestamp, so every deploy
+   gets a new cache name and phones drop the old copy automatically. */
+const CACHE_VERSION = '__BUILD_VERSION__';
+const SHELL = [
   './',
   'index.html',
-  'styles.css',
-  'app.js',
-  'questions.json',
   'manifest.json',
-  'figtree.woff2',
+  'questions.json',
   'icon-192.png',
   'icon-512.png',
   'apple-touch-icon.png'
 ];
 
-self.addEventListener('install', function (e) {
+self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_VERSION).then(function (c) {
-      // cache: 'reload' skips the browser's HTTP cache so we store the newest files
-      return c.addAll(ASSETS.map(function (u) { return new Request(u, { cache: 'reload' }); }));
-    })
+    caches.open(CACHE_VERSION).then((c) =>
+      c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' })))
+    )
   );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', function (e) {
+self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(keys.filter(function (k) { return k !== CACHE_VERSION; })
-        .map(function (k) { return caches.delete(k); }));
-    }).then(function () { return self.clients.claim(); })
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE_VERSION).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-/* Network first for everything: online you always get the latest files,
-   offline you get the last saved copy. */
-self.addEventListener('fetch', function (e) {
-  var req = e.request;
+/* Network first: online you always get the newest files (and they're saved);
+   offline you get the last saved copy. Hashed JS/CSS are saved on first load. */
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
   if (req.method !== 'GET') return;
-  var url = new URL(req.url);
+  const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
   e.respondWith(
-    fetch(req, { cache: 'no-cache' }).then(function (res) {
-      if (res && res.ok) {
-        var copy = res.clone();
-        caches.open(CACHE_VERSION).then(function (c) { c.put(req, copy); });
-      }
-      return res;
-    }).catch(function () {
-      return caches.match(req, { ignoreSearch: true }).then(function (hit) {
-        return hit || (req.mode === 'navigate' ? caches.match('index.html') : undefined);
-      });
-    })
+    fetch(req, { cache: 'no-cache' })
+      .then((res) => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE_VERSION).then((c) => c.put(req, copy));
+        }
+        return res;
+      })
+      .catch(() =>
+        caches.match(req, { ignoreSearch: true }).then(
+          (hit) => hit || (req.mode === 'navigate' ? caches.match('index.html') : undefined)
+        )
+      )
   );
 });

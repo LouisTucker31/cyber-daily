@@ -10,34 +10,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cyber Daily">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="icon-192.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="preload" href="figtree.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css">
+  <!-- manifest and icon links are added by vite.config.ts so they keep their exact file names -->
 </head>
 <body>
-  <div class="app" id="app">
-    <header class="topbar">
-      <div>
-        <h1 class="wordmark">Cyber Daily <span>10</span></h1>
-        <div class="today" id="today"></div>
-      </div>
-      <div class="streak" id="streak">
-        <div class="streak-label">Streak</div>
-        <div class="streak-value"><span id="streakCount">0</span><small id="streakUnit">days</small></div>
-      </div>
-    </header>
-
-    <main id="main">
-      <p class="status">Loading questions…</p>
-    </main>
-  </div>
-
-  <div class="actionbar" id="actionbar" hidden>
-    <div class="actionbar-inner" id="actionbarInner"></div>
-  </div>
-
-  <script src="app.js"></script>
+  <div id="root"></div>
+  <script type="module" src="./main.tsx"></script>
 </body>
 </html>
