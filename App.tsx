@@ -10,7 +10,7 @@ import DoneView from './DoneView.tsx';
 import useCountdown from './useCountdown.ts';
 import useEdgeSwipe from './useEdgeSwipe.ts';
 import { haptic } from './haptics.ts';
-import { ArrowIcon } from './icons.tsx';
+import { ArrowIcon, ClockIcon } from './icons.tsx';
 
 type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bank: Question[] };
 type View = 'home' | 'daily' | 'practice';
@@ -146,7 +146,6 @@ export default function App() {
       <Home
         day={day}
         learned={learnedIds(state, bank!).length}
-        countdown={countdown}
         onDaily={() => { haptic(); open('daily'); }}
         onPractice={startPractice}
       />
@@ -155,9 +154,6 @@ export default function App() {
     nav = { label: 'Today’s 10', onHome: () => goHome() };
     if (dayDone) {
       body = <DoneView mode="daily" items={day.items} byId={byId} countdown={countdown} />;
-      barButton = (
-        <button type="button" className="btn" onClick={() => goHome()}>Back to home</button>
-      );
     } else {
       const item = day.items[day.index];
       const q = byId.get(item.id);
@@ -246,6 +242,15 @@ export default function App() {
         <Header streak={state ? shownStreak(state) : 0} nav={nav} />
         <main key={view + round} className={'screen screen-' + motion}>{body}</main>
       </div>
+
+      {/* Countdown pill lives outside the animated screen so it always stays pinned bottom right */}
+      {view === 'home' && dayDone && (
+        <div className="next-pill" role="status">
+          <ClockIcon />
+          <span>Next set</span>
+          <strong>{countdown}</strong>
+        </div>
+      )}
 
       {barButton && (
         <div className="actionbar">

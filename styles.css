@@ -483,19 +483,32 @@ div.tile-locked { cursor: default; }
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- back to home ---------- */
-.back {
-  display: inline-flex; align-items: center; gap: 4px;
-  margin: 0 0 0 -6px;
-  padding: 4px 6px;
-  background: none; border: 0;
-  font-size: var(--t-lead);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+/* ---------- inner screens: round back button + title (iOS style) ---------- */
+.topbar:has(.nav) { align-items: center; }
+.nav { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.back-btn {
+  flex: none;
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  margin-left: -4px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--locked);
   color: var(--ink);
   cursor: pointer;
+  transition: transform .12s ease, background-color .12s;
 }
-.back svg { width: 20px; height: 20px; }
+.back-btn:active { transform: scale(0.92); background: var(--line-strong); }
+.back-btn svg { width: 20px; height: 20px; margin-left: -2px; }
+.screen-title {
+  margin: 0;
+  font-size: var(--t-lead);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* Practice: shows the right answer after a wrong pick */
 .option.reveal { border-color: var(--good); border-style: dashed; color: var(--ink); background: transparent; }

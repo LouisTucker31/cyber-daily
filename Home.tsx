@@ -1,17 +1,16 @@
 import type { Day } from './quiz.ts';
 import Tile, { type TileSpec } from './Tile.tsx';
 import Ticks from './Ticks.tsx';
-import { ClockIcon, DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
+import { DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
 
 interface Props {
   day: Day;
   learned: number;
-  countdown: string;
   onDaily: () => void;
   onPractice: () => void;
 }
 
-export default function Home({ day, learned, countdown, onDaily, onPractice }: Props) {
+export default function Home({ day, learned, onDaily, onPractice }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
   const right = day.items.filter((it) => it.correct === true).length;
@@ -78,13 +77,6 @@ export default function Home({ day, learned, countdown, onDaily, onPractice }: P
         {tiles.map((t) => <Tile key={t.id} {...t} />)}
       </div>
 
-      {done && (
-        <div className="next-pill" role="status">
-          <ClockIcon />
-          <span>Next set</span>
-          <strong>{countdown}</strong>
-        </div>
-      )}
     </>
   );
 }
