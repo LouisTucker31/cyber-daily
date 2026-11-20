@@ -9,14 +9,14 @@ import Sheet from './Sheet.tsx';
 import { XpNote } from './BlitzView.tsx';
 import { xpRateText } from '../lib/progress.ts';
 import {
-  ArrowIcon, ArrowLeftIcon, BookIcon, ChevronIcon, ClipIcon, CrossIcon, GlobeIcon, LinkIcon, LockIcon, PhishIcon,
-  PhoneIcon, PlayIcon, ShieldIcon, TapIcon, TextIcon, TickIcon, WarnIcon
+  ArchiveIcon, ArrowIcon, ArrowLeftIcon, BackIcon, BookIcon, CameraIcon, ChevronIcon, ComposeIcon, CrossIcon, FileIcon,
+  FolderIcon, GlobeIcon, InfoIcon, LinkIcon, LockIcon, MicIcon, PhishIcon, PhoneIcon, PlayIcon, PlusIcon, ReloadIcon,
+  ReplyIcon, SendIcon, ShieldIcon, SpeakerIcon, TapIcon, TextIcon, TickIcon, UpIcon, WarnIcon
 } from './icons.tsx';
 
 const SwipeLeftIcon = ArrowLeftIcon;
 const SwipeRightIcon = ArrowIcon;
 const HoldIcon = LinkIcon;
-
 
 /* ---------- before a round ---------- */
 
@@ -89,7 +89,25 @@ export function PhishIntro({ level, tier, onTier, best, roundsToday, onDirectory
   );
 }
 
-/* ---------- one message, drawn as the real thing ---------- */
+/* ---------- one message, drawn like the real app on a phone ---------- */
+
+// stable made-up details per card (time, file size, waveform), so a card always looks the same
+function seed(s: string): number {
+  let h = 7;
+  for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return h;
+}
+const clockFor = (id: string) => {
+  const h = seed(id);
+  return `${String(7 + (h % 12)).padStart(2, '0')}:${String((h >>> 4) % 60).padStart(2, '0')}`;
+};
+const sizeFor = (id: string) => `${48 + (seed(id) % 420)} KB`;
+const waveFor = (id: string) => Array.from({ length: 34 }, (_, i) => 22 + (seed(id + i) % 78));
+const AVATAR = ['#5b7fa6', '#7a6aa8', '#4f8f7a', '#b0754a', '#a85b6a', '#5f7287'];
+const avatarBg = (name: string) => AVATAR[seed(name) % AVATAR.length];
+const initials = (name: string) =>
+  name.replace(/[^A-Za-z ]/g, ' ').trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '#';
+const longDate = () => new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
 
 interface MsgProps {
   card: PhishCard;
@@ -112,6 +130,8 @@ function Message({ card, review, open, onToggle, onPressLink, onReleaseLink, onT
   const pts = card.points.map((p, i) => ({ ...p, n: i + 1 }));
   const quotes = review ? pts.filter((p) => p.quote).map((p) => ({ q: p.quote!, n: p.n })) : [];
   const used = new Set<number>(); // each phrase is highlighted once, at its first appearance
+  const clock = clockFor(card.id);
+  const showDetails = open || review;
 
   const pins = (at: string) => review
     ? pts.filter((p) => p.at === at).map((p) => <Pin key={p.n} n={p.n} kind={kind} />)
@@ -171,148 +191,217 @@ function Message({ card, review, open, onToggle, onPressLink, onReleaseLink, onT
     </p>
   ));
 
-  const initials = (name: string) => name.replace(/[^A-Za-z ]/g, ' ').trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
-  const showDetails = open || review;
-
   let inner: ReactNode = null;
   switch (card.type) {
+    /* mail app: reading one email */
     case 'email': {
       const f = card.from!;
       inner = (
-        <div className="ph-email">
-          <div className="em-head">
-            <span className="avatar" aria-hidden="true">{initials(f.name)}</span>
-            <div className="em-from">
-              <button type="button" className="em-name" onClick={onToggle} aria-expanded={showDetails} disabled={review}>
-                <span>{f.name}</span>{!review && <ChevronIcon open={open} />}
-              </button>
+        <div className="mock mail">
+          <div className="mk-bar" aria-hidden="true">
+            <span className="mk-back"><BackIcon />Inbox</span>
+            <span className="mk-tools"><UpIcon /><span className="down"><UpIcon /></span></span>
+          </div>
+          <div className="ml-head">
+            <span className="avatar" style={{ background: avatarBg(f.name) }} aria-hidden="true">{initials(f.name)}</span>
+            <div className="ml-from">
+              <div className="ml-row">
+                <button type="button" className="ml-name" onClick={onToggle} aria-expanded={showDetails} disabled={review}>{f.name}</button>
+                <span className="ml-time">{clock}</span>
+              </div>
               {showDetails ? (
-                <div className="em-details">
-                  <span>From <span className={'addr' + mark('from')}>{f.address}{pins('from')}</span></span>
-                  {card.replyTo && <span>Reply to <span className={'addr' + mark('replyTo')}>{card.replyTo}{pins('replyTo')}</span></span>}
-                  <span>To <span className="addr">Sam</span></span>
+                <div className="ml-details">
+                  <span>From: <span className={'addr' + mark('from')}>{f.address}{pins('from')}</span></span>
+                  {card.replyTo && <span>Reply-To: <span className={'addr' + mark('replyTo')}>{card.replyTo}{pins('replyTo')}</span></span>}
+                  <span>To: Sam</span>
                 </div>
-              ) : <span className="em-to">To: Sam</span>}
+              ) : (
+                <button type="button" className="ml-to" onClick={onToggle}>To: Sam<ChevronIcon open={false} /></button>
+              )}
             </div>
           </div>
-          {card.subject && <p className="em-subject">{hl(card.subject)}{pins('subject')}</p>}
+          {card.subject && <p className="ml-subject">{hl(card.subject)}{pins('subject')}</p>}
           {card.external && (
-            <p className={'em-external' + mark('external')}>
+            <p className={'ml-external' + mark('external')}>
               <WarnIcon /><span>External sender. Take care with links and attachments.</span>{pins('external')}
             </p>
           )}
-          <div className="em-body">{body(card.body, 'em-p')}</div>
+          <div className="ml-body">{body(card.body, 'ml-p')}</div>
           {card.attachment && (
-            <span className={'em-attach' + mark('attachment')}><ClipIcon />{card.attachment}{pins('attachment')}</span>
+            <div className={'ml-attach' + mark('attachment')}>
+              <span className="ml-file"><FileIcon /></span>
+              <span className="ml-file-text"><b>{card.attachment}</b><span>{sizeFor(card.id)}</span></span>
+              {pins('attachment')}
+            </div>
           )}
+          <div className="mk-toolbar" aria-hidden="true"><ArchiveIcon /><FolderIcon /><ReplyIcon /><ComposeIcon /></div>
         </div>
       );
       break;
     }
-    case 'sms':
+    /* messages app: one text in a thread */
+    case 'sms': {
+      const name = card.from!.name;
+      const number = !/^[A-Za-z]/.test(name);
       inner = (
-        <div className="ph-sms">
-          <div className="sms-head">
-            <span className="avatar" aria-hidden="true">{/^[A-Za-z]/.test(card.from!.name) ? initials(card.from!.name) : '#'}</span>
-            <span className={'sms-from' + mark('from')}>{card.from!.name}{pins('from')}</span>
-            <span className="sms-meta">Text message</span>
+        <div className="mock sms">
+          <div className="sm-top">
+            <span className="mk-icon" aria-hidden="true"><BackIcon /></span>
+            <div className="sm-contact">
+              <span className="avatar lg" style={{ background: number ? '#8e929a' : avatarBg(name) }} aria-hidden="true">
+                {number ? '#' : initials(name)}
+              </span>
+              <span className={'sm-name' + mark('from')}>{name}{pins('from')}</span>
+            </div>
+            <span className="mk-icon" aria-hidden="true" />
           </div>
-          {body(card.body, 'bubble')}
+          <p className="sm-stamp">Text Message · Today {clock}</p>
+          {body(card.body, 'sm-bubble')}
+          <div className="sm-compose" aria-hidden="true">
+            <span className="sm-cam"><CameraIcon /></span><span className="sm-field">Text Message</span><MicIcon />
+          </div>
         </div>
       );
       break;
+    }
+    /* workplace chat */
     case 'chat': {
       const f = card.from!;
       inner = (
-        <div className="ph-chat">
-          <p className="chat-app">Kestrel Chat</p>
-          <div className="chat-msg">
-            <span className="avatar" aria-hidden="true">{initials(f.name)}</span>
-            <div className="chat-main">
-              <div className="chat-who">
-                <button type="button" className="chat-name" onClick={onToggle} aria-expanded={showDetails} disabled={review}>{f.name}</button>
-                {card.external && <span className={'tag-ext' + mark('external')}>External{pins('external')}</span>}
+        <div className="mock chat">
+          <div className="ct-bar">
+            <b>{card.orgShort ?? 'Work'} Chat</b>
+            <span>{card.external ? 'External chat' : 'Direct message'}</span>
+          </div>
+          {card.external && (
+            <p className={'ct-banner' + mark('external')}>
+              <WarnIcon /><span>This person is outside your organisation.</span>{pins('external')}
+            </p>
+          )}
+          <div className="ct-msg">
+            <span className="avatar sq" style={{ background: avatarBg(f.name) }} aria-hidden="true">{initials(f.name)}</span>
+            <div className="ct-main">
+              <div className="ct-who">
+                <button type="button" className="ct-name" onClick={onToggle} aria-expanded={showDetails} disabled={review}>{f.name}</button>
+                <span className="ct-time">{clock}</span>
               </div>
-              {showDetails && <span className={'chat-addr addr' + mark('from')}>{f.address}{pins('from')}</span>}
-              {body(card.body, 'chat-text')}
+              {showDetails && <span className={'ct-addr addr' + mark('from')}>{f.address}{pins('from')}</span>}
+              {body(card.body, 'ct-text')}
             </div>
+          </div>
+          <div className="ct-compose" aria-hidden="true">
+            <PlusIcon /><span>Message {f.name.split(/[\s·(]/)[0]}</span><SendIcon />
           </div>
         </div>
       );
       break;
     }
+    /* phone app: a voicemail with its transcript */
     case 'voicemail':
       inner = (
-        <div className="ph-vm">
-          <div className="vm-head">
-            <span className="vm-icon"><PlayIcon /></span>
-            <span className="vm-who">
-              <span className={'vm-from' + mark('from')}>{card.from!.name}{pins('from')}</span>
-              <span className="vm-meta">Voicemail{card.time ? ` · ${card.time}` : ''}</span>
-            </span>
+        <div className="mock vm">
+          <div className="mk-bar" aria-hidden="true">
+            <span className="mk-back"><BackIcon />Phone</span><b>Voicemail</b><span className="mk-spacer" />
+          </div>
+          <div className="vm-caller">
+            <span className={'vm-from' + mark('from')}>{card.from!.name}{pins('from')}</span>
+            <span className="vm-date">Today at {clock}</span>
+          </div>
+          <div className="vm-player" aria-hidden="true">
+            <span className="vm-play"><PlayIcon /></span>
+            <span className="vm-wave">{waveFor(card.id).map((h, i) => <i key={i} style={{ height: `${h}%` }} />)}</span>
+            <span className="vm-dur">{card.time ?? '0:30'}</span>
+          </div>
+          <div className="vm-actions" aria-hidden="true">
+            <span><SpeakerIcon />Speaker</span><span><PhoneIcon />Call back</span><span><InfoIcon />Details</span>
           </div>
           <p className="vm-label">Transcript</p>
           {body(card.body, 'vm-text')}
         </div>
       );
       break;
+    /* lock screen with a sign-in notification */
     case 'mfa': {
       const m = card.mfa!;
       const numbered = /number/i.test(m.title);
       inner = (
-        <div className="ph-mfa">
-          <p className="mfa-app"><ShieldIcon />{m.app}</p>
-          <p className={'mfa-title' + mark('prompt')}>{m.title}{pins('prompt')}</p>
-          <ul className="mfa-lines">{m.lines.map((l) => <li key={l}>{hl(l)}</li>)}</ul>
-          <div className="mfa-actions" aria-hidden="true">
-            <span>Deny</span>
-            {numbered ? <span className="mfa-code">_ _</span> : <span className="primary">Approve</span>}
+        <div className="mock lock">
+          <p className="lk-date">{longDate()}</p>
+          <p className="lk-time">{clock}</p>
+          <div className={'lk-notif' + mark('prompt')}>
+            <div className="lk-app">
+              <span className="lk-icon"><ShieldIcon /></span><span className="lk-name">{m.app}</span><span className="lk-now">now</span>
+            </div>
+            <p className="lk-title">{m.title}{pins('prompt')}</p>
+            <ul className="lk-lines">{m.lines.map((l) => <li key={l}>{hl(l)}</li>)}</ul>
+            {numbered && <div className="lk-code" aria-hidden="true"><span /><span /></div>}
+            <div className="lk-actions" aria-hidden="true"><span>Deny</span><span>{numbered ? 'Submit' : 'Approve'}</span></div>
           </div>
         </div>
       );
       break;
     }
+    /* browser: a sign-in page or an app asking for permissions */
     case 'login':
     case 'consent': {
       const url = card.url!;
       const c = card.consent;
+      const brand = c ? (card.org ?? 'Sign in') : (card.page?.brand ?? '');
       inner = (
-        <div className="ph-browser">
-          <button type="button" className={'addr-bar' + mark('url')} onClick={onToggle} disabled={review}
-            aria-label={showDetails ? url : `${hostOf(url)}. Tap to see the full address.`}>
-            <LockIcon /><span>{showDetails ? url : hostOf(url)}</span>{pins('url')}
-          </button>
-          {c ? (
-            <div className="page">
-              <p className="page-brand">Kestrel Group</p>
-              <p className="page-heading"><b>{c.app}</b> wants permission to:</p>
-              <ul className={'scopes' + mark('scopes')}>{c.scopes.map((s) => <li key={s}>{s}</li>)}{pins('scopes')}</ul>
-              <p className={'publisher' + (c.verified ? ' verified' : '') + mark('publisher')}>
-                {c.verified ? <TickIcon /> : <WarnIcon />}<span>Publisher: {c.publisher}</span>{pins('publisher')}
-              </p>
-              <div className="page-actions" aria-hidden="true"><span>Cancel</span><span className="primary">Accept</span></div>
-            </div>
-          ) : (
-            <div className="page">
-              <p className="page-brand">{card.page?.brand}</p>
-              <p className="page-heading">{card.page?.heading}</p>
-              <span className="field" aria-hidden="true">Email address</span>
-              <span className="field" aria-hidden="true">Password</span>
-              <span className="page-actions single" aria-hidden="true"><span className="primary">Sign in</span></span>
-            </div>
-          )}
+        <div className="mock browser">
+          <div className="br-bar">
+            <button type="button" className={'br-addr' + mark('url')} onClick={onToggle} disabled={review}
+              aria-label={showDetails ? url : `${hostOf(url)}. Tap to see the full address.`}>
+              <span className="br-aa" aria-hidden="true">aA</span>
+              <span className="br-url"><LockIcon />{showDetails ? url : hostOf(url)}</span>
+              <ReloadIcon />{pins('url')}
+            </button>
+          </div>
+          <div className="pg">
+            <div className="pg-brand"><span className="pg-logo" aria-hidden="true">{brand[0]}</span><b>{brand}</b></div>
+            {c ? (
+              <>
+                <p className="pg-heading">Permissions requested</p>
+                <div className={'cs-app' + mark('publisher')}>
+                  <span className="cs-icon" style={{ background: avatarBg(c.app) }} aria-hidden="true">{c.app[0]}</span>
+                  <span className="cs-text">
+                    <b>{c.app}</b>
+                    <span className={'cs-pub' + (c.verified ? ' verified' : '')}>{c.verified ? <TickIcon /> : <WarnIcon />}{c.publisher}</span>
+                  </span>
+                  {pins('publisher')}
+                </div>
+                <p className="cs-lead">This app would like to:</p>
+                <ul className={'scopes' + mark('scopes')}>{c.scopes.map((s) => <li key={s}>{s}</li>)}{pins('scopes')}</ul>
+                <div className="page-actions" aria-hidden="true"><span>Cancel</span><span className="primary">Accept</span></div>
+              </>
+            ) : (
+              <>
+                <p className="pg-heading">{card.page?.heading}</p>
+                <span className="field" aria-hidden="true">Email address</span>
+                <span className="field" aria-hidden="true">Password</span>
+                <span className="pg-btn" aria-hidden="true">Sign in</span>
+                <span className="pg-link" aria-hidden="true">Forgot your password?</span>
+              </>
+            )}
+          </div>
         </div>
       );
       break;
     }
-    case 'link':
+    /* a shared link, shown as a link preview */
+    case 'link': {
+      const url = card.url!;
       inner = (
-        <div className={'ph-linkcard' + mark('url')}>
-          <span className="lc-icon"><LinkIcon /></span>
-          <span className="lc-url">{card.url}{pins('url')}</span>
+        <div className={'mock linkprev' + mark('url')}>
+          <div className="lp-thumb" aria-hidden="true"><GlobeIcon /></div>
+          <div className="lp-meta">
+            <b className="lp-host">{hostOf(url)}</b>
+            <span className="lp-url">{url}{pins('url')}</span>
+          </div>
         </div>
       );
       break;
+    }
   }
 
   return (
@@ -323,19 +412,40 @@ function Message({ card, review, open, onToggle, onPressLink, onReleaseLink, onT
   );
 }
 
-/* ---------- the round ---------- */
+/* ---------- a card explained: verdict, the annotated message, and the notes ---------- */
 
 const VERDICT: Record<Verdict, { title: string; sub: string; good: boolean }> = {
-  caught: { title: 'Caught it', sub: 'This was a phish.', good: true },
-  trusted: { title: 'Right, it’s genuine', sub: 'Nothing here to worry about.', good: true },
-  fooled: { title: 'Fooled', sub: 'This was a phish.', good: false },
-  'false-alarm': { title: 'False alarm', sub: 'This one was genuine.', good: false }
+  caught: { title: 'Caught it', sub: 'It was a phish.', good: true },
+  trusted: { title: 'Right, it’s genuine', sub: 'Nothing to worry about.', good: true },
+  fooled: { title: 'Fooled', sub: 'That was a phish.', good: false },
+  'false-alarm': { title: 'False alarm', sub: 'That one was genuine.', good: false }
 };
+
+function Explained({ card, v }: { card: PhishCard; v: Verdict }) {
+  const kind = card.phish ? 'flag' : 'ok';
+  return (
+    <>
+      <div className={'ph-verdict ' + (VERDICT[v].good ? 'good' : 'bad')}>
+        <span className="v-icon">{VERDICT[v].good ? <TickIcon /> : <CrossIcon />}</span>
+        <span><b>{VERDICT[v].title}</b><span>{VERDICT[v].sub}</span></span>
+      </div>
+      <Message card={card} review open onToggle={() => {}} />
+      <p className="section-label">{card.phish ? 'Warning signs' : 'Why it’s safe'}</p>
+      <ol className="ph-points">
+        {card.points.map((p, i) => <li key={i}><Pin n={i + 1} kind={kind} /><span>{p.note}</span></li>)}
+      </ol>
+    </>
+  );
+}
+
+/* ---------- the round ---------- */
 
 const SWIPE = 90;      // px to count as a decision
 const EDGE = 28;       // touches starting this close to the left edge are the "back" swipe
 const HOLD_MS = 420;   // press and hold a link this long to preview it
-const FLY_MS = 300;    // the card flies off the screen this fast, then the explanation flips in
+const FLY_MS = 300;    // the card flies off the screen this fast
+const SHOW_RIGHT = 1100; // how long the verdict shows before the next card (right answer)
+const SHOW_WRONG = 1900; // a little longer after a mistake, so there's time to tap Why?
 
 interface GameProps {
   cards: PhishCard[];
@@ -345,10 +455,12 @@ interface GameProps {
   onDirectory: () => void;
 }
 
+/* Swipe, see a quick verdict, and the next card comes in by itself. Tap Why? for the full
+   explanation; every mistake is explained in full on the results screen anyway. */
 export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GameProps) {
   const [index, setIndex] = useState(0);
   const [said, setSaid] = useState<boolean | null>(null);
-  const [flip, setFlip] = useState<'none' | 'in'>('none');
+  const [stage, setStage] = useState<'card' | 'verdict' | 'review'>('card');
   const [fly, setFly] = useState<0 | 1 | -1>(0); // the card leaving: -1 left (Phish), 1 right (Legit)
   const [open, setOpen] = useState(false);
   const [dx, setDx] = useState(0);
@@ -362,13 +474,17 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
   const press = useRef(0);
   const pressed = useRef(false);
   const timers = useRef<number[]>([]);
+  const auto = useRef(0);
 
   const card = cards[index];
-  const answered = said !== null;
   const last = index === cards.length - 1;
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  useEffect(() => () => { timers.current.forEach((t) => window.clearTimeout(t)); window.clearTimeout(press.current); }, []);
+  useEffect(() => () => {
+    timers.current.forEach((t) => window.clearTimeout(t));
+    window.clearTimeout(press.current);
+    window.clearTimeout(auto.current);
+  }, []);
 
   // a link preview closes on the next touch anywhere
   useEffect(() => {
@@ -378,45 +494,54 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
     return () => { window.clearTimeout(t); window.removeEventListener('pointerdown', close); };
   }, [peek]);
 
-  const decide = (saidPhish: boolean) => {
-    if (decided.current) return;
-    decided.current = true;
-    const v = verdictFor(card, saidPhish);
-    haptic(v === 'caught' || v === 'trusted' ? 'success' : 'error');
-    verdicts.current.push({ id: card.id, v });
-    onAnswer(card, saidPhish);
-    setPeek(null);
-    setDragging(false);
-    if (still) { setDx(0); setSaid(saidPhish); return; }
-    // the card carries on in the direction you chose, right off the screen
-    setFly(saidPhish ? -1 : 1);
-    timers.current.push(window.setTimeout(() => {
-      setFly(0);
-      setDx(0);
-      setSaid(saidPhish);
-      setFlip('in');
-      window.scrollTo(0, 0);
-    }, FLY_MS));
+  const finish = () => {
+    const score = verdicts.current.reduce((s, x) => s + POINTS[x.v], 0);
+    onEnd({ tier, score, verdicts: verdicts.current });
   };
 
   const next = () => {
-    if (last) {
-      const score = verdicts.current.reduce((s, x) => s + POINTS[x.v], 0);
-      onEnd({ tier, score, verdicts: verdicts.current });
-      return;
-    }
-    haptic();
+    window.clearTimeout(auto.current);
+    if (last) { finish(); return; }
     decided.current = false;
     setIndex((i) => i + 1);
     setSaid(null);
-    setFlip('none');
+    setStage('card');
     setOpen(false);
     window.scrollTo(0, 0);
   };
 
+  const why = () => {
+    window.clearTimeout(auto.current);
+    haptic();
+    setStage('review');
+    window.scrollTo(0, 0);
+  };
+
+  const decide = (saidPhish: boolean) => {
+    if (decided.current) return;
+    decided.current = true;
+    const v = verdictFor(card, saidPhish);
+    const good = v === 'caught' || v === 'trusted';
+    haptic(good ? 'success' : 'error');
+    verdicts.current.push({ id: card.id, v });
+    onAnswer(card, saidPhish);
+    setPeek(null);
+    setDragging(false);
+    setSaid(saidPhish);
+    const flight = still ? 0 : FLY_MS;
+    if (still) { setDx(0); setStage('verdict'); }
+    else {
+      // the card carries on in the direction you chose, right off the screen
+      setFly(saidPhish ? -1 : 1);
+      timers.current.push(window.setTimeout(() => { setFly(0); setDx(0); setStage('verdict'); }, flight));
+    }
+    // then the next card comes in by itself, unless Why? is tapped
+    auto.current = window.setTimeout(next, flight + (good ? SHOW_RIGHT : SHOW_WRONG));
+  };
+
   /* swipe: the card follows your finger sideways; vertical moves scroll the page as normal */
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (answered || e.clientX <= EDGE) return;
+    if (said !== null || e.clientX <= EDGE) return;
     drag.current = { x: e.clientX, y: e.clientY, active: false };
   };
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
@@ -472,9 +597,10 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
   }, [hint]);
 
   const v = said !== null ? verdictFor(card, said) : null;
-  const kind = card.phish ? 'flag' : 'ok';
+  const good = v === 'caught' || v === 'trusted';
   const lean = dx < 0 ? 'phish' : dx > 0 ? 'legit' : '';
   const strength = Math.min(1, Math.abs(dx) / SWIPE);
+  const showCard = stage === 'card';
 
   return (
     <div className="phish">
@@ -489,22 +615,16 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
         <button type="button" className="ph-dir-chip" onClick={() => { haptic(); onDirectory(); }}><BookIcon />Directory</button>
       </div>
 
-      <div key={card.id + (answered ? '-r' : '')} className={'ph-stage' + (flip === 'in' ? ' flip-in' : '')}>
-        {answered && v ? (
-          <>
-            <div className={'ph-verdict ' + (VERDICT[v].good ? 'good' : 'bad')}>
-              <span className="v-icon">{VERDICT[v].good ? <TickIcon /> : <CrossIcon />}</span>
-              <span><b>{VERDICT[v].title}</b><span>{VERDICT[v].sub}</span></span>
-            </div>
-            <Message card={card} review open onToggle={() => {}} />
-            <p className="section-label">{card.phish ? 'Warning signs' : 'Why it’s safe'}</p>
-            <ol className="ph-points">
-              {card.points.map((p, i) => (
-                <li key={i}><Pin n={i + 1} kind={kind} /><span>{p.note}</span></li>
-              ))}
-            </ol>
-          </>
-        ) : (
+      <div key={card.id + stage} className={'ph-stage' + (stage === 'review' ? ' flip-in' : stage === 'card' && index > 0 ? ' slide-in' : '')}>
+        {stage === 'review' && v ? (
+          <Explained card={card} v={v} />
+        ) : stage === 'verdict' && v ? (
+          <div className={'ph-flash ' + (good ? 'good' : 'bad')} role="status">
+            <span className="flash-icon">{good ? <TickIcon /> : <CrossIcon />}</span>
+            <b>{VERDICT[v].title}</b>
+            <span>{VERDICT[v].sub}</span>
+          </div>
+        ) : showCard ? (
           <div
             className={'ph-swipe' + (dragging ? ' dragging' : '') + (fly ? ' flying' : '') + (lean || fly ? ' lean-' + (fly ? (fly < 0 ? 'phish' : 'legit') : lean) : '')}
             onPointerDown={onDown}
@@ -530,10 +650,10 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
               </>}
             />
           </div>
-        )}
+        ) : null}
       </div>
 
-      {hint > 0 && <p className="ph-hint" role="status">Press and hold a link to see where it goes.</p>}
+      {hint > 0 && showCard && <p className="ph-hint" role="status">Press and hold a link to see where it goes.</p>}
 
       {peek && createPortal(
         <div className={'link-peek' + (peek.below ? ' below' : '')} style={{ top: peek.top }} role="tooltip">
@@ -546,10 +666,15 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
       {createPortal(
         <div className="actionbar">
           <div className="actionbar-inner">
-            {answered ? (
-              <button type="button" className="btn" onClick={next}>
+            {stage === 'review' ? (
+              <button type="button" className="btn" onClick={() => { haptic(); next(); }}>
                 {last ? 'See results' : 'Next card'}<ArrowIcon />
               </button>
+            ) : stage === 'verdict' ? (
+              <div className="bar-pair">
+                <button type="button" className="btn secondary" onClick={why}>Why?</button>
+                <button type="button" className="btn" onClick={() => { haptic(); next(); }}>{last ? 'See results' : 'Next'}<ArrowIcon /></button>
+              </div>
             ) : (
               <div className="ph-choice">
                 <button type="button" className="btn ph-btn phish" onClick={() => decide(true)}><PhishIcon />Phish</button>
@@ -564,7 +689,7 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
   );
 }
 
-/* ---------- after a round ---------- */
+/* ---------- after a round: the score, then every mistake explained in full ---------- */
 
 interface DoneProps {
   result: PhishResult;
@@ -575,13 +700,13 @@ interface DoneProps {
   byId: Map<string, PhishCard>;
 }
 
-const MISTAKE: Partial<Record<Verdict, string>> = { fooled: 'Let through', 'false-alarm': 'False alarm' };
-
 export function PhishDone({ result, prevBest, best, xp, rate, byId }: DoneProps) {
+  const [openId, setOpenId] = useState<string | null>(null);
   const count = (v: Verdict) => result.verdicts.filter((x) => x.v === v).length;
   const phishTotal = result.verdicts.filter((x) => byId.get(x.id)?.phish).length;
   const newBest = result.score > prevBest && result.score > 0;
   const mistakes = result.verdicts.filter((x) => x.v === 'fooled' || x.v === 'false-alarm');
+  const rights = result.verdicts.filter((x) => x.v === 'caught' || x.v === 'trusted');
   const tierName = TIERS.find((t) => t.tier === result.tier)?.name ?? '';
 
   return (
@@ -608,22 +733,38 @@ export function PhishDone({ result, prevBest, best, xp, rate, byId }: DoneProps)
       </section>
       <p className="p-note">+{xp} XP{rate < 1 && ` (${xpRateText(rate)}: you’ve played a lot today)`}</p>
 
-      <p className="section-label">{mistakes.length ? 'To remember' : 'Every call right'}</p>
       {mistakes.length > 0 ? (
-        <ul className="recap">
+        <>
+          <p className="section-label">{mistakes.length === 1 ? 'Your mistake' : `Your ${mistakes.length} mistakes`}</p>
           {mistakes.map(({ id, v }) => {
             const c = byId.get(id);
-            if (!c) return null;
-            return (
-              <li key={id} className="wrong">
-                <span><CrossIcon /></span>
-                <span><b className="recap-term">{MISTAKE[v]}</b> {c.lesson}</span>
-              </li>
-            );
+            return c ? <div key={id} className="ph-review"><Explained card={c} v={v} /></div> : null;
           })}
-        </ul>
+        </>
       ) : (
         <p className="p-note">Every phish caught and every genuine message trusted.</p>
+      )}
+
+      {rights.length > 0 && (
+        <>
+          <p className="section-label">Got right ({rights.length})</p>
+          <ul className="ph-rights">
+            {rights.map(({ id, v }) => {
+              const c = byId.get(id);
+              if (!c) return null;
+              const isOpen = openId === id;
+              return (
+                <li key={id}>
+                  <button type="button" className="ph-right-row" aria-expanded={isOpen}
+                    onClick={() => { haptic(); setOpenId(isOpen ? null : id); }}>
+                    <TickIcon /><span>{c.lesson}</span><ChevronIcon open={isOpen} />
+                  </button>
+                  {isOpen && <div className="ph-review"><Explained card={c} v={v} /></div>}
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
     </>
   );

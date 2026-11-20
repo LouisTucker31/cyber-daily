@@ -32,6 +32,8 @@ export interface PhishCard {
   mfa?: { app: string; title: string; lines: string[] };
   points: Point[];
   lesson: string;                // one line for the end screen
+  org?: string;                  // the round's employer, filled in by applyCast (for app and page titles)
+  orgShort?: string;
 }
 
 /* ---------- the cast: fictional organisations, a different mix every round ----------
@@ -63,7 +65,8 @@ export function pickCast(casts: Casts, previous?: Cast | null): Cast {
 
 /* The card with the cast's names filled in */
 export function applyCast(card: PhishCard, cast: Cast): PhishCard {
-  return JSON.parse(JSON.stringify(card).replace(/\{([A-Za-z]+)\}/g, (m, k: string) => cast[k] ?? m));
+  const filled: PhishCard = JSON.parse(JSON.stringify(card).replace(/\{([A-Za-z]+)\}/g, (m, k: string) => cast[k] ?? m));
+  return { ...filled, org: cast.E, orgShort: cast.Es };
 }
 
 /* ---------- the Directory: just enough to check every card ---------- */

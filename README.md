@@ -124,7 +124,9 @@ Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe rig
   - Tap a sender's name to see the full address, including any different reply-to address.
   - Tap a browser address bar to see the full web address.
   - Press and hold a link to see where it really goes. A short tap just shows a reminder.
-- **After each call** the card flies off the screen the way you chose, then the explanation flips in. The warning signs (red) or the reasons it's safe (green) are highlighted where they appear, each with a numbered note.
+- **Cards look like the real thing:** a mail app, a message thread, a work chat, a voicemail player, a lock-screen sign-in notification, a browser and a shared-link preview (generic, no real brands).
+- **After each call** the card flies off, a quick verdict shows for about a second, and the next card comes in by itself. Tap **Why?** for the full annotated explanation of that card.
+- **Results:** your score, then every mistake explained in full with the warning signs (red) or reasons it was safe (green) highlighted where they appear, each with a numbered note. The ones you got right are folded underneath; tap one to see it.
 - **Levels:**
   - **Rookie:** from level 1, Rookie cards only.
   - **Analyst:** from level 4, 7 Analyst and 3 Rookie cards.
