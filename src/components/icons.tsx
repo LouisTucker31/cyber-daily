@@ -1,7 +1,7 @@
 /* Interface icons. Most come from Lucide (lucide.dev, ISC licence) so they're consistent and crisp;
    the badge medals and their glyphs are drawn separately in Badge.tsx. */
 import {
-  ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, Fish,
+  ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, Fish, House,
   Globe, Link, Lock, MessageSquare, Paperclip, Phone, Play, Pointer, RefreshCw, ShieldCheck, TriangleAlert, X, Zap,
   type LucideIcon
 } from 'lucide-react';
@@ -20,6 +20,7 @@ export const ChevronRightIcon = icon(ChevronRight, 2.4);
 export const PracticeIcon = icon(RefreshCw);
 export const BlitzIcon = icon(Zap);
 export const PhishIcon = icon(Fish);
+export const HomeIcon = icon(House);
 export const LockIcon = icon(Lock);
 export const ClockIcon = icon(Clock);
 export const BookIcon = icon(BookOpen);

@@ -92,7 +92,8 @@ A speed round against the clock, available from level 1. The round runs until yo
 - No acronym repeats within a round. Ones you get right are rested: new ones and ones you missed come first, and a right one only comes back once the others at that difficulty have been used (longest-ago first). The bank has 130, and a round uses about 25 to 45.
 - The end screen shows your score, your best, and every acronym you missed with its meaning. Missed acronyms go into Smart Practice, due straight away.
 - Every answer is logged as mode `blitz` with its category, so it feeds the Profile.
-- XP: 2 per right answer and 10 for finishing, for the first 3 rounds each day. Leaving mid-round earns no XP.
+- XP: 2 per right answer and 10 for finishing. Full XP for your first 3 rounds each day, then half up to round 10, then a quarter (it never stops). Set in `gameXpRate()` in `src/lib/progress.ts`. Leaving mid-round earns no XP.
+- The end screen has **Home** and **Play again**. Play again goes back to the start page, not straight into a round.
 
 ### Adding acronyms
 Add entries to `public/acronyms.json` with a new unique `id`:
@@ -133,7 +134,8 @@ Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe rig
 - **Scoring:** out of 100. Each right call is 10, a false alarm (flagging a genuine message) is 3, and letting a phish through is 0.
 - **Progress:**
   - Every answer is logged as mode `phish` under "Phishing and Social Engineering", so it feeds that skill on the Profile.
-  - XP: 2 per right call (3 at Analyst, 4 at Expert) plus 10 per round, for the first 3 rounds each day.
+  - XP: 2 per right call (3 at Analyst, 4 at Expert) plus 10 per round. Like Blitz, full XP for the first 3 rounds each day, then it tapers.
+- **Play again** returns to the start page with a new cast (and a fresh Directory); **Home** sits next to it.
 - **Badges:** Gone Phishing (first round), Cool Head (no false alarms, at least 4 caught), Unhookable (20 caught in a row) and Expert Eye (a perfect Expert round).
 
 ### Adding cards
@@ -167,7 +169,7 @@ A few rules for writing cards:
 Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
-- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round, for the first 3 rounds each day. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round, for the first 3 rounds each day.
+- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round. Games pay full XP for the first 3 rounds each day, then half (to round 10), then a quarter.
 - Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see your XP and all the ranks; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
 
 **Category scores**

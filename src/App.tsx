@@ -5,7 +5,7 @@ import {
   shownStreak, type PracticeSession, type Question, type State
 } from './lib/quiz.ts';
 import {
-  acronymQuestion, finishBlitz, logBlitzAnswer, parseAcronyms, xpRoundsLeft, type Acronym, type BlitzResult
+  acronymQuestion, finishBlitz, logBlitzAnswer, parseAcronyms, blitzRoundsToday, type Acronym, type BlitzResult
 } from './lib/blitz.ts';
 import Header from './components/Header.tsx';
 import Home from './components/Home.tsx';
@@ -16,14 +16,14 @@ import Celebration from './components/Celebration.tsx';
 import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
 import { DirectorySheet, PhishDone, PhishGame, PhishIntro } from './components/PhishView.tsx';
 import {
-  applyCast, directoryFor, drawRound, finishPhish, logPhishAnswer, parsePhish, phishXpRoundsLeft, pickCast, TIERS,
+  applyCast, directoryFor, drawRound, finishPhish, logPhishAnswer, parsePhish, phishRoundsToday, pickCast, TIERS,
   type Cast, type PhishBank, type PhishCard, type PhishResult, type Tier
 } from './lib/phish.ts';
 import { evaluateProgress, levelInfo } from './lib/progress.ts';
 import useCountdown from './hooks/useCountdown.ts';
 import useEdgeSwipe from './hooks/useEdgeSwipe.ts';
 import { haptic } from './lib/haptics.ts';
-import { ArrowIcon, ClockIcon } from './components/icons.tsx';
+import { ArrowIcon, ClockIcon, HomeIcon } from './components/icons.tsx';
 
 /* practiceBank = questions plus acronyms (as Practice questions), used only by Smart Practice */
 type Load =
@@ -35,11 +35,11 @@ type Motion = 'forward' | 'back' | 'none';
 type Blitz =
   | { phase: 'intro' }
   | { phase: 'play'; round: number }
-  | { phase: 'done'; result: BlitzResult; prevBest: number; xp: number };
+  | { phase: 'done'; result: BlitzResult; prevBest: number; xp: number; rate: number };
 type Phish =
   | { phase: 'intro' }
   | { phase: 'play'; round: number; tier: Tier; cards: PhishCard[] }
-  | { phase: 'done'; result: PhishResult; prevBest: number; xp: number; cards: PhishCard[] };
+  | { phase: 'done'; result: PhishResult; prevBest: number; xp: number; rate: number; cards: PhishCard[] };
 
 export default function App() {
   const [load, setLoad] = useState<Load>({ status: 'loading' });
@@ -193,7 +193,7 @@ export default function App() {
   }, []);
 
   const endBlitz = useCallback((result: BlitzResult) => {
-    let info = { prevBest: 0, xp: 0 };
+    let info = { prevBest: 0, xp: 0, rate: 1 };
     update((s) => { info = finishBlitz(s, result); });
     haptic('success');
     setBlitz({ phase: 'done', result, ...info });
@@ -222,24 +222,46 @@ export default function App() {
     const s = stateRef.current;
     if (!phishBank || !s) return;
     haptic();
-    const cast = phish.phase === 'done' || !phishCast ? pickCast(phishBank.casts, phishCast) : phishCast;
+    const cast = phishCast ?? pickCast(phishBank.casts);
     setPhishCast(cast);
     const cards = drawRound(phishBank.cards, tier, s.phish.seen, s.phish.rounds).map((c) => applyCast(c, cast));
     setPhish({ phase: 'play', round: Date.now(), tier, cards });
     window.scrollTo(0, 0);
-  }, [phishBank, tier, phish.phase, phishCast]);
+  }, [phishBank, tier, phishCast]);
 
   const phishAnswer = useCallback((c: PhishCard, saidPhish: boolean) => {
     update((s) => logPhishAnswer(s, c, saidPhish));
   }, [update]);
 
   const endPhish = useCallback((result: PhishResult) => {
-    let info = { prevBest: 0, xp: 0 };
+    let info = { prevBest: 0, xp: 0, rate: 1 };
     update((s) => { info = finishPhish(s, result); });
     haptic('success');
     setPhish((p) => ({ phase: 'done', result, ...info, cards: p.phase === 'intro' ? [] : p.cards }));
     window.scrollTo(0, 0);
   }, [update]);
+
+  /* Play again goes back to the game's start page (rules, level, best), never straight into a round */
+  const againBlitz = useCallback(() => {
+    haptic();
+    setBlitz({ phase: 'intro' });
+    window.scrollTo(0, 0);
+  }, []);
+
+  const againPhish = useCallback(() => {
+    haptic();
+    if (phishBank) setPhishCast((prev) => pickCast(phishBank.casts, prev)); // a new cast for the next round
+    setPhish({ phase: 'intro' });
+    window.scrollTo(0, 0);
+  }, [phishBank]);
+
+  /* End-of-round bar: Home next to the main button, so a stray tap doesn't start another round */
+  const endBar = (label: string, onAgain: () => void) => (
+    <div className="bar-pair">
+      <button type="button" className="btn secondary" onClick={() => { haptic(); goHome(); }}><HomeIcon />Home</button>
+      <button type="button" className="btn" onClick={onAgain}>{label}<ArrowIcon /></button>
+    </div>
+  );
 
   /* ---------- work out what to show ---------- */
 
@@ -327,12 +349,7 @@ export default function App() {
           strength={(id) => state.srs[id]?.box ?? 1}
         />
       );
-      barButton = (
-        <button type="button" className="btn" onClick={startPractice}>
-          Another round
-          <ArrowIcon />
-        </button>
-      );
+      barButton = endBar('Another round', startPractice);
     } else {
       const item = practice.items[practice.index];
       const q = practiceById.get(item.id);
@@ -384,14 +401,11 @@ export default function App() {
       body = <BlitzGame key={blitz.round} bank={acronyms} rightAt={state.blitz.rightAt} onAnswer={blitzAnswer} onEnd={endBlitz} />;
     } else {
       body = blitz.phase === 'intro'
-        ? <BlitzIntro best={state.blitz.best} xpLeft={xpRoundsLeft(state)} />
-        : <BlitzDone result={blitz.result} prevBest={blitz.prevBest} best={state.blitz.best} xp={blitz.xp} byId={acronymById} />;
-      barButton = (
-        <button type="button" className="btn" onClick={startBlitz}>
-          {blitz.phase === 'intro' ? 'Start' : 'Play again'}
-          <ArrowIcon />
-        </button>
-      );
+        ? <BlitzIntro best={state.blitz.best} roundsToday={blitzRoundsToday(state)} />
+        : <BlitzDone result={blitz.result} prevBest={blitz.prevBest} best={state.blitz.best} xp={blitz.xp} rate={blitz.rate} byId={acronymById} />;
+      barButton = blitz.phase === 'intro'
+        ? <button type="button" className="btn" onClick={startBlitz}>Start<ArrowIcon /></button>
+        : endBar('Play again', againBlitz);
     }
   } else if (view === 'phish' && phishBank) {
     nav = { label: 'Spot the Phish', onHome: () => goHome() };
@@ -410,15 +424,12 @@ export default function App() {
     } else {
       body = phish.phase === 'intro'
         ? <PhishIntro level={level} tier={tier} onTier={setPhishTier} best={state.phish.best}
-            xpLeft={phishXpRoundsLeft(state)} onDirectory={() => setShowDirectory(true)} />
-        : <PhishDone result={phish.result} prevBest={phish.prevBest} best={state.phish.best} xp={phish.xp} byId={new Map(phish.cards.map((c) => [c.id, c]))} />;
+            roundsToday={phishRoundsToday(state)} onDirectory={() => setShowDirectory(true)} />
+        : <PhishDone result={phish.result} prevBest={phish.prevBest} best={state.phish.best} xp={phish.xp} rate={phish.rate} byId={new Map(phish.cards.map((c) => [c.id, c]))} />;
       const name = TIERS[tier - 1].name;
-      barButton = (
-        <button type="button" className="btn" onClick={startPhish}>
-          {phish.phase === 'intro' ? `Start ${name} round` : 'Play again'}
-          <ArrowIcon />
-        </button>
-      );
+      barButton = phish.phase === 'intro'
+        ? <button type="button" className="btn" onClick={startPhish}>{`Start ${name} round`}<ArrowIcon /></button>
+        : endBar('Play again', againPhish);
     }
   }
 

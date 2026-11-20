@@ -1,6 +1,6 @@
 /* Spot the Phish: 10 cards a round, swipe right for Legit, left for Phish. No React in here. */
 import { dateKey, logAnswer, shuffle, type State } from './quiz.ts';
-import { XP } from './progress.ts';
+import { gameXpRate, XP } from './progress.ts';
 
 export const CATEGORY = 'Phishing and Social Engineering';
 export const ROUND = 10;
@@ -225,7 +225,7 @@ export function logPhishAnswer(state: State, card: PhishCard, saidPhish: boolean
 }
 
 /* Called after the last card. Returns the previous best and the XP earned. */
-export function finishPhish(state: State, r: PhishResult): { prevBest: number; xp: number } {
+export function finishPhish(state: State, r: PhishResult): { prevBest: number; xp: number; rate: number } {
   const p = state.phish;
   const prevBest = p.best;
   const today = dateKey();
@@ -236,18 +236,16 @@ export function finishPhish(state: State, r: PhishResult): { prevBest: number; x
   if (count('false-alarm') === 0 && count('caught') >= 4) p.cleanRounds += 1;
   if (r.tier === 3 && right === r.verdicts.length) p.expertPerfect += 1;
   if (p.xpDay !== today) { p.xpDay = today; p.xpRounds = 0; }
-  let xp = 0;
-  if (p.xpRounds < XP.phishRoundsPerDay) {
-    p.xpRounds += 1;
-    xp = right * (XP.phishCorrect + (r.tier - 1)) + XP.phishRound;
-    state.xp += xp;
-  }
-  return { prevBest, xp };
+  const rate = gameXpRate(p.xpRounds);
+  p.xpRounds += 1;
+  const xp = Math.max(1, Math.round((right * (XP.phishCorrect + (r.tier - 1)) + XP.phishRound) * rate));
+  state.xp += xp;
+  return { prevBest, xp, rate };
 }
 
-export function phishXpRoundsLeft(state: State): number {
-  const p = state.phish;
-  return p.xpDay === dateKey() ? Math.max(0, XP.phishRoundsPerDay - p.xpRounds) : XP.phishRoundsPerDay;
+/* Rounds played today, for the XP rate */
+export function phishRoundsToday(state: State): number {
+  return state.phish.xpDay === dateKey() ? state.phish.xpRounds : 0;
 }
 
 /* The domain a URL really goes to, for the browser address bar */

@@ -6,6 +6,8 @@ import {
 } from '../lib/phish.ts';
 import { haptic } from '../lib/haptics.ts';
 import Sheet from './Sheet.tsx';
+import { XpNote } from './BlitzView.tsx';
+import { xpRateText } from '../lib/progress.ts';
 import {
   ArrowIcon, ArrowLeftIcon, BookIcon, ChevronIcon, ClipIcon, CrossIcon, GlobeIcon, LinkIcon, LockIcon, PhishIcon,
   PhoneIcon, PlayIcon, ShieldIcon, TapIcon, TextIcon, TickIcon, WarnIcon
@@ -23,11 +25,11 @@ interface IntroProps {
   tier: Tier;
   onTier: (t: Tier) => void;
   best: number;
-  xpLeft: number;
+  roundsToday: number;
   onDirectory: () => void;
 }
 
-export function PhishIntro({ level, tier, onTier, best, xpLeft, onDirectory }: IntroProps) {
+export function PhishIntro({ level, tier, onTier, best, roundsToday, onDirectory }: IntroProps) {
   const rules = [
     { tone: 'bad', icon: <SwipeLeftIcon />, value: 'Phish', label: 'Swipe left, or tap Phish' },
     { tone: 'good', icon: <SwipeRightIcon />, value: 'Legit', label: 'Swipe right, or tap Legit' },
@@ -81,7 +83,7 @@ export function PhishIntro({ level, tier, onTier, best, xpLeft, onDirectory }: I
 
       <p className="blitz-foot">
         <span>Best <b>{best || '–'}</b></span>
-        <span><b>{xpLeft}</b> {xpLeft === 1 ? 'XP round' : 'XP rounds'} left today</span>
+        <XpNote roundsToday={roundsToday} />
       </p>
     </div>
   );
@@ -569,12 +571,13 @@ interface DoneProps {
   prevBest: number;
   best: number;
   xp: number;
+  rate: number;
   byId: Map<string, PhishCard>;
 }
 
 const MISTAKE: Partial<Record<Verdict, string>> = { fooled: 'Let through', 'false-alarm': 'False alarm' };
 
-export function PhishDone({ result, prevBest, best, xp, byId }: DoneProps) {
+export function PhishDone({ result, prevBest, best, xp, rate, byId }: DoneProps) {
   const count = (v: Verdict) => result.verdicts.filter((x) => x.v === v).length;
   const phishTotal = result.verdicts.filter((x) => byId.get(x.id)?.phish).length;
   const newBest = result.score > prevBest && result.score > 0;
@@ -603,7 +606,7 @@ export function PhishDone({ result, prevBest, best, xp, byId }: DoneProps) {
           <span className="stat-label">False alarms</span>
         </div>
       </section>
-      <p className="p-note">{xp > 0 ? `+${xp} XP` : 'No XP this round: you’ve hit today’s limit of 3 rounds.'}</p>
+      <p className="p-note">+{xp} XP{rate < 1 && ` (${xpRateText(rate)}: you’ve played a lot today)`}</p>
 
       <p className="section-label">{mistakes.length ? 'To remember' : 'Every call right'}</p>
       {mistakes.length > 0 ? (

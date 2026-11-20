@@ -61,7 +61,7 @@ export interface BlitzStats {
   correct: number;        // total right answers
   comboBest: number;      // most answers in a row while on a ×2 combo
   xpDay: string | null;   // date key of xpRounds
-  xpRounds: number;       // rounds that earned XP on xpDay (capped per day)
+  xpRounds: number;       // rounds finished on xpDay (XP tapers after the first few)
   rightAt: Record<string, number>; // acronym id -> round it was last answered right (keeps it out of the next rounds)
 }
 

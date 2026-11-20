@@ -4,14 +4,23 @@ import {
   type Acronym, type BlitzQuestion, type BlitzResult
 } from '../lib/blitz.ts';
 import { LETTERS } from '../lib/quiz.ts';
+import { FULL_XP_ROUNDS, gameXpRate, xpRateText } from '../lib/progress.ts';
 import { haptic } from '../lib/haptics.ts';
 import { BlitzIcon, ClockIcon, CrossIcon, TickIcon } from './icons.tsx';
 
 const FLASH_MS = 160; // how long the tapped answer shows right/wrong before the next one
 
+/* How much XP the next round pays: full for the first few each day, then it tapers */
+export function XpNote({ roundsToday }: { roundsToday: number }) {
+  const left = Math.max(0, FULL_XP_ROUNDS - roundsToday);
+  if (left > 0) return <span><b>{left}</b> full-XP {left === 1 ? 'round' : 'rounds'} left today</span>;
+  const t = xpRateText(gameXpRate(roundsToday));
+  return <span>{t[0].toUpperCase() + t.slice(1)} now · full again tomorrow</span>;
+}
+
 /* ---------- before a round ---------- */
 
-export function BlitzIntro({ best, xpLeft }: { best: number; xpLeft: number }) {
+export function BlitzIntro({ best, roundsToday }: { best: number; roundsToday: number }) {
   const rules = [
     { tone: 'clock', icon: <ClockIcon />, value: `${START_MS / 1000}s`, label: 'on the clock to start' },
     { tone: 'good', icon: <TickIcon />, value: `+${bonusMs(0) / 1000}s`, label: 'for a right answer, less as you go' },
@@ -33,7 +42,7 @@ export function BlitzIntro({ best, xpLeft }: { best: number; xpLeft: number }) {
       </div>
       <p className="blitz-foot">
         <span>Best <b>{best || '–'}</b></span>
-        <span><b>{xpLeft}</b> {xpLeft === 1 ? 'XP round' : 'XP rounds'} left today</span>
+        <XpNote roundsToday={roundsToday} />
       </p>
     </div>
   );
@@ -182,10 +191,11 @@ interface DoneProps {
   prevBest: number;
   best: number;
   xp: number;
+  rate: number;           // the XP rate this round was paid at
   byId: Map<string, Acronym>;
 }
 
-export function BlitzDone({ result, prevBest, best, xp, byId }: DoneProps) {
+export function BlitzDone({ result, prevBest, best, xp, rate, byId }: DoneProps) {
   const newBest = result.score > prevBest && result.score > 0;
   const missed = result.missed.map((id) => byId.get(id)).filter((a): a is Acronym => !!a);
 
@@ -207,8 +217,8 @@ export function BlitzDone({ result, prevBest, best, xp, byId }: DoneProps) {
           <span className="stat-label">Wrong</span>
         </div>
         <div className="stat">
-          <span className="stat-value">{xp > 0 ? `+${xp}` : '0'}</span>
-          <span className="stat-label">{xp > 0 ? 'XP' : 'XP · daily limit'}</span>
+          <span className="stat-value">+{xp}</span>
+          <span className="stat-label">{rate === 1 ? 'XP' : `XP · ${xpRateText(rate)}`}</span>
         </div>
       </section>
 

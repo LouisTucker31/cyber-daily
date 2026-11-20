@@ -374,6 +374,10 @@ button.me:active { transform: scale(0.96); }
 }
 .btn svg { width: 18px; height: 18px; }
 .btn:active { background: var(--btn-press); transform: scale(0.985); }
+/* secondary button (e.g. Home), and the end-of-round pair: Home + the main action */
+.btn.secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); }
+.btn.secondary:active { background: var(--press); }
+.bar-pair { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; }
 
 /* ---------- end of day ---------- */
 .done-title {

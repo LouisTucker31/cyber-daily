@@ -12,11 +12,17 @@ export const XP = {
   practiceEarly: 1,   // right, but not due yet (stops grinding)
   blitzCorrect: 2,    // per right answer in a finished Acronym Blitz round
   blitzRound: 10,     // for finishing a Blitz round
-  blitzRoundsPerDay: 3, // only this many Blitz rounds a day earn XP
   phishCorrect: 2,    // per right call in Spot the Phish (+1 at Analyst, +2 at Expert)
-  phishRound: 10,     // for finishing a Spot the Phish round
-  phishRoundsPerDay: 3
+  phishRound: 10      // for finishing a Spot the Phish round
 };
+
+/* Games (Blitz, Spot the Phish) never stop paying XP, but it tapers so levels still mean
+   something: full XP for the first rounds each day, then half, then a quarter. */
+export const FULL_XP_ROUNDS = 3;
+export function gameXpRate(roundsToday: number): number {
+  return roundsToday < FULL_XP_ROUNDS ? 1 : roundsToday < 10 ? 0.5 : 0.25;
+}
+export const xpRateText = (rate: number) => (rate === 1 ? 'full XP' : rate === 0.5 ? 'half XP' : 'quarter XP');
 
 export const RANKS = [
   { level: 1, name: 'Trainee', xp: 0 },

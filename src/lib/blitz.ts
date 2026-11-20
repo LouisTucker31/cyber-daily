@@ -1,6 +1,6 @@
 /* Acronym Blitz: a 60-second speed round. No React in here. */
 import { addDays, dateKey, INTERVALS, logAnswer, shuffle, type Question, type State } from './quiz.ts';
-import { XP } from './progress.ts';
+import { gameXpRate, XP } from './progress.ts';
 
 export interface Acronym {
   id: string;
@@ -152,8 +152,8 @@ export function logBlitzAnswer(state: State, a: Acronym, ok: boolean): void {
     : { box: 1, due: today };                        // new: ready to practise straight away
 }
 
-/* Called when the clock runs out. Returns the previous best and the XP earned. */
-export function finishBlitz(state: State, r: BlitzResult): { prevBest: number; xp: number } {
+/* Called when the clock runs out. Returns the previous best, the XP earned and the rate it was paid at. */
+export function finishBlitz(state: State, r: BlitzResult): { prevBest: number; xp: number; rate: number } {
   const b = state.blitz;
   const prevBest = b.best;
   const today = dateKey();
@@ -162,16 +162,14 @@ export function finishBlitz(state: State, r: BlitzResult): { prevBest: number; x
   b.best = Math.max(b.best, r.score);
   b.comboBest = Math.max(b.comboBest, r.comboHeld);
   if (b.xpDay !== today) { b.xpDay = today; b.xpRounds = 0; }
-  let xp = 0;
-  if (b.xpRounds < XP.blitzRoundsPerDay) {
-    b.xpRounds += 1;
-    xp = r.correct * XP.blitzCorrect + XP.blitzRound;
-    state.xp += xp;
-  }
-  return { prevBest, xp };
+  const rate = gameXpRate(b.xpRounds);
+  b.xpRounds += 1;
+  const xp = Math.max(1, Math.round((r.correct * XP.blitzCorrect + XP.blitzRound) * rate));
+  state.xp += xp;
+  return { prevBest, xp, rate };
 }
 
-export function xpRoundsLeft(state: State): number {
-  const b = state.blitz;
-  return b.xpDay === dateKey() ? Math.max(0, XP.blitzRoundsPerDay - b.xpRounds) : XP.blitzRoundsPerDay;
+/* Rounds played today, for the XP rate */
+export function blitzRoundsToday(state: State): number {
+  return state.blitz.xpDay === dateKey() ? state.blitz.xpRounds : 0;
 }
