@@ -96,7 +96,8 @@ export default function Profile({ state, bank, streak, onDaily }: Props) {
           </ol>
           <p className="p-note">
             {XP.dailyCorrect} XP per daily question right, {XP.dailyComplete} for finishing, {XP.cleanSweep} for a clean
-            sweep, {XP.practiceDue} per due review right.
+            sweep, {XP.practiceDue} per due review right. Acronym Blitz: {XP.blitzCorrect} per answer right
+            and {XP.blitzRound} per round, for your first {XP.blitzRoundsPerDay} rounds each day.
           </p>
         </div>
       </div>

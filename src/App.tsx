@@ -1,24 +1,36 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
-  answer, completeDay, dateKey, daysUntil, drawPractice, dueIds, ensureToday, learnedIds, loadState, parseBank,
-  recordResult, saveState,
+  answer, completeDay, dateKey, daysUntil, drawPractice, dueIds, ensureToday, loadState, parseBank,
+  practiceIds, recordResult, saveState,
   shownStreak, type PracticeSession, type Question, type State
 } from './lib/quiz.ts';
+import {
+  acronymQuestion, finishBlitz, logBlitzAnswer, parseAcronyms, xpRoundsLeft, type Acronym, type BlitzResult
+} from './lib/blitz.ts';
 import Header from './components/Header.tsx';
 import Home from './components/Home.tsx';
 import QuestionView from './components/QuestionView.tsx';
 import DoneView from './components/DoneView.tsx';
 import Profile from './components/Profile.tsx';
 import Celebration from './components/Celebration.tsx';
+import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
 import { evaluateProgress, levelInfo } from './lib/progress.ts';
 import useCountdown from './hooks/useCountdown.ts';
 import useEdgeSwipe from './hooks/useEdgeSwipe.ts';
 import { haptic } from './lib/haptics.ts';
 import { ArrowIcon, ClockIcon } from './components/icons.tsx';
 
-type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bank: Question[] };
-type View = 'home' | 'daily' | 'practice' | 'profile';
+/* practiceBank = questions plus acronyms (as Practice questions), used only by Smart Practice */
+type Load =
+  | { status: 'loading' }
+  | { status: 'error' }
+  | { status: 'ready'; bank: Question[]; acronyms: Acronym[]; practiceBank: Question[] };
+type View = 'home' | 'daily' | 'practice' | 'profile' | 'blitz';
 type Motion = 'forward' | 'back' | 'none';
+type Blitz =
+  | { phase: 'intro' }
+  | { phase: 'play'; round: number }
+  | { phase: 'done'; result: BlitzResult; prevBest: number; xp: number };
 
 export default function App() {
   const [load, setLoad] = useState<Load>({ status: 'loading' });
@@ -28,10 +40,16 @@ export default function App() {
   const [practice, setPractice] = useState<PracticeSession | null>(null);
   const [motion, setMotion] = useState<Motion>('none');
   const [round, setRound] = useState(0); // bumps on each new screen so the slide animation replays
+  const [blitz, setBlitz] = useState<Blitz>({ phase: 'intro' });
 
   const bank = load.status === 'ready' ? load.bank : null;
+  const acronyms = load.status === 'ready' ? load.acronyms : null;
+  const practiceBank = load.status === 'ready' ? load.practiceBank : null;
   const bankRef = useRef<Question[]>([]);
+  const practiceBankRef = useRef<Question[]>([]);
   const byId = useMemo(() => new Map((bank ?? []).map((q) => [q.id, q])), [bank]);
+  const practiceById = useMemo(() => new Map((practiceBank ?? []).map((q) => [q.id, q])), [practiceBank]);
+  const acronymById = useMemo(() => new Map((acronyms ?? []).map((a) => [a.id, a])), [acronyms]);
 
   /* Every change: copy, apply, save straight away, then re-render.
      Saving immediately means a refresh can never give a second chance. */
@@ -46,23 +64,30 @@ export default function App() {
     if (!prev) return;
     const next = structuredClone(prev);
     fn(next);
-    evaluateProgress(next, bankRef.current); // XP level-ups, badges
+    evaluateProgress(next, bankRef.current, false, practiceBankRef.current); // XP level-ups, badges
     commit(next);
   }, [commit]);
 
-  // load questions
+  // load questions (required) and acronyms (optional: without them only Blitz is unavailable)
   useEffect(() => {
-    fetch('questions.json', { cache: 'no-cache' })
-      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
-      .then((data) => {
+    const questions = fetch('questions.json', { cache: 'no-cache' })
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
+    const acronymData = fetch('acronyms.json', { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : []))
+      .catch(() => []);
+    Promise.all([questions, acronymData])
+      .then(([data, acr]) => {
         const b = parseBank(data);
+        const a = parseAcronyms(acr);
+        const pb = b.concat(a.map(acronymQuestion));
         const s = loadState();
         ensureToday(s, b);
         bankRef.current = b;
+        practiceBankRef.current = pb;
         // first run with levels: count past progress quietly, then show one welcome sheet
-        evaluateProgress(s, b, s.celebrations.some((c) => c.kind === 'welcome'));
+        evaluateProgress(s, b, s.celebrations.some((c) => c.kind === 'welcome'), pb);
         commit(s);
-        setLoad({ status: 'ready', bank: b });
+        setLoad({ status: 'ready', bank: b, acronyms: a, practiceBank: pb });
       })
       .catch(() => setLoad({ status: 'error' }));
   }, [commit]);
@@ -132,13 +157,38 @@ export default function App() {
   useEdgeSwipe(view !== 'home', swipeBack);
 
   const startPractice = useCallback(() => {
-    if (!bank) return;
+    if (!practiceBank) return;
     let items: PracticeSession['items'] = [];
-    update((s) => { items = drawPractice(bank, s); });
+    update((s) => { items = drawPractice(practiceBank, s); });
     setPractice({ items, index: 0 });
     haptic();
     open('practice');
-  }, [bank, update, open]);
+  }, [practiceBank, update, open]);
+
+  /* Acronym Blitz: Home opens the intro; Start / Play again begin a round straight away */
+  const openBlitz = useCallback(() => {
+    setBlitz({ phase: 'intro' });
+    haptic();
+    open('blitz');
+  }, [open]);
+
+  const startBlitz = useCallback(() => {
+    haptic();
+    setBlitz({ phase: 'play', round: Date.now() });
+    window.scrollTo(0, 0);
+  }, []);
+
+  const endBlitz = useCallback((result: BlitzResult) => {
+    let info = { prevBest: 0, xp: 0 };
+    update((s) => { info = finishBlitz(s, result); });
+    haptic('success');
+    setBlitz({ phase: 'done', result, ...info });
+    window.scrollTo(0, 0);
+  }, [update]);
+
+  const blitzAnswer = useCallback((a: Acronym, ok: boolean) => {
+    update((s) => logBlitzAnswer(s, a, ok));
+  }, [update]);
 
   /* ---------- work out what to show ---------- */
 
@@ -154,12 +204,14 @@ export default function App() {
     body = (
       <Home
         day={day}
-        learned={learnedIds(state, bank!).length}
-        due={dueIds(state, bank!).length}
+        learned={practiceIds(state, practiceBank!).length}
+        due={dueIds(state, practiceBank!).length}
         onDaily={() => { haptic(); open('daily'); }}
         onProfile={() => { haptic(); open('profile'); }}
         level={levelInfo(state.xp)}
         onPractice={startPractice}
+        blitz={{ best: state.blitz.best, available: (acronyms?.length ?? 0) >= 4 }}
+        onBlitz={openBlitz}
       />
     );
   } else if (view === 'daily') {
@@ -215,7 +267,7 @@ export default function App() {
         <DoneView
           mode="practice"
           items={practice.items}
-          byId={byId}
+          byId={practiceById}
           strength={(id) => state.srs[id]?.box ?? 1}
         />
       );
@@ -227,7 +279,7 @@ export default function App() {
       );
     } else {
       const item = practice.items[practice.index];
-      const q = byId.get(item.id);
+      const q = practiceById.get(item.id);
       if (q) {
         body = (
           <QuestionView
@@ -270,6 +322,21 @@ export default function App() {
         );
       }
     }
+  } else if (view === 'blitz' && acronyms) {
+    nav = { label: 'Acronym Blitz', onHome: () => goHome() };
+    if (blitz.phase === 'play') {
+      body = <BlitzGame key={blitz.round} bank={acronyms} onAnswer={blitzAnswer} onEnd={endBlitz} />;
+    } else {
+      body = blitz.phase === 'intro'
+        ? <BlitzIntro best={state.blitz.best} xpLeft={xpRoundsLeft(state)} />
+        : <BlitzDone result={blitz.result} prevBest={blitz.prevBest} best={state.blitz.best} xp={blitz.xp} byId={acronymById} />;
+      barButton = (
+        <button type="button" className="btn" onClick={startBlitz}>
+          {blitz.phase === 'intro' ? 'Start' : 'Play again'}
+          <ArrowIcon />
+        </button>
+      );
+    }
   }
 
   return (
@@ -300,7 +367,8 @@ export default function App() {
       {state && state.celebrations.length > 0 && (
         view === 'home' || view === 'profile' ||
         (view === 'daily' && dayDone) ||
-        (view === 'practice' && practice && practice.index >= practice.items.length)
+        (view === 'practice' && practice && practice.index >= practice.items.length) ||
+        (view === 'blitz' && blitz.phase !== 'play')
       ) && (
         <Celebration
           key={state.celebrations.length + (state.celebrations[0].id ?? state.celebrations[0].kind)}

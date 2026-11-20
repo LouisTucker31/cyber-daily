@@ -23,14 +23,20 @@ function iosSwitch(): HTMLLabelElement {
   return label;
 }
 
-export function haptic(pattern: 'tap' | 'success' | 'error' = 'tap'): void {
+/* firm = a stronger version (used in the last seconds of Acronym Blitz) */
+export function haptic(pattern: 'tap' | 'success' | 'error' = 'tap', firm = false): void {
   try {
     if (typeof navigator.vibrate === 'function') {
-      navigator.vibrate(pattern === 'error' ? [12, 60, 12] : pattern === 'success' ? 18 : 8);
+      if (firm) navigator.vibrate(pattern === 'error' ? [30, 50, 30] : pattern === 'success' ? 40 : 20);
+      else navigator.vibrate(pattern === 'error' ? [12, 60, 12] : pattern === 'success' ? 18 : 8);
       return;
     }
+    // iOS taps can't be made stronger, so a firm one is an extra tap
     const l = iosSwitch();
-    l.click();
-    if (pattern === 'error') setTimeout(() => l.click(), 90);
+    const taps = (pattern === 'error' ? 2 : 1) + (firm ? 1 : 0);
+    for (let i = 0; i < taps; i++) {
+      if (i === 0) l.click();
+      else setTimeout(() => l.click(), i * (firm ? 70 : 90));
+    }
   } catch { /* no haptics available */ }
 }

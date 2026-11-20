@@ -9,7 +9,10 @@ export const XP = {
   dailyComplete: 20,
   cleanSweep: 50,
   practiceDue: 5,     // a right answer on a question that was due
-  practiceEarly: 1    // right, but not due yet (stops grinding)
+  practiceEarly: 1,   // right, but not due yet (stops grinding)
+  blitzCorrect: 2,    // per right answer in a finished Acronym Blitz round
+  blitzRound: 10,     // for finishing a Blitz round
+  blitzRoundsPerDay: 3 // only this many Blitz rounds a day earn XP
 };
 
 export const RANKS = [
@@ -191,6 +194,14 @@ export const BADGES: BadgeDef[] = [
   { id: 'all-rounder', tier: 'gold', name: 'All-Rounder', desc: 'Score 70+ in every category (from 10+ answers each).', glyph: 'web',
     progress: (c) => count(c.rows.filter((r) => r.score !== null && r.score >= 70 && r.n >= 10).length, c.rows.length),
     earned: (c) => c.rows.length > 0 && c.rows.every((r) => r.score !== null && r.score >= 70 && r.n >= 10) },
+  { id: 'blitz-10', tier: 'bronze', name: 'Quick Draw', desc: 'Finish 10 rounds of Acronym Blitz.', glyph: 'bolt',
+    progress: (c) => count(c.state.blitz.rounds, 10), earned: (c) => c.state.blitz.rounds >= 10 },
+  { id: 'blitz-25', tier: 'silver', name: 'Rapid Fire', desc: 'Score 25 or more in an Acronym Blitz round.', glyph: '25',
+    earned: (c) => c.state.blitz.best >= 25 },
+  { id: 'blitz-40', tier: 'gold', name: 'Lightning', desc: 'Score 40 or more in an Acronym Blitz round.', glyph: '40',
+    earned: (c) => c.state.blitz.best >= 40 },
+  { id: 'blitz-combo', tier: 'gold', name: 'Unbroken', desc: 'Keep a ×2 combo going for 15 answers in Acronym Blitz.', glyph: '×2',
+    progress: (c) => count(c.state.blitz.comboBest, 15), earned: (c) => c.state.blitz.comboBest >= 15 },
   { id: 'early-bird', tier: 'special', name: 'Early Bird', desc: 'Finish Today’s 10 before 7am.', glyph: 'sun', hidden: true,
     earned: (c) => c.state.stats.earlyBird >= 1 },
   { id: 'night-owl', tier: 'special', name: 'Night Owl', desc: 'Finish Today’s 10 after 11pm.', glyph: 'moon', hidden: true,
@@ -201,12 +212,13 @@ export const BADGES: BadgeDef[] = [
 
 /* ---------- evaluate after every change ---------- */
 
-export function evaluateProgress(state: State, bank: Question[], silent = false): void {
+/* practiceBank = questions plus Blitz acronyms, so acronym reviews count towards Inbox Zero */
+export function evaluateProgress(state: State, bank: Question[], silent = false, practiceBank: Question[] = bank): void {
   const today = dateKey();
 
   // Inbox Zero: everything due is cleared, with at least 5 reviews answered today
   const reviewedToday = state.log.filter((e) => e.m === 'practice' && e.d === today).length;
-  if (reviewedToday >= 5 && state.stats.lastCleared !== today && dueIds(state, bank).length === 0) {
+  if (reviewedToday >= 5 && state.stats.lastCleared !== today && dueIds(state, practiceBank).length === 0) {
     state.stats.reviewsCleared += 1;
     state.stats.lastCleared = today;
   }

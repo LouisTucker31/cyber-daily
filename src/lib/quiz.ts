@@ -49,6 +49,21 @@ export interface State {
   freezes: number;                      // streak freezes held (max 2)
   stats: Stats;
   celebrations: Celebration[];          // level-ups, badges etc. waiting to be shown
+  blitz: BlitzStats;                    // Acronym Blitz records
+  blitzReview: string[];                // acronym ids missed in Blitz (feed Practice; never resets)
+}
+
+export interface BlitzStats {
+  best: number;           // best score in a round
+  rounds: number;         // finished rounds
+  correct: number;        // total right answers
+  comboBest: number;      // most answers in a row while on a ×2 combo
+  xpDay: string | null;   // date key of xpRounds
+  xpRounds: number;       // rounds that earned XP on xpDay (capped per day)
+}
+
+export function freshBlitz(): BlitzStats {
+  return { best: 0, rounds: 0, correct: 0, comboBest: 0, xpDay: null, xpRounds: 0 };
 }
 
 export interface Stats {
@@ -86,7 +101,7 @@ export interface SrsEntry {
 
 export interface LogEntry {
   d: string;                     // date key
-  m: 'daily' | 'practice';       // which mode (more modes later)
+  m: 'daily' | 'practice' | 'blitz'; // which mode
   id: string;
   c: string;                     // category
   ok: boolean;
@@ -161,7 +176,9 @@ export function freshState(): State {
     badges: {},
     freezes: 0,
     stats: freshStats(),
-    celebrations: []
+    celebrations: [],
+    blitz: freshBlitz(),
+    blitzReview: []
   };
 }
 
@@ -194,6 +211,7 @@ export function loadState(): State {
       s.celebrations = [{ kind: 'welcome' }];
     }
     s.stats = { ...freshStats(), ...s.stats };
+    s.blitz = { ...freshBlitz(), ...s.blitz };
     return s;
   } catch {
     return freshState();
@@ -322,10 +340,14 @@ export function daysUntil(key: string): number {
 }
 
 /* Log every answer and move the question through the boxes. */
+export function logAnswer(state: State, mode: LogEntry['m'], id: string, category: string | undefined, ok: boolean): void {
+  state.log.push({ d: dateKey(), m: mode, id, c: category || 'General', ok });
+  if (state.log.length > LOG_LIMIT) state.log.splice(0, state.log.length - LOG_LIMIT);
+}
+
 export function recordResult(state: State, q: Question, mode: LogEntry['m'], ok: boolean): void {
   const today = dateKey();
-  state.log.push({ d: today, m: mode, id: q.id, c: q.category || 'General', ok });
-  if (state.log.length > LOG_LIMIT) state.log.splice(0, state.log.length - LOG_LIMIT);
+  logAnswer(state, mode, q.id, q.category, ok);
 
   const entry = state.srs[q.id];
   if (mode === 'practice' && ok) state.xp += entry && entry.due > today ? XP.practiceEarly : XP.practiceDue;
@@ -359,7 +381,8 @@ export function categoryAccuracy(state: State, recent = 20): Map<string, number>
 }
 
 /* ---------- Smart Practice ----------
- * A round of up to 10 from every question you've ever learned (never resets):
+ * A round of up to 10 from every question you've ever learned, plus acronyms
+ * missed in Blitz (never resets). The bank passed in holds both kinds.
  * 1. Questions due for review, most overdue and lowest box first.
  * 2. Then questions from your weakest categories, lowest box first.
  * 3. The last couple of slots are random, for variety.
@@ -371,16 +394,22 @@ export function learnedIds(state: State, bank: Question[]): string[] {
   return state.learned.filter((id) => ids.has(id));
 }
 
+/* Everything in Practice: learned questions plus acronyms missed in Blitz. */
+export function practiceIds(state: State, bank: Question[]): string[] {
+  const ids = new Set(bank.map((q) => q.id));
+  return [...new Set([...state.learned, ...state.blitzReview])].filter((id) => ids.has(id));
+}
+
 export function dueIds(state: State, bank: Question[]): string[] {
   const today = dateKey();
-  return learnedIds(state, bank).filter((id) => (state.srs[id]?.due ?? today) <= today);
+  return practiceIds(state, bank).filter((id) => (state.srs[id]?.due ?? today) <= today);
 }
 
 export function drawPractice(bank: Question[], state: State, count = PRACTICE_COUNT): PracticeItem[] {
   const byId = new Map(bank.map((q) => [q.id, q]));
   const today = dateKey();
   const srs = (id: string): SrsEntry => state.srs[id] ?? { box: 1, due: today };
-  const learned = shuffle(learnedIds(state, bank)); // shuffled first so ties are random
+  const learned = shuffle(practiceIds(state, bank)); // shuffled first so ties are random
 
   const due = learned
     .filter((id) => srs(id).due <= today)

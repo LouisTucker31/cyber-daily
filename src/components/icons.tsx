@@ -45,6 +45,15 @@ export function PracticeIcon() {
   );
 }
 
+/* Lightning bolt: Acronym Blitz */
+export function BlitzIcon() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
+      <path d="M13.5 2.5L5 13.5h6.5l-1 8 8.5-11h-6.5z" />
+    </svg>
+  );
+}
+
 export function LockIcon() {
   return (
     <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>

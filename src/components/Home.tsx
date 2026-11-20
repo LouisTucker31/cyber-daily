@@ -1,7 +1,7 @@
 import type { Day } from '../lib/quiz.ts';
 import Tile, { type TileSpec } from './Tile.tsx';
 import Ticks from './Ticks.tsx';
-import { DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
+import { BlitzIcon, DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
 import { LevelRing } from './Badge.tsx';
 
 interface Props {
@@ -12,9 +12,12 @@ interface Props {
   onPractice: () => void;
   onProfile: () => void;
   level: { level: number; rank: string; progress: number; toNext: number; next: { name: string } | null };
+  /** Acronym Blitz: best score, and false if the acronym bank couldn't load */
+  blitz: { best: number; available: boolean };
+  onBlitz: () => void;
 }
 
-export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level }: Props) {
+export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
   const right = day.items.filter((it) => it.correct === true).length;
@@ -68,6 +71,25 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         tone: 'locked'
       };
 
+  /* ---------- Acronym Blitz (from level 1) ---------- */
+  const blitzTile: TileSpec = blitz.available
+    ? {
+        id: 'blitz',
+        title: 'Acronym Blitz',
+        icon: <BlitzIcon />,
+        meta: blitz.best > 0 ? `Best ${blitz.best}` : '60-second speed round',
+        tone: 'plain',
+        onOpen: onBlitz,
+        foot: <span className="tile-cta">Play</span>
+      }
+    : {
+        id: 'blitz',
+        title: 'Acronym Blitz',
+        icon: <BlitzIcon />,
+        meta: 'Go online once to download it',
+        tone: 'locked'
+      };
+
   /* ---------- Profile (full width) ---------- */
   const profile: TileSpec = {
     id: 'profile',
@@ -81,7 +103,8 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
   };
 
   /* Add new modes here: each entry becomes a tile in the grid. */
-  const tiles: TileSpec[] = [daily, practice, profile];
+  // Blitz sits below the Profile for now so the odd tile out doesn't leave a gap mid-grid
+  const tiles: TileSpec[] = [daily, practice, profile, blitzTile];
 
   return (
     <>
