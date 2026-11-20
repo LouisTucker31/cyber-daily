@@ -12,6 +12,7 @@ Built with React 19, TypeScript and Vite.
 | `src/styles.css` | All styling, including the dark theme (follows the phone's light/dark setting) |
 | `src/sw.js` | Service worker template (offline + updates), version-stamped at build time |
 | `src/assets/fonts/` | Figtree font |
+| `src/assets/contours.svg` | Faint topographic lines behind every screen (a mask; the colour and strength are `--bg-art` in `styles.css`) |
 | `src/components/Home.tsx` | Home screen tile grid: Today's 10 (locks with a countdown once done) and Practice |
 | `src/components/Tile.tsx` | A single home-screen tile |
 | `src/components/QuestionView.tsx` | Question, answers, hint and result |
