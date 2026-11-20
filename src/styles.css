@@ -911,6 +911,15 @@ div.tile-locked { cursor: default; }
 .sheet-kicker { margin: 0; font-size: var(--t-small); font-weight: 700; color: var(--signal); }
 .sheet-title { margin: 4px 0 8px; font-size: var(--t-display); font-weight: 750; letter-spacing: -0.02em; line-height: 1.15; }
 .sheet-body { margin: 0 auto 22px; max-width: 420px; color: var(--ink-2); }
+/* short phones (iPhone SE and similar): tighten the sheet so it fits */
+@media (max-height: 740px) {
+  .sheet { padding-top: 22px; max-height: 100dvh; overflow-y: auto; }
+  .sheet-art { margin-bottom: 8px; }
+  .sheet-art svg { width: 64px; height: 64px; }
+  .sheet-body { margin-bottom: 14px; }
+  .sheet-small { margin-bottom: 12px; }
+  .ways li { padding: 7px 0; }
+}
 .sheet-link {
   margin-top: 10px; padding: 8px;
   background: none; border: 0;
