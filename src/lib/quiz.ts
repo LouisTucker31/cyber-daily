@@ -52,6 +52,7 @@ export interface State {
   blitz: BlitzStats;                    // Acronym Blitz records
   blitzReview: string[];                // acronym ids missed in Blitz (feed Practice; never resets)
   phish: PhishStats;                    // Spot the Phish records
+  incident: IncidentStats;              // Incident Commander records
   skillTiers?: Record<string, number>;  // best medal reached per skill (1 bronze to 4 platinum), for skill-up celebrations
 }
 
@@ -80,6 +81,19 @@ export interface PhishStats {
   xpDay: string | null;
   xpRounds: number;
   seen: Record<string, number>; // card id -> round it was last shown (keeps repeats away)
+}
+
+export interface IncidentStats {
+  rounds: number;                      // finished incidents
+  best: Record<string, string>;        // scenario id -> best grade (A best)
+  aGrades: number;
+  icoOnTime: number;                   // incidents where personal data was reported to the ICO in time
+  xpDay: string | null;
+  xpRounds: number;
+}
+
+export function freshIncident(): IncidentStats {
+  return { rounds: 0, best: {}, aGrades: 0, icoOnTime: 0, xpDay: null, xpRounds: 0 };
 }
 
 export function freshPhish(): PhishStats {
@@ -122,7 +136,7 @@ export interface SrsEntry {
 
 export interface LogEntry {
   d: string;                     // date key
-  m: 'daily' | 'practice' | 'blitz' | 'phish'; // which mode
+  m: 'daily' | 'practice' | 'blitz' | 'phish' | 'incident'; // which mode
   id: string;
   c: string;                     // category
   ok: boolean;
@@ -200,7 +214,8 @@ export function freshState(): State {
     celebrations: [],
     blitz: freshBlitz(),
     blitzReview: [],
-    phish: freshPhish()
+    phish: freshPhish(),
+    incident: freshIncident()
   };
 }
 
@@ -235,6 +250,7 @@ export function loadState(): State {
     s.stats = { ...freshStats(), ...s.stats };
     s.blitz = { ...freshBlitz(), ...s.blitz };
     s.phish = { ...freshPhish(), ...s.phish };
+    s.incident = { ...freshIncident(), ...s.incident };
     return s;
   } catch {
     return freshState();

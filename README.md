@@ -23,6 +23,7 @@ Built with React 19, TypeScript and Vite.
 | `src/components/LevelUp.tsx` | Full-screen level-up: the old level slams in, spins into the new one, slams down with confetti, floats, then fades (tap to skip) |
 | `src/components/Sheet.tsx` | Slide-up bottom sheet (swipe down or tap outside to close), used for celebrations and badge details |
 | `src/components/BlitzView.tsx` | Acronym Blitz: intro, the timed round and the results |
+| `src/components/IncidentView.tsx` | Incident Commander: start page, the incident room (chat feed, decisions, countdowns, gauges) and the debrief |
 | `src/components/PhishView.tsx` | Spot the Phish: intro and level picker, the swipeable cards with inspecting, the flip to the explanation, results and the Directory |
 | `src/components/Header.tsx`, `Ticks.tsx` | Small UI pieces |
 | `src/components/icons.tsx` | Interface icons, mostly from [Lucide](https://lucide.dev) (`lucide-react`, ISC licence). Badge medals and glyphs are drawn separately in `Badge.tsx` |
@@ -32,11 +33,13 @@ Built with React 19, TypeScript and Vite.
 | `src/lib/quiz.ts` | Quiz logic: daily draw, Smart Practice, streak, storage |
 | `src/lib/progress.ts` | XP, levels, badges, streak freezes, category scores, recommendations |
 | `src/lib/blitz.ts` | Acronym Blitz logic: difficulty ramp, reversed questions, scoring, XP cap |
+| `src/lib/incident.ts` | Incident Commander engine: rolled facts, conditions, gauges, grade, XP |
 | `src/lib/phish.ts` | Spot the Phish logic: dealing a round, scoring, streaks, XP cap |
 | `src/lib/haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
 | `src/lib/confetti.ts` | Small canvas confetti in the medal colours (off when the phone asks for reduced motion) |
 | `public/questions.json` | The question bank |
 | `public/acronyms.json` | The Acronym Blitz bank |
+| `public/incident.json` | Incident Commander scenarios and cast |
 | `public/phish.json` | The Spot the Phish cards (written with placeholders) and the casts of fictional organisations |
 | `public/manifest.json`, icons, `figtree-OFL.txt` | PWA manifest, icons and font licence (copied into the build with their exact names) |
 | `.github/workflows/deploy.yml` | GitHub Actions workflow (see below) |
@@ -167,11 +170,33 @@ A few rules for writing cards:
 - Genuine cards can look a little alarming.
 - Every giveaway should be checkable against the Directory.
 
+## Incident Commander
+A tabletop exercise on the phone: you lead the response to a cyber incident. The first scenario is **Ransomware** (about 5 minutes, from level 1). The others are listed with their unlock levels and marked "Coming soon".
+
+- **The incident room:** updates arrive one at a time in a chat feed on a pretend clock (Monday 08:47, Tuesday 09:00 and so on), from a cast of SOC analyst, IT lead, CEO, finance director, comms, legal/DPO, the CEO's assistant and a reporter.
+- **Decisions:** each update needs a call from 3 or 4 options. Some are "pick 2" because people are limited, and many are trade-offs with no single right answer. Your choice appears as your message, then the cast reacts.
+- **Timers:** urgent decisions have a countdown bar (30 to 45 seconds). If it runs out, the "do nothing" outcome happens. Timers are on by default; switch them off on the start page.
+- **Four gauges, pinned at the top:** Containment, Operations, Trust and Compliance, from 0 to 100. Every choice moves them, with the change shown briefly beside each name.
+- **Knock-on effects:** choices set flags that come back later. Wipe machines before taking evidence and the day-2 investigation can't find the way in. Wait on the ICO and the 72-hour deadline catches you on Friday. One alert is a red herring, where checking first is better than locking things down.
+- **Different every time:** each play picks a fictional employer and rolls three facts: which system was hit, whether the backups are clean, and whether customer data was stolen. These change the messages, options and consequences.
+- **Debrief:** a grade from A to E (from the average of the gauges), the final gauges, what happened this time, "What went well", "What to improve", and a timeline of every call with its note and gauge changes.
+- **Progress:** every decision is logged as mode `incident` under its category, so it feeds the Profile skills. XP depends on the grade (A 60, B 45, C 32, D 22, E 12) and tapers like the other games.
+- **Badges:** First Responder (first incident), Calm Under Fire (an A grade), By the Book (reporting stolen personal data to the ICO in time).
+
+### Writing scenarios
+Scenarios live in `public/incident.json`. Each has `facts` (rolled per play), `start` gauges (`c`, `o`, `t`, `k`) and a list of `beats`:
+- **A decision beat** has `clock`, `category`, `messages` (`from` is a key in `people`), `ask` and `options`, and optionally `timer` + `timeout` (the option that happens when time runs out) and `pick` (choose more than one).
+- **Each option** has `text`, `effects` on the gauges, `quality` (`good`, `ok`, `poor`), a teaching `note`, an optional `reply` from the cast, and optional `set` flags. `variants` change the effects, note or quality depending on flags; `hidden` options only happen on timeout.
+- **A consequence beat** has `outcomes` instead: the first whose `if` flags fit happens, or every matching one marked `all`.
+- **Conditions** (`if`) are flags, or `!flag` for "not set". The rolled facts start as flags (`backupsClean`, `stolen`).
+- **Placeholders:** `{org}`, `{sys}`, `{Sys}`.
+- Mark a scenario `"soon": true` to list it without content.
+
 ## Profile, levels and badges
 Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
-- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round. Games pay full XP for the first 3 rounds each day, then half (to round 10), then a quarter.
+- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round. Incident Commander: 60 for an A down to 12 for an E. Games pay full XP for the first 3 rounds each day, then half (to round 10), then a quarter.
 - Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see your XP and all the ranks; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
 
 **Category scores**
@@ -184,7 +209,7 @@ Tap the level ring (top right of Home) or the Profile tile.
 - A missed day uses one automatically.
 
 **Badges**
-- There are 28 badges, including one for the first time you play each mode. Three are hidden until earned.
+- There are 31 badges, including one for the first time you play each mode. Three are hidden until earned.
 - A new badge gets a short full-screen moment: the medal drops in with a shine and a little confetti. The same happens when a skill first reaches silver, gold or platinum. Level-ups get the bigger version.
 - On the Profile they are ordered: earned (newest first), then closest to completion, then not started. Tap one to see its details and progress in a sheet that slides up; swipe it down or tap outside to close.
 - To add one, add an entry to `BADGES` in `src/lib/progress.ts`.

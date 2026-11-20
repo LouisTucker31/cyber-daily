@@ -4,6 +4,7 @@ import {
   ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, Fish, House,
   Globe, Link, Lock, MessageSquare, Paperclip, Phone, Play, Pointer, RefreshCw, ShieldCheck, TriangleAlert, X, Zap,
   Archive, Camera, ChevronUp, FileText, Folder, Info, Mic, Plus, Reply, RotateCw, Send, SquarePen, Volume2,
+  Activity, ClipboardList, MessagesSquare, Siren, Timer,
   type LucideIcon
 } from 'lucide-react';
 
@@ -48,6 +49,12 @@ export const ReloadIcon = icon(RotateCw);
 export const SendIcon = icon(Send);
 export const ComposeIcon = icon(SquarePen);
 export const SpeakerIcon = icon(Volume2);
+// Incident Commander
+export const IncidentIcon = icon(Siren);
+export const GaugeIcon = icon(Activity);
+export const ChatsIcon = icon(MessagesSquare);
+export const ReportIcon = icon(ClipboardList);
+export const TimerIcon = icon(Timer);
 
 /* Chevron that turns to point up when its section is open */
 export function ChevronIcon({ open }: { open: boolean }) {

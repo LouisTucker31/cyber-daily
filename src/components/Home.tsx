@@ -1,7 +1,7 @@
 import type { Day } from '../lib/quiz.ts';
 import Tile, { type TileSpec } from './Tile.tsx';
 import Ticks from './Ticks.tsx';
-import { BlitzIcon, DailyIcon, LockIcon, PhishIcon, PracticeIcon } from './icons.tsx';
+import { BlitzIcon, DailyIcon, IncidentIcon, LockIcon, PhishIcon, PracticeIcon } from './icons.tsx';
 import { LevelRing } from './Badge.tsx';
 
 interface Props {
@@ -18,9 +18,12 @@ interface Props {
   /** Spot the Phish: best score, and false if the card bank couldn't load */
   phish: { best: number; available: boolean };
   onPhish: () => void;
+  /** Incident Commander: best grade so far, and false if the scenarios couldn't load */
+  incident: { best: string | null; available: boolean };
+  onIncident: () => void;
 }
 
-export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz, phish, onPhish }: Props) {
+export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz, phish, onPhish, incident, onIncident }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
   const right = day.items.filter((it) => it.correct === true).length;
@@ -112,6 +115,27 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         tone: 'locked'
       };
 
+  /* ---------- Incident Commander (full width: the standout mode) ---------- */
+  const incidentTile: TileSpec = incident.available
+    ? {
+        id: 'incident',
+        title: 'Incident Commander',
+        icon: <IncidentIcon />,
+        meta: incident.best ? `Ransomware · best grade ${incident.best}` : 'Lead the response to a live cyber attack · 5 min',
+        tone: 'plain',
+        wide: true,
+        onOpen: onIncident,
+        foot: <span className="tile-cta">Play</span>
+      }
+    : {
+        id: 'incident',
+        title: 'Incident Commander',
+        icon: <IncidentIcon />,
+        meta: 'Go online once to download it',
+        tone: 'locked',
+        wide: true
+      };
+
   /* ---------- Profile (full width) ---------- */
   const profile: TileSpec = {
     id: 'profile',
@@ -125,8 +149,8 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
   };
 
   /* Add new modes here: each entry becomes a tile in the grid. */
-  // the games sit side by side below the Profile
-  const tiles: TileSpec[] = [daily, practice, profile, blitzTile, phishTile];
+  // Today's 10 and Practice, then the flagship game, the two quick games side by side, and the Profile
+  const tiles: TileSpec[] = [daily, practice, incidentTile, blitzTile, phishTile, profile];
 
   return (
     <>

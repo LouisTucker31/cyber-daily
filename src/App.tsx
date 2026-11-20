@@ -15,6 +15,11 @@ import Profile from './components/Profile.tsx';
 import Celebration from './components/Celebration.tsx';
 import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
 import { DirectorySheet, PhishDone, PhishGame, PhishIntro } from './components/PhishView.tsx';
+import { IncidentDebrief, IncidentGame, IncidentIntro } from './components/IncidentView.tsx';
+import {
+  finishIncident, incidentRoundsToday, logIncidentDecision, newRun, parseIncident,
+  type IncidentBank, type IncidentResult, type Run
+} from './lib/incident.ts';
 import {
   applyCast, directoryFor, drawRound, finishPhish, logPhishAnswer, parsePhish, phishRoundsToday, pickCast, TIERS,
   type Cast, type PhishBank, type PhishCard, type PhishResult, type Tier
@@ -29,8 +34,12 @@ import { ArrowIcon, ClockIcon, HomeIcon } from './components/icons.tsx';
 type Load =
   | { status: 'loading' }
   | { status: 'error' }
-  | { status: 'ready'; bank: Question[]; acronyms: Acronym[]; practiceBank: Question[]; phish: PhishBank | null };
-type View = 'home' | 'daily' | 'practice' | 'profile' | 'blitz' | 'phish';
+  | { status: 'ready'; bank: Question[]; acronyms: Acronym[]; practiceBank: Question[]; phish: PhishBank | null; incident: IncidentBank | null };
+type View = 'home' | 'daily' | 'practice' | 'profile' | 'blitz' | 'phish' | 'incident';
+type Incident =
+  | { phase: 'intro' }
+  | { phase: 'play'; round: number; run: Run }
+  | { phase: 'done'; result: IncidentResult; prevBest: string | null; xp: number; rate: number };
 type Motion = 'forward' | 'back' | 'none';
 type Blitz =
   | { phase: 'intro' }
@@ -53,6 +62,8 @@ export default function App() {
   const [phish, setPhish] = useState<Phish>({ phase: 'intro' });
   const [phishTier, setPhishTier] = useState<Tier | null>(null); // null = the highest unlocked
   const [showDirectory, setShowDirectory] = useState(false);
+  const [incident, setIncident] = useState<Incident>({ phase: 'intro' });
+  const [timed, setTimed] = useState(true); // Incident Commander countdowns (on by default)
 
   const bank = load.status === 'ready' ? load.bank : null;
   const acronyms = load.status === 'ready' ? load.acronyms : null;
@@ -63,6 +74,7 @@ export default function App() {
   const practiceById = useMemo(() => new Map((practiceBank ?? []).map((q) => [q.id, q])), [practiceBank]);
   const acronymById = useMemo(() => new Map((acronyms ?? []).map((a) => [a.id, a])), [acronyms]);
   const phishBank = load.status === 'ready' ? load.phish : null;
+  const incidentBank = load.status === 'ready' ? load.incident : null;
   const [phishCast, setPhishCast] = useState<Cast | null>(null); // this round's fictional organisations
 
   /* Every change: copy, apply, save straight away, then re-render.
@@ -89,8 +101,8 @@ export default function App() {
     const optional = (file: string, empty: unknown) => fetch(file, { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : empty))
       .catch(() => empty);
-    Promise.all([questions, optional('acronyms.json', []), optional('phish.json', null)])
-      .then(([data, acr, ph]) => {
+    Promise.all([questions, optional('acronyms.json', []), optional('phish.json', null), optional('incident.json', null)])
+      .then(([data, acr, ph, inc]) => {
         const b = parseBank(data);
         const a = parseAcronyms(acr);
         const pb = b.concat(a.map(acronymQuestion));
@@ -101,7 +113,7 @@ export default function App() {
         // first run with levels: count past progress quietly, then show one welcome sheet
         evaluateProgress(s, b, s.celebrations.some((c) => c.kind === 'welcome'), pb);
         commit(s);
-        setLoad({ status: 'ready', bank: b, acronyms: a, practiceBank: pb, phish: parsePhish(ph) });
+        setLoad({ status: 'ready', bank: b, acronyms: a, practiceBank: pb, phish: parsePhish(ph), incident: parseIncident(inc) });
       })
       .catch(() => setLoad({ status: 'error' }));
   }, [commit]);
@@ -248,6 +260,39 @@ export default function App() {
     window.scrollTo(0, 0);
   }, []);
 
+  /* Incident Commander: Home opens the intro; Start plays the scenario; Play again returns to the intro */
+  const openIncident = useCallback(() => {
+    setIncident({ phase: 'intro' });
+    haptic();
+    open('incident');
+  }, [open]);
+
+  const startIncident = useCallback(() => {
+    const scenario = incidentBank?.scenarios.find((x) => !x.soon && x.beats?.length);
+    if (!incidentBank || !scenario) return;
+    haptic();
+    setIncident({ phase: 'play', round: Date.now(), run: newRun(incidentBank, scenario) });
+    window.scrollTo(0, 0);
+  }, [incidentBank]);
+
+  const incidentDecision = useCallback((category: string, id: string, ok: boolean) => {
+    update((s) => logIncidentDecision(s, category, id, ok));
+  }, [update]);
+
+  const endIncident = useCallback((result: IncidentResult) => {
+    let info: { prevBest: string | null; xp: number; rate: number } = { prevBest: null, xp: 0, rate: 1 };
+    update((s) => { info = finishIncident(s, result); });
+    haptic('success');
+    setIncident({ phase: 'done', result, ...info });
+    window.scrollTo(0, 0);
+  }, [update]);
+
+  const againIncident = useCallback(() => {
+    haptic();
+    setIncident({ phase: 'intro' });
+    window.scrollTo(0, 0);
+  }, []);
+
   const againPhish = useCallback(() => {
     haptic();
     if (phishBank) setPhishCast((prev) => pickCast(phishBank.casts, prev)); // a new cast for the next round
@@ -288,6 +333,8 @@ export default function App() {
         onBlitz={openBlitz}
         phish={{ best: state.phish.best, available: !!phishBank }}
         onPhish={openPhish}
+        incident={{ best: Object.values(state.incident.best).sort()[0] ?? null, available: !!incidentBank }}
+        onIncident={openIncident}
       />
     );
   } else if (view === 'daily') {
@@ -407,6 +454,22 @@ export default function App() {
         ? <button type="button" className="btn" onClick={startBlitz}>Start<ArrowIcon /></button>
         : endBar('Play again', againBlitz);
     }
+  } else if (view === 'incident' && incidentBank) {
+    nav = { label: 'Incident Commander', onHome: () => goHome() };
+    if (incident.phase === 'play') {
+      reserveBar = true; // the game draws its own buttons in the action bar
+      body = (
+        <IncidentGame key={incident.round} run={incident.run} people={incidentBank.people} timed={timed}
+          onDecision={incidentDecision} onEnd={endIncident} />
+      );
+    } else if (incident.phase === 'intro') {
+      body = <IncidentIntro bank={incidentBank} level={level} best={state.incident.best} timed={timed} onTimed={setTimed}
+        roundsToday={incidentRoundsToday(state)} />;
+      barButton = <button type="button" className="btn" onClick={startIncident}>Start the incident<ArrowIcon /></button>;
+    } else {
+      body = <IncidentDebrief result={incident.result} prevBest={incident.prevBest} xp={incident.xp} rate={incident.rate} />;
+      barButton = endBar('Play again', againIncident);
+    }
   } else if (view === 'phish' && phishBank) {
     nav = { label: 'Spot the Phish', onHome: () => goHome() };
     if (phish.phase === 'play') {
@@ -463,7 +526,8 @@ export default function App() {
         (view === 'daily' && dayDone) ||
         (view === 'practice' && practice && practice.index >= practice.items.length) ||
         (view === 'blitz' && blitz.phase !== 'play') ||
-        (view === 'phish' && phish.phase !== 'play')
+        (view === 'phish' && phish.phase !== 'play') ||
+        (view === 'incident' && incident.phase !== 'play')
       ) && (
         <Celebration
           key={state.celebrations.length + (state.celebrations[0].id ?? state.celebrations[0].kind)}

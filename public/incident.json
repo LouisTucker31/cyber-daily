@@ -1,0 +1,304 @@
+{
+  "orgs": ["Kestrel Group", "Marlow Systems", "Holbrook Health", "Calder Logistics"],
+  "people": {
+    "soc": { "name": "Aisha Khan", "role": "SOC analyst" },
+    "it": { "name": "Ben Carter", "role": "IT lead" },
+    "ceo": { "name": "Dana Okafor", "role": "CEO" },
+    "cfo": { "name": "Priya Shah", "role": "Finance director" },
+    "comms": { "name": "Leo Grant", "role": "Communications" },
+    "dpo": { "name": "Hannah Cole", "role": "Legal and DPO" },
+    "pa": { "name": "Sophie Lin", "role": "CEO’s assistant" },
+    "press": { "name": "Ruth Adams", "role": "Reporter, Northern Post" }
+  },
+  "scenarios": [
+    {
+      "id": "ransomware",
+      "title": "Ransomware",
+      "level": 1,
+      "minutes": 5,
+      "blurb": "Files are being encrypted across the business. Contain it, keep people informed and get running again.",
+      "facts": {
+        "sys": ["the file server", "the finance system", "the warehouse system"],
+        "backupsClean": 0.6,
+        "stolen": 0.6
+      },
+      "start": { "c": 50, "o": 70, "t": 70, "k": 70 },
+      "beats": [
+        {
+          "id": "detect",
+          "clock": "Monday 08:47",
+          "category": "Security Monitoring and Incident Response",
+          "messages": [
+            { "from": "soc", "text": "Morning. Antivirus on three finance laptops has flagged files being renamed to .lckd in the last ten minutes. One of them is still doing it." }
+          ],
+          "ask": "What’s your first move?",
+          "timer": 30,
+          "timeout": "watch",
+          "options": [
+            { "id": "isolate", "text": "Isolate those three laptops from the network", "effects": { "c": 15, "o": -3 }, "set": ["isolated"], "quality": "good",
+              "note": "Fast, targeted containment of the machines you know about.",
+              "reply": [{ "from": "soc", "text": "Done, they’re cut off. Checking everything else now." }] },
+            { "id": "shutdown", "text": "Shut down the whole network now", "effects": { "c": 20, "o": -25, "t": -5 }, "set": ["shutdown"], "quality": "ok",
+              "note": "It stops the spread, but it stops the whole business too. Heavy-handed for three laptops.",
+              "reply": [{ "from": "it", "text": "Everything’s down. The phones are ringing off the hook." }] },
+            { "id": "email", "text": "Email all staff telling them to switch off their computers", "effects": { "c": 5, "o": -10, "t": -5 }, "quality": "ok",
+              "note": "Slow and patchy, and email might not be trustworthy during an attack. Isolate the known machines first.",
+              "reply": [{ "from": "soc", "text": "Some people have switched off. Two laptops are still encrypting." }] },
+            { "id": "watch", "text": "Keep watching to learn more first", "effects": { "c": -20 }, "set": ["slow"], "quality": "poor",
+              "note": "Ransomware encrypts more with every minute it runs. Contain first, investigate after.",
+              "reply": [{ "from": "soc", "text": "Two more laptops have just started renaming files." }] }
+          ]
+        },
+        {
+          "id": "triage",
+          "clock": "Monday 09:05",
+          "category": "Malware and Attacks",
+          "messages": [
+            { "from": "it", "text": "Bad news: it’s on {sys} too. I’ve got two people free right now." }
+          ],
+          "ask": "Pick two jobs for them.",
+          "pick": 2,
+          "options": [
+            { "id": "contain-sys", "text": "Disconnect {sys} from the network", "effects": { "c": 15, "o": -8 }, "set": ["sysIsolated"], "quality": "good",
+              "note": "Cutting off the biggest infected system limits how far it spreads." },
+            { "id": "accounts", "text": "Reset admin passwords and disable the accounts being used", "effects": { "c": 12 }, "set": ["creds"], "quality": "good",
+              "note": "Attackers usually move around with stolen admin accounts. Taking them away slows them down." },
+            { "id": "evidence", "text": "Take disk and memory images before anything is wiped", "effects": { "o": -2 }, "set": ["preserved"], "quality": "good",
+              "note": "Evidence now is what lets you find out how they got in tomorrow." },
+            { "id": "wipe", "text": "Wipe and rebuild the infected laptops straight away", "effects": { "o": 10, "c": 4 }, "set": ["wiped"], "quality": "ok",
+              "note": "Gets people working sooner, but destroys the evidence of how the attackers got in." }
+          ]
+        },
+        {
+          "id": "ransom",
+          "clock": "Monday 09:40",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "ceo", "text": "There’s a note on the screens demanding £400,000 in bitcoin within 48 hours. Can we just pay and make this go away?" },
+            { "from": "cfo", "text": "We do have cyber insurance. I’m finding the policy now." }
+          ],
+          "ask": "What do you advise Dana?",
+          "timer": 40,
+          "timeout": "silent",
+          "options": [
+            { "id": "insurer", "text": "Don’t pay for now. Call the insurer’s incident line and report it to Action Fraud", "effects": { "t": 5, "k": 12 }, "set": ["reported"], "quality": "good",
+              "note": "Insurers provide specialist responders, and reporting gets you help. Paying funds crime and doesn’t guarantee your data back.",
+              "reply": [{ "from": "cfo", "text": "The insurer’s team will join a call at 11. They said not to contact the attackers." }] },
+            { "id": "pay", "text": "Pay quickly to limit the damage", "effects": { "o": 5, "k": -15, "t": -10 }, "set": ["paid"], "quality": "poor",
+              "note": "There’s no guarantee of a working key, you mark yourselves as a payer, and it could breach sanctions law.",
+              "reply": [{ "from": "cfo", "text": "I don’t even know how to buy bitcoin. This could take days." }] },
+            { "id": "negotiate", "text": "Contact the attackers ourselves to buy time", "effects": { "k": -5, "t": -5 }, "quality": "poor",
+              "note": "Any contact should go through specialists your insurer provides. Amateur negotiation can make things worse.",
+              "reply": [{ "from": "soc", "text": "They replied straight away. Now they say the deadline is 24 hours." }] },
+            { "id": "silent", "text": "Leave it to Dana", "hidden": true, "effects": { "t": -10, "k": -5 }, "quality": "poor",
+              "note": "Without your advice, the CEO is left to make a high-stakes decision alone.",
+              "reply": [{ "from": "ceo", "text": "I’ll wait to hear from you, but not for long." }] }
+          ]
+        },
+        {
+          "id": "holding",
+          "clock": "Monday 11:15",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "comms", "text": "Staff are asking on WhatsApp what’s going on, and a customer has posted that our website’s down." }
+          ],
+          "ask": "What do we tell people?",
+          "timer": 40,
+          "timeout": "nothing",
+          "options": [
+            { "id": "holding", "text": "A short, honest holding statement: we’re dealing with a cyber incident, some services are down, next update at 3pm", "effects": { "t": 15 }, "quality": "good",
+              "note": "Brief, honest and with a time for the next update. It steadies people without guessing at details.",
+              "reply": [{ "from": "comms", "text": "Out now. The replies are mostly supportive." }] },
+            { "id": "nothing", "text": "Say nothing until we know everything", "effects": { "t": -15 }, "quality": "poor",
+              "note": "Silence gets filled by rumour. You can say a little without knowing everything.",
+              "reply": [{ "from": "comms", "text": "Someone’s posted that we’ve been hacked and are hiding it." }] },
+            { "id": "maintenance", "text": "Say it’s planned maintenance", "effects": { "t": -25, "k": -5 }, "quality": "poor",
+              "note": "If it comes out later, and it usually does, trust drops much further than if you’d been honest.",
+              "reply": [{ "from": "comms", "text": "A member of staff has already replied saying it isn’t maintenance." }] },
+            { "id": "detail", "text": "Publish the full technical details now", "effects": { "t": -5, "c": -5 }, "quality": "ok",
+              "note": "Too much detail too early can be wrong and can help the attackers. Keep it short until you know more.",
+              "reply": [{ "from": "soc", "text": "That post mentions the admin accounts we haven’t finished resetting." }] }
+          ]
+        },
+        {
+          "id": "herring",
+          "clock": "Monday 13:20",
+          "category": "Security Monitoring and Incident Response",
+          "messages": [
+            { "from": "pa", "text": "Reminder that Dana’s flown out to the Lisbon conference this afternoon." },
+            { "from": "soc", "text": "New alert: Dana’s account has just signed in from Lisbon." }
+          ],
+          "ask": "How do you handle the alert?",
+          "timer": 30,
+          "timeout": "ignore",
+          "options": [
+            { "id": "verify", "text": "Check with Dana on her known mobile number before acting", "effects": { "t": 3 }, "quality": "good",
+              "note": "It was really her. Checking first avoided cutting off your CEO in the middle of a crisis.",
+              "reply": [{ "from": "ceo", "text": "Yes, that’s me, just landed. Thanks for checking." }] },
+            { "id": "lock", "text": "Lock Dana’s account immediately", "effects": { "o": -8, "t": -5 }, "quality": "ok",
+              "note": "Cautious, but she was genuinely in Lisbon. A quick check on a known number would have avoided locking out the CEO.",
+              "reply": [{ "from": "pa", "text": "Dana’s locked out and can’t join the insurer’s call." }] },
+            { "id": "ignore", "text": "Ignore it, there’s too much going on", "effects": { "c": -5 }, "quality": "poor",
+              "note": "It was genuine this time, but during an attack ignored alerts are exactly where attackers hide.",
+              "reply": [{ "from": "soc", "text": "Logged it, but nobody’s checked it." }] }
+          ]
+        },
+        {
+          "id": "investigation",
+          "clock": "Tuesday 09:00",
+          "category": "Security Monitoring and Incident Response",
+          "outcomes": [
+            { "if": ["preserved"], "messages": [{ "from": "soc", "text": "The disk images show how they got in: a phishing email on Friday, then a stolen admin account. We know what to close." }],
+              "effects": { "c": 10 }, "quality": "good", "note": "Because you kept evidence, the investigation found the way in." },
+            { "if": ["wiped"], "messages": [{ "from": "soc", "text": "We can’t tell how they got in. The infected laptops were rebuilt, so the evidence is gone. They may still have a way back." }],
+              "effects": { "c": -15 }, "quality": "poor", "note": "Wiping before taking evidence meant the way in couldn’t be found." },
+            { "if": [], "messages": [{ "from": "soc", "text": "The logs point to a phishing email, but without disk images we can’t be certain." }],
+              "effects": { "c": -5 }, "quality": "ok", "note": "Without images, the investigation can only guess at the way in." }
+          ]
+        },
+        {
+          "id": "recovery",
+          "clock": "Tuesday 10:30",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "it", "if": ["backupsClean"], "text": "Good news: last night’s backups are clean and were offline. We can restore {sys}." },
+            { "from": "it", "if": ["!backupsClean"], "text": "Bad news: the backups on the network were encrypted too. The offline copy is a week old." }
+          ],
+          "ask": "How do we get {sys} back?",
+          "timer": 45,
+          "timeout": "rush",
+          "options": [
+            { "id": "restore", "if": ["backupsClean"], "text": "Rebuild it clean, then restore last night’s backup", "effects": { "o": 22 }, "quality": "good",
+              "note": "Clean rebuild plus clean backups: the textbook recovery.",
+              "reply": [{ "from": "it", "text": "Restoring now. Should be back by this evening." }] },
+            { "id": "week", "if": ["!backupsClean"], "text": "Rebuild it clean, restore the week-old copy and re-enter the missing week", "effects": { "o": 12 }, "quality": "good",
+              "note": "Slower and painful, but it gets you back on a system you can trust.",
+              "reply": [{ "from": "it", "text": "It’ll be a long week, but we’ll get there." }] },
+            { "id": "decryptor", "if": ["!backupsClean"], "text": "Check No More Ransom for a free decryptor while rebuilding", "effects": { "o": 8, "k": 3 }, "quality": "good",
+              "note": "Free decryptors exist for some ransomware families. Worth a check alongside rebuilding.",
+              "reply": [{ "from": "soc", "text": "No free decryptor for this one, but we’ve ruled it out. Rebuilding." }] },
+            { "id": "rush", "text": "Bring it back online as it is, we need it today", "effects": { "o": 12, "c": -25 }, "set": ["reinfected"], "quality": "poor",
+              "note": "Without a clean rebuild, anything the attackers left behind comes straight back with it.",
+              "reply": [{ "from": "soc", "text": "Alert: suspicious activity on {sys} again." }] }
+          ]
+        },
+        {
+          "id": "ico",
+          "clock": "Tuesday 11:30",
+          "category": "Data Protection and Privacy",
+          "if": ["stolen"],
+          "messages": [
+            { "from": "dpo", "text": "Aisha’s confirmed that customer names, addresses and order histories were copied out before the encryption started. We became aware of that yesterday." }
+          ],
+          "ask": "Do we report it to the ICO?",
+          "options": [
+            { "id": "report", "text": "Yes, report now (within 72 hours) and add details as we learn them", "effects": { "k": 20 }, "set": ["icoReported"], "quality": "good",
+              "note": "UK GDPR requires a report within 72 hours of becoming aware. You can send it in stages.",
+              "reply": [{ "from": "dpo", "text": "Submitted. I’ll send updates as the investigation goes on." }] },
+            { "id": "wait", "text": "Wait until the investigation is finished", "effects": { "k": -5 }, "set": ["icoLate"], "quality": "poor",
+              "note": "The 72 hours started when you became aware. Report what you know now and add the rest later.",
+              "reply": [{ "from": "dpo", "text": "Okay, but the clock started yesterday." }] },
+            { "id": "skip", "text": "Don’t report, it’s only names and addresses", "effects": { "k": -25, "t": -5 }, "quality": "poor",
+              "note": "Personal data was taken, so it’s reportable. Under-reporting is a breach of its own.",
+              "reply": [{ "from": "dpo", "text": "I have to put on record that I disagree." }] }
+          ]
+        },
+        {
+          "id": "no-ico",
+          "clock": "Tuesday 11:30",
+          "category": "Data Protection and Privacy",
+          "if": ["!stolen"],
+          "messages": [
+            { "from": "dpo", "text": "Good news: no sign that any personal data left the network. It was encrypted, not copied." }
+          ],
+          "ask": "What do we do about data protection?",
+          "options": [
+            { "id": "log", "text": "Record the decision and our reasons in the breach log", "effects": { "k": 12 }, "quality": "good",
+              "note": "Even when you don’t need to report, you must record the incident and why you decided not to.",
+              "reply": [{ "from": "dpo", "text": "Logged, with the evidence attached." }] },
+            { "id": "report-anyway", "text": "Report it to the ICO anyway, just in case", "effects": { "k": 4 }, "quality": "ok",
+              "note": "Not required here, and not harmful, but recording your reasons is the key step.",
+              "reply": [{ "from": "dpo", "text": "Sent. They may ask why we reported." }] },
+            { "id": "nothing", "text": "Nothing to record, no data was lost", "effects": { "k": -12 }, "quality": "poor",
+              "note": "Personal data was still unavailable for a while. Breaches must be recorded even if not reported.",
+              "reply": [{ "from": "dpo", "text": "We should at least log it." }] }
+          ]
+        },
+        {
+          "id": "press",
+          "clock": "Tuesday 15:00",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "press", "text": "I’m writing about the outage at {org}. Was customer data stolen? My deadline is 5pm." }
+          ],
+          "ask": "How do you respond?",
+          "timer": 40,
+          "timeout": "no-comment",
+          "options": [
+            { "id": "honest", "text": "Give an agreed, honest statement, including what we’re doing for customers", "quality": "good",
+              "effects": { "t": 15 },
+              "variants": [
+                { "if": ["stolen"], "note": "Honest and prepared, with customers already being contacted. The story is about how you handled it." },
+                { "if": ["!stolen"], "note": "Honest and prepared. Saying what you know, and what you don’t, protects trust." }
+              ],
+              "reply": [{ "from": "press", "text": "Thanks, that’s helpful. I’ll include your statement in full." }] },
+            { "id": "no-comment", "text": "No comment", "effects": { "t": -10 }, "quality": "poor",
+              "note": "‘No comment’ reads as hiding something. A short agreed statement is better.",
+              "reply": [{ "from": "press", "text": "I’ll say {org} declined to comment." }] },
+            { "id": "deny", "text": "Say no customer data was taken", "quality": "poor", "effects": { "t": -30, "k": -10 },
+              "variants": [
+                { "if": ["!stolen"], "quality": "ok", "effects": { "t": 2 }, "note": "True this time, but risky to state so firmly while the investigation is still going on." },
+                { "if": ["stolen"], "note": "It was, and you knew. Misleading the press turns an incident into a scandal." }
+              ],
+              "reply": [{ "from": "press", "text": "Noted. I’ll quote that." }] }
+          ]
+        },
+        {
+          "id": "lessons",
+          "clock": "Thursday 10:00",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "ceo", "text": "We’re back up and running. What’s the one thing we do first so this doesn’t happen again?" }
+          ],
+          "ask": "Your recommendation?",
+          "options": [
+            { "id": "review", "text": "Hold a lessons-learned review and fix the top three gaps it finds", "effects": { "c": 6, "k": 6 }, "quality": "good",
+              "note": "A blameless review turns this incident into specific fixes, and shows regulators you’ve learned.",
+              "reply": [{ "from": "ceo", "text": "Book it for next week, everyone involved." }] },
+            { "id": "mfa", "text": "Turn on multi-factor sign-in everywhere, starting with admin accounts", "effects": { "c": 10 }, "quality": "good",
+              "note": "The attackers used a stolen password. MFA would have stopped that step.",
+              "reply": [{ "from": "it", "text": "Admins by Friday, everyone else this month." }] },
+            { "id": "training", "text": "Phishing training for all staff", "effects": { "t": 5, "c": 3 }, "quality": "ok",
+              "note": "Helpful, but people will always click sometimes. Pair it with technical controls like MFA.",
+              "reply": [{ "from": "comms", "text": "I’ll get it scheduled." }] },
+            { "id": "antivirus", "text": "Buy a new antivirus product", "effects": { "c": -3 }, "quality": "poor",
+              "note": "The antivirus spotted it. The gaps were the stolen account and the response, not the tool.",
+              "reply": [{ "from": "cfo", "text": "That’s a big spend. Are we sure it’s the problem?" }] }
+          ]
+        },
+        {
+          "id": "aftermath",
+          "clock": "Friday 09:00",
+          "category": "Resilience and Security Management",
+          "outcomes": [
+            { "if": ["icoLate"], "all": true, "messages": [{ "from": "dpo", "text": "We reported to the ICO on day four, past the 72 hours. They’ve asked us to explain the delay." }],
+              "effects": { "k": -20 }, "quality": "poor", "note": "The ICO report went in after 72 hours." },
+            { "if": ["paid"], "all": true, "messages": [{ "from": "cfo", "text": "The decryption key we paid for only unlocked half the files, and now they’re asking for more." }],
+              "effects": { "o": -10, "t": -5 }, "quality": "poor", "note": "Paying didn’t bring everything back." },
+            { "if": ["reinfected"], "all": true, "messages": [{ "from": "soc", "text": "{Sys} had to be taken down again overnight to clean it properly." }],
+              "effects": { "o": -12 }, "quality": "poor", "note": "Rushing the system back meant doing the work twice." },
+            { "if": ["slow"], "all": true, "messages": [{ "from": "it", "text": "Waiting at the start cost us five more laptops’ worth of files." }],
+              "effects": { "o": -6 }, "quality": "poor", "note": "The early wait let it spread further." },
+            { "if": [], "messages": [{ "from": "ceo", "text": "Thank you, everyone. That was hard, and it was handled." }],
+              "effects": {}, "quality": "good", "note": "The incident was closed without nasty surprises." }
+          ]
+        }
+      ]
+    },
+    { "id": "bec", "title": "Invoice fraud", "level": 3, "minutes": 5, "blurb": "A supplier’s ‘new bank details’ arrive just before a big payment run.", "soon": true },
+    { "id": "supplier", "title": "Supplier breach", "level": 4, "minutes": 5, "blurb": "A software supplier you rely on announces it’s been hacked.", "soon": true },
+    { "id": "insider", "title": "Insider leak", "level": 5, "minutes": 5, "blurb": "Confidential files turn up somewhere they shouldn’t.", "soon": true },
+    { "id": "cloud", "title": "Open cloud storage", "level": 6, "minutes": 5, "blurb": "A researcher finds your customer files open to the internet.", "soon": true },
+    { "id": "ddos", "title": "Launch-day DDoS", "level": 7, "minutes": 5, "blurb": "Your biggest launch of the year, and the site is buckling.", "soon": true }
+  ]
+}

@@ -7,6 +7,7 @@ const SHELL = [
   'manifest.json',
   'questions.json',
   'phish.json',
+  'incident.json',
   'acronyms.json',
   'icon-192.png',
   'icon-512.png',
