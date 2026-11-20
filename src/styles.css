@@ -1607,7 +1607,7 @@ mark.hl { padding: 0 2px; }
   @keyframes ic-dot { 0%, 100% { opacity: .3; transform: none; } 50% { opacity: 1; transform: translateY(-3px); } }
 }
 
-/* ---------- games in play: full screen ---------- */
+/* ---------- Incident Commander in play: full screen (floating back button, no header) ---------- */
 .float-back {
   position: fixed; z-index: 20;
   top: calc(env(safe-area-inset-top) + 12px); left: calc(env(safe-area-inset-left) + 16px);
@@ -1617,9 +1617,6 @@ mark.hl { padding: 0 2px; }
 }
 .float-back svg { width: 24px; height: 24px; margin-left: -2px; }
 .float-back:active { transform: scale(0.94); }
-/* room for the back button above the game */
-.app.immersive main { padding-top: calc(env(safe-area-inset-top) + 64px); }
-.app.immersive .blitz-clock { top: 0; }
 /* Incident Commander: the gauges sit beside the back button, the chat runs to the bottom */
 .app.immersive-incident main { padding-top: 0; }
 .app.immersive-incident .incident .ic-gauges {
@@ -1632,6 +1629,3 @@ mark.hl { padding: 0 2px; }
 /* Spot the Phish: the two answer buttons float, with no bar behind them */
 .actionbar.floating { background: none; border-top: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .actionbar.floating .btn { box-shadow: var(--shadow); }
-/* Acronym Blitz: the clock bar runs along the very top, the score row sits beside the back button */
-.app.immersive-blitz main { padding-top: 0; }
-.app.immersive-blitz .blitz-meta { padding: calc(env(safe-area-inset-top) + 20px) 0 0 56px; min-height: 64px; }

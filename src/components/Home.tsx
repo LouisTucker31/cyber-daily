@@ -148,7 +148,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
 
   /* Add new modes here: each entry becomes a tile in the grid. */
   // the primary pair (Today's 10, Practice), the Profile, then the games as square tiles
-  const tiles: TileSpec[] = [daily, practice, profile, incidentTile, blitzTile, phishTile];
+  const tiles: TileSpec[] = [daily, practice, profile, blitzTile, phishTile, incidentTile];
 
   return (
     <>

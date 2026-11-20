@@ -499,9 +499,8 @@ export default function App() {
     }
   }
 
-  /* While a game is being played it goes full screen: no header, just a floating back button */
-  const immersive = (view === 'blitz' && blitz.phase === 'play') || (view === 'phish' && phish.phase === 'play') ||
-    (view === 'incident' && incident.phase === 'play');
+  /* Incident Commander goes full screen while it's played: no header, just a floating back button */
+  const immersive = view === 'incident' && incident.phase === 'play';
 
   return (
     <>

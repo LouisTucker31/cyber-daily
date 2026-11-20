@@ -46,7 +46,7 @@ Built with React 19, TypeScript and Vite.
 | `vite.config.ts`, `tsconfig.json`, `package.json`, `package-lock.json` | Build setup |
 
 ## Full-screen games
-While a round of Acronym Blitz, Spot the Phish or Incident Commander is being played, the header disappears and a floating round back button sits top left (`immersive` in `App.tsx`). Start pages and results keep the normal header.
+While Incident Commander is being played, the header disappears and a floating round back button sits top left (`immersive` in `App.tsx`), so the chat fills the screen. Acronym Blitz and Spot the Phish keep the header but have no bottom bar while you play (Spot the Phish's two buttons float). Start pages and results keep the normal header.
 
 ## Publishing on GitHub Pages
 A Vite app has to be built before it can be served, so GitHub builds it for you. Every push to `main` runs `.github/workflows/deploy.yml`, which builds the app and publishes `dist/` to GitHub Pages (**Settings → Pages → Source: GitHub Actions**). Check the **Actions** tab: when the run goes green, the app is live at your Pages URL.
