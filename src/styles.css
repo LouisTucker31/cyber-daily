@@ -996,7 +996,7 @@ div.tile-locked { cursor: default; }
 .lu-text { margin-top: 30px; max-width: 360px; }
 .lu-kicker { margin: 0; font-size: var(--t-small); font-weight: 700; color: var(--signal); letter-spacing: 0.02em; }
 .lu-title { margin: 4px 0 10px; font-size: 38px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
-.lu-body { margin: 0; color: var(--ink-2); }
+.lu-body { margin: 0; color: var(--ink-2); text-wrap: balance; }
 .lu-hint {
   position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 28px);
   margin: 0; font-size: var(--t-small); color: var(--muted);
