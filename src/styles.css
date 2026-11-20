@@ -29,6 +29,7 @@
   --glass: rgba(247, 247, 245, 0.78);
   --shadow: 0 2px 10px rgba(21, 24, 29, 0.08);
   --bg-art: rgba(21, 24, 29, 0.06); /* background contour lines */
+  --veil: rgba(247, 247, 245, 0.84);  /* frosted cover behind the level-up */
 
   /* Today's 10 orange */
   --freeze: #2f7fb5;
@@ -81,6 +82,7 @@
   --glass: rgba(18, 20, 23, 0.74);
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
   --bg-art: rgba(236, 235, 231, 0.05);
+  --veil: rgba(18, 20, 23, 0.86);
 
   --freeze: #6db7e8;
     --frost-bg: #14283a;
@@ -112,7 +114,7 @@ html, body {
   font-family: "Figtree", "Segoe UI", Roboto, sans-serif;
   font-size: var(--t-body);
   line-height: 1.5;
-  font-feature-settings: "tnum" 0;
+  font-variant-numeric: tabular-nums; /* every digit the same width, so changing numbers never resize things */
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   /* native rubber-band scrolling: the page stretches past the ends and springs back */
@@ -586,7 +588,7 @@ div.tile-locked { cursor: default; }
 .tile-badge {
   position: absolute;
   top: 14px; right: 14px;
-  min-width: 28px; height: 28px;
+  min-width: 38px; height: 28px; /* fits 1 or 2 digits without changing size */
   padding: 0 8px;
   display: grid; place-items: center;
   border-radius: 999px;
@@ -961,4 +963,98 @@ div.tile-locked { cursor: default; }
   .sheet-backdrop.closing .sheet { animation: sheet-down .22s ease-in forwards; }
   @keyframes fade-out { to { opacity: 0; } }
   @keyframes sheet-down { to { transform: translateY(100%); } }
+}
+
+/* ---------- level up: full screen ---------- */
+.levelup {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: env(safe-area-inset-top) calc(env(safe-area-inset-right) + var(--pad)) env(safe-area-inset-bottom) calc(env(safe-area-inset-left) + var(--pad));
+  background: var(--veil);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-select: none; user-select: none;
+}
+.lu-confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.lu-stage { position: relative; display: flex; flex-direction: column; align-items: center; }
+.lu-coin { perspective: 900px; }
+.lu-spin { transform-style: preserve-3d; }
+.lu-disc {
+  position: relative;
+  display: grid; place-items: center;
+  width: 184px; height: 184px; border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line), 0 14px 40px rgba(0, 0, 0, 0.16);
+}
+.lu-disc::after {
+  /* soft orange halo that pulses out while it floats */
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 3px solid var(--orange); opacity: 0; pointer-events: none;
+}
+.lu-text { margin-top: 30px; max-width: 360px; }
+.lu-kicker { margin: 0; font-size: var(--t-small); font-weight: 700; color: var(--signal); letter-spacing: 0.02em; }
+.lu-title { margin: 4px 0 10px; font-size: 38px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.lu-body { margin: 0; color: var(--ink-2); }
+.lu-hint {
+  position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 28px);
+  margin: 0; font-size: var(--t-small); color: var(--muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .levelup { animation: fade .3s ease-out both; }
+  .levelup.leaving { animation: fade-out .4s ease-in both; }
+
+  /* 1. the old level slams down onto the screen, with a little shake on impact */
+  .lu-coin { animation: lu-slam .6s both; }
+  .lu-stage { animation: lu-shake .35s .26s both; }
+  @keyframes lu-slam {
+    0%   { transform: scale(3.2); opacity: 0; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+    45%  { transform: scale(1); opacity: 1; animation-timing-function: ease-out; }
+    62%  { transform: scale(.88); }
+    80%  { transform: scale(1.04); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes lu-shake {
+    20% { transform: translate(-5px, 3px); }
+    40% { transform: translate(4px, -3px); }
+    60% { transform: translate(-3px, 2px); }
+    80% { transform: translate(2px, -1px); }
+  }
+
+  /* 2. it spins and turns into the new level */
+  .levelup.is-spin .lu-spin { animation: lu-turn .95s cubic-bezier(.45, 0, .2, 1) both; }
+  @keyframes lu-turn { from { transform: rotateY(0); } to { transform: rotateY(1080deg); } }
+
+  /* 3. the new level slams down (bigger), confetti bursts */
+  .levelup.is-slam .lu-coin { animation: lu-slam2 .55s both; }
+  .levelup.is-slam .lu-stage { animation: lu-shake2 .4s .08s both; }
+  @keyframes lu-slam2 {
+    0%   { transform: scale(1); animation-timing-function: ease-out; }
+    28%  { transform: scale(1.32); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+    55%  { transform: scale(.9); animation-timing-function: ease-out; }
+    78%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  @keyframes lu-shake2 {
+    20% { transform: translate(-7px, 4px); }
+    40% { transform: translate(6px, -4px); }
+    60% { transform: translate(-4px, 3px); }
+    80% { transform: translate(2px, -1px); }
+  }
+
+  /* 4. it floats with a pulsing halo, the words rise in, then it all fades away */
+  .levelup.is-float .lu-coin, .levelup.is-float .lu-stage { animation: none; }
+  .levelup.is-float .lu-disc { animation: lu-float 2.6s ease-in-out infinite; }
+  .levelup.is-slam .lu-disc::after, .levelup.is-float .lu-disc::after { animation: lu-halo 1.8s ease-out infinite; }
+  @keyframes lu-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  @keyframes lu-halo { from { transform: scale(.96); opacity: .55; } to { transform: scale(1.4); opacity: 0; } }
+
+  .lu-text > * { opacity: 0; transform: translateY(12px); transition: opacity .45s ease-out, transform .6s cubic-bezier(.2, .9, .25, 1); }
+  .levelup.revealed .lu-text > * { opacity: 1; transform: none; }
+  .levelup.revealed .lu-title { transition-delay: .08s; }
+  .levelup.revealed .lu-body { transition-delay: .16s; }
+  .lu-hint { opacity: 0; transition: opacity .5s 1s; }
+  .levelup.is-float .lu-hint { opacity: 1; }
 }

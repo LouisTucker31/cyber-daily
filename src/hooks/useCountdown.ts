@@ -8,10 +8,10 @@ function timeToMidnight(): string {
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
-  return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 }
 
-/* Ticking "h:mm:ss until midnight". Calls onNewDay once the date changes. */
+/* Ticking "hh:mm:ss until midnight" (always 8 characters, so the pill never changes width). Calls onNewDay once the date changes. */
 export default function useCountdown(dayDate: string | undefined, onNewDay: () => void): string {
   const [remaining, setRemaining] = useState(timeToMidnight);
   useEffect(() => {

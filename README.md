@@ -19,7 +19,8 @@ Built with React 19, TypeScript and Vite.
 | `src/components/DoneView.tsx` | End-of-set summary for both modes |
 | `src/components/Profile.tsx` | Profile screen |
 | `src/components/Badge.tsx` | Level ring and badge medals |
-| `src/components/Celebration.tsx` | Pop-up sheet for level-ups, badges and streak freezes |
+| `src/components/Celebration.tsx` | Picks how to celebrate: the full-screen level-up, or a pop-up sheet for badges and streak freezes |
+| `src/components/LevelUp.tsx` | Full-screen level-up: the old level slams in, spins into the new one, slams down with confetti, floats, then fades (tap to skip) |
 | `src/components/Sheet.tsx` | Slide-up bottom sheet (swipe down or tap outside to close), used for celebrations and badge details |
 | `src/components/BlitzView.tsx` | Acronym Blitz: intro, the timed round and the results |
 | `src/components/Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
@@ -29,6 +30,8 @@ Built with React 19, TypeScript and Vite.
 | `src/lib/progress.ts` | XP, levels, badges, streak freezes, category scores, recommendations |
 | `src/lib/blitz.ts` | Acronym Blitz logic: difficulty ramp, reversed questions, scoring, XP cap |
 | `src/lib/haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
+| `src/lib/confetti.ts` | Small canvas confetti in the medal colours (off when the phone asks for reduced motion) |
+| `src/lib/statusBar.ts` | Tints the iPhone status bar while a sheet is open, so the dimmed backdrop reaches the top of the screen |
 | `public/questions.json` | The question bank |
 | `public/acronyms.json` | The Acronym Blitz bank |
 | `public/manifest.json`, icons, `figtree-OFL.txt` | PWA manifest, icons and font licence (copied into the build with their exact names) |

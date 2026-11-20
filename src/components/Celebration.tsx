@@ -1,9 +1,10 @@
 import { useEffect, type ReactNode } from 'react';
 import type { Celebration as C, State } from '../lib/quiz.ts';
-import { BADGES, levelInfo, MAX_FREEZES, RANKS } from '../lib/progress.ts';
+import { BADGES, levelInfo, MAX_FREEZES } from '../lib/progress.ts';
 import { LevelRing, Medal } from './Badge.tsx';
 import { haptic } from '../lib/haptics.ts';
 import Sheet from './Sheet.tsx';
+import LevelUp from './LevelUp.tsx';
 
 interface Props {
   item: C;
@@ -12,22 +13,22 @@ interface Props {
   onProfile: () => void;
 }
 
-/* Bottom sheet for level-ups, new badges and streak-freeze news. */
+/* Level-ups get the full-screen LevelUp; new badges and streak-freeze news get a bottom sheet. */
 export default function Celebration({ item, state, onDone, onProfile }: Props) {
-  useEffect(() => { haptic('success'); }, [item]);
+  useEffect(() => { if (item.kind !== 'level') haptic('success'); }, [item]); // LevelUp plays its own
+
+  if (item.kind === 'level') {
+    const n = item.n ?? 1;
+    const lv = levelInfo(state.xp);
+    return <LevelUp level={n} progress={lv.level === n ? lv.progress : 1} onDone={onDone} />;
+  }
 
   let art: ReactNode;
   let kicker: string;
   let title: string;
   let body: string;
 
-  if (item.kind === 'level') {
-    const rank = RANKS[(item.n ?? 1) - 1];
-    art = <LevelRing level={rank.level} progress={1} size={96} />;
-    kicker = 'Level up';
-    title = rank.name;
-    body = `You’ve reached level ${rank.level}. Keep going to unlock more.`;
-  } else if (item.kind === 'badge') {
+  if (item.kind === 'badge') {
     const b = BADGES.find((x) => x.id === item.id)!;
     art = <Medal glyph={b.glyph} earned tier={b.tier} size={96} />;
     kicker = 'Badge earned';
