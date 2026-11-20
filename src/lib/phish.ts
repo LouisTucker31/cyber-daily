@@ -81,34 +81,34 @@ export function directoryFor(c: Cast): DirectoryEntry[] {
     {
       org: c.E, role: 'Your employer',
       rows: [
-        { icon: 'web', value: `${c.Eslug}.co.uk`, label: 'All its websites and email' },
-        { icon: 'phone', value: c.Ephone, label: 'IT Service Desk' }
+        { icon: 'web', value: `${c.Eslug}.co.uk`, label: '' },
+        { icon: 'phone', value: c.Ephone, label: 'IT' }
       ],
-      rules: ['IT never asks for passwords or sign-in codes', 'Messages from outside are tagged External',
-        'Bank details only change after a call-back']
+      rules: ['IT never asks for passwords or codes', 'Outside messages are tagged External',
+        'Bank details change only after a call-back']
     },
     {
       org: c.B, role: 'Your bank',
       rows: [
-        { icon: 'web', value: `${c.Bslug}.co.uk`, label: 'Website and email' },
-        { icon: 'text', value: c.Bs, label: 'Texts come from' },
-        { icon: 'phone', value: c.Bphone, label: 'Fraud team' }
+        { icon: 'web', value: `${c.Bslug}.co.uk`, label: '' },
+        { icon: 'text', value: c.Bs, label: 'texts from' },
+        { icon: 'phone', value: c.Bphone, label: 'fraud' }
       ],
-      rules: ['Texts never include a sign-in link', 'Never asks you to move money']
+      rules: ['No sign-in links in texts', 'Never asks you to move money']
     },
     {
       org: c.D, role: 'Deliveries',
       rows: [
-        { icon: 'web', value: `${c.Dslug}.co.uk`, label: 'Website and email' },
-        { icon: 'text', value: `${c.D} · ${c.Dlink}.uk`, label: 'Texts and short links' }
+        { icon: 'web', value: `${c.Dslug}.co.uk`, label: '' },
+        { icon: 'text', value: `${c.Dlink}.uk`, label: 'short links' }
       ],
       rules: ['Redelivery is always free']
     },
     {
-      org: c.N, role: 'Energy, home and office',
+      org: c.N, role: 'Energy',
       rows: [
-        { icon: 'web', value: `${c.Nslug}.co.uk`, label: 'Website and email' },
-        { icon: 'phone', value: c.Nphone, label: 'Customer service' }
+        { icon: 'web', value: `${c.Nslug}.co.uk`, label: '' },
+        { icon: 'phone', value: c.Nphone, label: '' }
       ],
       rules: ['Refunds are automatic, never claimed']
     }

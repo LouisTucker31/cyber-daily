@@ -639,15 +639,15 @@ export function DirectorySheet({ directory, onClose }: { directory: DirectoryEnt
       {(close) => (
         <div className="dir">
           <h2 className="sheet-title" id="dir-title">Directory</h2>
-          <p className="sheet-small">The real details. Anything else is someone else.</p>
+          <p className="sheet-small">The real details. Anything else isn’t them.</p>
           {directory.map((d) => (
             <section key={d.org} className="dir-card">
               <p className="dir-name"><b>{d.org}</b><span>{d.role}</span></p>
-              <ul className="dir-rows">
+              <ul className="dir-chips">
                 {d.rows.map((r) => (
-                  <li key={r.label}>
-                    <span className="dir-icon">{DIR_ICON[r.icon]}</span>
-                    <span className="dir-text"><b>{breakable(r.value)}</b><span>{r.label}</span></span>
+                  <li key={r.value}>
+                    {DIR_ICON[r.icon]}
+                    <b>{breakable(r.value)}</b>{r.label && <span>{r.label}</span>}
                   </li>
                 ))}
               </ul>

@@ -118,7 +118,7 @@ Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe rig
 
 - **Cards:** emails, texts, Kestrel Chat messages, bare links, sign-in prompts, sign-in pages, app permission requests and voicemails.
 - **A new cast every round:** one employer, bank, delivery company and energy supplier, picked at random from the fictional ones in `casts` in `public/phish.json` (4 employers, 3 of each of the others). Phone numbers come from Ofcom's ranges reserved for drama, so none are real.
-- **The Directory** shows just the genuine details for this round's cast: each organisation's domain, phone number or text sender, and a rule or two. It's built in `directoryFor()` in `src/lib/phish.ts`. Open it from the intro or the chip above the card.
+- **The Directory** shows just the genuine details for this round's cast: each organisation's domain and phone number or text sender as small chips, plus a rule or two. It's built in `directoryFor()` in `src/lib/phish.ts`. Open it from the intro or the chip above the card.
 - **Inspecting, as on a real phone:**
   - Tap a sender's name to see the full address, including any different reply-to address.
   - Tap a browser address bar to see the full web address.
@@ -144,6 +144,7 @@ Add to `cards` in `public/phish.json` with a new unique `id`. Write organisation
 - **Delivery:** `{D}`, `{Dslug}`, `{Dlink}` (short links are `{Dlink}.uk`).
 - **Energy:** `{N}`, `{Ns}`, `{Nslug}`, `{Nhyp}`, `{Nabbr}`, `{Nphone}`.
 
+Then set:
 - `tier`: 1 Rookie, 2 Analyst, 3 Expert.
 - `type`: one of `email`, `sms`, `chat`, `link`, `mfa`, `login`, `consent`, `voicemail`.
 - `phish`: true or false.
