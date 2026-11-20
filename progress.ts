@@ -99,6 +99,21 @@ export function categoryScore(state: State, category: string, until?: string): {
   return { score: den ? Math.round((num / den) * 100) : 0, n };
 }
 
+/* Short names for the skill rings (falls back to the first word) */
+const SHORT: Record<string, string> = {
+  'Cybersecurity Fundamentals': 'Basics',
+  'Passwords and Authentication': 'Passwords',
+  'Phishing and Social Engineering': 'Phishing',
+  'Malware and Attacks': 'Malware',
+  'Networks and the Web': 'Networks',
+  'Devices and Endpoint Security': 'Devices',
+  'Data Protection and Privacy': 'Data',
+  'Security Monitoring and Incident Response': 'Monitoring',
+  'Cloud and Application Security': 'Cloud',
+  'Resilience and Security Management': 'Resilience'
+};
+export const shortName = (c: string) => SHORT[c] ?? c.split(' ')[0];
+
 export function categories(bank: Question[]): string[] {
   return [...new Set(bank.map((q) => q.category || 'General'))];
 }
@@ -130,6 +145,7 @@ export interface BadgeDef {
   name: string;
   desc: string;
   glyph: string;          // which icon to draw (see icons in Badge.tsx)
+  tier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'special';
   hidden?: boolean;       // shows as ??? until earned
   progress?: (c: Ctx) => [number, number];
   earned: (c: Ctx) => boolean;
@@ -144,42 +160,42 @@ interface Ctx {
 const count = (n: number, target: number): [number, number] => [Math.min(n, target), target];
 
 export const BADGES: BadgeDef[] = [
-  { id: 'first-shift', name: 'First Shift', desc: 'Finish your first Today’s 10.', glyph: 'play',
+  { id: 'first-shift', tier: 'bronze', name: 'First Shift', desc: 'Finish your first Today’s 10.', glyph: 'play',
     earned: (c) => c.state.stats.daysCompleted >= 1 },
-  { id: 'clean-sweep', name: 'Clean Sweep', desc: 'Get all 10 right in a day.', glyph: 'check',
+  { id: 'clean-sweep', tier: 'silver', name: 'Clean Sweep', desc: 'Get all 10 right in a day.', glyph: 'check',
     earned: (c) => c.state.stats.cleanSweeps >= 1 },
-  { id: 'no-help', name: 'No Help Needed', desc: 'A clean sweep without using a hint.', glyph: 'star',
+  { id: 'no-help', tier: 'gold', name: 'No Help Needed', desc: 'A clean sweep without using a hint.', glyph: 'star',
     earned: (c) => c.state.stats.cleanNoHints >= 1 },
-  { id: 'streak-3', name: 'On a Roll', desc: 'A 3-day streak.', glyph: '3',
+  { id: 'streak-3', tier: 'bronze', name: 'On a Roll', desc: 'A 3-day streak.', glyph: '3',
     progress: (c) => count(c.state.streak.best ?? 0, 3), earned: (c) => (c.state.streak.best ?? 0) >= 3 },
-  { id: 'streak-7', name: 'Week on Watch', desc: 'A 7-day streak.', glyph: '7',
+  { id: 'streak-7', tier: 'silver', name: 'Week on Watch', desc: 'A 7-day streak.', glyph: '7',
     progress: (c) => count(c.state.streak.best ?? 0, 7), earned: (c) => (c.state.streak.best ?? 0) >= 7 },
-  { id: 'streak-30', name: 'Month on Duty', desc: 'A 30-day streak.', glyph: '30',
+  { id: 'streak-30', tier: 'gold', name: 'Month on Duty', desc: 'A 30-day streak.', glyph: '30',
     progress: (c) => count(c.state.streak.best ?? 0, 30), earned: (c) => (c.state.streak.best ?? 0) >= 30 },
-  { id: 'streak-100', name: 'Centurion', desc: 'A 100-day streak.', glyph: '100',
+  { id: 'streak-100', tier: 'platinum', name: 'Centurion', desc: 'A 100-day streak.', glyph: '100',
     progress: (c) => count(c.state.streak.best ?? 0, 100), earned: (c) => (c.state.streak.best ?? 0) >= 100 },
-  { id: 'bank-25', name: 'Building the Bank', desc: 'Learn 25 questions.', glyph: 'stack',
+  { id: 'bank-25', tier: 'bronze', name: 'Building the Bank', desc: 'Learn 25 questions.', glyph: 'stack',
     progress: (c) => count(c.learned, 25), earned: (c) => c.learned >= 25 },
-  { id: 'bank-50', name: 'Well Read', desc: 'Learn 50 questions.', glyph: 'stack',
+  { id: 'bank-50', tier: 'silver', name: 'Well Read', desc: 'Learn 50 questions.', glyph: 'stack',
     progress: (c) => count(c.learned, 50), earned: (c) => c.learned >= 50 },
-  { id: 'bank-100', name: 'Encyclopaedic', desc: 'Learn 100 questions.', glyph: 'stack',
+  { id: 'bank-100', tier: 'gold', name: 'Encyclopaedic', desc: 'Learn 100 questions.', glyph: 'stack',
     progress: (c) => count(c.learned, 100), earned: (c) => c.learned >= 100 },
-  { id: 'locked-in', name: 'Locked In', desc: 'Get a question to full strength in Practice.', glyph: 'dots',
+  { id: 'locked-in', tier: 'silver', name: 'Locked In', desc: 'Get a question to full strength in Practice.', glyph: 'dots',
     earned: (c) => Object.values(c.state.srs).some((e) => e.box >= MAX_BOX) },
-  { id: 'inbox-zero', name: 'Inbox Zero', desc: 'Clear every review that’s due in a day (at least 5).', glyph: 'tray',
+  { id: 'inbox-zero', tier: 'silver', name: 'Inbox Zero', desc: 'Clear every review that’s due in a day (at least 5).', glyph: 'tray',
     earned: (c) => c.state.stats.reviewsCleared >= 1 },
-  { id: 'second-chance', name: 'Second Chance', desc: 'Get a daily question right that you’d got wrong before.', glyph: 'loop',
+  { id: 'second-chance', tier: 'bronze', name: 'Second Chance', desc: 'Get a daily question right that you’d got wrong before.', glyph: 'loop',
     earned: (c) => c.state.stats.secondChance >= 1 },
-  { id: 'specialist', name: 'Specialist', desc: 'Score 90+ in any category (from 10+ answers).', glyph: 'target',
+  { id: 'specialist', tier: 'gold', name: 'Specialist', desc: 'Score 90+ in any category (from 10+ answers).', glyph: 'target',
     earned: (c) => c.rows.some((r) => r.score !== null && r.score >= 90 && r.n >= 10) },
-  { id: 'all-rounder', name: 'All-Rounder', desc: 'Score 70+ in every category (from 10+ answers each).', glyph: 'web',
+  { id: 'all-rounder', tier: 'gold', name: 'All-Rounder', desc: 'Score 70+ in every category (from 10+ answers each).', glyph: 'web',
     progress: (c) => count(c.rows.filter((r) => r.score !== null && r.score >= 70 && r.n >= 10).length, c.rows.length),
     earned: (c) => c.rows.length > 0 && c.rows.every((r) => r.score !== null && r.score >= 70 && r.n >= 10) },
-  { id: 'early-bird', name: 'Early Bird', desc: 'Finish Today’s 10 before 7am.', glyph: 'sun', hidden: true,
+  { id: 'early-bird', tier: 'special', name: 'Early Bird', desc: 'Finish Today’s 10 before 7am.', glyph: 'sun', hidden: true,
     earned: (c) => c.state.stats.earlyBird >= 1 },
-  { id: 'night-owl', name: 'Night Owl', desc: 'Finish Today’s 10 after 11pm.', glyph: 'moon', hidden: true,
+  { id: 'night-owl', tier: 'special', name: 'Night Owl', desc: 'Finish Today’s 10 after 11pm.', glyph: 'moon', hidden: true,
     earned: (c) => c.state.stats.nightOwl >= 1 },
-  { id: 'saved', name: 'Saved by the Freeze', desc: 'A streak freeze kept your streak alive.', glyph: 'snow', hidden: true,
+  { id: 'saved', tier: 'special', name: 'Saved by the Freeze', desc: 'A streak freeze kept your streak alive.', glyph: 'snow', hidden: true,
     earned: (c) => c.state.stats.freezesUsed >= 1 }
 ];
 
@@ -214,48 +230,4 @@ export function evaluateProgress(state: State, bank: Question[], silent = false)
 
 export function badgeContext(state: State, bank: Question[]): Ctx {
   return { state, learned: learnedIds(state, bank).length, rows: profileRows(state, bank) };
-}
-
-/* ---------- recommendations ---------- */
-
-export interface Recommendation {
-  text: string;
-  action?: 'daily' | 'practice';
-  label?: string;
-}
-
-export function recommendations(state: State, bank: Question[]): Recommendation[] {
-  const out: Recommendation[] = [];
-  const day = state.day;
-  const due = dueIds(state, bank).length;
-  const rows = profileRows(state, bank);
-  const scored = rows.filter((r) => r.score !== null).sort((a, b) => (a.score! - b.score!));
-
-  if (day && day.index < day.items.length) {
-    out.push({ text: 'Today’s 10 is still waiting.', action: 'daily', label: 'Start' });
-  }
-  if (due > 0) {
-    out.push({ text: `${due} ${due === 1 ? 'question is' : 'questions are'} due for review.`, action: 'practice', label: 'Review' });
-  }
-  const weakest = scored[0];
-  if (weakest && weakest.score! < 80) {
-    out.push({
-      text: `${weakest.name} is your weakest area (${weakest.score}). Practice leans on it automatically.`,
-      action: learnedIds(state, bank).length > 0 ? 'practice' : undefined,
-      label: 'Practise'
-    });
-  }
-  const falling = rows.filter((r) => r.trend !== null && r.trend <= -10).sort((a, b) => a.trend! - b.trend!)[0];
-  if (falling && falling !== weakest) {
-    out.push({ text: `${falling.name} has dropped ${Math.abs(falling.trend!)} points in two weeks.` });
-  }
-  const unseen = rows.filter((r) => r.n === 0).length;
-  if (unseen > 0 && out.length < 3) {
-    out.push({ text: `${unseen} ${unseen === 1 ? 'category hasn’t' : 'categories haven’t'} come up yet. They’ll appear in Today’s 10.` });
-  }
-  if (state.freezes === 0 && out.length < 3) {
-    const toGo = FREEZE_EVERY - (state.streak.count % FREEZE_EVERY);
-    out.push({ text: `${toGo} more ${toGo === 1 ? 'day' : 'days'} in a row earns a streak freeze.` });
-  }
-  return out.slice(0, 3);
 }

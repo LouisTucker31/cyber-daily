@@ -28,17 +28,17 @@ export default function Celebration({ item, state, onDone, onProfile }: Props) {
     body = `You’ve reached level ${rank.level}. Keep going to unlock more.`;
   } else if (item.kind === 'badge') {
     const b = BADGES.find((x) => x.id === item.id)!;
-    art = <Medal glyph={b.glyph} earned size={96} />;
+    art = <Medal glyph={b.glyph} earned tier={b.tier} size={96} />;
     kicker = 'Badge earned';
     title = b.name;
     body = b.desc;
   } else if (item.kind === 'freeze-earned') {
-    art = <Medal glyph="snow" earned size={96} />;
+    art = <Medal glyph="snow" earned tier="platinum" size={96} />;
     kicker = 'Streak freeze earned';
     title = `${item.n} of ${MAX_FREEZES}`;
     body = 'Seven days in a row. If you miss a day, a freeze is used automatically to protect your streak.';
   } else if (item.kind === 'freeze-used') {
-    art = <Medal glyph="snow" earned size={96} />;
+    art = <Medal glyph="snow" earned tier="platinum" size={96} />;
     kicker = 'Streak saved';
     title = `${state.streak.count}-day streak kept`;
     body = item.n === 1
@@ -57,7 +57,7 @@ export default function Celebration({ item, state, onDone, onProfile }: Props) {
   return (
     <div className="sheet-backdrop" onClick={onDone}>
       <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" onClick={(e) => e.stopPropagation()}>
-        <div className="sheet-art">{art}</div>
+        <div className="sheet-art"><span className="pop">{art}</span></div>
         <p className="sheet-kicker">{kicker}</p>
         <h2 className="sheet-title" id="sheet-title">{title}</h2>
         <p className="sheet-body">{body}</p>

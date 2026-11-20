@@ -206,7 +206,6 @@ export default function App() {
         bank={bank!}
         streak={shownStreak(state)}
         onDaily={() => open('daily')}
-        onPractice={startPractice}
       />
     );
   } else if (view === 'practice' && practice) {

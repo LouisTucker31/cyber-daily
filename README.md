@@ -80,7 +80,7 @@ Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
 - XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due).
-- Ranks run from Trainee (level 1) to CISO (level 10). The XP needed for each is set in `RANKS` in `progress.ts`.
+- Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see them all; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `progress.ts`.
 
 **Category scores**
 - Each category gets a score from 0 to 100, based on your last 30 answers with recent ones weighted more.

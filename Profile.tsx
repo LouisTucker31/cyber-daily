@@ -1,189 +1,192 @@
 import { useState } from 'react';
 import type { Question, State } from './quiz.ts';
-import {
-  BADGES, badgeContext, levelInfo, MAX_FREEZES, MIN_ANSWERS, profileRows, RANKS, recommendations
-} from './progress.ts';
+import { BADGES, badgeContext, levelInfo, MIN_ANSWERS, profileRows, RANKS, shortName, XP } from './progress.ts';
 import { learnedIds } from './quiz.ts';
-import { LevelRing, Medal, SnowIcon } from './Badge.tsx';
-import { ArrowIcon } from './icons.tsx';
+import { LevelRing, Medal, SkillRing, SnowIcon } from './Badge.tsx';
+import { haptic } from './haptics.ts';
 
 interface Props {
   state: State;
   bank: Question[];
   streak: number;
   onDaily: () => void;
-  onPractice: () => void;
 }
 
-function Trend({ value }: { value: number | null }) {
-  if (value === null || Math.abs(value) < 5) return null;
-  const up = value > 0;
+function Chevron({ open }: { open: boolean }) {
   return (
-    <span className={'trend ' + (up ? 'up' : 'down')} aria-label={`${up ? 'Up' : 'Down'} ${Math.abs(value)} in two weeks`}>
-      <svg viewBox="0 0 12 12" aria-hidden="true"><path d={up ? 'M6 2.5l4 5H2z' : 'M6 9.5l4-5H2z'} fill="currentColor" /></svg>
-      {Math.abs(value)}
-    </span>
+    <svg className={'chev' + (open ? ' open' : '')} viewBox="0 0 20 20" fill="none" stroke="currentColor"
+      strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5.5 8l4.5 4.5L14.5 8" />
+    </svg>
   );
 }
 
-export default function Profile({ state, bank, streak, onDaily, onPractice }: Props) {
+export default function Profile({ state, bank, streak, onDaily }: Props) {
   const lv = levelInfo(state.xp);
   const rows = profileRows(state, bank);
-  const scored = rows.filter((r) => r.score !== null).sort((a, b) => b.score! - a.score!);
-  const unscored = rows.filter((r) => r.score === null);
-  const recs = recommendations(state, bank);
   const ctx = badgeContext(state, bank);
-  const earnedCount = BADGES.filter((b) => state.badges[b.id]).length;
-  const [openBadge, setOpenBadge] = useState<string | null>(null);
+  const learned = learnedIds(state, bank).length;
+  const dayLeft = !!state.day && state.day.items.length > 0 && state.day.index < state.day.items.length;
 
-  const strongest = scored.slice(0, 2);
-  const weakest = scored.length > 2 ? scored.slice(-2).reverse() : [];
+  const [spin, setSpin] = useState(0);
+  const [showRanks, setShowRanks] = useState(false);
+  const [showAllBadges, setShowAllBadges] = useState(false);
+  const [openBadge, setOpenBadge] = useState<string | null>(null);
+  const [skill, setSkill] = useState<string | null>(null);
+
+  // badges: earned first (newest first), then the rest in their set order
+  const badges = [...BADGES].sort((a, b) => {
+    const ea = state.badges[a.id], eb = state.badges[b.id];
+    if (ea && eb) return eb.localeCompare(ea);
+    if (ea) return -1;
+    if (eb) return 1;
+    return 0;
+  });
+  const earnedCount = BADGES.filter((b) => state.badges[b.id]).length;
+
+  // strongest and weakest (only once there's enough to compare)
+  const scored = rows.filter((r) => r.score !== null).sort((a, b) => b.score! - a.score!);
+  const top = scored.length >= 3 ? scored[0].name : null;
+  const focus = scored.length >= 3 ? scored[scored.length - 1].name : null;
+  const selected = rows.find((r) => r.name === skill) ?? null;
 
   return (
     <div className="profile">
-      {/* rank */}
+      {dayLeft && (
+        <button type="button" className="nudge" onClick={onDaily}>
+          <span className="nudge-dot" aria-hidden="true" />
+          Today’s 10 is waiting
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"
+            strokeLinejoin="round" aria-hidden="true"><path d="M8 4.5l5.5 5.5L8 15.5" /></svg>
+        </button>
+      )}
+
+      {/* rank: tap the coin to spin it, tap the name to see all ranks */}
       <section className="rank">
-        <LevelRing level={lv.level} progress={lv.progress} size={88} />
-        <div className="rank-text">
+        <button
+          type="button"
+          className="coin"
+          aria-label={`Level ${lv.level}`}
+          onClick={() => { haptic(); setSpin((n) => n + 1); }}
+        >
+          <span key={spin} className={spin ? 'coin-face spinning' : 'coin-face'}>
+            <LevelRing level={lv.level} progress={lv.progress} size={88} />
+          </span>
+        </button>
+        <button type="button" className="rank-text" onClick={() => setShowRanks((v) => !v)} aria-expanded={showRanks}>
           <span className="rank-level">Level {lv.level}</span>
-          <span className="rank-name">{lv.rank}</span>
+          <span className="rank-name">{lv.rank}<Chevron open={showRanks} /></span>
           <span className="xp-bar" aria-hidden="true"><i style={{ width: `${Math.round(lv.progress * 100)}%` }} /></span>
           <span className="rank-next">
             {lv.next ? `${lv.toNext.toLocaleString('en-GB')} XP to ${lv.next.name}` : 'Top rank reached'}
           </span>
-        </div>
+        </button>
       </section>
 
-      {/* key stats */}
-      <section className="stat-row">
-        <div className="stat">
-          <span className="stat-value">{streak}</span>
-          <span className="stat-label">Day streak</span>
-          <span className="stat-sub">Best {state.streak.best ?? streak}</span>
-        </div>
-        <div className="stat">
-          <span className="stat-value stat-freeze"><SnowIcon />{state.freezes}</span>
-          <span className="stat-label">Freezes</span>
-          <span className="stat-sub">of {MAX_FREEZES} max</span>
-        </div>
-        <div className="stat">
-          <span className="stat-value">{learnedIds(state, bank).length}</span>
-          <span className="stat-label">Learned</span>
-          <span className="stat-sub">{state.xp.toLocaleString('en-GB')} XP</span>
-        </div>
-      </section>
-
-      {/* recommendations */}
-      {recs.length > 0 && (
-        <section className="p-section">
-          <h2 className="p-title">Recommended next</h2>
-          <ul className="recs">
-            {recs.map((r, i) => (
-              <li key={i}>
-                <span>{r.text}</span>
-                {r.action && (
-                  <button type="button" className="chip" onClick={r.action === 'daily' ? onDaily : onPractice}>
-                    {r.label}<ArrowIcon />
-                  </button>
-                )}
+      <div className={'collapse' + (showRanks ? ' open' : '')}>
+        <div className="collapse-inner">
+          <ol className="ranks">
+            {RANKS.map((r) => (
+              <li key={r.level} className={r.level === lv.level ? 'current' : r.level < lv.level ? 'past' : ''}>
+                <span className="ranks-lvl">{r.level}</span>
+                <span className="ranks-name">{r.name}</span>
+                <span className="ranks-xp">{r.xp.toLocaleString('en-GB')} XP</span>
               </li>
             ))}
-          </ul>
-        </section>
-      )}
-
-      {/* strengths & weaknesses */}
-      <section className="p-section">
-        <h2 className="p-title">Strengths and weaknesses</h2>
-        {scored.length === 0 ? (
+          </ol>
           <p className="p-note">
-            Answer at least {MIN_ANSWERS} questions in a category to get a score. Scores weight your most recent answers.
+            {XP.dailyCorrect} XP per daily question right, {XP.dailyComplete} for finishing, {XP.cleanSweep} for a clean
+            sweep, {XP.practiceDue} per due review right.
           </p>
-        ) : (
-          <>
-            <p className="p-summary">
-              Strongest: <b>{strongest.map((r) => r.name).join(', ')}</b>.
-              {weakest.length > 0 && <> Focus on: <b>{weakest.map((r) => r.name).join(', ')}</b>.</>}
-            </p>
-            <ul className="scores">
-              {scored.map((r) => (
-                <li key={r.name}>
-                  <div className="score-head">
-                    <span className="score-name">{r.name}</span>
-                    <span className="score-val"><Trend value={r.trend} />{r.score}</span>
-                  </div>
-                  <span className="score-bar"><i style={{ width: `${r.score}%` }} /></span>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-        {unscored.length > 0 && (
-          <>
-            <p className="p-sub">Not enough data yet</p>
-            <ul className="scores muted">
-              {unscored.map((r) => (
-                <li key={r.name}>
-                  <div className="score-head">
-                    <span className="score-name">{r.name}</span>
-                    <span className="score-val">{r.n}/{MIN_ANSWERS}</span>
-                  </div>
-                  <span className="score-bar"><i style={{ width: `${(r.n / MIN_ANSWERS) * 100}%` }} /></span>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+        </div>
+      </div>
+
+      {/* key stats: the streak box frosts over when a freeze is protecting it */}
+      <section className="stat-row">
+        <div className={'stat' + (state.freezes > 0 ? ' frozen' : '')}>
+          {state.freezes > 0 && (
+            <span className="frost-tag"><SnowIcon />{state.freezes > 1 ? `×${state.freezes}` : ''}</span>
+          )}
+          <span className="stat-value">{streak}</span>
+          <span className="stat-label">Day streak</span>
+        </div>
+        <div className="stat">
+          <span className="stat-value">{learned}</span>
+          <span className="stat-label">Learned</span>
+        </div>
+        <div className="stat">
+          <span className="stat-value">{state.xp.toLocaleString('en-GB')}</span>
+          <span className="stat-label">Total XP</span>
+        </div>
       </section>
 
-      {/* badges */}
+      {/* skills: one ring per category */}
+      <section className="p-section">
+        <h2 className="p-title">Skills</h2>
+        <div className="skills">
+          {rows.map((r) => (
+            <button
+              key={r.name}
+              type="button"
+              className={'skill' + (skill === r.name ? ' on' : '') + (r.name === focus ? ' focus' : '') + (r.name === top ? ' top' : '')}
+              onClick={() => setSkill(skill === r.name ? null : r.name)}
+              aria-label={`${r.name}: ${r.score === null ? 'not enough data' : r.score}`}
+            >
+              <SkillRing score={r.score} n={r.n} min={MIN_ANSWERS} />
+              <span className="skill-name">{shortName(r.name)}</span>
+            </button>
+          ))}
+        </div>
+        <p className="skill-caption">
+          {selected
+            ? (selected.score === null
+              ? <><b>{selected.name}</b> · {selected.n} of {MIN_ANSWERS} answers needed for a score</>
+              : <><b>{selected.name}</b> · {selected.score}/100 from your last {selected.n} answers
+                {selected.trend !== null && Math.abs(selected.trend) >= 5 && <> · {selected.trend > 0 ? 'up' : 'down'} {Math.abs(selected.trend)} in 2 weeks</>}</>)
+            : (top && focus
+              ? <>Strongest <b>{shortName(top)}</b> · focus on <b>{shortName(focus)}</b>. Tap a ring for details.</>
+              : 'Tap a ring for details. Recent answers count most.')}
+        </p>
+      </section>
+
+      {/* badges: first row, the rest folded away */}
       <section className="p-section">
         <h2 className="p-title">Badges <span className="p-count">{earnedCount} of {BADGES.length}</span></h2>
         <div className="badges">
-          {BADGES.map((b) => {
+          {badges.map((b, i) => {
             const earned = !!state.badges[b.id];
             const secret = !earned && b.hidden;
             const prog = !earned && b.progress ? b.progress(ctx) : null;
             const open = openBadge === b.id;
+            const extra = i >= 3;
             return (
               <button
                 key={b.id}
                 type="button"
-                className={'badge' + (earned ? ' earned' : '') + (open ? ' open' : '')}
+                className={'badge' + (earned ? ' earned' : '') + (open ? ' open' : '') + (extra ? ' extra' : '') +
+                  (extra && !showAllBadges ? ' folded' : '')}
+                style={extra ? { animationDelay: `${(i - 3) * 25}ms` } : undefined}
                 onClick={() => setOpenBadge(open ? null : b.id)}
                 aria-expanded={open}
               >
-                <Medal glyph={b.glyph} earned={earned} hidden={b.hidden} />
-                <span className="badge-name">{secret ? 'Hidden' : b.name}</span>
-                {open && <span className="badge-desc">{secret ? 'Keep playing to discover this one.' : b.desc}</span>}
-                {!open && prog && <span className="badge-prog">{prog[0]}/{prog[1]}</span>}
-                {!open && earned && (
-                  <span className="badge-prog">
-                    {new Date(state.badges[b.id]).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
-                  </span>
-                )}
+                <Medal glyph={b.glyph} earned={earned} hidden={b.hidden} tier={b.tier} />
+                <span className="badge-text">
+                  <span className="badge-name">{secret ? 'Hidden' : b.name}</span>
+                  {open && <span className="badge-desc">{secret ? 'Keep playing to discover this one.' : b.desc}</span>}
+                  {prog && <span className="badge-prog">{prog[0]}/{prog[1]}</span>}
+                  {earned && open && (
+                    <span className="badge-prog">
+                      Earned {new Date(state.badges[b.id]).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                    </span>
+                  )}
+                </span>
               </button>
             );
           })}
         </div>
-      </section>
-
-      {/* ranks */}
-      <section className="p-section">
-        <h2 className="p-title">Ranks</h2>
-        <ol className="ranks">
-          {RANKS.map((r) => (
-            <li key={r.level} className={r.level === lv.level ? 'current' : r.level < lv.level ? 'past' : ''}>
-              <span className="ranks-lvl">{r.level}</span>
-              <span className="ranks-name">{r.name}</span>
-              <span className="ranks-xp">{r.xp.toLocaleString('en-GB')} XP</span>
-            </li>
-          ))}
-        </ol>
-        <p className="p-note">
-          XP: 10 per daily question right, 20 for finishing the set, 50 more for a clean sweep, 5 per due review
-          right in Practice.
-        </p>
+        <button type="button" className="more" onClick={() => setShowAllBadges((v) => !v)} aria-expanded={showAllBadges}>
+          {showAllBadges ? 'Show less' : `Show all ${BADGES.length}`}<Chevron open={showAllBadges} />
+        </button>
       </section>
     </div>
   );
