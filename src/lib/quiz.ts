@@ -60,10 +60,11 @@ export interface BlitzStats {
   comboBest: number;      // most answers in a row while on a ×2 combo
   xpDay: string | null;   // date key of xpRounds
   xpRounds: number;       // rounds that earned XP on xpDay (capped per day)
+  rightAt: Record<string, number>; // acronym id -> round it was last answered right (keeps it out of the next rounds)
 }
 
 export function freshBlitz(): BlitzStats {
-  return { best: 0, rounds: 0, correct: 0, comboBest: 0, xpDay: null, xpRounds: 0 };
+  return { best: 0, rounds: 0, correct: 0, comboBest: 0, xpDay: null, xpRounds: 0, rightAt: {} };
 }
 
 export interface Stats {

@@ -117,6 +117,29 @@ const SHORT: Record<string, string> = {
 };
 export const shortName = (c: string) => SHORT[c] ?? c.split(' ')[0];
 
+/* What each skill covers, shown in its detail sheet */
+export const SKILL_INFO: Record<string, string> = {
+  'Cybersecurity Fundamentals': 'The core ideas everything else builds on: risk, threats, and keeping data confidential, intact and available.',
+  'Passwords and Authentication': 'Strong passwords, password managers, multi-factor sign-in and how accounts get taken over.',
+  'Phishing and Social Engineering': 'Spotting tricks that target people rather than systems: fake emails, calls, texts and links.',
+  'Malware and Attacks': 'Viruses, ransomware, worms and the common ways attackers break in.',
+  'Networks and the Web': 'How traffic moves and how it is protected: Wi-Fi, firewalls, VPNs, HTTPS and DNS.',
+  'Devices and Endpoint Security': 'Keeping laptops and phones safe: updates, encryption, antivirus and lost devices.',
+  'Data Protection and Privacy': 'Handling personal data properly, backups, sharing safely and privacy law.',
+  'Security Monitoring and Incident Response': 'Noticing when something is wrong and what to do next: logs, alerts and incident steps.',
+  'Cloud and Application Security': 'Securing cloud services and the apps built on them, from settings to secure code.',
+  'Resilience and Security Management': 'Policies, planning and recovery that keep an organisation running through an attack.'
+};
+
+/* A skill's score as a medal tier */
+export function skillTier(score: number | null): { tier: 'bronze' | 'silver' | 'gold' | 'platinum'; label: string } | null {
+  if (score === null) return null;
+  if (score >= 90) return { tier: 'platinum', label: 'Expert' };
+  if (score >= 75) return { tier: 'gold', label: 'Strong' };
+  if (score >= 50) return { tier: 'silver', label: 'Solid' };
+  return { tier: 'bronze', label: 'Learning' };
+}
+
 export function categories(bank: Question[]): string[] {
   return [...new Set(bank.map((q) => q.category || 'General'))];
 }

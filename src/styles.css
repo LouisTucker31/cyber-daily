@@ -587,23 +587,16 @@ div.tile-locked { cursor: default; }
 
 /* ---------- rings & medals ---------- */
 .level-ring { display: block; flex: none; overflow: visible; }
-.level-ring .ring-track, .skill-ring .ring-track { fill: none; stroke: var(--line); stroke-width: 4; }
-.level-ring .ring-fill, .skill-ring .ring-fill { fill: none; stroke: var(--orange); stroke-width: 4; stroke-linecap: round; }
+.level-ring .ring-track { fill: none; stroke: var(--line); stroke-width: 4; }
+.level-ring .ring-fill { fill: none; stroke: var(--orange); stroke-width: 4; stroke-linecap: round; }
 .level-ring .ring-num { fill: var(--ink); font-size: 18px; font-weight: 800; font-family: inherit; }
 .snow-icon { width: 16px; height: 16px; display: inline-block; vertical-align: -2px; }
-
-.skill-ring { width: 64px; height: 64px; display: block; }
-.skill-ring .ring-track { stroke-width: 5; }
-.skill-ring .ring-fill { stroke-width: 5; }
-.skill-ring.pending .ring-fill { stroke: var(--line-strong); }
-.skill-ring .skill-num { fill: var(--ink); font-size: 17px; font-weight: 800; font-family: inherit; font-variant-numeric: tabular-nums; }
-.skill-ring.pending .skill-num { fill: var(--muted); }
 
 .medal { display: block; flex: none; }
 .medal.locked .medal-rim { fill: var(--locked); stroke: var(--line-strong); stroke-width: 1.2; }
 .medal.locked .medal-face { fill: var(--surface); opacity: 0.6; }
 .medal.locked .medal-glyph { color: var(--muted); }
-.medal .medal-num { fill: currentColor; font-size: 16px; font-weight: 800; font-family: inherit; }
+.medal .medal-num { fill: currentColor; font-size: 16px; font-weight: 800; font-family: inherit; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 
 .xp-bar { display: block; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
 .xp-bar i { display: block; height: 100%; border-radius: 3px; background: var(--orange); }
@@ -706,31 +699,30 @@ div.tile-locked { cursor: default; }
 .p-count { font-size: var(--t-small); color: var(--muted); font-weight: 600; }
 .p-note { color: var(--muted); font-size: var(--t-small); margin: 10px 0 0; }
 
-/* skill rings */
-.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.skill {
-  position: relative;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  padding: 14px 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--surface);
-  color: var(--ink);
-  font: inherit;
-  cursor: pointer;
-  transition: border-color .15s, transform .12s;
-}
-.skill:active { transform: scale(0.97); }
-.skill.on { border-color: var(--ink); }
-.skill-name { font-size: var(--t-small); font-weight: 650; }
-.skill.top .skill-name { color: var(--ink); }
-.skill.top { border-color: var(--line-strong); }
-.skill.focus { background: var(--orange-soft); border-color: var(--orange-soft-line); }
-.skill.focus .skill-name { color: var(--orange-deep); }
-.skill-caption { margin: 14px 0 0; min-height: 3em; font-size: var(--t-small); color: var(--muted); }
-.skill-caption b { color: var(--ink); font-weight: 650; }
+/* XP total, at the top of the ranks list */
+.xp-now { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.xp-now-value { font-size: var(--t-title); font-weight: 750; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.xp-now-label { font-size: var(--t-small); color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
 
-/* badges */
+/* skill detail sheet */
+.sheet-small { margin: 0 auto 18px; max-width: 420px; font-size: var(--t-small); color: var(--muted); }
+.ways-title {
+  margin: 0 0 8px; text-align: left;
+  font-size: var(--t-small); font-weight: 700; color: var(--muted);
+}
+.ways { list-style: none; margin: 0 0 6px; padding: 0; text-align: left; border-top: 1px solid var(--line); }
+.ways li { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.ways-icon {
+  flex: none; display: grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--orange-soft); color: var(--signal);
+}
+.ways-icon svg { width: 22px; height: 22px; }
+.ways-text { display: flex; flex-direction: column; min-width: 0; }
+.ways-text b { font-weight: 700; }
+.ways-text span { font-size: var(--t-small); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* badge and skill tiles */
 .badges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .badge {
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px;

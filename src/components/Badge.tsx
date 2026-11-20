@@ -1,4 +1,4 @@
-/* Level ring, skill rings and badge medals, drawn in SVG so they stay crisp and themeable. */
+/* Level ring and medals (badges and skills), drawn in SVG so they stay crisp and themeable. */
 
 /* Progress ring with a number in the middle. Fills with an animation when it appears,
    unless animate is false. */
@@ -11,21 +11,6 @@ export function LevelRing({ level, progress, size = 44, animate = true }:
       <circle cx="24" cy="24" r="20" className="ring-fill" pathLength={100}
         strokeDasharray={`${p} 100`} transform="rotate(-90 24 24)" />
       <text x="24" y="24" className="ring-num" textAnchor="middle" dominantBaseline="central">{level}</text>
-    </svg>
-  );
-}
-
-/* One category's score as a ring. score null = not enough data (dashed ring, shows progress to 5). */
-export function SkillRing({ score, n, min }: { score: number | null; n: number; min: number }) {
-  const value = score ?? Math.round((n / min) * 100);
-  return (
-    <svg className={'skill-ring' + (score === null ? ' pending' : '')} viewBox="0 0 64 64" aria-hidden="true">
-      <circle cx="32" cy="32" r="27" className="ring-track" />
-      <circle cx="32" cy="32" r="27" className="ring-fill" pathLength={100}
-        strokeDasharray={`${Math.max(value, 0.01)} 100`} transform="rotate(-90 32 32)" />
-      <text x="32" y="32" className="skill-num" textAnchor="middle" dominantBaseline="central">
-        {score === null ? '–' : score}
-      </text>
     </svg>
   );
 }

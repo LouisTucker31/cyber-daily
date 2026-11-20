@@ -81,6 +81,7 @@ A speed round against the clock, available from level 1. The round runs until yo
 - 5 right in a row starts a ×2 combo (each answer then scores 2) until you get one wrong.
 - The bar under the header shows the time left out of 60 seconds. It turns orange for the last 10 seconds, and the haptics get firmer.
 - It starts with common acronyms (tier 1) and moves to specialist ones (tier 3) as the round goes on.
+- No acronym repeats within a round. Ones you get right are rested: new ones and ones you missed come first, and a right one only comes back once the others at that difficulty have been used (longest-ago first). The bank has 130, and a round uses about 25 to 45.
 - The end screen shows your score, your best, and every acronym you missed with its meaning. Missed acronyms go into Smart Practice, due straight away.
 - Every answer is logged as mode `blitz` with its category, so it feeds the Profile.
 - XP: 2 per right answer and 10 for finishing, for the first 3 rounds each day. Leaving mid-round earns no XP.
@@ -109,10 +110,11 @@ Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
 - XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round, for the first 3 rounds each day.
-- Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see them all; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
+- Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see your XP and all the ranks; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
 
 **Category scores**
-- Each category gets a score from 0 to 100, based on your last 30 answers with recent ones weighted more.
+- Each category gets a score from 0 to 100, based on your last 30 answers with recent ones weighted more. It shows as a medal: bronze under 50, silver from 50, gold from 75, platinum from 90 (`skillTier` in `src/lib/progress.ts`).
+- Skills are sorted highest first and fold away like badges. Tap one for a sheet with what it covers (`SKILL_INFO`), the score, and where to build it: questions learned, Practice items due, and Blitz acronyms on that topic.
 - A score appears after 5 answers. Trend arrows compare with 2 weeks ago.
 
 **Streak freezes**

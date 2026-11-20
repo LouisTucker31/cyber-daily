@@ -256,6 +256,8 @@ export default function App() {
       <Profile
         state={state}
         bank={bank!}
+        practiceBank={practiceBank!}
+        acronyms={acronyms ?? []}
         streak={shownStreak(state)}
         onDaily={() => open('daily')}
       />
@@ -325,7 +327,7 @@ export default function App() {
   } else if (view === 'blitz' && acronyms) {
     nav = { label: 'Acronym Blitz', onHome: () => goHome() };
     if (blitz.phase === 'play') {
-      body = <BlitzGame key={blitz.round} bank={acronyms} onAnswer={blitzAnswer} onEnd={endBlitz} />;
+      body = <BlitzGame key={blitz.round} bank={acronyms} rightAt={state.blitz.rightAt} onAnswer={blitzAnswer} onEnd={endBlitz} />;
     } else {
       body = blitz.phase === 'intro'
         ? <BlitzIntro best={state.blitz.best} xpLeft={xpRoundsLeft(state)} />

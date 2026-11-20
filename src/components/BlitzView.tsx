@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   bonusMs, COMBO_AT, createDeck, FINAL_MS, PENALTY_MS, START_MS,
   type Acronym, type BlitzQuestion, type BlitzResult
@@ -54,12 +54,13 @@ function ComboMeter({ streak }: { streak: number }) {
 
 interface GameProps {
   bank: Acronym[];
+  rightAt: Record<string, number>;
   onAnswer: (a: Acronym, ok: boolean) => void;
   onEnd: (r: BlitzResult) => void;
 }
 
-export function BlitzGame({ bank, onAnswer, onEnd }: GameProps) {
-  const deck = useMemo(() => createDeck(bank), [bank]);
+export function BlitzGame({ bank, rightAt, onAnswer, onEnd }: GameProps) {
+  const [deck] = useState(() => createDeck(bank, rightAt)); // made once per round
   const [q, setQ] = useState<BlitzQuestion>(() => deck.next(0));
   const [count, setCount] = useState(0);          // questions shown so far (keys the card animation)
   const [score, setScore] = useState(0);

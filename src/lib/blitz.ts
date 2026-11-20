@@ -83,24 +83,38 @@ function lookalikes(a: Acronym, bank: Acronym[]): string[] {
     .slice(0, 3);
 }
 
-/* Draws questions for one round, without repeats until the bank runs out. */
-export function createDeck(bank: Acronym[]) {
+/* Draws questions for one round. Nothing repeats within a round.
+   Across rounds: acronyms you haven't got right yet (new ones and misses) come first, at random.
+   Ones you got right stay away until the fresh ones in that difficulty run out, then the
+   longest-ago come back first. rightAt: acronym id -> round it was last answered right. */
+export function createDeck(bank: Acronym[], rightAt: Record<string, number> = {}) {
   const used = new Set<string>();
   let last = '';
+  const near = (t: number) => [t, t - 1, t + 1].filter((x) => x >= 1 && x <= 3);
   return {
     next(n: number): BlitzQuestion {
       const want = tierFor(n);
-      let pool: Acronym[] = [];
-      for (const t of [want, want - 1, want + 1, want - 2, want + 2]) {
-        if (t < 1 || t > 3) continue;
-        pool = bank.filter((a) => a.tier === t && !used.has(a.id));
-        if (pool.length) break;
+      const open = (t: number) => bank.filter((a) => a.tier === t && !used.has(a.id));
+      let a: Acronym | undefined;
+      // 1. fresh, in this tier or the one next to it
+      for (const t of near(want)) {
+        const fresh = open(t).filter((x) => rightAt[x.id] === undefined);
+        if (fresh.length) { a = shuffle(fresh)[0]; break; }
       }
-      if (!pool.length) {
+      // 2. otherwise the one got right longest ago (ties at random)
+      if (!a) {
+        for (const t of [...near(want), want + 2, want - 2]) {
+          const pool = open(t);
+          if (!pool.length) continue;
+          a = shuffle(pool).sort((x, y) => (rightAt[x.id] ?? -1) - (rightAt[y.id] ?? -1))[0];
+          break;
+        }
+      }
+      // 3. the whole bank used in one round: start again
+      if (!a) {
         used.clear();
-        pool = bank.filter((a) => a.id !== last);
+        a = shuffle(bank.filter((x) => x.id !== last))[0];
       }
-      const a = shuffle(pool)[0];
       used.add(a.id);
       last = a.id;
 
@@ -126,7 +140,11 @@ export interface BlitzResult {
 /* Every answer is logged (feeds the Profile). A miss puts the acronym into Practice. */
 export function logBlitzAnswer(state: State, a: Acronym, ok: boolean): void {
   logAnswer(state, 'blitz', a.id, a.category, ok);
-  if (ok) return; // a right answer in a speed round doesn't promote it in Practice
+  if (ok) {
+    state.blitz.rightAt[a.id] = state.blitz.rounds; // rest it for the next rounds
+    return; // a right answer in a speed round doesn't promote it in Practice
+  }
+  delete state.blitz.rightAt[a.id]; // a miss can come back next round (never in the same one)
   const today = dateKey();
   if (!state.blitzReview.includes(a.id)) state.blitzReview.push(a.id);
   state.srs[a.id] = state.srs[a.id]
