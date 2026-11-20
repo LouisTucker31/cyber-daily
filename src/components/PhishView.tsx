@@ -10,7 +10,7 @@ import { XpNote } from './BlitzView.tsx';
 import { xpRateText } from '../lib/progress.ts';
 import {
   ArchiveIcon, ArrowIcon, ArrowLeftIcon, BackIcon, BookIcon, CameraIcon, ChevronIcon, ComposeIcon, CrossIcon, FileIcon,
-  FolderIcon, GlobeIcon, InfoIcon, LinkIcon, LockIcon, MicIcon, PhishIcon, PhoneIcon, PlayIcon, PlusIcon, ReloadIcon,
+  FolderIcon, GlobeIcon, InfoIcon, LinkIcon, LockIcon, MicIcon, PhoneIcon, PlayIcon, PlusIcon, ReloadIcon,
   ReplyIcon, SendIcon, ShieldIcon, SpeakerIcon, TapIcon, TextIcon, TickIcon, UpIcon, WarnIcon
 } from './icons.tsx';
 
@@ -677,7 +677,7 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
               </div>
             ) : (
               <div className="ph-choice">
-                <button type="button" className="btn ph-btn phish" onClick={() => decide(true)}><PhishIcon />Phish</button>
+                <button type="button" className="btn ph-btn phish" onClick={() => decide(true)}><WarnIcon />Phish</button>
                 <button type="button" className="btn ph-btn legit" onClick={() => decide(false)}><TickIcon />Legit</button>
               </div>
             )}
