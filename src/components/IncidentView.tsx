@@ -280,7 +280,7 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
 
       {deciding && beat && (
         <section key={beat.id} className="ic-decide">
-          <p className="ic-ask">{fill(beat.ask ?? '', run)}{want > 1 && <span> Pick {want}.</span>}</p>
+          <p className="ic-ask">{fill(beat.ask ?? '', run)}</p>
           {timer > 0 && <span className="ic-timer" aria-hidden="true"><i style={{ animationDuration: `${timer}s` }} /></span>}
           <ul className="options">
             {options.map((o) => {

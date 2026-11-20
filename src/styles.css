@@ -1503,7 +1503,7 @@ mark.hl { padding: 0 2px; }
   position: sticky; top: calc(env(safe-area-inset-top) + 86px); z-index: 9;
   margin: 0 calc(-1 * (env(safe-area-inset-right) + var(--pad))) 0 calc(-1 * (env(safe-area-inset-left) + var(--pad)));
   padding: 10px calc(env(safe-area-inset-right) + var(--pad)) 10px calc(env(safe-area-inset-left) + var(--pad));
-  background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  background: var(--paper); /* solid, so the chat scrolling underneath doesn't show through */
   border-bottom: 1px solid var(--line);
 }
 .ic-gauges { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
