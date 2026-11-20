@@ -182,6 +182,15 @@ button { -webkit-appearance: none; appearance: none; }
   backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--line);
 }
+/* Pulling down past the top (iOS rubber-band) opens a gap above the header.
+   Fill it with the header colour so the header looks like it stretches, as native apps do. */
+.topbar::before {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 100%;
+  height: 100vh;
+  background: var(--paper);
+  pointer-events: none;
+}
 .wordmark {
   font-size: var(--t-lead);
   font-weight: 750;
