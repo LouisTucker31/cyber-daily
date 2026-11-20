@@ -4,6 +4,9 @@ import { BADGES, badgeContext, levelInfo, MIN_ANSWERS, profileRows, RANKS, short
 import { learnedIds } from '../lib/quiz.ts';
 import { LevelRing, Medal, SkillRing, SnowIcon } from './Badge.tsx';
 import { haptic } from '../lib/haptics.ts';
+import Sheet from './Sheet.tsx';
+
+const TIER_NAME = { bronze: 'Bronze', silver: 'Silver', gold: 'Gold', platinum: 'Platinum', special: 'Secret' } as const;
 
 interface Props {
   state: State;
@@ -34,15 +37,19 @@ export default function Profile({ state, bank, streak, onDaily }: Props) {
   const [openBadge, setOpenBadge] = useState<string | null>(null);
   const [skill, setSkill] = useState<string | null>(null);
 
-  // badges: earned first (newest first), then the rest in their set order
-  const badges = [...BADGES].sort((a, b) => {
-    const ea = state.badges[a.id], eb = state.badges[b.id];
-    if (ea && eb) return eb.localeCompare(ea);
-    if (ea) return -1;
-    if (eb) return 1;
-    return 0;
+  /* badges: earned (newest first), then closest to completion, then not started */
+  const badges = BADGES.map((b, i) => {
+    const earnedAt = state.badges[b.id] ?? null;
+    const prog = !earnedAt && b.progress ? b.progress(ctx) : null;
+    return { b, i, earnedAt, prog, ratio: prog ? prog[0] / prog[1] : 0 };
+  }).sort((x, y) => {
+    if (x.earnedAt && y.earnedAt) return y.earnedAt.localeCompare(x.earnedAt) || x.i - y.i;
+    if (x.earnedAt) return -1;
+    if (y.earnedAt) return 1;
+    return y.ratio - x.ratio || x.i - y.i;
   });
   const earnedCount = BADGES.filter((b) => state.badges[b.id]).length;
+  const shown = badges.find((x) => x.b.id === openBadge) ?? null;
 
   // strongest and weakest (only once there's enough to compare)
   const scored = rows.filter((r) => r.score !== null).sort((a, b) => b.score! - a.score!);
@@ -154,33 +161,20 @@ export default function Profile({ state, bank, streak, onDaily }: Props) {
       <section className="p-section">
         <h2 className="p-title">Badges <span className="p-count">{earnedCount} of {BADGES.length}</span></h2>
         <div className="badges">
-          {badges.map((b, i) => {
-            const earned = !!state.badges[b.id];
-            const secret = !earned && b.hidden;
-            const prog = !earned && b.progress ? b.progress(ctx) : null;
-            const open = openBadge === b.id;
+          {badges.map(({ b, earnedAt }, i) => {
             const extra = i >= 3;
             return (
               <button
                 key={b.id}
                 type="button"
-                className={'badge' + (earned ? ' earned' : '') + (open ? ' open' : '') + (extra ? ' extra' : '') +
+                className={'badge' + (earnedAt ? ' earned' : '') + (extra ? ' extra' : '') +
                   (extra && !showAllBadges ? ' folded' : '')}
                 style={extra ? { animationDelay: `${(i - 3) * 25}ms` } : undefined}
-                onClick={() => setOpenBadge(open ? null : b.id)}
-                aria-expanded={open}
+                onClick={() => { haptic(); setOpenBadge(b.id); }}
+                aria-haspopup="dialog"
               >
-                <Medal glyph={b.glyph} earned={earned} hidden={b.hidden} tier={b.tier} />
-                <span className="badge-text">
-                  <span className="badge-name">{secret ? 'Hidden' : b.name}</span>
-                  {open && <span className="badge-desc">{secret ? 'Keep playing to discover this one.' : b.desc}</span>}
-                  {prog && <span className="badge-prog">{prog[0]}/{prog[1]}</span>}
-                  {earned && open && (
-                    <span className="badge-prog">
-                      Earned {new Date(state.badges[b.id]).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
-                    </span>
-                  )}
-                </span>
+                <Medal glyph={b.glyph} earned={!!earnedAt} hidden={b.hidden} tier={b.tier} />
+                <span className="badge-name">{!earnedAt && b.hidden ? 'Hidden' : b.name}</span>
               </button>
             );
           })}
@@ -189,6 +183,35 @@ export default function Profile({ state, bank, streak, onDaily }: Props) {
           {showAllBadges ? 'Show less' : `Show all ${BADGES.length}`}<Chevron open={showAllBadges} />
         </button>
       </section>
+
+      {/* badge details slide up from the bottom */}
+      {shown && (
+        <Sheet key={shown.b.id} onClose={() => setOpenBadge(null)} labelledBy="badge-title">
+          {() => {
+            const { b, earnedAt, prog } = shown;
+            const secret = !earnedAt && b.hidden;
+            const status = earnedAt
+              ? `Earned ${new Date(earnedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`
+              : prog && prog[0] > 0 ? 'In progress' : 'Not started yet';
+            return (
+              <>
+                <div className="sheet-art"><span className={earnedAt ? 'pop' : ''}>
+                  <Medal glyph={b.glyph} earned={!!earnedAt} hidden={b.hidden} tier={b.tier} size={96} />
+                </span></div>
+                <p className="sheet-kicker">{TIER_NAME[b.tier]} · {status}</p>
+                <h2 className="sheet-title" id="badge-title">{secret ? 'Hidden badge' : b.name}</h2>
+                <p className="sheet-body">{secret ? 'Keep playing to discover this one.' : b.desc}</p>
+                {prog && (
+                  <div className="sheet-prog">
+                    <span className="xp-bar" aria-hidden="true"><i style={{ width: `${Math.round((prog[0] / prog[1]) * 100)}%` }} /></span>
+                    <span>{prog[0]} of {prog[1]}</span>
+                  </div>
+                )}
+              </>
+            );
+          }}
+        </Sheet>
+      )}
     </div>
   );
 }

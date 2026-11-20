@@ -3,6 +3,7 @@ import type { Celebration as C, State } from '../lib/quiz.ts';
 import { BADGES, levelInfo, MAX_FREEZES, RANKS } from '../lib/progress.ts';
 import { LevelRing, Medal } from './Badge.tsx';
 import { haptic } from '../lib/haptics.ts';
+import Sheet from './Sheet.tsx';
 
 interface Props {
   item: C;
@@ -55,15 +56,17 @@ export default function Celebration({ item, state, onDone, onProfile }: Props) {
   }
 
   return (
-    <div className="sheet-backdrop" onClick={onDone}>
-      <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" onClick={(e) => e.stopPropagation()}>
-        <div className="sheet-art"><span className="pop">{art}</span></div>
-        <p className="sheet-kicker">{kicker}</p>
-        <h2 className="sheet-title" id="sheet-title">{title}</h2>
-        <p className="sheet-body">{body}</p>
-        <button type="button" className="btn" onClick={onDone}>Nice</button>
-        <button type="button" className="sheet-link" onClick={() => { onDone(); onProfile(); }}>View profile</button>
-      </div>
-    </div>
+    <Sheet onClose={onDone} labelledBy="sheet-title">
+      {(close) => (
+        <>
+          <div className="sheet-art"><span className="pop">{art}</span></div>
+          <p className="sheet-kicker">{kicker}</p>
+          <h2 className="sheet-title" id="sheet-title">{title}</h2>
+          <p className="sheet-body">{body}</p>
+          <button type="button" className="btn" onClick={() => close()}>Nice</button>
+          <button type="button" className="sheet-link" onClick={() => close(onProfile)}>View profile</button>
+        </>
+      )}
+    </Sheet>
   );
 }

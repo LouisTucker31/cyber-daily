@@ -19,6 +19,7 @@ Built with React 19, TypeScript and Vite.
 | `src/components/Profile.tsx` | Profile screen |
 | `src/components/Badge.tsx` | Level ring and badge medals |
 | `src/components/Celebration.tsx` | Pop-up sheet for level-ups, badges and streak freezes |
+| `src/components/Sheet.tsx` | Slide-up bottom sheet (swipe down or tap outside to close), used for celebrations and badge details |
 | `src/components/BlitzView.tsx` | Acronym Blitz: intro, the timed round and the results |
 | `src/components/Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
 | `src/hooks/useCountdown.ts` | Countdown to the next daily set |
@@ -73,12 +74,12 @@ Uses every question you've ever answered correctly, plus every acronym you've mi
 Every answer in every mode is logged with its category (`log` in saved state), ready for the Profile.
 
 ## Acronym Blitz
-A 60-second speed round, available from level 1.
+A speed round against the clock, available from level 1. The round runs until your time runs out.
 
 - Each question shows an acronym with 4 full names to choose from. About 1 in 6 is reversed: the full name is shown and you pick the acronym.
-- The next question appears straight away. A wrong answer takes 3 seconds off the clock.
+- The next question appears straight away. You start with 60 seconds. A right answer adds time (+3s for your first 10, +2s for the next 10, +1s for the next 10, then nothing) and a wrong answer takes 3 seconds off. The clock never goes above 60 seconds, so even a fast round ends after about 2 minutes. Tune it in `bonusMs()` in `src/lib/blitz.ts`.
 - 5 right in a row starts a ×2 combo (each answer then scores 2) until you get one wrong.
-- The bar under the header shows the time left. It turns orange for the last 10 seconds, and the haptics get firmer.
+- The bar under the header shows the time left out of 60 seconds. It turns orange for the last 10 seconds, and the haptics get firmer.
 - It starts with common acronyms (tier 1) and moves to specialist ones (tier 3) as the round goes on.
 - The end screen shows your score, your best, and every acronym you missed with its meaning. Missed acronyms go into Smart Practice, due straight away.
 - Every answer is logged as mode `blitz` with its category, so it feeds the Profile.
@@ -119,7 +120,8 @@ Tap the level ring (top right of Home) or the Profile tile.
 - A missed day uses one automatically.
 
 **Badges**
-- There are 22 badges. Three are hidden until earned.
+- There are 24 badges, including one for the first time you play each mode. Three are hidden until earned.
+- On the Profile they are ordered: earned (newest first), then closest to completion, then not started. Tap one to see its details and progress in a sheet that slides up; swipe it down or tap outside to close.
 - To add one, add an entry to `BADGES` in `src/lib/progress.ts`.
 
 ## Adding questions

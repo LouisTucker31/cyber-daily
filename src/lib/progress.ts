@@ -194,7 +194,11 @@ export const BADGES: BadgeDef[] = [
   { id: 'all-rounder', tier: 'gold', name: 'All-Rounder', desc: 'Score 70+ in every category (from 10+ answers each).', glyph: 'web',
     progress: (c) => count(c.rows.filter((r) => r.score !== null && r.score >= 70 && r.n >= 10).length, c.rows.length),
     earned: (c) => c.rows.length > 0 && c.rows.every((r) => r.score !== null && r.score >= 70 && r.n >= 10) },
-  { id: 'blitz-10', tier: 'bronze', name: 'Quick Draw', desc: 'Finish 10 rounds of Acronym Blitz.', glyph: 'bolt',
+  { id: 'first-practice', tier: 'bronze', name: 'Back for More', desc: 'Play Practice for the first time.', glyph: 'cycle',
+    earned: (c) => c.state.log.some((e) => e.m === 'practice') || Object.values(c.state.srs).some((e) => e.box > 1) },
+  { id: 'first-blitz', tier: 'bronze', name: 'Off the Mark', desc: 'Finish your first round of Acronym Blitz.', glyph: 'bolt',
+    earned: (c) => c.state.blitz.rounds >= 1 },
+  { id: 'blitz-10', tier: 'bronze', name: 'Quick Draw', desc: 'Finish 10 rounds of Acronym Blitz.', glyph: '10',
     progress: (c) => count(c.state.blitz.rounds, 10), earned: (c) => c.state.blitz.rounds >= 10 },
   { id: 'blitz-25', tier: 'silver', name: 'Rapid Fire', desc: 'Score 25 or more in an Acronym Blitz round.', glyph: '25',
     earned: (c) => c.state.blitz.best >= 25 },
@@ -234,7 +238,7 @@ export function evaluateProgress(state: State, bank: Question[], silent = false,
   const ctx: Ctx = { state, learned: learnedIds(state, bank).length, rows: profileRows(state, bank) };
   for (const b of BADGES) {
     if (!state.badges[b.id] && b.earned(ctx)) {
-      state.badges[b.id] = today;
+      state.badges[b.id] = new Date().toISOString(); // full time, so badges from the same day sort newest first
       if (!silent) state.celebrations.push({ kind: 'badge', id: b.id });
     }
   }

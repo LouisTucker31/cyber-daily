@@ -12,9 +12,18 @@ export interface Acronym {
   tier: number;       // 1 common, 2 working knowledge, 3 specialist
 }
 
-export const BLITZ_MS = 60_000;
+export const START_MS = 60_000;      // the clock starts here and can never go above it
 export const PENALTY_MS = 3_000;     // a wrong answer takes this off the clock
 export const FINAL_MS = 10_000;      // the last stretch: orange bar, firmer haptics
+
+/* A right answer adds time, but less as the round goes on, so even a fast
+   player's round ends (about 2 minutes at most). */
+export function bonusMs(rightSoFar: number): number {
+  if (rightSoFar < 10) return 3_000;
+  if (rightSoFar < 20) return 2_000;
+  if (rightSoFar < 30) return 1_000;
+  return 0;
+}
 export const COMBO_AT = 5;           // this many right in a row starts the ×2 combo
 const REVERSE_CHANCE = 1 / 6;        // show the full name, pick the acronym
 

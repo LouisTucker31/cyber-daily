@@ -45,6 +45,12 @@ function Glyph({ name }: { name: string }) {
     case 'sun': return <g {...st}><circle cx="24" cy="24" r="4" /><path d="M24 15.5v2.5M24 30v2.5M15.5 24H18M30 24h2.5M18 18l1.8 1.8M28.2 28.2L30 30M30 18l-1.8 1.8M19.8 28.2L18 30" /></g>;
     case 'moon': return <path d="M29.5 27.5A8 8 0 0 1 20.5 17a8 8 0 1 0 9 10.5z" fill="currentColor" />;
     case 'snow': return <SnowPaths />;
+    case 'cycle': return (
+      <g transform="translate(14.4 14.4) scale(0.8)" {...st} strokeWidth={2.8}>
+        <path d="M19.5 9A8 8 0 0 0 5.2 7.4" /><path d="M4.5 3.8v3.9h3.9" />
+        <path d="M4.5 15a8 8 0 0 0 14.3 1.6" /><path d="M19.5 20.2v-3.9h-3.9" />
+      </g>
+    );
     case 'bolt': return <path d="M26 14.5l-8 11h6l-1.5 8 8-11h-6z" {...st} />;
     case '?': return <text x="24" y="24.5" textAnchor="middle" dominantBaseline="central" className="medal-num">?</text>;
     default: return <text x="24" y="24.5" textAnchor="middle" dominantBaseline="central" className="medal-num">{name}</text>;

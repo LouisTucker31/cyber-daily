@@ -1,35 +1,40 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
-  BLITZ_MS, COMBO_AT, createDeck, FINAL_MS, PENALTY_MS,
+  bonusMs, COMBO_AT, createDeck, FINAL_MS, PENALTY_MS, START_MS,
   type Acronym, type BlitzQuestion, type BlitzResult
 } from '../lib/blitz.ts';
 import { LETTERS } from '../lib/quiz.ts';
 import { haptic } from '../lib/haptics.ts';
-import { CrossIcon, TickIcon } from './icons.tsx';
+import { BlitzIcon, ClockIcon, CrossIcon, TickIcon } from './icons.tsx';
 
 const FLASH_MS = 160; // how long the tapped answer shows right/wrong before the next one
 
 /* ---------- before a round ---------- */
 
 export function BlitzIntro({ best, xpLeft }: { best: number; xpLeft: number }) {
+  const rules = [
+    { tone: 'clock', icon: <ClockIcon />, value: `${START_MS / 1000}s`, label: 'on the clock to start' },
+    { tone: 'good', icon: <TickIcon />, value: `+${bonusMs(0) / 1000}s`, label: 'for a right answer, less as you go' },
+    { tone: 'bad', icon: <CrossIcon />, value: `−${PENALTY_MS / 1000}s`, label: 'for a wrong answer' },
+    { tone: 'combo', icon: <BlitzIcon />, value: '×2', label: `points after ${COMBO_AT} right in a row` }
+  ];
   return (
     <div className="blitz-intro">
-      <h2 className="done-title">60 seconds. Go fast.</h2>
-      <ul className="blitz-rules">
-        <li>Pick what each acronym stands for. Now and then it’s the other way round.</li>
-        <li>A wrong answer takes {PENALTY_MS / 1000} seconds off the clock.</li>
-        <li>Get {COMBO_AT} right in a row for a ×2 combo. A wrong answer ends it.</li>
-      </ul>
-      <section className="stat-row two">
-        <div className="stat">
-          <span className="stat-value">{best || '–'}</span>
-          <span className="stat-label">Your best</span>
-        </div>
-        <div className="stat">
-          <span className="stat-value">{xpLeft}</span>
-          <span className="stat-label">{xpLeft === 1 ? 'XP round' : 'XP rounds'} left today</span>
-        </div>
-      </section>
+      <h2 className="done-title">Beat the clock.</h2>
+      <p className="done-sub">Pick what each acronym stands for. Keep going until your time runs out.</p>
+      <div className="rule-grid">
+        {rules.map((r) => (
+          <div key={r.tone} className={'rule rule-' + r.tone}>
+            <span className="rule-icon">{r.icon}</span>
+            <span className="rule-value">{r.value}</span>
+            <span className="rule-label">{r.label}</span>
+          </div>
+        ))}
+      </div>
+      <p className="blitz-foot">
+        <span>Best <b>{best || '–'}</b></span>
+        <span><b>{xpLeft}</b> {xpLeft === 1 ? 'XP round' : 'XP rounds'} left today</span>
+      </p>
     </div>
   );
 }
@@ -59,8 +64,8 @@ export function BlitzGame({ bank, onAnswer, onEnd }: GameProps) {
   const [count, setCount] = useState(0);          // questions shown so far (keys the card animation)
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [secs, setSecs] = useState(BLITZ_MS / 1000);
-  const [penalties, setPenalties] = useState(0);  // keys the "−3s" pop
+  const [secs, setSecs] = useState(START_MS / 1000);
+  const [delta, setDelta] = useState<{ n: number; text: string; plus: boolean } | null>(null); // the "+3s" / "−3s" pop
   const [flash, setFlash] = useState<{ idx: number; ok: boolean } | null>(null);
 
   const stats = useRef({ score: 0, correct: 0, wrong: 0, streak: 0, comboHeld: 0, missed: [] as string[], asked: 0 });
@@ -74,11 +79,11 @@ export function BlitzGame({ bank, onAnswer, onEnd }: GameProps) {
 
   // the clock: a timestamp, so it can't drift; the bar is drawn straight to the DOM every frame
   useEffect(() => {
-    endAt.current = performance.now() + BLITZ_MS;
+    endAt.current = performance.now() + START_MS;
     let raf = 0;
     const tick = () => {
       const left = endAt.current - performance.now();
-      if (bar.current) bar.current.style.transform = `scaleX(${Math.max(0, left) / BLITZ_MS})`;
+      if (bar.current) bar.current.style.transform = `scaleX(${Math.max(0, left) / START_MS})`;
       setSecs(Math.max(0, Math.ceil(left / 1000)));
       if (left <= 0) {
         if (!ended.current) {
@@ -99,7 +104,13 @@ export function BlitzGame({ bank, onAnswer, onEnd }: GameProps) {
     const ok = idx === q.correct;
     const s = stats.current;
     haptic(ok ? 'success' : 'error', endAt.current - performance.now() <= FINAL_MS);
+    const now = performance.now();
     if (ok) {
+      // time bonus, but the clock never goes above where it started
+      const before = endAt.current;
+      endAt.current = Math.min(before + bonusMs(s.correct), now + START_MS);
+      const added = Math.round((endAt.current - before) / 1000);
+      if (added > 0) setDelta((d) => ({ n: (d?.n ?? 0) + 1, text: `+${added}s`, plus: true }));
       s.score += s.streak >= COMBO_AT ? 2 : 1;
       s.correct += 1;
       s.streak += 1;
@@ -109,7 +120,7 @@ export function BlitzGame({ bank, onAnswer, onEnd }: GameProps) {
       s.streak = 0;
       if (!s.missed.includes(q.a.id)) s.missed.push(q.a.id);
       endAt.current -= PENALTY_MS;
-      setPenalties((n) => n + 1);
+      setDelta((d) => ({ n: (d?.n ?? 0) + 1, text: `−${PENALTY_MS / 1000}s`, plus: false }));
     }
     setScore(s.score);
     setStreak(s.streak);
@@ -134,7 +145,9 @@ export function BlitzGame({ bank, onAnswer, onEnd }: GameProps) {
         <ComboMeter streak={streak} />
         <span className="blitz-time" role="timer" aria-label={`${secs} seconds left`}>
           {secs}s
-          {penalties > 0 && <span key={penalties} className="blitz-penalty" aria-hidden="true">−{PENALTY_MS / 1000}s</span>}
+          {delta && (
+            <span key={delta.n} className={'blitz-delta ' + (delta.plus ? 'plus' : 'minus')} aria-hidden="true">{delta.text}</span>
+          )}
         </span>
       </div>
 
