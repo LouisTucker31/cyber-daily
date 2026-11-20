@@ -12,15 +12,18 @@ export interface TileSpec {
   tone: 'feature' | 'feature-done' | 'plain' | 'locked';
   /** Leave out to make the tile non-tappable */
   onOpen?: () => void;
+  /** Small count bubble in the corner (e.g. questions due), hidden when 0 */
+  badge?: number;
   /** Spread across both columns */
   wide?: boolean;
 }
 
-export default function Tile({ title, icon, meta, foot, tone, onOpen, wide }: TileSpec) {
+export default function Tile({ title, icon, meta, foot, tone, onOpen, wide, badge }: TileSpec) {
   const cls = `tile tile-${tone}` + (wide ? ' tile-wide' : '');
   const inner = (
     <>
       <span className="tile-icon">{icon}</span>
+      {!!badge && badge > 0 && <span className="tile-badge" aria-label={`${badge} due`}>{badge > 99 ? '99+' : badge}</span>}
       <span className="tile-body">
         <span className="tile-title">{title}</span>
         <span className="tile-meta">{meta}</span>

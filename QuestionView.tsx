@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { LETTERS, type Question } from './quiz.ts';
+import { LETTERS, MAX_BOX, type Question } from './quiz.ts';
 import Ticks from './Ticks.tsx';
 import { CrossIcon, TickIcon } from './icons.tsx';
 
@@ -19,9 +19,25 @@ interface Props {
   question: Question;
   onAnswer: (displayIdx: number) => void;
   onHint: () => void;
+  /** Practice only: the question's box (1-5) and days until it's next due, after answering */
+  strength?: { box: number; days: number; wasEarly?: boolean };
 }
 
-export default function QuestionView({ mode, items, index, question: q, onAnswer, onHint }: Props) {
+export function StrengthDots({ box }: { box: number }) {
+  return (
+    <span className="strength" aria-label={`Strength ${box} of ${MAX_BOX}`}>
+      {Array.from({ length: MAX_BOX }, (_, i) => <i key={i} className={i < box ? 'on' : ''} />)}
+    </span>
+  );
+}
+
+function nextReview(days: number): string {
+  if (days <= 0) return 'due again today';
+  if (days === 1) return 'back tomorrow';
+  return `back in ${days} days`;
+}
+
+export default function QuestionView({ mode, items, index, question: q, onAnswer, onHint, strength }: Props) {
   const item = items[index];
   const answered = item.chosen !== null;
   const practice = mode === 'practice';
@@ -90,6 +106,14 @@ export default function QuestionView({ mode, items, index, question: q, onAnswer
           </h3>
           {practice ? (
             <>
+              {strength && (
+                <p className="strength-row">
+                  <StrengthDots box={strength.box} />
+                  <span>
+                    {item.correct ? (strength.wasEarly ? 'Correct · not due yet' : 'Stronger') : 'Reset to the start'} · {nextReview(strength.days)}
+                  </span>
+                </p>
+              )}
               {!item.correct && <p className="note">The right answer is marked above.</p>}
               {q.explanation && <p>{q.explanation}</p>}
             </>

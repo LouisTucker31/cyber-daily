@@ -6,11 +6,12 @@ import { DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
 interface Props {
   day: Day;
   learned: number;
+  due: number;
   onDaily: () => void;
   onPractice: () => void;
 }
 
-export default function Home({ day, learned, onDaily, onPractice }: Props) {
+export default function Home({ day, learned, due, onDaily, onPractice }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
   const right = day.items.filter((it) => it.correct === true).length;
@@ -50,7 +51,8 @@ export default function Home({ day, learned, onDaily, onPractice }: Props) {
         id: 'practice',
         title: 'Practice',
         icon: <PracticeIcon />,
-        meta: `${learned} learned so far`,
+        meta: due > 0 ? `${due} due for review` : `All caught up · ${learned} learned`,
+        badge: due,
         tone: 'plain',
         onOpen: onPractice,
         foot: <span className="tile-cta">Play</span>
@@ -70,7 +72,7 @@ export default function Home({ day, learned, onDaily, onPractice }: Props) {
     <>
       <p className="home-intro">
         {done
-          ? 'Today’s set is done. Keep sharp in Practice.'
+          ? (due > 0 ? `Today’s set is done. ${due} ${due === 1 ? 'question is' : 'questions are'} due in Practice.` : 'Today’s set is done. Keep sharp in Practice.')
           : started ? 'Pick up where you left off.' : 'Your daily cyber workout is ready.'}
       </p>
       <div className="tile-grid">

@@ -37,12 +37,35 @@ export interface State {
   prevSet: string[];                // ids shown on the previous day
   streak: { count: number; last: string | null };
   day: Day | null;
-  learned: string[];                    // every id ever answered correctly (feeds Practice)
-  practiceSeen: Record<string, string>; // id -> date last practised
+  learned: string[];                    // every id ever answered correctly (feeds Practice; never resets)
+  practiceSeen: Record<string, string>; // (legacy, no longer used)
+  srs: Record<string, SrsEntry>;        // spaced-repetition box + next due date per learned question
+  log: LogEntry[];                      // every answer, tagged by category (feeds the Profile)
 }
+
+/* Spaced repetition: 5 boxes. A right answer moves a question up a box, a wrong one sends it
+   back to box 1. Box 1 comes back after 1 day, then 3, 7, 14 and 30 days. */
+export const INTERVALS = [1, 3, 7, 14, 30];
+export const MAX_BOX = INTERVALS.length;
+
+export interface SrsEntry {
+  box: number;   // 1..5
+  due: string;   // date key it's next due
+}
+
+export interface LogEntry {
+  d: string;                     // date key
+  m: 'daily' | 'practice';       // which mode (more modes later)
+  id: string;
+  c: string;                     // category
+  ok: boolean;
+}
+
+const LOG_LIMIT = 3000;
 
 export interface PracticeItem {
   id: string;
+  early: boolean;        // not due yet when drawn (a right answer won't promote it)
   order: number[];
   chosen: number | null;
   correct: boolean | null;
@@ -99,7 +122,9 @@ export function freshState(): State {
     streak: { count: 0, last: null },
     day: null,
     learned: [],
-    practiceSeen: {}
+    practiceSeen: {},
+    srs: {},
+    log: []
   };
 }
 
@@ -112,6 +137,9 @@ export function loadState(): State {
     const learned = new Set([...s.learned, ...s.mastered]);
     s.day?.items.forEach((it) => { if (it.correct) learned.add(it.id); });
     s.learned = [...learned];
+    // questions learned before Smart Practice existed start in box 1, due now
+    const today = dateKey();
+    s.learned.forEach((id) => { if (!s.srs[id]) s.srs[id] = { box: 1, due: today }; });
     return s;
   } catch {
     return freshState();
@@ -218,11 +246,64 @@ export function answer(state: State, bank: Question[], displayIdx: number): void
     state.mastered.push(item.id);
   }
   if (item.correct && !state.learned.includes(item.id)) state.learned.push(item.id);
+  recordResult(state, q, 'daily', item.correct);
 }
 
-/* ---------- practice ----------
- * Draws from questions you've already answered correctly, least recently
- * practised first. Doesn't touch daily progress. */
+/* ---------- spaced repetition & answer log ---------- */
+
+export function addDays(key: string, n: number): string {
+  const [y, m, d] = key.split('-').map(Number);
+  return dateKey(new Date(y, m - 1, d + n));
+}
+
+export function daysUntil(key: string): number {
+  const [y, m, d] = key.split('-').map(Number);
+  const [ty, tm, td] = dateKey().split('-').map(Number);
+  return Math.round((new Date(y, m - 1, d).getTime() - new Date(ty, tm - 1, td).getTime()) / 86400000);
+}
+
+/* Log every answer and move the question through the boxes. */
+export function recordResult(state: State, q: Question, mode: LogEntry['m'], ok: boolean): void {
+  const today = dateKey();
+  state.log.push({ d: today, m: mode, id: q.id, c: q.category || 'General', ok });
+  if (state.log.length > LOG_LIMIT) state.log.splice(0, state.log.length - LOG_LIMIT);
+
+  const entry = state.srs[q.id];
+  if (ok) {
+    if (!entry) {
+      state.srs[q.id] = { box: 1, due: addDays(today, INTERVALS[0]) }; // just learned: first review tomorrow
+    } else if (entry.due > today) {
+      // reviewed early: no promotion (stops grinding), the schedule stays as it is
+    } else {
+      const box = Math.min(MAX_BOX, entry.box + 1);
+      state.srs[q.id] = { box, due: addDays(today, INTERVALS[box - 1]) };
+    }
+  } else if (entry) {
+    state.srs[q.id] = { box: 1, due: addDays(today, INTERVALS[0]) };
+  }
+  // a wrong answer to a question you haven't learned yet doesn't enter Practice
+}
+
+/* Accuracy per category from your most recent answers (all modes). */
+export function categoryAccuracy(state: State, recent = 20): Map<string, number> {
+  const byCat = new Map<string, boolean[]>();
+  for (let i = state.log.length - 1; i >= 0; i--) {
+    const e = state.log[i];
+    const list = byCat.get(e.c) ?? [];
+    if (list.length < recent) list.push(e.ok);
+    byCat.set(e.c, list);
+  }
+  const out = new Map<string, number>();
+  byCat.forEach((list, c) => out.set(c, list.filter(Boolean).length / list.length));
+  return out;
+}
+
+/* ---------- Smart Practice ----------
+ * A round of up to 10 from every question you've ever learned (never resets):
+ * 1. Questions due for review, most overdue and lowest box first.
+ * 2. Then questions from your weakest categories, lowest box first.
+ * 3. The last couple of slots are random, for variety.
+ * Doesn't touch daily progress. */
 export const PRACTICE_COUNT = 10;
 
 export function learnedIds(state: State, bank: Question[]): string[] {
@@ -230,13 +311,40 @@ export function learnedIds(state: State, bank: Question[]): string[] {
   return state.learned.filter((id) => ids.has(id));
 }
 
+export function dueIds(state: State, bank: Question[]): string[] {
+  const today = dateKey();
+  return learnedIds(state, bank).filter((id) => (state.srs[id]?.due ?? today) <= today);
+}
+
 export function drawPractice(bank: Question[], state: State, count = PRACTICE_COUNT): PracticeItem[] {
   const byId = new Map(bank.map((q) => [q.id, q]));
-  const ids = bySeenThenRandom(learnedIds(state, bank), state.practiceSeen).slice(0, count);
   const today = dateKey();
-  ids.forEach((id) => { state.practiceSeen[id] = today; });
-  return shuffle(ids).map((id) => ({
+  const srs = (id: string): SrsEntry => state.srs[id] ?? { box: 1, due: today };
+  const learned = shuffle(learnedIds(state, bank)); // shuffled first so ties are random
+
+  const due = learned
+    .filter((id) => srs(id).due <= today)
+    .sort((a, b) => (srs(a).due < srs(b).due ? -1 : srs(a).due > srs(b).due ? 1 : srs(a).box - srs(b).box));
+  const picked = due.slice(0, count);
+
+  if (picked.length < count) {
+    const acc = categoryAccuracy(state);
+    const weakness = (id: string) => 1 - (acc.get(byId.get(id)?.category || 'General') ?? 0.5);
+    const taken = new Set(picked);
+    const rest = learned.filter((id) => !taken.has(id));
+    const randomSlots = Math.min(2, count - picked.length);
+    const focused = rest
+      .slice()
+      .sort((a, b) => weakness(b) - weakness(a) || srs(a).box - srs(b).box)
+      .slice(0, count - picked.length - randomSlots);
+    focused.forEach((id) => taken.add(id));
+    const random = shuffle(rest.filter((id) => !taken.has(id))).slice(0, randomSlots);
+    picked.push(...focused, ...random);
+  }
+
+  return shuffle(picked).map((id) => ({
     id,
+    early: srs(id).due > today,
     order: shuffle(byId.get(id)!.options.map((_, i) => i)),
     chosen: null,
     correct: null,

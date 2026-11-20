@@ -52,8 +52,24 @@ Progress is stored on the device (localStorage, same key as the original version
 ## Adding a home-screen tile
 In `Home.tsx`, add an entry to the `tiles` list. Each tile has a `title`, `icon`, one-line `meta`, optional `foot`, a `tone` (`feature` orange, `feature-done` soft orange, `plain` white, `locked` grey) and an `onOpen` action. Tiles flow into the two-column grid automatically; set `wide: true` to span both columns.
 
-## Practice
-Practice rounds of up to 10 use questions you've answered correctly at least once, least recently practised first. A wrong answer shows the right one and the explanation. Practice never changes daily progress or the streak.
+## Smart Practice
+Uses every question you've ever answered correctly (this list never resets). Each one sits in one of five boxes:
+
+| Box | Comes back after |
+| --- | --- |
+| 1 | 1 day |
+| 2 | 3 days |
+| 3 | 7 days |
+| 4 | 14 days |
+| 5 | 30 days |
+
+- A right answer on a due question moves it up a box. A wrong answer sends it back to box 1 (back tomorrow) and shows the right answer.
+- Answering correctly before it's due doesn't move it up, so repeating Practice can't max everything out.
+- A round of up to 10 picks due questions first, then your weakest categories, then a couple at random.
+- The Practice tile shows how many are due.
+- Practice never changes daily progress or the streak.
+
+Every answer in every mode is logged with its category (`log` in saved state), ready for the Profile.
 
 ## Adding questions
 Add entries to `questions.json` with a new unique `id`:

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
-  answer, completeDay, dateKey, drawPractice, ensureToday, learnedIds, loadState, parseBank, saveState,
+  answer, completeDay, dateKey, daysUntil, drawPractice, dueIds, ensureToday, learnedIds, loadState, parseBank,
+  recordResult, saveState,
   shownStreak, type PracticeSession, type Question, type State
 } from './quiz.ts';
 import Header from './Header.tsx';
@@ -146,6 +147,7 @@ export default function App() {
       <Home
         day={day}
         learned={learnedIds(state, bank!).length}
+        due={dueIds(state, bank!).length}
         onDaily={() => { haptic(); open('daily'); }}
         onPractice={startPractice}
       />
@@ -189,7 +191,14 @@ export default function App() {
   } else if (view === 'practice' && practice) {
     nav = { label: 'Practice', onHome: () => goHome() };
     if (practice.index >= practice.items.length) {
-      body = <DoneView mode="practice" items={practice.items} byId={byId} />;
+      body = (
+        <DoneView
+          mode="practice"
+          items={practice.items}
+          byId={byId}
+          strength={(id) => state.srs[id]?.box ?? 1}
+        />
+      );
       barButton = (
         <button type="button" className="btn" onClick={startPractice}>
           Another round
@@ -206,7 +215,14 @@ export default function App() {
             items={practice.items}
             index={practice.index}
             question={q}
-            onAnswer={(i) => { haptic(item.order[i] === q.correctIndex ? 'success' : 'error'); setPractice((p) => {
+            strength={item.chosen !== null && state.srs[item.id]
+              ? { box: state.srs[item.id].box, days: daysUntil(state.srs[item.id].due), wasEarly: practice.items[practice.index].early }
+              : undefined}
+            onAnswer={(i) => {
+              const ok = item.order[i] === q.correctIndex;
+              haptic(ok ? 'success' : 'error');
+              update((s) => recordResult(s, q, 'practice', ok)); // moves it between boxes + logs it
+              setPractice((p) => {
               if (!p) return p;
               const items = p.items.map((it, n) => n === p.index && it.chosen === null
                 ? { ...it, chosen: i, correct: it.order[i] === q.correctIndex }
