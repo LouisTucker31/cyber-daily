@@ -31,7 +31,6 @@ Built with React 19, TypeScript and Vite.
 | `src/lib/blitz.ts` | Acronym Blitz logic: difficulty ramp, reversed questions, scoring, XP cap |
 | `src/lib/haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
 | `src/lib/confetti.ts` | Small canvas confetti in the medal colours (off when the phone asks for reduced motion) |
-| `src/lib/statusBar.ts` | Tints the iPhone status bar while a sheet is open, so the dimmed backdrop reaches the top of the screen |
 | `public/questions.json` | The question bank |
 | `public/acronyms.json` | The Acronym Blitz bank |
 | `public/manifest.json`, icons, `figtree-OFL.txt` | PWA manifest, icons and font licence (copied into the build with their exact names) |

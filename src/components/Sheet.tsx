@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode, type TouchEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { dimStatusBar } from '../lib/statusBar.ts';
 
 interface Props {
   onClose: () => void;
@@ -20,15 +19,10 @@ export default function Sheet({ onClose, labelledBy, children }: Props) {
   const startY = useRef<number | null>(null);
   const closed = useRef(false);
 
-  // the backdrop can't reach the iPhone status bar, so tint it while open (restored as the sheet starts closing)
-  const undim = useRef<(() => void) | null>(null);
-  useEffect(() => { undim.current = dimStatusBar(); return undim.current; }, []);
-
   const close = useCallback((then?: () => void) => {
     if (closed.current) return;
     closed.current = true;
     setClosing(true);
-    undim.current?.();
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.setTimeout(() => { onClose(); then?.(); }, still ? 0 : CLOSE_MS);
   }, [onClose]);
