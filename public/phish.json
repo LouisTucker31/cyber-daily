@@ -1,0 +1,882 @@
+{
+  "directory": [
+    {
+      "org": "Kestrel Group",
+      "note": "Your employer",
+      "rows": [
+        ["Email", "@kestrelgroup.co.uk"],
+        ["Sign-in page", "login.kestrelgroup.co.uk"],
+        ["IT Service Desk", "servicedesk.kestrelgroup.co.uk"],
+        ["Service Desk phone", "0113 496 0440"],
+        ["HR and payroll", "people.kestrelgroup.co.uk"],
+        ["Sign-in app", "Kestrel Sign-in"]
+      ],
+      "rules": [
+        "IT will never ask for your password or a sign-in code.",
+        "Emails and chats from outside Kestrel are tagged External.",
+        "Supplier bank details are only changed after a call-back to a number already on file."
+      ]
+    },
+    {
+      "org": "Northgate Bank",
+      "note": "Your bank",
+      "rows": [
+        ["Website", "northgate.co.uk"],
+        ["Email", "@email.northgate.co.uk"],
+        ["Texts from", "Northgate"],
+        ["Fraud team", "0808 157 0192"]
+      ],
+      "rules": [
+        "Texts never contain a link to sign in.",
+        "Northgate will never ask you to move money to a ‘safe account’."
+      ]
+    },
+    {
+      "org": "ParcelPoint",
+      "note": "Delivery company",
+      "rows": [
+        ["Website", "parcelpoint.co.uk"],
+        ["Tracking", "track.parcelpoint.co.uk"],
+        ["Texts from", "ParcelPoint"],
+        ["Short links in texts", "ppnt.uk"]
+      ],
+      "rules": ["Redelivery is always free."]
+    },
+    {
+      "org": "Harbourline Energy",
+      "note": "Energy supplier (home and office)",
+      "rows": [
+        ["Website", "harbourline.co.uk"],
+        ["Your account", "my.harbourline.co.uk"],
+        ["Email", "@harbourline.co.uk"],
+        ["Phone", "0808 157 0634"]
+      ],
+      "rules": ["Refunds go back to you automatically. You never need to claim one."]
+    }
+  ],
+  "cards": [
+    {
+      "id": "PH-001", "tier": 1, "type": "email", "phish": true,
+      "context": "In your personal inbox.",
+      "from": { "name": "Northgate Bank", "address": "security@northgate-alerts.com" },
+      "subject": "Your account has been restricted",
+      "body": [
+        "Dear customer,",
+        "We have detected unusual activity and temporarily restricted your account. To avoid permanent closure, please confirm your details within 24 hours.",
+        "[[0]]"
+      ],
+      "links": [{ "text": "Restore access", "url": "https://northgate-alerts.com/restore" }],
+      "points": [
+        { "at": "from", "note": "Northgate emails come from @email.northgate.co.uk. This is northgate-alerts.com, which anyone could register." },
+        { "quote": "within 24 hours", "note": "A short deadline and a threat of closure are there to rush you." },
+        { "at": "link0", "note": "The button goes to northgate-alerts.com, not northgate.co.uk." }
+      ],
+      "lesson": "Sender and link used northgate-alerts.com, not Northgate’s real domain."
+    },
+    {
+      "id": "PH-002", "tier": 1, "type": "email", "phish": false,
+      "context": "In your personal inbox.",
+      "from": { "name": "Northgate Bank", "address": "statements@email.northgate.co.uk" },
+      "subject": "Your March statement is ready",
+      "body": [
+        "Hi Sam,",
+        "Your March statement is now available. To view it, sign in to Online Banking or the Northgate app as usual.",
+        "For your security, we never include links to sign in."
+      ],
+      "points": [
+        { "at": "from", "note": "@email.northgate.co.uk matches the Directory." },
+        { "quote": "sign in to Online Banking or the Northgate app as usual", "note": "It sends you to sign in the usual way instead of giving you a link." },
+        { "quote": "we never include links to sign in", "note": "No link, no request for details, no deadline." }
+      ],
+      "lesson": "Genuine: right domain, and it asks you to sign in the usual way."
+    },
+    {
+      "id": "PH-003", "tier": 1, "type": "sms", "phish": true,
+      "from": { "name": "07700 900417" },
+      "body": ["ParcelPoint: Your parcel couldn’t be delivered. A £1.45 redelivery fee is due. Pay now to rebook: [[0]]"],
+      "links": [{ "text": "parcelpoint-redelivery.com/pay", "url": "https://parcelpoint-redelivery.com/pay" }],
+      "points": [
+        { "at": "from", "note": "ParcelPoint texts come from ‘ParcelPoint’, not a personal mobile number." },
+        { "quote": "£1.45 redelivery fee", "note": "Redelivery is always free. Small fees are a common way to steal card details." },
+        { "at": "link0", "note": "parcelpoint-redelivery.com isn’t ParcelPoint. Their short links use ppnt.uk." }
+      ],
+      "lesson": "A fee for redelivery, sent from a mobile number with a fake domain."
+    },
+    {
+      "id": "PH-004", "tier": 1, "type": "sms", "phish": false,
+      "from": { "name": "ParcelPoint" },
+      "body": ["ParcelPoint: Your parcel from Hollins Home is out for delivery today between 13:00 and 15:00. Track or change: [[0]]"],
+      "links": [{ "text": "ppnt.uk/t/8KQ2M", "url": "https://ppnt.uk/t/8KQ2M" }],
+      "points": [
+        { "at": "from", "note": "Sent as ‘ParcelPoint’, as the Directory says." },
+        { "at": "link0", "note": "ppnt.uk is ParcelPoint’s own short-link domain." },
+        { "quote": "out for delivery today", "note": "Just an update. No payment or personal details asked for." }
+      ],
+      "lesson": "Genuine: ParcelPoint’s own short link and nothing to pay."
+    },
+    {
+      "id": "PH-005", "tier": 1, "type": "chat", "phish": true, "external": true,
+      "context": "Kestrel Chat, a new conversation.",
+      "from": { "name": "Dana Okafor (CEO)", "address": "dana.okafor.ceo@postbox-mail.com" },
+      "body": [
+        "Hi Sam, are you at your desk?",
+        "I need you to pick up some gift cards for a client thank-you, 5 x £100. Keep it quiet for now, it’s a surprise. Send me the codes here once you have them."
+      ],
+      "points": [
+        { "at": "external", "note": "Tagged External: your CEO would message from her Kestrel account." },
+        { "at": "from", "note": "A personal webmail address with ‘CEO’ in it, not @kestrelgroup.co.uk." },
+        { "quote": "gift cards", "note": "Gift card codes are as good as cash and can’t be traced or refunded." },
+        { "quote": "Keep it quiet", "note": "Secrecy stops you checking with anyone." }
+      ],
+      "lesson": "An External ‘CEO’ asking for gift card codes in secret."
+    },
+    {
+      "id": "PH-006", "tier": 1, "type": "chat", "phish": false,
+      "context": "Kestrel Chat. You logged a ticket about your monitor yesterday.",
+      "from": { "name": "Tom Hughes · IT Service Desk", "address": "tom.hughes@kestrelgroup.co.uk" },
+      "body": [
+        "Hi Sam, your ticket SD-20418 about the second monitor is sorted.",
+        "The new cable is at the Service Desk on floor 2, so pick it up whenever suits."
+      ],
+      "points": [
+        { "at": "from", "note": "An internal @kestrelgroup.co.uk account, not tagged External." },
+        { "quote": "ticket SD-20418 about the second monitor", "note": "It matches a request you actually made." },
+        { "quote": "pick it up whenever suits", "note": "No link, no login, no rush." }
+      ],
+      "lesson": "Genuine: an internal colleague following up your own ticket."
+    },
+    {
+      "id": "PH-007", "tier": 1, "type": "mfa", "phish": true,
+      "context": "You’re reading the news on your phone. You haven’t tried to sign in to anything.",
+      "mfa": { "app": "Kestrel Sign-in", "title": "Approve sign-in?", "lines": ["Kestrel Group account", "Location: Frankfurt, Germany", "Device: Unrecognised browser"] },
+      "points": [
+        { "quote": "You haven’t tried to sign in to anything", "note": "A prompt you didn’t start means someone else has your password." },
+        { "quote": "Location: Frankfurt, Germany", "note": "Not where you are." },
+        { "at": "prompt", "note": "Deny it, then change your password and tell the Service Desk." }
+      ],
+      "lesson": "A sign-in prompt you didn’t start: someone else has your password."
+    },
+    {
+      "id": "PH-008", "tier": 1, "type": "mfa", "phish": false,
+      "context": "You’ve just typed your password into login.kestrelgroup.co.uk on your work laptop. The screen shows the number 47.",
+      "mfa": { "app": "Kestrel Sign-in", "title": "Enter the number shown to sign in", "lines": ["Kestrel Group account", "Location: Leeds, UK", "Device: Windows laptop"] },
+      "points": [
+        { "quote": "You’ve just typed your password", "note": "You started this sign-in yourself, moments ago." },
+        { "quote": "Device: Windows laptop", "note": "Device and location match what you’re using." },
+        { "at": "prompt", "note": "Number matching: you type the number from your own screen, so an attacker can’t trick you into approving." }
+      ],
+      "lesson": "Genuine: you started it, and the details match your own device."
+    },
+    {
+      "id": "PH-009", "tier": 1, "type": "login", "phish": true,
+      "context": "You tapped a link in an email saying your password expires today.",
+      "url": "https://kestrelgroup-passwordreset.com/login",
+      "page": { "brand": "Kestrel Group", "heading": "Sign in to keep your password" },
+      "points": [
+        { "at": "url", "note": "The real sign-in page is login.kestrelgroup.co.uk. This is kestrelgroup-passwordreset.com." },
+        { "quote": "your password expires today", "note": "Expiry warnings are a classic way to get you to a fake sign-in page." }
+      ],
+      "lesson": "A copied sign-in page on kestrelgroup-passwordreset.com."
+    },
+    {
+      "id": "PH-010", "tier": 1, "type": "login", "phish": false,
+      "context": "You typed login.kestrelgroup.co.uk into your browser yourself.",
+      "url": "https://login.kestrelgroup.co.uk/",
+      "page": { "brand": "Kestrel Group", "heading": "Sign in" },
+      "points": [
+        { "at": "url", "note": "Exactly login.kestrelgroup.co.uk, as in the Directory." },
+        { "quote": "You typed login.kestrelgroup.co.uk", "note": "Typing the address yourself is the safest way to reach a sign-in page." }
+      ],
+      "lesson": "Genuine: the real address, typed in yourself."
+    },
+    {
+      "id": "PH-011", "tier": 1, "type": "email", "phish": true,
+      "context": "In your personal inbox.",
+      "from": { "name": "Harbourline Energy", "address": "refunds@harbourline-energy-refunds.co.uk" },
+      "subject": "You’re owed £86.40",
+      "body": [
+        "Hi Sam,",
+        "Our records show you overpaid last quarter. To claim your refund of £86.40, confirm your card details within 48 hours.",
+        "[[0]]"
+      ],
+      "links": [{ "text": "Claim my refund", "url": "https://harbourline-energy-refunds.co.uk/claim" }],
+      "points": [
+        { "at": "from", "note": "Harbourline emails come from @harbourline.co.uk." },
+        { "quote": "confirm your card details", "note": "Harbourline refunds go back automatically. You never claim one." },
+        { "at": "link0", "note": "The link goes to harbourline-energy-refunds.co.uk, not harbourline.co.uk." }
+      ],
+      "lesson": "A refund you have to ‘claim’ with card details, from a fake domain."
+    },
+    {
+      "id": "PH-012", "tier": 1, "type": "email", "phish": false,
+      "context": "In your personal inbox.",
+      "from": { "name": "Harbourline Energy", "address": "hello@harbourline.co.uk" },
+      "subject": "Your bill for February is ready",
+      "body": [
+        "Hi Sam,",
+        "Your bill is £71.20, which we’ll collect by Direct Debit on 3 March. You can see the breakdown in your account:",
+        "[[0]]"
+      ],
+      "links": [{ "text": "View my bill", "url": "https://my.harbourline.co.uk/bills" }],
+      "points": [
+        { "at": "from", "note": "@harbourline.co.uk matches the Directory." },
+        { "at": "link0", "note": "The link goes to my.harbourline.co.uk, your real account." },
+        { "quote": "collect by Direct Debit", "note": "Nothing for you to pay or confirm." }
+      ],
+      "lesson": "Genuine: the right domain, and it links to your real account."
+    },
+    {
+      "id": "PH-013", "tier": 1, "type": "voicemail", "phish": true,
+      "from": { "name": "020 7946 0381" },
+      "time": "0:42",
+      "body": ["Hello, this is Northgate Bank’s fraud team. We’ve stopped a suspicious payment of £950 on your account. Your money is at risk, so we’ve set up a safe account for you. Please call us back urgently on 020 7946 0381 so we can move your balance."],
+      "points": [
+        { "quote": "set up a safe account", "note": "Northgate will never ask you to move money to a ‘safe account’. No real bank will." },
+        { "quote": "020 7946 0381", "note": "Northgate’s fraud team is 0808 157 0192." },
+        { "quote": "Your money is at risk", "note": "Fear and urgency are used to stop you thinking it through." }
+      ],
+      "lesson": "A ‘safe account’ request is always a scam."
+    },
+    {
+      "id": "PH-014", "tier": 1, "type": "voicemail", "phish": false,
+      "from": { "name": "0808 157 0192" },
+      "time": "0:31",
+      "body": ["Hi, this is Northgate Bank’s fraud team about a card payment we’ve paused today. Please call us on the number on the back of your card, or 0808 157 0192. We’ll never ask for your PIN or your full password."],
+      "points": [
+        { "at": "from", "note": "0808 157 0192 is Northgate’s fraud team in the Directory." },
+        { "quote": "the number on the back of your card", "note": "It tells you to use a number you already trust." },
+        { "quote": "We’ll never ask for your PIN", "note": "No money moves and nothing sensitive is asked for." }
+      ],
+      "lesson": "Genuine: the real number, and it points you to your card."
+    },
+    {
+      "id": "PH-015", "tier": 1, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox.",
+      "from": { "name": "IT Service Desk", "address": "servicedesk@kestrel-support.net" },
+      "subject": "Mailbox full: action needed",
+      "body": [
+        "Your mailbox has reached 99% of its limit. New emails will be rejected from today.",
+        "Re-validate your account to get extra space:",
+        "[[0]]"
+      ],
+      "links": [{ "text": "Re-validate mailbox", "url": "https://kestrel-support.net/validate" }],
+      "points": [
+        { "at": "external", "note": "Your own IT team would never be tagged External." },
+        { "at": "from", "note": "kestrel-support.net isn’t Kestrel. IT uses @kestrelgroup.co.uk." },
+        { "at": "link0", "note": "‘Re-validating’ on another site is a way to collect your password." }
+      ],
+      "lesson": "An External ‘IT’ message asking you to re-validate on another site."
+    },
+    {
+      "id": "PH-016", "tier": 1, "type": "email", "phish": false,
+      "context": "In your work inbox.",
+      "from": { "name": "IT Service Desk", "address": "servicedesk@kestrelgroup.co.uk" },
+      "subject": "Planned maintenance Saturday 06:00 to 09:00",
+      "body": [
+        "Kestrel Chat and the intranet will be unavailable on Saturday from 06:00 to 09:00 while we install updates. You don’t need to do anything.",
+        "Questions? Raise a ticket at [[0]]."
+      ],
+      "links": [{ "text": "servicedesk.kestrelgroup.co.uk", "url": "https://servicedesk.kestrelgroup.co.uk/" }],
+      "points": [
+        { "at": "from", "note": "Internal sender, not tagged External." },
+        { "quote": "You don’t need to do anything", "note": "Information only, with no action or sign-in." },
+        { "at": "link0", "note": "The link goes to the real Service Desk site." }
+      ],
+      "lesson": "Genuine: an internal notice that asks nothing of you."
+    },
+    {
+      "id": "PH-017", "tier": 1, "type": "sms", "phish": true,
+      "from": { "name": "+44 7700 900283" },
+      "body": ["Northgate: A new payee ‘J Marsh’ was added to your account. If this wasn’t you, cancel it now at [[0]]"],
+      "links": [{ "text": "northgate-cancel-payee.com", "url": "https://northgate-cancel-payee.com/" }],
+      "points": [
+        { "at": "from", "note": "Northgate texts come from ‘Northgate’, not a mobile number." },
+        { "at": "link0", "note": "Northgate texts never contain a sign-in link, and this isn’t northgate.co.uk." },
+        { "quote": "If this wasn’t you, cancel it now", "note": "Panic about a payee you didn’t add makes you tap without checking." }
+      ],
+      "lesson": "A bank text with a link, from a mobile number."
+    },
+    {
+      "id": "PH-018", "tier": 1, "type": "sms", "phish": false,
+      "context": "You’re paying your energy bill in the Northgate app right now.",
+      "from": { "name": "Northgate" },
+      "body": ["Northgate: Your one-time passcode is 418 306. It’s for a payment of £42.00 to Harbourline Energy. Never share this code, not even with us."],
+      "points": [
+        { "at": "from", "note": "Sent as ‘Northgate’, as the Directory says." },
+        { "quote": "for a payment of £42.00 to Harbourline Energy", "note": "It matches exactly what you’re doing right now." },
+        { "quote": "Never share this code", "note": "No link, and a clear warning not to share the code." }
+      ],
+      "lesson": "Genuine: a code for the payment you’re making, with no link."
+    },
+    {
+      "id": "PH-019", "tier": 1, "type": "link", "phish": true,
+      "context": "Posted in a public forum: ‘Kestrel staff discount codes this week!’",
+      "url": "https://kestrel-staff-perks.shop/claim?ref=staff",
+      "points": [
+        { "at": "url", "note": "kestrel-staff-perks.shop isn’t a Kestrel site. Staff benefits live on people.kestrelgroup.co.uk." },
+        { "quote": "Posted in a public forum", "note": "Real staff perks aren’t shared on public forums." }
+      ],
+      "lesson": "‘Staff perks’ on a look-alike shop domain."
+    },
+    {
+      "id": "PH-020", "tier": 1, "type": "link", "phish": false,
+      "context": "Megan from HR shared this in the all-staff channel.",
+      "url": "https://people.kestrelgroup.co.uk/benefits/cycle-to-work",
+      "points": [
+        { "at": "url", "note": "people.kestrelgroup.co.uk is Kestrel’s HR site in the Directory." },
+        { "quote": "Megan from HR", "note": "Shared internally by HR." }
+      ],
+      "lesson": "Genuine: Kestrel’s own HR site."
+    },
+    {
+      "id": "PH-021", "tier": 1, "type": "email", "phish": true,
+      "context": "In your personal inbox.",
+      "from": { "name": "ParcelPoint", "address": "noreply@parcelpoint-delivery.info" },
+      "subject": "We missed you: reschedule now",
+      "body": [
+        "We tried to deliver your parcel today but nobody was home.",
+        "Reschedule within 12 hours or your parcel will be returned to the sender.",
+        "[[0]]"
+      ],
+      "links": [{ "text": "Reschedule delivery", "url": "https://parcelpoint-delivery.info/reschedule" }],
+      "points": [
+        { "at": "from", "note": "ParcelPoint uses parcelpoint.co.uk, not parcelpoint-delivery.info." },
+        { "quote": "within 12 hours", "note": "A tight deadline to rush you." },
+        { "at": "link0", "note": "The link goes to the same fake domain." }
+      ],
+      "lesson": "A fake delivery domain with a 12-hour deadline."
+    },
+    {
+      "id": "PH-022", "tier": 1, "type": "email", "phish": false,
+      "context": "In your personal inbox.",
+      "from": { "name": "ParcelPoint", "address": "updates@parcelpoint.co.uk" },
+      "subject": "Delivered: your parcel from Hollins Home",
+      "body": [
+        "Your parcel was delivered at 11:42 and left in your safe place: porch.",
+        "Not you? Let us know at [[0]]."
+      ],
+      "links": [{ "text": "parcelpoint.co.uk/help", "url": "https://parcelpoint.co.uk/help" }],
+      "points": [
+        { "at": "from", "note": "@parcelpoint.co.uk is ParcelPoint’s real domain." },
+        { "at": "link0", "note": "The help link stays on parcelpoint.co.uk." },
+        { "quote": "left in your safe place", "note": "An update, with nothing to pay or confirm." }
+      ],
+      "lesson": "Genuine: the real domain and a simple update."
+    },
+
+    {
+      "id": "PH-023", "tier": 2, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox.",
+      "from": { "name": "Payroll", "address": "payroll@kestre1group.co.uk" },
+      "subject": "Your payslip for March",
+      "body": [
+        "Hi Sam,",
+        "Your March payslip is ready. There’s a change to your tax code this month, so please check it before Friday:",
+        "[[0]]"
+      ],
+      "links": [{ "text": "View payslip", "url": "https://people.kestre1group.co.uk/payslips" }],
+      "points": [
+        { "at": "from", "note": "kestre1group: the ‘l’ is the number 1." },
+        { "at": "external", "note": "Payroll is internal, so it should never be tagged External." },
+        { "at": "link0", "note": "The link uses the same look-alike domain." }
+      ],
+      "lesson": "Look-alike domain: kestre1group with a number 1."
+    },
+    {
+      "id": "PH-024", "tier": 2, "type": "email", "phish": false, "external": true,
+      "context": "Work inbox. You look after the office facilities budget.",
+      "from": { "name": "Harbourline Energy", "address": "business@harbourline.co.uk" },
+      "subject": "Urgent: meter reading needed for your office account",
+      "body": [
+        "Hello,",
+        "We need a meter reading for 14 Mill Street by Friday, or we’ll estimate your next bill.",
+        "Submit it in your business account: [[0]]"
+      ],
+      "links": [{ "text": "my.harbourline.co.uk", "url": "https://my.harbourline.co.uk/business/readings" }],
+      "points": [
+        { "at": "external", "note": "External is expected: Harbourline is a supplier outside Kestrel." },
+        { "at": "from", "note": "@harbourline.co.uk matches the Directory." },
+        { "quote": "or we’ll estimate your next bill", "note": "‘Urgent’, but the consequence is mild and normal." },
+        { "at": "link0", "note": "The link goes to my.harbourline.co.uk." }
+      ],
+      "lesson": "Genuine: urgent-sounding, but every detail checks out."
+    },
+    {
+      "id": "PH-025", "tier": 2, "type": "email", "phish": true,
+      "context": "In your personal inbox.",
+      "from": { "name": "Northgate Bank", "address": "alerts@northgate.co.uk.secure-mail.net" },
+      "subject": "New device signed in",
+      "body": [
+        "Hi Sam,",
+        "We’ve noticed a sign-in from a new device. If this wasn’t you, secure your account now:",
+        "[[0]]"
+      ],
+      "links": [{ "text": "Secure my account", "url": "https://login.northgate.co.uk.verify-id.com/secure" }],
+      "points": [
+        { "at": "from", "note": "Read the domain from the right: it ends secure-mail.net. ‘northgate.co.uk’ is just a label in front." },
+        { "at": "link0", "note": "This link’s real domain is verify-id.com." }
+      ],
+      "lesson": "The real name buried at the start of someone else’s domain."
+    },
+    {
+      "id": "PH-026", "tier": 2, "type": "sms", "phish": false,
+      "from": { "name": "ParcelPoint" },
+      "body": ["ParcelPoint: ACTION NEEDED. Your parcel needs a signature and we couldn’t find anyone home. Pick a new day, free of charge: [[0]]"],
+      "links": [{ "text": "ppnt.uk/r/3HW9X", "url": "https://ppnt.uk/r/3HW9X" }],
+      "points": [
+        { "quote": "ACTION NEEDED", "note": "Shouty wording, but that alone doesn’t make it fake." },
+        { "at": "link0", "note": "ppnt.uk is ParcelPoint’s genuine short-link domain." },
+        { "quote": "free of charge", "note": "No fee, which matches ParcelPoint’s rule." }
+      ],
+      "lesson": "Genuine: alarming wording, but the link and the details are right."
+    },
+    {
+      "id": "PH-027", "tier": 2, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox.",
+      "from": { "name": "Priya Shah", "address": "priya.shah@kestrelgroup.co.uk" },
+      "replyTo": "priya.shah.finance@postbox-mail.com",
+      "subject": "Quick favour",
+      "body": [
+        "Are you free? I need to get an urgent payment out before the 3pm cut-off and I’m stuck in a meeting.",
+        "Reply here and I’ll send you the details."
+      ],
+      "points": [
+        { "at": "external", "note": "It claims to be from Priya, but it arrived from outside Kestrel." },
+        { "at": "replyTo", "note": "Replies would go to a personal webmail address, not Priya." },
+        { "quote": "urgent payment out before the 3pm cut-off", "note": "Urgency plus money, while they’re ‘unavailable’ to check." }
+      ],
+      "lesson": "A spoofed colleague: the reply-to goes somewhere else."
+    },
+    {
+      "id": "PH-028", "tier": 2, "type": "consent", "phish": true,
+      "context": "An email from ‘Kestrel Docs’ asked you to view a shared contract. You signed in on the real login page, and now see this.",
+      "url": "https://login.kestrelgroup.co.uk/consent?client=docsign-viewer",
+      "consent": { "app": "DocSign Viewer", "publisher": "Unverified", "verified": false, "scopes": ["Read and send email as you", "Read all files you can access", "Keep access when you’re not using the app"] },
+      "points": [
+        { "at": "publisher", "note": "An unverified publisher nobody at Kestrel has approved." },
+        { "at": "scopes", "note": "Viewing a contract doesn’t need to send email as you or read all your files." },
+        { "quote": "You signed in on the real login page", "note": "The page is real, but approving gives a stranger’s app your mailbox without ever needing your password." }
+      ],
+      "lesson": "A real sign-in page, but you’d be giving a stranger’s app your mailbox."
+    },
+    {
+      "id": "PH-029", "tier": 2, "type": "consent", "phish": false,
+      "context": "IT announced last week that Kestrel is moving to Ledgerly for expenses. You opened it from the intranet.",
+      "url": "https://login.kestrelgroup.co.uk/consent?client=ledgerly",
+      "consent": { "app": "Ledgerly Expenses", "publisher": "Verified · Approved by Kestrel IT", "verified": true, "scopes": ["Sign you in", "Read your name and email address"] },
+      "points": [
+        { "at": "publisher", "note": "Verified and approved by Kestrel IT." },
+        { "at": "scopes", "note": "It only asks for what an expenses app needs to know who you are." },
+        { "quote": "IT announced last week", "note": "Expected: announced by IT and opened from the intranet." }
+      ],
+      "lesson": "Genuine: an approved app asking only for the basics."
+    },
+    {
+      "id": "PH-030", "tier": 2, "type": "mfa", "phish": true,
+      "context": "It’s 23:40. Your phone has buzzed with this prompt three times in five minutes. You aren’t signing in.",
+      "mfa": { "app": "Kestrel Sign-in", "title": "Approve sign-in?", "lines": ["Kestrel Group account", "Location: Leeds, UK", "Device: Windows · Edge"] },
+      "points": [
+        { "quote": "three times in five minutes", "note": "Repeated prompts are an attack hoping you’ll tap Approve just to make them stop." },
+        { "quote": "You aren’t signing in", "note": "Someone has your password." },
+        { "quote": "Location: Leeds, UK", "note": "A local-looking location proves nothing. Attackers can route through nearby servers." }
+      ],
+      "lesson": "Repeated prompts you didn’t start: an attack, even if the location looks local."
+    },
+    {
+      "id": "PH-031", "tier": 2, "type": "chat", "phish": true, "external": true,
+      "context": "Kestrel Chat.",
+      "from": { "name": "IT Service Desk", "address": "it.servicedesk@kestrelgroup-support.co.uk" },
+      "body": [
+        "Hi Sam, we’re upgrading the Kestrel Sign-in app tonight.",
+        "To keep your access, please reply with the 6-digit code you’re about to receive."
+      ],
+      "points": [
+        { "at": "external", "note": "The real IT team wouldn’t be tagged External." },
+        { "at": "from", "note": "kestrelgroup-support.co.uk isn’t kestrelgroup.co.uk." },
+        { "quote": "reply with the 6-digit code", "note": "IT never asks for sign-in codes. The code is what they need to get into your account." }
+      ],
+      "lesson": "‘IT’ asking for your sign-in code."
+    },
+    {
+      "id": "PH-032", "tier": 2, "type": "chat", "phish": false, "external": true,
+      "context": "Kestrel Chat. Your team works with Harbourline on the office energy contract.",
+      "from": { "name": "Ruth Ellison · Harbourline", "address": "ruth.ellison@harbourline.co.uk" },
+      "body": [
+        "Morning! The signed contract is in our shared channel now.",
+        "Could you check page 4 before Thursday’s call? No rush today."
+      ],
+      "points": [
+        { "at": "external", "note": "External is expected for a partner you work with." },
+        { "at": "from", "note": "@harbourline.co.uk matches the Directory." },
+        { "quote": "No rush today", "note": "No link to sign in, no money, no pressure." }
+      ],
+      "lesson": "Genuine: a known partner, the right domain, and a normal request."
+    },
+    {
+      "id": "PH-033", "tier": 2, "type": "voicemail", "phish": true,
+      "from": { "name": "0113 496 0440" },
+      "time": "0:37",
+      "body": ["Hi Sam, it’s Josh from the Service Desk. We’ve spotted malware on your laptop and need to fix it remotely before it spreads. Call me back on my mobile, 07700 900812, and have your laptop open."],
+      "points": [
+        { "at": "from", "note": "The caller ID shows the real Service Desk number, but caller ID is easy to fake." },
+        { "quote": "07700 900812", "note": "They want you to call a mobile, not the official 0113 496 0440." },
+        { "quote": "fix it remotely before it spreads", "note": "Remote access plus urgency: a classic support scam." }
+      ],
+      "lesson": "Caller ID can be faked. Call back on the official number, not theirs."
+    },
+    {
+      "id": "PH-034", "tier": 2, "type": "voicemail", "phish": false,
+      "from": { "name": "0113 496 0440" },
+      "time": "0:24",
+      "body": ["Hi Sam, Service Desk here about ticket SD-20452, your VPN issue. We’ve pushed a fix, so just restart your laptop. If it’s still playing up, call us on 0113 496 0440 or update the ticket."],
+      "points": [
+        { "at": "from", "note": "The real Service Desk number." },
+        { "quote": "call us on 0113 496 0440", "note": "It points you to the official number, not a new one." },
+        { "quote": "just restart your laptop", "note": "No codes, no remote access, no links." }
+      ],
+      "lesson": "Genuine: an update on your own ticket, with the official number."
+    },
+    {
+      "id": "PH-035", "tier": 2, "type": "login", "phish": true,
+      "context": "A Kestrel Chat message from an External guest said ‘here’s the board pack’.",
+      "url": "https://login-kestrelgroup.co.uk/session?doc=board-pack",
+      "page": { "brand": "Kestrel Group", "heading": "Sign in to view this document" },
+      "points": [
+        { "at": "url", "note": "login-kestrelgroup.co.uk (a hyphen) is a different domain from login.kestrelgroup.co.uk (a dot)." },
+        { "quote": "an External guest", "note": "An outsider sending a link to an internal board pack." }
+      ],
+      "lesson": "A hyphen instead of a dot makes it someone else’s domain."
+    },
+    {
+      "id": "PH-036", "tier": 2, "type": "email", "phish": false,
+      "context": "In your personal inbox.",
+      "from": { "name": "Northgate Bank", "address": "news@email.northgate.co.uk" },
+      "subject": "Changes to your account terms from 1 June",
+      "body": [
+        "Hi Sam,",
+        "We’re updating our account terms from 1 June. You don’t need to do anything.",
+        "You can read the new terms at [[0]]."
+      ],
+      "links": [{ "text": "northgate.co.uk/terms", "url": "https://www.northgate.co.uk/terms" }],
+      "points": [
+        { "at": "from", "note": "@email.northgate.co.uk matches the Directory." },
+        { "at": "link0", "note": "The link goes to www.northgate.co.uk, an information page, not a sign-in." },
+        { "quote": "You don’t need to do anything", "note": "No action, deadline or details needed." }
+      ],
+      "lesson": "Genuine: the real domain, and information only."
+    },
+    {
+      "id": "PH-037", "tier": 2, "type": "sms", "phish": true,
+      "context": "It appeared in the same thread as your genuine Northgate texts.",
+      "from": { "name": "Northgate" },
+      "body": ["Northgate: We’ve blocked a payment of £640.00 to K. Harlow. If you didn’t make it, call our fraud team now on 020 7946 0127."],
+      "points": [
+        { "quote": "same thread as your genuine Northgate texts", "note": "Scammers can fake the sender name, so it lands among real messages." },
+        { "quote": "020 7946 0127", "note": "Northgate’s fraud team is 0808 157 0192." }
+      ],
+      "lesson": "Sender names can be faked. Check the number against the Directory."
+    },
+    {
+      "id": "PH-038", "tier": 2, "type": "link", "phish": false,
+      "context": "Your manager Lewis sent this in Kestrel Chat after the team meeting.",
+      "url": "https://servicedesk.kestrelgroup.co.uk/kb/2214-set-up-a-printer",
+      "points": [
+        { "at": "url", "note": "servicedesk.kestrelgroup.co.uk is the real Service Desk site." },
+        { "quote": "Your manager Lewis", "note": "Sent internally, following a conversation you had." }
+      ],
+      "lesson": "Genuine: an internal help article."
+    },
+    {
+      "id": "PH-039", "tier": 2, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox. You don’t recognise this supplier.",
+      "from": { "name": "Accounts · Fenwick Supplies", "address": "accounts@fenwick-supplies.co.uk" },
+      "subject": "Remittance advice 4471",
+      "body": [
+        "Hi,",
+        "Please see the attached remittance advice for your records. Sign in with your Kestrel account to view it."
+      ],
+      "attachment": "Remittance_Advice_4471.html",
+      "points": [
+        { "at": "attachment", "note": "An .html attachment opens a web page, often a fake sign-in form, rather than a document." },
+        { "quote": "Sign in with your Kestrel account to view it", "note": "A document from outside shouldn’t need your Kestrel password." },
+        { "quote": "You don’t recognise this supplier", "note": "You weren’t expecting anything from them." }
+      ],
+      "lesson": "An .html ‘document’ that wants your password."
+    },
+    {
+      "id": "PH-040", "tier": 2, "type": "email", "phish": false,
+      "context": "In your work inbox.",
+      "from": { "name": "People Team", "address": "people@kestrelgroup.co.uk" },
+      "subject": "Action needed: confirm your emergency contact by Friday",
+      "body": [
+        "Hi Sam,",
+        "We’re doing our yearly check of emergency contacts. Please confirm yours in the People portal by Friday: [[0]]. It only takes a minute."
+      ],
+      "links": [{ "text": "people.kestrelgroup.co.uk", "url": "https://people.kestrelgroup.co.uk/profile/emergency-contact" }],
+      "points": [
+        { "at": "from", "note": "Internal HR address, not External." },
+        { "at": "link0", "note": "The link goes to people.kestrelgroup.co.uk." },
+        { "quote": "Action needed", "note": "A deadline, but it’s a routine yearly check on the real site." }
+      ],
+      "lesson": "Genuine: ‘action needed’, but on Kestrel’s own HR site."
+    },
+    {
+      "id": "PH-041", "tier": 2, "type": "sms", "phish": true,
+      "from": { "name": "HARBOURLN" },
+      "body": ["Harbourline: Your Direct Debit has failed. To avoid a £35 late fee, update your payment details today: [[0]]"],
+      "links": [{ "text": "my-harbourline.co.uk/pay", "url": "https://my-harbourline.co.uk/pay" }],
+      "points": [
+        { "at": "link0", "note": "my-harbourline.co.uk (a hyphen) isn’t my.harbourline.co.uk (a dot)." },
+        { "quote": "£35 late fee", "note": "A penalty to make you act fast." },
+        { "at": "from", "note": "An abbreviated sender name. Anyone can set a name like this." }
+      ],
+      "lesson": "my-harbourline is not my.harbourline."
+    },
+    {
+      "id": "PH-042", "tier": 2, "type": "chat", "phish": false,
+      "context": "Kestrel Chat.",
+      "from": { "name": "Priya Shah · Finance", "address": "priya.shah@kestrelgroup.co.uk" },
+      "body": ["Hi Sam, Finance needs your March expense receipts by Friday for month-end. Upload them in Ledgerly as usual, thanks!"],
+      "points": [
+        { "at": "from", "note": "An internal account, not tagged External." },
+        { "quote": "Upload them in Ledgerly as usual", "note": "It uses the normal process, with no link or payment." },
+        { "quote": "by Friday for month-end", "note": "A deadline that matches a routine month-end." }
+      ],
+      "lesson": "Genuine: a routine request through the usual system."
+    },
+
+    {
+      "id": "PH-043", "tier": 3, "type": "email", "phish": true,
+      "context": "In your work inbox, in an existing conversation about a real Fenwick Supplies invoice.",
+      "from": { "name": "Priya Shah", "address": "priya.shah@kestrelgroup.co.uk" },
+      "subject": "RE: Fenwick Supplies invoice 4471",
+      "body": [
+        "Hi Sam,",
+        "Fenwick have moved banks, so please update their details before today’s payment run: sort code 20-91-47, account 63018822.",
+        "I’ve had it confirmed by email, so no need to call them. Thanks, Priya"
+      ],
+      "points": [
+        { "at": "from", "note": "The address is genuinely Priya’s. Accounts get taken over, so a real sender isn’t proof." },
+        { "quote": "moved banks", "note": "Changed bank details are the heart of invoice fraud." },
+        { "quote": "no need to call them", "note": "Kestrel only changes bank details after a call-back. Being told to skip it is the giveaway." }
+      ],
+      "lesson": "Even a real colleague’s account can be hijacked. Always do the call-back."
+    },
+    {
+      "id": "PH-044", "tier": 3, "type": "email", "phish": true, "external": true,
+      "context": "Work inbox. You’ve been emailing Fenwick Supplies about order 7712 all week.",
+      "from": { "name": "Accounts · Fenwick Supplies", "address": "accounts@fenwick-supplies.co.uk" },
+      "replyTo": "accounts@fenwick-suppIies.co.uk",
+      "subject": "RE: RE: Order 7712 delivery",
+      "body": [
+        "Thanks for confirming the delivery date.",
+        "Our updated remittance details are on the attached letter. Please use these from this invoice onwards."
+      ],
+      "attachment": "Fenwick_bank_update.pdf",
+      "points": [
+        { "at": "replyTo", "note": "suppIies has a capital I instead of an l. Your reply would go to the attacker." },
+        { "quote": "updated remittance details", "note": "New bank details slipped into a real conversation." }
+      ],
+      "lesson": "A hijacked thread: the reply-to is a look-alike."
+    },
+    {
+      "id": "PH-045", "tier": 3, "type": "login", "phish": true,
+      "context": "You opened a link in a calendar invite for ‘Q3 planning’ from a colleague you know.",
+      "url": "https://login.kestreigroup.co.uk/",
+      "page": { "brand": "Kestrel Group", "heading": "Sign in" },
+      "points": [
+        { "at": "url", "note": "kestreigroup: an i where the l should be. Easy to miss at a glance." },
+        { "quote": "a link in a calendar invite", "note": "Invites can carry links too, and senders can be spoofed or hijacked." }
+      ],
+      "lesson": "One letter swapped: kestreigroup, not kestrelgroup."
+    },
+    {
+      "id": "PH-046", "tier": 3, "type": "email", "phish": false,
+      "context": "In your personal inbox.",
+      "from": { "name": "Northgate Bank", "address": "alerts@email.northgate.co.uk" },
+      "subject": "Unusual activity: please check",
+      "body": [
+        "Hi Sam,",
+        "We noticed a card payment of £219.99 to an online retailer that’s unusual for you. Was this you?",
+        "Reply YES or NO in the Northgate app, or call us on 0808 157 0192. We’ll never ask you to share a passcode or move money."
+      ],
+      "points": [
+        { "at": "from", "note": "@email.northgate.co.uk matches the Directory." },
+        { "quote": "in the Northgate app, or call us on 0808 157 0192", "note": "It sends you to the app or the real fraud number. No link." },
+        { "quote": "We’ll never ask you to share a passcode or move money", "note": "Worrying subject line, but nothing risky is asked." }
+      ],
+      "lesson": "Genuine: alarming subject, but no link and the real number."
+    },
+    {
+      "id": "PH-047", "tier": 3, "type": "mfa", "phish": true,
+      "context": "You’ve just typed your password on a page you opened from an email. This prompt arrives straight away.",
+      "mfa": { "app": "Kestrel Sign-in", "title": "Approve sign-in?", "lines": ["Kestrel Group account", "Location: Amsterdam, Netherlands", "Device: Mac · Chrome"] },
+      "points": [
+        { "quote": "a page you opened from an email", "note": "If that page was fake, the attacker is signing in with your password right now." },
+        { "quote": "Device: Mac · Chrome", "note": "You’re on a Windows laptop. This is someone else’s device." },
+        { "quote": "Location: Amsterdam, Netherlands", "note": "Not where you are." }
+      ],
+      "lesson": "You expected a prompt, but the device and location are someone else’s."
+    },
+    {
+      "id": "PH-048", "tier": 3, "type": "mfa", "phish": false,
+      "context": "You’re setting up a new work laptop at home in Harrogate. You opened login.kestrelgroup.co.uk yourself, and the screen shows 63.",
+      "mfa": { "app": "Kestrel Sign-in", "title": "Enter the number shown to sign in", "lines": ["Kestrel Group account", "Location: Leeds, UK", "Device: Windows · Edge"] },
+      "points": [
+        { "quote": "Location: Leeds, UK", "note": "Home broadband often shows the nearest big city, so Leeds for Harrogate is normal." },
+        { "quote": "Device: Windows · Edge", "note": "Matches the laptop you’re using." },
+        { "at": "prompt", "note": "Number matching, for a sign-in you started on the real page." }
+      ],
+      "lesson": "Genuine: you started it on the real page, and the device matches."
+    },
+    {
+      "id": "PH-049", "tier": 3, "type": "voicemail", "phish": true,
+      "from": { "name": "07700 900561" },
+      "time": "0:29",
+      "body": ["Sam, it’s Dana. I’m boarding in ten minutes and I need a favour. The Elmwood deal closes today and their lawyers need the £18,500 deposit before four. Priya’s tied up. I’ll text you the details. Please keep this between us until it’s announced."],
+      "points": [
+        { "at": "from", "note": "An unknown mobile, not Dana’s saved number." },
+        { "quote": "keep this between us", "note": "Secrecy stops you checking." },
+        { "quote": "Priya’s tied up", "note": "Going around the normal Finance approval." },
+        { "quote": "boarding in ten minutes", "note": "Unreachable plus urgent. Voices can be cloned, so verify on a number you already have." }
+      ],
+      "lesson": "A familiar voice isn’t proof. Verify on a number you already have."
+    },
+    {
+      "id": "PH-050", "tier": 3, "type": "sms", "phish": true,
+      "from": { "name": "ParcelPoint" },
+      "body": ["ParcelPoint: Your parcel is waiting at our depot. Choose a delivery slot: [[0]]"],
+      "links": [{ "text": "ppnt-uk.com/s/7RTQ2", "url": "https://ppnt-uk.com/s/7RTQ2" }],
+      "points": [
+        { "at": "link0", "note": "ppnt-uk.com isn’t ParcelPoint’s ppnt.uk, just a near copy." },
+        { "at": "from", "note": "The sender name looks right, but anyone can fake it." }
+      ],
+      "lesson": "A near copy of the real short link: ppnt-uk.com, not ppnt.uk."
+    },
+    {
+      "id": "PH-051", "tier": 3, "type": "sms", "phish": false,
+      "context": "Five minutes ago you added your energy company as a payee in the Northgate app.",
+      "from": { "name": "Northgate" },
+      "body": ["Northgate: You’ve set up a new payee, Harbourline Energy. If this wasn’t you, call us on 0808 157 0192. Never move money because someone asks you to."],
+      "points": [
+        { "quote": "Harbourline Energy", "note": "It matches what you just did." },
+        { "quote": "0808 157 0192", "note": "The real fraud number. No link." }
+      ],
+      "lesson": "Genuine: it matches your action, with the real number and no link."
+    },
+    {
+      "id": "PH-052", "tier": 3, "type": "link", "phish": true,
+      "context": "Shared by a colleague’s account in Kestrel Chat: ‘Updated holiday rota, can you check your dates?’",
+      "url": "https://kestrelgroup.share-docs.net/rota/summer",
+      "points": [
+        { "at": "url", "note": "The real domain is share-docs.net. ‘kestrelgroup’ is just a label at the front." },
+        { "quote": "Shared by a colleague’s account", "note": "A real colleague’s account can be taken over and used to spread links." }
+      ],
+      "lesson": "kestrelgroup.share-docs.net belongs to share-docs.net."
+    },
+    {
+      "id": "PH-053", "tier": 3, "type": "link", "phish": false,
+      "context": "In the IT newsletter: ‘Report suspicious emails here’.",
+      "url": "https://servicedesk.kestrelgroup.co.uk/report?src=newsletter&id=7f3a9c21",
+      "points": [
+        { "at": "url", "note": "The domain is servicedesk.kestrelgroup.co.uk. The long code after the ? is just tracking." }
+      ],
+      "lesson": "Genuine: a messy-looking link, but the domain is right."
+    },
+    {
+      "id": "PH-054", "tier": 3, "type": "consent", "phish": true,
+      "context": "You clicked ‘Enable new mailbox features’ in an email that looked like it came from IT. There’s been no IT announcement.",
+      "url": "https://login.kestrelgroup.co.uk/consent?client=mail-sync",
+      "consent": { "app": "Kestrel Mail Sync", "publisher": "Kestrel Group IT (unverified)", "verified": false, "scopes": ["Read, send and delete your email", "Read your contacts", "Keep access when you’re not using the app"] },
+      "points": [
+        { "at": "publisher", "note": "Anyone can name their app ‘Kestrel’. Unverified means nobody checked." },
+        { "at": "scopes", "note": "Full mailbox control, forever." },
+        { "quote": "There’s been no IT announcement", "note": "Real IT changes are announced and approved." }
+      ],
+      "lesson": "An app calling itself ‘Kestrel’, unverified, wanting your mailbox."
+    },
+    {
+      "id": "PH-055", "tier": 3, "type": "email", "phish": false, "external": true,
+      "context": "Work inbox. Fenwick Supplies is a regular supplier. You’ve had a dozen invoices from this address.",
+      "from": { "name": "Accounts · Fenwick Supplies", "address": "accounts@fenwick-supplies.co.uk" },
+      "subject": "Invoice 4502 attached",
+      "body": [
+        "Hi Sam,",
+        "Please find invoice 4502 for the May order attached. Bank details are unchanged, and payment terms are 30 days as usual."
+      ],
+      "attachment": "Invoice_4502.pdf",
+      "points": [
+        { "at": "external", "note": "External is expected for a supplier." },
+        { "at": "from", "note": "The same address you’ve always dealt with, and no different reply-to." },
+        { "quote": "Bank details are unchanged", "note": "Nothing about payment has changed." },
+        { "at": "attachment", "note": "A normal PDF invoice you were expecting." }
+      ],
+      "lesson": "Genuine: a known supplier, as usual, with no changes."
+    },
+    {
+      "id": "PH-056", "tier": 3, "type": "login", "phish": true,
+      "context": "You tapped ‘Review document’ in a reply from a colleague to an email thread you started.",
+      "url": "https://login.kestrel-group.co.uk/",
+      "page": { "brand": "Kestrel Group", "heading": "Sign in to continue" },
+      "points": [
+        { "at": "url", "note": "kestrel-group.co.uk has a hyphen. Kestrel’s domain is kestrelgroup.co.uk." },
+        { "quote": "a reply from a colleague", "note": "Replies in real threads can come from hijacked accounts." }
+      ],
+      "lesson": "kestrel-group.co.uk is not kestrelgroup.co.uk."
+    },
+    {
+      "id": "PH-057", "tier": 3, "type": "chat", "phish": true,
+      "context": "Kestrel Chat, from your manager’s real account.",
+      "from": { "name": "Lewis Grant", "address": "lewis.grant@kestrelgroup.co.uk" },
+      "body": ["Can you approve the Kestrel Sign-in request you’re about to get? I’m locked out and on a train, and IT won’t pick up. Cheers"],
+      "points": [
+        { "quote": "approve the Kestrel Sign-in request you’re about to get", "note": "Approving a prompt you didn’t start lets someone into your account, whoever asks." },
+        { "quote": "IT won’t pick up", "note": "Getting you to skip the proper route." },
+        { "at": "from", "note": "A real internal account can still be compromised. Call Lewis on a number you know." }
+      ],
+      "lesson": "Never approve a sign-in prompt for someone else."
+    },
+    {
+      "id": "PH-058", "tier": 3, "type": "voicemail", "phish": false,
+      "from": { "name": "No caller ID" },
+      "time": "0:19",
+      "body": ["Hello, this is Northgate Bank calling about a payment on your account. For your security we won’t discuss it in a voicemail. Please call us using the number on the back of your card. You don’t need to do anything else."],
+      "points": [
+        { "at": "from", "note": "Banks sometimes call with no caller ID, so that alone isn’t a warning sign." },
+        { "quote": "the number on the back of your card", "note": "It sends you to a number you already trust." },
+        { "quote": "You don’t need to do anything else", "note": "No details, codes or money asked for." }
+      ],
+      "lesson": "Genuine: it gives you nothing to act on except calling the number on your card."
+    },
+    {
+      "id": "PH-059", "tier": 3, "type": "email", "phish": true,
+      "context": "In your personal inbox.",
+      "from": { "name": "hello@harbourline.co.uk", "address": "billing@harbour-line.co.uk" },
+      "subject": "Your new tariff starts Monday",
+      "body": [
+        "Hi Sam,",
+        "Your new fixed tariff starts on Monday. Please re-confirm your Direct Debit so payments continue without interruption:",
+        "[[0]]"
+      ],
+      "links": [{ "text": "Confirm Direct Debit", "url": "https://harbour-line.co.uk/direct-debit" }],
+      "points": [
+        { "at": "from", "note": "The display name is set to look like Harbourline’s address. The real sender is harbour-line.co.uk." },
+        { "at": "link0", "note": "The link goes to harbour-line.co.uk too, not harbourline.co.uk." }
+      ],
+      "lesson": "A display name dressed up as an email address."
+    },
+    {
+      "id": "PH-060", "tier": 3, "type": "chat", "phish": false,
+      "context": "Kestrel Chat, all-staff channel.",
+      "from": { "name": "Megan Price · People Team", "address": "megan.price@kestrelgroup.co.uk" },
+      "body": ["Reminder: benefits enrolment closes Friday at 17:00! After that, changes have to wait until next year. Everything’s in the People portal: [[0]]"],
+      "links": [{ "text": "people.kestrelgroup.co.uk/benefits", "url": "https://people.kestrelgroup.co.uk/benefits" }],
+      "points": [
+        { "at": "from", "note": "An internal HR account in an all-staff channel." },
+        { "at": "link0", "note": "The link goes to the real HR site." },
+        { "quote": "closes Friday at 17:00", "note": "Deadline pressure, but it’s a normal yearly window." }
+      ],
+      "lesson": "Genuine: a real deadline on Kestrel’s own HR site."
+    }
+  ]
+}

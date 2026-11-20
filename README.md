@@ -23,16 +23,19 @@ Built with React 19, TypeScript and Vite.
 | `src/components/LevelUp.tsx` | Full-screen level-up: the old level slams in, spins into the new one, slams down with confetti, floats, then fades (tap to skip) |
 | `src/components/Sheet.tsx` | Slide-up bottom sheet (swipe down or tap outside to close), used for celebrations and badge details |
 | `src/components/BlitzView.tsx` | Acronym Blitz: intro, the timed round and the results |
+| `src/components/PhishView.tsx` | Spot the Phish: intro and level picker, the swipeable cards with inspecting, the flip to the explanation, results and the Directory |
 | `src/components/Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
 | `src/hooks/useCountdown.ts` | Countdown to the next daily set |
 | `src/hooks/useEdgeSwipe.ts` | Swipe from the left edge to go back Home |
 | `src/lib/quiz.ts` | Quiz logic: daily draw, Smart Practice, streak, storage |
 | `src/lib/progress.ts` | XP, levels, badges, streak freezes, category scores, recommendations |
 | `src/lib/blitz.ts` | Acronym Blitz logic: difficulty ramp, reversed questions, scoring, XP cap |
+| `src/lib/phish.ts` | Spot the Phish logic: dealing a round, scoring, streaks, XP cap |
 | `src/lib/haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
 | `src/lib/confetti.ts` | Small canvas confetti in the medal colours (off when the phone asks for reduced motion) |
 | `public/questions.json` | The question bank |
 | `public/acronyms.json` | The Acronym Blitz bank |
+| `public/phish.json` | The Spot the Phish cards and the Directory |
 | `public/manifest.json`, icons, `figtree-OFL.txt` | PWA manifest, icons and font licence (copied into the build with their exact names) |
 | `.github/workflows/deploy.yml` | GitHub Actions workflow (see below) |
 | `vite.config.ts`, `tsconfig.json`, `package.json`, `package-lock.json` | Build setup |
@@ -108,11 +111,55 @@ Add entries to `public/acronyms.json` with a new unique `id`:
 - Avoid decoys that are also in real use, such as "Data Leak Prevention" for DLP.
 - `tier`: 1 for common, 2 for working knowledge, 3 for specialist.
 
+## Spot the Phish
+Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe right (or tap **Legit**) if it's genuine. Available from level 1.
+
+- **Cards:** emails, texts, Kestrel Chat messages, bare links, sign-in prompts, sign-in pages, app permission requests and voicemails.
+- **Fictional organisations only:** Kestrel Group (your employer), Northgate Bank, ParcelPoint and Harbourline Energy. Phone numbers come from Ofcom's ranges reserved for drama, so none are real.
+- **The Directory** lists each organisation's genuine domains, numbers and rules. Open it from the intro or the chip above the card. Checking details against it is the skill.
+- **Inspecting, as on a real phone:**
+  - Tap a sender's name to see the full address, including any different reply-to address.
+  - Tap a browser address bar to see the full web address.
+  - Press and hold a link to see where it really goes. A short tap just shows a reminder.
+- **After each call** the card flips. The warning signs (red) or the reasons it's safe (green) are highlighted where they appear, each with a numbered note.
+- **Levels:**
+  - **Rookie:** from level 1, Rookie cards only.
+  - **Analyst:** from level 4, 7 Analyst and 3 Rookie cards.
+  - **Expert:** from level 7, 6 Expert, 3 Analyst and 1 Rookie card.
+  - Each round has between 4 and 7 phish, so it's never a predictable 50/50.
+- **No repeats:** cards you haven't seen are dealt first. After that, the ones seen longest ago come back.
+- **Scoring:** out of 100. Each right call is 10, a false alarm (flagging a genuine message) is 3, and letting a phish through is 0.
+- **Progress:**
+  - Every answer is logged as mode `phish` under "Phishing and Social Engineering", so it feeds that skill on the Profile.
+  - XP: 2 per right call (3 at Analyst, 4 at Expert) plus 10 per round, for the first 3 rounds each day.
+- **Badges:** Gone Phishing (first round), Cool Head (no false alarms, at least 4 caught), Unhookable (20 caught in a row) and Expert Eye (a perfect Expert round).
+
+### Adding cards
+Add to `cards` in `public/phish.json` with a new unique `id`.
+
+- `tier`: 1 Rookie, 2 Analyst, 3 Expert.
+- `type`: one of `email`, `sms`, `chat`, `link`, `mfa`, `login`, `consent`, `voicemail`.
+- `phish`: true or false.
+
+Then fill in the fields for that type, following the existing cards:
+- `from` with `name` and `address`, plus `replyTo` and `external` if needed;
+- `subject`, `body` and `links` (`[[0]]` in the body marks where `links[0]` goes);
+- `attachment`, `url`, `page`, `consent` or `mfa`.
+
+Every card needs:
+- `points`: the signs, or the reasons it's safe. Each one points at a part of the card (`at`: `from`, `replyTo`, `external`, `subject`, `attachment`, `link0`, `url`, `publisher`, `scopes`, `prompt`) or at an exact phrase in the text (`quote`).
+- `lesson`: one line for the end screen.
+
+A few rules for writing cards:
+- Phishing cards should be polished, with no typos.
+- Genuine cards can look a little alarming.
+- Every giveaway should be checkable against the Directory.
+
 ## Profile, levels and badges
 Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
-- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round, for the first 3 rounds each day.
+- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round, for the first 3 rounds each day. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round, for the first 3 rounds each day.
 - Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see your XP and all the ranks; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
 
 **Category scores**
@@ -125,7 +172,7 @@ Tap the level ring (top right of Home) or the Profile tile.
 - A missed day uses one automatically.
 
 **Badges**
-- There are 24 badges, including one for the first time you play each mode. Three are hidden until earned.
+- There are 28 badges, including one for the first time you play each mode. Three are hidden until earned.
 - On the Profile they are ordered: earned (newest first), then closest to completion, then not started. Tap one to see its details and progress in a sheet that slides up; swipe it down or tap outside to close.
 - To add one, add an entry to `BADGES` in `src/lib/progress.ts`.
 

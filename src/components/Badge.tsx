@@ -38,6 +38,8 @@ function Glyph({ name }: { name: string }) {
       </g>
     );
     case 'bolt': return <path d="M26 14.5l-8 11h6l-1.5 8 8-11h-6z" {...st} />;
+    case 'hook': return <g {...st}><circle cx="27" cy="15.5" r="1.8" /><path d="M27 17.3v10.2a5 5 0 0 1-10 0v-3.2l3.2 2.4" /></g>;
+    case 'eye': return <g {...st}><path d="M14.5 24s3.8-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.8 6.5-9.5 6.5-9.5-6.5-9.5-6.5z" /><circle cx="24" cy="24" r="2.8" /></g>;
     case '?': return <text x="24" y="24.5" textAnchor="middle" dominantBaseline="central" className="medal-num">?</text>;
     default: return <text x="24" y="24.5" textAnchor="middle" dominantBaseline="central" className="medal-num">{name}</text>;
   }

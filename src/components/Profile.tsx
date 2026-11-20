@@ -5,7 +5,8 @@ import {
 } from '../lib/progress.ts';
 import type { Acronym } from '../lib/blitz.ts';
 import { LevelRing, Medal, SnowIcon } from './Badge.tsx';
-import { BlitzIcon, DailyIcon, PracticeIcon } from './icons.tsx';
+import { BlitzIcon, DailyIcon, PhishIcon, PracticeIcon } from './icons.tsx';
+import { CATEGORY as PHISH_CATEGORY } from '../lib/phish.ts';
 import { haptic } from '../lib/haptics.ts';
 import Sheet from './Sheet.tsx';
 
@@ -100,7 +101,9 @@ export default function Profile({ state, bank, practiceBank, acronyms, streak, o
       { icon: <PracticeIcon />, name: 'Smart Practice',
         meta: review.length ? `${due.length ? `${due.length} due now` : 'Nothing due'} · ${review.length} in review`
           : 'Get one right to add it here' },
-      ...(acr.length ? [{ icon: <BlitzIcon />, name: 'Acronym Blitz', meta: `${acr.length} acronyms · ${acrRight} got right` }] : [])
+      ...(acr.length ? [{ icon: <BlitzIcon />, name: 'Acronym Blitz', meta: `${acr.length} acronyms · ${acrRight} got right` }] : []),
+      ...(name === PHISH_CATEGORY ? [{ icon: <PhishIcon />, name: 'Spot the Phish',
+        meta: state.phish.rounds ? `${state.phish.caught} phish caught · best ${state.phish.best}` : 'Phish or legit? 10 cards a round' }] : [])
     ];
   };
 

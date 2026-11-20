@@ -12,7 +12,10 @@ export const XP = {
   practiceEarly: 1,   // right, but not due yet (stops grinding)
   blitzCorrect: 2,    // per right answer in a finished Acronym Blitz round
   blitzRound: 10,     // for finishing a Blitz round
-  blitzRoundsPerDay: 3 // only this many Blitz rounds a day earn XP
+  blitzRoundsPerDay: 3, // only this many Blitz rounds a day earn XP
+  phishCorrect: 2,    // per right call in Spot the Phish (+1 at Analyst, +2 at Expert)
+  phishRound: 10,     // for finishing a Spot the Phish round
+  phishRoundsPerDay: 3
 };
 
 export const RANKS = [
@@ -229,6 +232,14 @@ export const BADGES: BadgeDef[] = [
     earned: (c) => c.state.blitz.best >= 40 },
   { id: 'blitz-combo', tier: 'gold', name: 'Unbroken', desc: 'Keep a ×2 combo going for 15 answers in Acronym Blitz.', glyph: '×2',
     progress: (c) => count(c.state.blitz.comboBest, 15), earned: (c) => c.state.blitz.comboBest >= 15 },
+  { id: 'first-phish', tier: 'bronze', name: 'Gone Phishing', desc: 'Finish your first round of Spot the Phish.', glyph: 'hook',
+    earned: (c) => c.state.phish.rounds >= 1 },
+  { id: 'phish-clean', tier: 'silver', name: 'Cool Head', desc: 'Finish a Spot the Phish round with no false alarms, catching at least 4 phish.', glyph: 'check',
+    earned: (c) => c.state.phish.cleanRounds >= 1 },
+  { id: 'phish-20', tier: 'gold', name: 'Unhookable', desc: 'Catch 20 phish in a row without letting one through.', glyph: '20',
+    progress: (c) => count(c.state.phish.streakBest, 20), earned: (c) => c.state.phish.streakBest >= 20 },
+  { id: 'phish-expert', tier: 'platinum', name: 'Expert Eye', desc: 'Get all 10 right in an Expert round of Spot the Phish.', glyph: 'eye',
+    earned: (c) => c.state.phish.expertPerfect >= 1 },
   { id: 'early-bird', tier: 'special', name: 'Early Bird', desc: 'Finish Today’s 10 before 7am.', glyph: 'sun', hidden: true,
     earned: (c) => c.state.stats.earlyBird >= 1 },
   { id: 'night-owl', tier: 'special', name: 'Night Owl', desc: 'Finish Today’s 10 after 11pm.', glyph: 'moon', hidden: true,

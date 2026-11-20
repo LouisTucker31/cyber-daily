@@ -14,6 +14,11 @@ import DoneView from './components/DoneView.tsx';
 import Profile from './components/Profile.tsx';
 import Celebration from './components/Celebration.tsx';
 import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
+import { DirectorySheet, PhishDone, PhishGame, PhishIntro } from './components/PhishView.tsx';
+import {
+  drawRound, finishPhish, logPhishAnswer, parsePhish, phishXpRoundsLeft, TIERS,
+  type PhishBank, type PhishCard, type PhishResult, type Tier
+} from './lib/phish.ts';
 import { evaluateProgress, levelInfo } from './lib/progress.ts';
 import useCountdown from './hooks/useCountdown.ts';
 import useEdgeSwipe from './hooks/useEdgeSwipe.ts';
@@ -24,13 +29,17 @@ import { ArrowIcon, ClockIcon } from './components/icons.tsx';
 type Load =
   | { status: 'loading' }
   | { status: 'error' }
-  | { status: 'ready'; bank: Question[]; acronyms: Acronym[]; practiceBank: Question[] };
-type View = 'home' | 'daily' | 'practice' | 'profile' | 'blitz';
+  | { status: 'ready'; bank: Question[]; acronyms: Acronym[]; practiceBank: Question[]; phish: PhishBank | null };
+type View = 'home' | 'daily' | 'practice' | 'profile' | 'blitz' | 'phish';
 type Motion = 'forward' | 'back' | 'none';
 type Blitz =
   | { phase: 'intro' }
   | { phase: 'play'; round: number }
   | { phase: 'done'; result: BlitzResult; prevBest: number; xp: number };
+type Phish =
+  | { phase: 'intro' }
+  | { phase: 'play'; round: number; tier: Tier; cards: PhishCard[] }
+  | { phase: 'done'; result: PhishResult; prevBest: number; xp: number };
 
 export default function App() {
   const [load, setLoad] = useState<Load>({ status: 'loading' });
@@ -41,6 +50,9 @@ export default function App() {
   const [motion, setMotion] = useState<Motion>('none');
   const [round, setRound] = useState(0); // bumps on each new screen so the slide animation replays
   const [blitz, setBlitz] = useState<Blitz>({ phase: 'intro' });
+  const [phish, setPhish] = useState<Phish>({ phase: 'intro' });
+  const [phishTier, setPhishTier] = useState<Tier | null>(null); // null = the highest unlocked
+  const [showDirectory, setShowDirectory] = useState(false);
 
   const bank = load.status === 'ready' ? load.bank : null;
   const acronyms = load.status === 'ready' ? load.acronyms : null;
@@ -50,6 +62,8 @@ export default function App() {
   const byId = useMemo(() => new Map((bank ?? []).map((q) => [q.id, q])), [bank]);
   const practiceById = useMemo(() => new Map((practiceBank ?? []).map((q) => [q.id, q])), [practiceBank]);
   const acronymById = useMemo(() => new Map((acronyms ?? []).map((a) => [a.id, a])), [acronyms]);
+  const phishBank = load.status === 'ready' ? load.phish : null;
+  const phishById = useMemo(() => new Map((phishBank?.cards ?? []).map((c) => [c.id, c])), [phishBank]);
 
   /* Every change: copy, apply, save straight away, then re-render.
      Saving immediately means a refresh can never give a second chance. */
@@ -68,15 +82,15 @@ export default function App() {
     commit(next);
   }, [commit]);
 
-  // load questions (required) and acronyms (optional: without them only Blitz is unavailable)
+  // load questions (required); acronyms and phish cards are optional (without them only that game is unavailable)
   useEffect(() => {
     const questions = fetch('questions.json', { cache: 'no-cache' })
       .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
-    const acronymData = fetch('acronyms.json', { cache: 'no-cache' })
-      .then((r) => (r.ok ? r.json() : []))
-      .catch(() => []);
-    Promise.all([questions, acronymData])
-      .then(([data, acr]) => {
+    const optional = (file: string, empty: unknown) => fetch(file, { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : empty))
+      .catch(() => empty);
+    Promise.all([questions, optional('acronyms.json', []), optional('phish.json', null)])
+      .then(([data, acr, ph]) => {
         const b = parseBank(data);
         const a = parseAcronyms(acr);
         const pb = b.concat(a.map(acronymQuestion));
@@ -87,7 +101,7 @@ export default function App() {
         // first run with levels: count past progress quietly, then show one welcome sheet
         evaluateProgress(s, b, s.celebrations.some((c) => c.kind === 'welcome'), pb);
         commit(s);
-        setLoad({ status: 'ready', bank: b, acronyms: a, practiceBank: pb });
+        setLoad({ status: 'ready', bank: b, acronyms: a, practiceBank: pb, phish: parsePhish(ph) });
       })
       .catch(() => setLoad({ status: 'error' }));
   }, [commit]);
@@ -190,10 +204,42 @@ export default function App() {
     update((s) => logBlitzAnswer(s, a, ok));
   }, [update]);
 
+  /* Spot the Phish: Home opens the intro (pick a level); Start / Play again deal a round of 10 */
+  const level = levelInfo(state?.xp ?? 0).level;
+  const unlockedTier = ([...TIERS].reverse().find((t) => level >= t.unlock)?.tier ?? 1) as Tier;
+  const tier: Tier = phishTier && level >= TIERS[phishTier - 1].unlock ? phishTier : unlockedTier;
+
+  const openPhish = useCallback(() => {
+    setPhish({ phase: 'intro' });
+    haptic();
+    open('phish');
+  }, [open]);
+
+  const startPhish = useCallback(() => {
+    const s = stateRef.current;
+    if (!phishBank || !s) return;
+    haptic();
+    setPhish({ phase: 'play', round: Date.now(), tier, cards: drawRound(phishBank.cards, tier, s.phish.seen) });
+    window.scrollTo(0, 0);
+  }, [phishBank, tier]);
+
+  const phishAnswer = useCallback((c: PhishCard, saidPhish: boolean) => {
+    update((s) => logPhishAnswer(s, c, saidPhish));
+  }, [update]);
+
+  const endPhish = useCallback((result: PhishResult) => {
+    let info = { prevBest: 0, xp: 0 };
+    update((s) => { info = finishPhish(s, result); });
+    haptic('success');
+    setPhish({ phase: 'done', result, ...info });
+    window.scrollTo(0, 0);
+  }, [update]);
+
   /* ---------- work out what to show ---------- */
 
   let body: ReactNode = null;
   let barButton: ReactNode = null;
+  let reserveBar = false;
   let nav: { label: string; onHome: () => void } | undefined;
 
   if (load.status === 'loading') {
@@ -212,6 +258,8 @@ export default function App() {
         onPractice={startPractice}
         blitz={{ best: state.blitz.best, available: (acronyms?.length ?? 0) >= 4 }}
         onBlitz={openBlitz}
+        phish={{ best: state.phish.best, available: !!phishBank }}
+        onPhish={openPhish}
       />
     );
   } else if (view === 'daily') {
@@ -339,11 +387,38 @@ export default function App() {
         </button>
       );
     }
+  } else if (view === 'phish' && phishBank) {
+    nav = { label: 'Spot the Phish', onHome: () => goHome() };
+    if (phish.phase === 'play') {
+      reserveBar = true; // the game draws its own Phish / Legit buttons in the action bar
+      body = (
+        <PhishGame
+          key={phish.round}
+          cards={phish.cards}
+          tier={phish.tier}
+          onAnswer={phishAnswer}
+          onEnd={endPhish}
+          onDirectory={() => setShowDirectory(true)}
+        />
+      );
+    } else {
+      body = phish.phase === 'intro'
+        ? <PhishIntro level={level} tier={tier} onTier={setPhishTier} best={state.phish.best}
+            xpLeft={phishXpRoundsLeft(state)} onDirectory={() => setShowDirectory(true)} />
+        : <PhishDone result={phish.result} prevBest={phish.prevBest} best={state.phish.best} xp={phish.xp} byId={phishById} />;
+      const name = TIERS[tier - 1].name;
+      barButton = (
+        <button type="button" className="btn" onClick={startPhish}>
+          {phish.phase === 'intro' ? `Start ${name} round` : 'Play again'}
+          <ArrowIcon />
+        </button>
+      );
+    }
   }
 
   return (
     <>
-      <div className={'app' + (barButton ? ' has-bar' : '')}>
+      <div className={'app' + (barButton || reserveBar ? ' has-bar' : '')}>
         <Header
           ready={state !== null}
           streak={state ? shownStreak(state) : 0}
@@ -370,7 +445,8 @@ export default function App() {
         view === 'home' || view === 'profile' ||
         (view === 'daily' && dayDone) ||
         (view === 'practice' && practice && practice.index >= practice.items.length) ||
-        (view === 'blitz' && blitz.phase !== 'play')
+        (view === 'blitz' && blitz.phase !== 'play') ||
+        (view === 'phish' && phish.phase !== 'play')
       ) && (
         <Celebration
           key={state.celebrations.length + (state.celebrations[0].id ?? state.celebrations[0].kind)}
@@ -385,6 +461,11 @@ export default function App() {
         <div className="actionbar">
           <div className="actionbar-inner">{barButton}</div>
         </div>
+      )}
+
+      {/* Spot the Phish Directory: genuine domains and numbers, open from the intro or mid-round */}
+      {showDirectory && view === 'phish' && phishBank && (
+        <DirectorySheet directory={phishBank.directory} onClose={() => setShowDirectory(false)} />
       )}
     </>
   );

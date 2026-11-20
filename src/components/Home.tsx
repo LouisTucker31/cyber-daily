@@ -1,7 +1,7 @@
 import type { Day } from '../lib/quiz.ts';
 import Tile, { type TileSpec } from './Tile.tsx';
 import Ticks from './Ticks.tsx';
-import { BlitzIcon, DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
+import { BlitzIcon, DailyIcon, LockIcon, PhishIcon, PracticeIcon } from './icons.tsx';
 import { LevelRing } from './Badge.tsx';
 
 interface Props {
@@ -15,9 +15,12 @@ interface Props {
   /** Acronym Blitz: best score, and false if the acronym bank couldn't load */
   blitz: { best: number; available: boolean };
   onBlitz: () => void;
+  /** Spot the Phish: best score, and false if the card bank couldn't load */
+  phish: { best: number; available: boolean };
+  onPhish: () => void;
 }
 
-export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz }: Props) {
+export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz, phish, onPhish }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
   const right = day.items.filter((it) => it.correct === true).length;
@@ -90,6 +93,25 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         tone: 'locked'
       };
 
+  /* ---------- Spot the Phish (from level 1; harder levels unlock inside) ---------- */
+  const phishTile: TileSpec = phish.available
+    ? {
+        id: 'phish',
+        title: 'Spot the Phish',
+        icon: <PhishIcon />,
+        meta: phish.best > 0 ? `Best ${phish.best}` : 'Phish or legit? 10 cards',
+        tone: 'plain',
+        onOpen: onPhish,
+        foot: <span className="tile-cta">Play</span>
+      }
+    : {
+        id: 'phish',
+        title: 'Spot the Phish',
+        icon: <PhishIcon />,
+        meta: 'Go online once to download it',
+        tone: 'locked'
+      };
+
   /* ---------- Profile (full width) ---------- */
   const profile: TileSpec = {
     id: 'profile',
@@ -103,8 +125,8 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
   };
 
   /* Add new modes here: each entry becomes a tile in the grid. */
-  // Blitz sits below the Profile for now so the odd tile out doesn't leave a gap mid-grid
-  const tiles: TileSpec[] = [daily, practice, profile, blitzTile];
+  // the games sit side by side below the Profile
+  const tiles: TileSpec[] = [daily, practice, profile, blitzTile, phishTile];
 
   return (
     <>

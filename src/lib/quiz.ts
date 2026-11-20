@@ -51,6 +51,7 @@ export interface State {
   celebrations: Celebration[];          // level-ups, badges etc. waiting to be shown
   blitz: BlitzStats;                    // Acronym Blitz records
   blitzReview: string[];                // acronym ids missed in Blitz (feed Practice; never resets)
+  phish: PhishStats;                    // Spot the Phish records
 }
 
 export interface BlitzStats {
@@ -65,6 +66,24 @@ export interface BlitzStats {
 
 export function freshBlitz(): BlitzStats {
   return { best: 0, rounds: 0, correct: 0, comboBest: 0, xpDay: null, xpRounds: 0, rightAt: {} };
+}
+
+export interface PhishStats {
+  rounds: number;         // finished rounds
+  best: number;           // best round score (out of 100)
+  caught: number;         // phish caught, all time
+  streak: number;         // phish caught in a row (a phish let through resets it)
+  streakBest: number;
+  cleanRounds: number;    // rounds with no false alarms and at least 4 phish caught
+  expertPerfect: number;  // Expert rounds with all 10 right
+  xpDay: string | null;
+  xpRounds: number;
+  seen: Record<string, number>; // card id -> round it was last shown (keeps repeats away)
+}
+
+export function freshPhish(): PhishStats {
+  return { rounds: 0, best: 0, caught: 0, streak: 0, streakBest: 0, cleanRounds: 0, expertPerfect: 0,
+    xpDay: null, xpRounds: 0, seen: {} };
 }
 
 export interface Stats {
@@ -102,7 +121,7 @@ export interface SrsEntry {
 
 export interface LogEntry {
   d: string;                     // date key
-  m: 'daily' | 'practice' | 'blitz'; // which mode
+  m: 'daily' | 'practice' | 'blitz' | 'phish'; // which mode
   id: string;
   c: string;                     // category
   ok: boolean;
@@ -179,7 +198,8 @@ export function freshState(): State {
     stats: freshStats(),
     celebrations: [],
     blitz: freshBlitz(),
-    blitzReview: []
+    blitzReview: [],
+    phish: freshPhish()
   };
 }
 
@@ -213,6 +233,7 @@ export function loadState(): State {
     }
     s.stats = { ...freshStats(), ...s.stats };
     s.blitz = { ...freshBlitz(), ...s.blitz };
+    s.phish = { ...freshPhish(), ...s.phish };
     return s;
   } catch {
     return freshState();

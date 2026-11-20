@@ -54,6 +54,16 @@ export function BlitzIcon() {
   );
 }
 
+/* Fish hook: Spot the Phish */
+export function PhishIcon() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
+      <circle cx="15" cy="4.5" r="1.8" />
+      <path d="M15 6.3v9.2a5.5 5.5 0 0 1-11 0v-3.5l3.5 2.6" />
+    </svg>
+  );
+}
+
 export function LockIcon() {
   return (
     <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
