@@ -26,9 +26,11 @@ interface IntroProps {
   timed: boolean;
   onTimed: (on: boolean) => void;
   roundsToday: number;
+  selected: string;                 // the scenario that Start will play
+  onSelect: (id: string) => void;
 }
 
-export function IncidentIntro({ bank, level, best, timed, onTimed, roundsToday }: IntroProps) {
+export function IncidentIntro({ bank, level, best, timed, onTimed, roundsToday, selected, onSelect }: IntroProps) {
   const rules = [
     { tone: 'decide', icon: <ChatsIcon />, value: 'Decide', label: 'updates arrive in the chat; you make the call' },
     { tone: 'timer', icon: <TimerIcon />, value: 'Timers', label: 'urgent calls have a countdown' },
@@ -50,19 +52,28 @@ export function IncidentIntro({ bank, level, best, timed, onTimed, roundsToday }
       </div>
 
       <p className="section-label">Scenarios</p>
-      <div className="ph-levels">
+      <div className="ph-levels" role="radiogroup" aria-label="Scenario">
         {bank.scenarios.map((s) => {
           const locked = level < s.level;
           const playable = !locked && !s.soon;
+          const on = s.id === selected;
           return (
-            <div key={s.id} className={'ph-level ic-scenario' + (playable ? ' on' : ' locked')}>
+            <button
+              key={s.id}
+              type="button"
+              role="radio"
+              aria-checked={on}
+              disabled={!playable}
+              className={'ph-level ic-scenario' + (on ? ' on' : '') + (playable ? '' : ' locked')}
+              onClick={() => { haptic(); onSelect(s.id); }}
+            >
               <span className="ph-level-text">
                 <b>{s.title}</b>
                 <span>{locked ? `Unlocks at level ${s.level}` : s.soon ? 'Coming soon' : s.blurb}</span>
                 {playable && <span className="ic-meta">About {s.minutes} minutes{best[s.id] ? ` · Best grade ${best[s.id]}` : ''}</span>}
               </span>
-              <span className="ph-level-mark">{playable ? <TickIcon /> : <LockIcon />}</span>
-            </div>
+              <span className="ph-level-mark">{!playable ? <LockIcon /> : on ? <TickIcon /> : null}</span>
+            </button>
           );
         })}
       </div>
@@ -160,6 +171,7 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
     ended.current = true;
     onEnd({
       scenarioId: run.scenario.id, title: run.scenario.title, org: run.org, sys: run.sys,
+      recap: (run.scenario.recap ?? []).filter((r) => holds(r.if, flags.current)).map((r) => fill(r.text, run)),
       flags: flags.current, gauges: gRef.current, grade: gradeFor(gRef.current), decisions: decisions.current
     });
   }, [onEnd, run]);
@@ -174,13 +186,13 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
     setAnswered(false);
     setPicks([]);
     setOrder(shuffle((b.options ?? []).map((o) => o.id))); // so the best answer isn't always first
-    const items: FeedItem[] = [{ kind: 'clock', text: b.clock }];
+    const items: FeedItem[] = [{ kind: 'clock', text: fill(b.clock, run) }];
     if (b.outcomes) {
       const outs = pickOutcomes(b, flags.current);
       outs.forEach((o) => o.messages.forEach((m) => items.push({ kind: 'msg', from: m.from, text: fill(m.text, run) })));
       pendingOutcome.current = {
         effects: outs.reduce((acc, o) => addEffects(acc, o.effects), {} as Effects),
-        decision: { beatId: b.id, clock: b.clock, ask: null, timedOut: false,
+        decision: { beatId: b.id, clock: fill(b.clock, run), ask: null, timedOut: false,
           picks: outs.map((o) => ({ text: fill(o.messages[0]?.text ?? '', run), quality: o.quality, note: o.note })) }
       };
     } else {
@@ -237,7 +249,7 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
     const deltas = applyGauges(total);
     resolved.forEach((r) => onDecision(beat.category, `${run.scenario.id}:${beat.id}:${r.o.id}`, !timedOut && r.quality === 'good'));
     decisions.current.push({
-      beatId: beat.id, clock: beat.clock, ask: fill(beat.ask ?? '', run), timedOut, deltas,
+      beatId: beat.id, clock: fill(beat.clock, run), ask: fill(beat.ask ?? '', run), timedOut, deltas,
       picks: resolved.map((r) => ({ text: fill(r.o.text, run), quality: r.quality, note: r.note }))
     });
     haptic(timedOut ? 'error' : 'tap');
@@ -345,7 +357,6 @@ export function IncidentDebrief({ result, prevBest, xp, rate }: DebriefProps) {
   const all = result.decisions.flatMap((d) => d.picks.map((p) => ({ ...p, clock: d.clock, decided: d.ask !== null })));
   const well = all.filter((p) => p.quality === 'good' && p.decided).slice(0, 4);
   const improve = all.filter((p) => p.quality === 'poor');
-  const fact = (f: string) => result.flags.includes(f);
   const better = prevBest && result.grade < prevBest;
 
   return (
@@ -367,9 +378,9 @@ export function IncidentDebrief({ result, prevBest, xp, rate }: DebriefProps) {
 
       <p className="section-label">This time</p>
       <ul className="ic-facts">
-        <li>The attack hit <b>{result.sys}</b>.</li>
-        <li>The backups were <b>{fact('backupsClean') ? 'clean' : 'encrypted too'}</b>.</li>
-        <li>Customer data <b>{fact('stolen') ? 'was stolen' : 'wasn’t taken'}</b>.</li>
+        {result.recap.map((line, i) => (
+          <li key={i}>{line.split('**').map((part, j) => (j % 2 ? <b key={j}>{part}</b> : part))}</li>
+        ))}
       </ul>
       <p className="p-note">These change each time you play.</p>
 

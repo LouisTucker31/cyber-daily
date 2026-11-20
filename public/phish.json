@@ -845,6 +845,370 @@
         { "quote": "closes Friday at 17:00", "note": "Deadline pressure, but it’s a normal yearly window." }
       ],
       "lesson": "Genuine: a real deadline on {Es}’s own HR site."
+    },
+    {
+      "id": "PH-061", "tier": 1, "type": "sms", "phish": true,
+      "from": { "name": "+44 7700 900934" },
+      "body": ["{Bs}: We’ve noticed a sign-in from a new device. If this wasn’t you, verify your identity at [[0]]"],
+      "links": [{ "text": "{Bslug}-verify.com/id", "url": "https://{Bslug}-verify.com/id" }],
+      "points": [
+        { "at": "from", "note": "{Bs} texts come from ‘{Bs}’, not a mobile number." },
+        { "at": "link0", "note": "{Bslug}-verify.com isn’t {Bslug}.co.uk, and {Bs} texts never include a sign-in link." },
+        { "quote": "If this wasn’t you", "note": "Worry about someone else in your account is used to rush you." }
+      ],
+      "lesson": "A bank ‘verify’ link from a mobile number."
+    },
+    {
+      "id": "PH-062", "tier": 1, "type": "email", "phish": false,
+      "context": "In your personal inbox. You ordered a lamp from Elm & Oak yesterday.",
+      "from": { "name": "{D}", "address": "noreply@{Dslug}.co.uk" },
+      "subject": "Your parcel is on its way",
+      "body": ["Hi Sam,", "Your order from Elm & Oak is with us and will arrive tomorrow. Track it any time at [[0]]."],
+      "links": [{ "text": "{Dslug}.co.uk/track", "url": "https://track.{Dslug}.co.uk/AB12C" }],
+      "points": [
+        { "at": "from", "note": "@{Dslug}.co.uk is {D}’s real domain." },
+        { "at": "link0", "note": "track.{Dslug}.co.uk ends in {Dslug}.co.uk, so it belongs to {D}." },
+        { "quote": "You ordered a lamp from Elm & Oak yesterday", "note": "It matches something you’re expecting, with nothing to pay." }
+      ],
+      "lesson": "Genuine: an expected parcel, the real domain, nothing to pay."
+    },
+    {
+      "id": "PH-063", "tier": 1, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox.",
+      "from": { "name": "IT Service Desk", "address": "it-support@{Elow}-helpdesk.com" },
+      "subject": "Your password expires in 2 hours",
+      "body": ["To keep using your {Es} account, update your password now:", "[[0]]"],
+      "links": [{ "text": "Keep my password", "url": "https://{Elow}-helpdesk.com/password" }],
+      "points": [
+        { "at": "external", "note": "Your own IT team would never be tagged External." },
+        { "at": "from", "note": "{Elow}-helpdesk.com isn’t {Eslug}.co.uk." },
+        { "quote": "expires in 2 hours", "note": "A tight deadline to stop you checking." },
+        { "at": "link0", "note": "The real sign-in page is login.{Eslug}.co.uk." }
+      ],
+      "lesson": "An External ‘IT’ email with a two-hour deadline."
+    },
+    {
+      "id": "PH-064", "tier": 1, "type": "chat", "phish": false,
+      "context": "{Es} Chat.",
+      "from": { "name": "Lewis Grant · Your manager", "address": "lewis.grant@{Eslug}.co.uk" },
+      "body": ["Morning! Can you send me the slides for Thursday when you get a chance? No rush, before Wednesday is fine."],
+      "points": [
+        { "at": "from", "note": "Your manager’s internal account, not tagged External." },
+        { "quote": "No rush", "note": "No pressure, no secrecy." },
+        { "quote": "the slides for Thursday", "note": "An everyday request about real work, with nothing sensitive." }
+      ],
+      "lesson": "Genuine: an everyday, unhurried request from your manager."
+    },
+    {
+      "id": "PH-065", "tier": 1, "type": "voicemail", "phish": true,
+      "from": { "name": "0808 157 0811" },
+      "time": "0:26",
+      "body": ["This is {B} security. Your card has been used for £1,200 at an online store. Call us back on 0808 157 0811 straight away to cancel the payment and confirm your card details."],
+      "points": [
+        { "at": "from", "note": "{B}’s fraud team is on {Bphone}, not this number." },
+        { "quote": "confirm your card details", "note": "Your bank already has your card details. It won’t ask you to read them out." },
+        { "quote": "straight away", "note": "Urgency to stop you thinking." }
+      ],
+      "lesson": "Wrong number, and it wants your card details."
+    },
+    {
+      "id": "PH-066", "tier": 1, "type": "mfa", "phish": false,
+      "context": "You’ve just opened your {Es} email on your phone and tapped ‘Send a prompt’.",
+      "mfa": { "app": "{Es} Sign-in", "title": "Approve sign-in?", "lines": ["{E} account", "Location: {Ecity}, UK", "Device: Phone · Mail app"] },
+      "points": [
+        { "quote": "tapped ‘Send a prompt’", "note": "You asked for this prompt a moment ago." },
+        { "quote": "Device: Phone · Mail app", "note": "It matches what you’re doing." },
+        { "quote": "Location: {Ecity}, UK", "note": "And where you are." }
+      ],
+      "lesson": "Genuine: a prompt you just asked for, matching your device."
+    },
+    {
+      "id": "PH-067", "tier": 1, "type": "login", "phish": true,
+      "context": "You tapped ‘View document’ in a text that said a contract was waiting for your signature.",
+      "url": "https://docs-{Eslug}.com/sign",
+      "page": { "brand": "{E}", "heading": "Sign in to view the document" },
+      "points": [
+        { "at": "url", "note": "docs-{Eslug}.com is a different domain from {Eslug}.co.uk." },
+        { "quote": "a text that said", "note": "A random text about a contract is a classic way in." }
+      ],
+      "lesson": "docs-{Eslug}.com is not {Eslug}.co.uk."
+    },
+    {
+      "id": "PH-068", "tier": 1, "type": "link", "phish": false,
+      "context": "Printed on the back of your {B} bank card.",
+      "url": "https://www.{Bslug}.co.uk/help",
+      "points": [
+        { "at": "url", "note": "www.{Bslug}.co.uk is {B}’s real website." },
+        { "quote": "Printed on the back of your", "note": "Details printed on your own card are a trustworthy source." }
+      ],
+      "lesson": "Genuine: the real website, from your own card."
+    },
+    {
+      "id": "PH-069", "tier": 1, "type": "sms", "phish": true,
+      "from": { "name": "{Ns}" },
+      "body": ["{Ns}: You’re owed a £74.30 energy rebate. Claim before midnight: [[0]]"],
+      "links": [{ "text": "{Nslug}-rebates.co.uk/claim", "url": "https://{Nslug}-rebates.co.uk/claim" }],
+      "points": [
+        { "quote": "Claim before midnight", "note": "{Ns} refunds are automatic. You never claim one." },
+        { "at": "link0", "note": "{Nslug}-rebates.co.uk isn’t {Nslug}.co.uk." },
+        { "at": "from", "note": "The sender name looks right, but anyone can set it." }
+      ],
+      "lesson": "A rebate you have to ‘claim’, on a fake domain."
+    },
+    {
+      "id": "PH-070", "tier": 1, "type": "email", "phish": false,
+      "context": "In your work inbox.",
+      "from": { "name": "People Team", "address": "people@{Eslug}.co.uk" },
+      "subject": "Your payslip is ready",
+      "body": ["Hi Sam,", "Your November payslip is now available in the People portal. Sign in as usual at [[0]]."],
+      "links": [{ "text": "people.{Eslug}.co.uk", "url": "https://people.{Eslug}.co.uk/payslips" }],
+      "points": [
+        { "at": "from", "note": "Internal HR address, not tagged External." },
+        { "at": "link0", "note": "The link goes to people.{Eslug}.co.uk." },
+        { "quote": "Sign in as usual", "note": "No deadline, no change to anything." }
+      ],
+      "lesson": "Genuine: the real HR site, nothing unusual."
+    },
+
+    {
+      "id": "PH-071", "tier": 2, "type": "email", "phish": true,
+      "context": "In your personal inbox.",
+      "from": { "name": "{B}", "address": "service@{Bslug}-online.co.uk" },
+      "subject": "Action required: confirm your security details",
+      "body": ["Hi Sam,", "We’re upgrading our security. To avoid interruptions to Online Banking, confirm your details by Friday:", "[[0]]"],
+      "links": [{ "text": "Confirm details", "url": "https://{Bslug}-online.co.uk/secure" }],
+      "points": [
+        { "at": "from", "note": "{Bslug}-online.co.uk sounds official but isn’t {Bslug}.co.uk." },
+        { "quote": "To avoid interruptions", "note": "A soft threat to get you to act." },
+        { "at": "link0", "note": "The link uses the same fake domain." }
+      ],
+      "lesson": "An official-sounding domain that isn’t the bank’s."
+    },
+    {
+      "id": "PH-072", "tier": 2, "type": "sms", "phish": false,
+      "from": { "name": "{Bs}" },
+      "body": ["{Bs}: Did you just try to pay £349.99 to TechZone? Reply Y if yes or N if not. We’ll never ask for your passcode."],
+      "points": [
+        { "at": "from", "note": "Sent as ‘{Bs}’." },
+        { "quote": "Reply Y if yes or N if not", "note": "No link and nothing to type in. Real fraud checks often work this way." },
+        { "quote": "We’ll never ask for your passcode", "note": "It warns you about the very trick a scammer would use." }
+      ],
+      "lesson": "Genuine: a yes/no fraud check with no link."
+    },
+    {
+      "id": "PH-073", "tier": 2, "type": "chat", "phish": true, "external": true,
+      "context": "{Es} Chat, a new conversation.",
+      "from": { "name": "Jordan Blake · {D}", "address": "jordan.blake@{Dslug}-logistics.com" },
+      "body": ["Hi! We’re updating our delivery contact list for {E}. Could you send me a list of staff names and mobile numbers? Thanks!"],
+      "points": [
+        { "at": "external", "note": "An outsider, which is fine on its own." },
+        { "at": "from", "note": "{Dslug}-logistics.com isn’t {D}’s domain, {Dslug}.co.uk." },
+        { "quote": "staff names and mobile numbers", "note": "Staff lists feed later phishing and fake-boss texts. Never send them on request." }
+      ],
+      "lesson": "Harvesting staff details for later attacks."
+    },
+    {
+      "id": "PH-074", "tier": 2, "type": "consent", "phish": false,
+      "context": "IT announced a new room-booking app, Deskly. You opened it from the intranet.",
+      "url": "https://login.{Eslug}.co.uk/consent?client=deskly",
+      "consent": { "app": "Deskly Rooms", "publisher": "Verified · Approved by {Es} IT", "verified": true, "scopes": ["Sign you in", "Read your calendar to show your bookings"] },
+      "points": [
+        { "at": "publisher", "note": "Verified and approved by your own IT team." },
+        { "at": "scopes", "note": "Only what a room-booking app needs." },
+        { "quote": "IT announced", "note": "Expected, and opened from the intranet." }
+      ],
+      "lesson": "Genuine: an announced, approved app asking for little."
+    },
+    {
+      "id": "PH-075", "tier": 2, "type": "mfa", "phish": true,
+      "context": "You haven’t signed in to anything. This code arrived, and a text from ‘IT’ came at the same time asking you to read the code back to them.",
+      "mfa": { "app": "{Es} Sign-in", "title": "Your sign-in code", "lines": ["{E} account", "Code: 482 913", "Don’t share this code with anyone"] },
+      "points": [
+        { "quote": "asking you to read the code back to them", "note": "Whoever asks for the code is trying to sign in as you." },
+        { "quote": "You haven’t signed in to anything", "note": "You didn’t ask for it." },
+        { "quote": "Don’t share this code with anyone", "note": "Not even IT." }
+      ],
+      "lesson": "Never read a sign-in code to anyone."
+    },
+    {
+      "id": "PH-076", "tier": 2, "type": "voicemail", "phish": false,
+      "from": { "name": "{Ephone}" },
+      "time": "0:21",
+      "body": ["Hi Sam, it’s the Service Desk. We’re replacing your laptop next week. Reply to ticket SD-21007 with a time that suits, or call us back on {Ephone}."],
+      "points": [
+        { "at": "from", "note": "The real Service Desk number." },
+        { "quote": "Reply to ticket SD-21007", "note": "It uses the normal ticket system." },
+        { "quote": "call us back on {Ephone}", "note": "And the official number. Nothing sensitive asked for." }
+      ],
+      "lesson": "Genuine: routine, through the normal channels."
+    },
+    {
+      "id": "PH-077", "tier": 2, "type": "link", "phish": true,
+      "context": "A QR code on a poster in the office lift says ‘Scan to claim your free staff parking pass’.",
+      "url": "https://{Elow}-parking.app/claim",
+      "points": [
+        { "at": "url", "note": "{Elow}-parking.app isn’t a {E} site." },
+        { "quote": "Scan to claim", "note": "QR codes hide the link until you scan. Anyone can stick up a poster." }
+      ],
+      "lesson": "A QR code is just a link you can’t see. Check where it goes."
+    },
+    {
+      "id": "PH-078", "tier": 2, "type": "email", "phish": false, "external": true,
+      "context": "Work inbox. You look after the office facilities budget.",
+      "from": { "name": "{N}", "address": "business@{Nslug}.co.uk" },
+      "subject": "Price change from 1 April",
+      "body": ["Hello,", "Your business unit rate will change from 1 April. The details are in your account at [[0]]. No action is needed."],
+      "links": [{ "text": "my.{Nslug}.co.uk", "url": "https://my.{Nslug}.co.uk/business/tariff" }],
+      "points": [
+        { "at": "external", "note": "External is expected for a supplier." },
+        { "at": "link0", "note": "my.{Nslug}.co.uk is the real account site." },
+        { "quote": "No action is needed", "note": "Information only." }
+      ],
+      "lesson": "Genuine: an expected supplier notice on the real domain."
+    },
+    {
+      "id": "PH-079", "tier": 2, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox.",
+      "from": { "name": "{Es} CEO Office", "address": "ceo.office@{Elow}-group-mail.com" },
+      "subject": "Confidential: board request",
+      "body": ["Sam,", "Please send me the latest staff list with salaries as a spreadsheet for a board meeting this afternoon. Don’t discuss this with anyone else for now."],
+      "points": [
+        { "at": "external", "note": "The CEO’s office would never be External." },
+        { "at": "from", "note": "{Elow}-group-mail.com isn’t {Eslug}.co.uk." },
+        { "quote": "staff list with salaries", "note": "Highly sensitive personal data, asked for by email." },
+        { "quote": "Don’t discuss this with anyone else", "note": "Secrecy stops you checking." }
+      ],
+      "lesson": "A fake CEO asking secretly for personal data."
+    },
+    {
+      "id": "PH-080", "tier": 2, "type": "login", "phish": false,
+      "context": "You opened login.{Eslug}.co.uk from your browser bookmarks.",
+      "url": "https://login.{Eslug}.co.uk/oauth2/authorize?client_id=8f3a&redirect=%2Fmail",
+      "page": { "brand": "{E}", "heading": "Sign in" },
+      "points": [
+        { "at": "url", "note": "The domain is login.{Eslug}.co.uk. Everything after the / is normal sign-in plumbing." },
+        { "quote": "browser bookmarks", "note": "A bookmark you saved yourself is a safe way in." }
+      ],
+      "lesson": "Genuine: a long, messy address, but the right domain."
+    },
+
+    {
+      "id": "PH-081", "tier": 3, "type": "email", "phish": true, "external": true,
+      "context": "In your work inbox.",
+      "from": { "name": "Voicemail", "address": "noreply@{Eslug}.co.uk" },
+      "subject": "New voicemail (0:42) from 07700 900145",
+      "body": ["You have a new voicemail. Open the attachment to listen."],
+      "attachment": "VM_0042.html",
+      "points": [
+        { "at": "external", "note": "It claims to be your own phone system, but it came from outside. The sender is faked." },
+        { "at": "attachment", "note": "Voicemails are audio files. An .html attachment opens a web page, usually a fake sign-in." }
+      ],
+      "lesson": "A faked internal sender, tagged External, with an .html ‘voicemail’."
+    },
+    {
+      "id": "PH-082", "tier": 3, "type": "sms", "phish": false,
+      "from": { "name": "{Bs}" },
+      "body": ["{Bs}: Your new card ending 4417 has been sent. If you didn’t ask for a new card, call us on {Bphone}."],
+      "points": [
+        { "at": "from", "note": "Sent as ‘{Bs}’." },
+        { "quote": "call us on {Bphone}", "note": "The real fraud number. No link." },
+        { "quote": "If you didn’t ask for a new card", "note": "It gives you a safe way to check, not a link to click." }
+      ],
+      "lesson": "Genuine: no link, and the real number."
+    },
+    {
+      "id": "PH-083", "tier": 3, "type": "consent", "phish": true,
+      "context": "A colleague’s account shared a link: ‘back up your files before the migration’. There’s been no migration announcement.",
+      "url": "https://login.{Eslug}.co.uk/consent?client=files-backup",
+      "consent": { "app": "{Es} Files Backup", "publisher": "Verified · Northwind Apps Ltd", "verified": true, "scopes": ["Read and write all files you can access", "Read your email", "Keep access when you’re not using the app"] },
+      "points": [
+        { "at": "publisher", "note": "‘Verified’ only means the company exists. It hasn’t been approved by your IT team." },
+        { "at": "scopes", "note": "All your files and email, kept forever." },
+        { "quote": "There’s been no migration announcement", "note": "The story it relies on isn’t real." }
+      ],
+      "lesson": "Verified isn’t the same as approved by IT."
+    },
+    {
+      "id": "PH-084", "tier": 3, "type": "mfa", "phish": false,
+      "context": "You’re working from a café in {Etown} with the company VPN on. You’ve just signed in yourself, and your screen shows 27.",
+      "mfa": { "app": "{Es} Sign-in", "title": "Enter the number shown to sign in", "lines": ["{E} account", "Location: London, UK", "Device: Windows · Edge"] },
+      "points": [
+        { "quote": "with the company VPN on", "note": "A VPN makes you appear wherever its servers are, so a different city is expected." },
+        { "quote": "You’ve just signed in yourself", "note": "You started it." },
+        { "at": "prompt", "note": "Number matching, for your own sign-in." }
+      ],
+      "lesson": "Genuine: the VPN explains the location."
+    },
+    {
+      "id": "PH-085", "tier": 3, "type": "sms", "phish": true,
+      "from": { "name": "{D}" },
+      "body": ["{D}: We couldn’t deliver your parcel. Choose a new slot here: [[0]]"],
+      "links": [{ "text": "{Dlink}.uk.parcel-help.com/r", "url": "https://{Dlink}.uk.parcel-help.com/r" }],
+      "points": [
+        { "at": "link0", "note": "Read from the right: the domain is parcel-help.com. ‘{Dlink}.uk’ is just a label in front." },
+        { "at": "from", "note": "The sender name can be faked." }
+      ],
+      "lesson": "The real short-link name, buried in someone else’s domain."
+    },
+    {
+      "id": "PH-086", "tier": 3, "type": "voicemail", "phish": false,
+      "from": { "name": "No caller ID" },
+      "time": "0:24",
+      "body": ["Hello, this is {Ns}’s business team about the meter at your office. Please call us back on {Nphone} when you can. There’s nothing to pay."],
+      "points": [
+        { "at": "from", "note": "No caller ID isn’t a warning sign on its own." },
+        { "quote": "{Nphone}", "note": "The number matches the Directory." },
+        { "quote": "There’s nothing to pay", "note": "Nothing sensitive or urgent." }
+      ],
+      "lesson": "Genuine: the real number, nothing asked for."
+    },
+    {
+      "id": "PH-087", "tier": 3, "type": "voicemail", "phish": true,
+      "from": { "name": "{Ephone}" },
+      "time": "0:18",
+      "body": ["Hi, IT here. We’re pushing an urgent fix for the email outage. You’ll get a sign-in prompt in a minute; please approve it so the update can finish."],
+      "points": [
+        { "at": "from", "note": "It shows the real Service Desk number, but caller ID can be faked." },
+        { "quote": "please approve it", "note": "Never approve a sign-in you didn’t start, whoever asks. That’s how they get in." }
+      ],
+      "lesson": "A ‘fix’ that needs you to approve someone else’s sign-in."
+    },
+    {
+      "id": "PH-088", "tier": 3, "type": "email", "phish": false,
+      "context": "In your personal inbox. You set up the {Bs} app on a new phone this morning.",
+      "from": { "name": "{B}", "address": "alerts@email.{Bslug}.co.uk" },
+      "subject": "A new device has been added to your account",
+      "body": ["Hi Sam,", "A new device was added to Online Banking today at 10:14. If this was you, you don’t need to do anything. If it wasn’t, call us on {Bphone}. We won’t ask you to click a link to secure your account."],
+      "points": [
+        { "at": "from", "note": "@email.{Bslug}.co.uk matches the Directory." },
+        { "quote": "You set up the {Bs} app on a new phone this morning", "note": "It matches what you did." },
+        { "quote": "We won’t ask you to click a link", "note": "No link. It points you to the real number." }
+      ],
+      "lesson": "Genuine: an alert about your own action, with no link."
+    },
+    {
+      "id": "PH-089", "tier": 3, "type": "login", "phish": true,
+      "context": "You opened a link from a calendar invite titled ‘Pay review’.",
+      "url": "https://login.{Eslug}.co/",
+      "page": { "brand": "{E}", "heading": "Sign in" },
+      "points": [
+        { "at": "url", "note": "It ends .co, not .co.uk. That makes it a completely different domain." },
+        { "quote": "Pay review", "note": "Pay is a topic designed to get a quick click." }
+      ],
+      "lesson": ".co is not .co.uk."
+    },
+    {
+      "id": "PH-090", "tier": 3, "type": "chat", "phish": false, "external": true,
+      "context": "{Es} Chat. Finance told you last week that Ashby Audit would be in touch about the year-end audit.",
+      "from": { "name": "Ravi Patel · Ashby Audit", "address": "r.patel@ashby-audit.co.uk" },
+      "body": ["Hi Sam, for the year-end audit please upload the sample invoices to the shared folder your finance team set up. Please don’t email them."],
+      "points": [
+        { "at": "external", "note": "External is expected: an auditor you were told about." },
+        { "quote": "Finance told you last week", "note": "You were expecting them." },
+        { "quote": "Please don’t email them", "note": "It steers you to the secure route your own team set up, not an outside link." }
+      ],
+      "lesson": "Genuine: an expected outsider, using your own secure process."
     }
+
   ]
 }

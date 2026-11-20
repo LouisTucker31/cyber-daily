@@ -121,7 +121,7 @@ Add entries to `public/acronyms.json` with a new unique `id`:
 - `tier`: 1 for common, 2 for working knowledge, 3 for specialist.
 
 ## Spot the Phish
-Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe right (or tap **Legit**) if it's genuine. Available from level 1.
+Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe right (or tap **Legit**) if it's genuine. Available from level 1. The bank has 90 cards: 30 or so per level, about half phish.
 
 - **Cards:** emails, texts, Kestrel Chat messages, bare links, sign-in prompts, sign-in pages, app permission requests and voicemails.
 - **A new cast every round:** one employer, bank, delivery company and energy supplier, picked at random from the fictional ones in `casts` in `public/phish.json` (4 employers, 3 of each of the others). Phone numbers come from Ofcom's ranges reserved for drama, so none are real.
@@ -174,7 +174,7 @@ A few rules for writing cards:
 - Every giveaway should be checkable against the Directory.
 
 ## Incident Commander
-A tabletop exercise on the phone: you lead the response to a cyber incident. The first scenario is **Ransomware** (about 5 minutes, from level 1). The others are listed with their unlock levels and marked "Coming soon".
+A tabletop exercise on the phone: you lead the response to a cyber incident. Two scenarios so far, about 5 minutes each: **Ransomware** (from level 1) and **Invoice fraud** (from level 3). Pick one on the start page. The others are listed with their unlock levels and marked "Coming soon".
 
 - **The incident room:** updates arrive one at a time in a chat feed on a pretend clock (Monday 08:47, Tuesday 09:00 and so on), from a cast of SOC analyst, IT lead, CEO, finance director, comms, legal/DPO, the CEO's assistant and a reporter.
 - **Decisions:** each update needs a call from 3 or 4 options, shuffled each time. Some are "pick 2" because people are limited (Confirm sits in the question card), and many are trade-offs with no single right answer. Your choice appears as your message, the cast reacts, and the next update arrives by itself: there is no Continue button.
@@ -187,12 +187,12 @@ A tabletop exercise on the phone: you lead the response to a cyber incident. The
 - **Badges:** First Responder (first incident), Calm Under Fire (an A grade), By the Book (reporting stolen personal data to the ICO in time).
 
 ### Writing scenarios
-Scenarios live in `public/incident.json`. Each has `facts` (rolled per play), `start` gauges (`c`, `o`, `t`, `k`) and a list of `beats`:
+Scenarios live in `public/incident.json`. Each has `facts` (hidden flags rolled per play: name → chance it’s true), `vars` (details rolled per play, e.g. `sys`, `amount`), `recap` (the debrief’s "This time" lines, which can use `**bold**` and `if`), `start` gauges (`c`, `o`, `t`, `k`) and a list of `beats`:
 - **A decision beat** has `clock`, `category`, `messages` (`from` is a key in `people`), `ask` and `options`, and optionally `timer` + `timeout` (the option that happens when time runs out) and `pick` (choose more than one).
 - **Each option** has `text`, `effects` on the gauges, `quality` (`good`, `ok`, `poor`), a teaching `note`, an optional `reply` from the cast, and optional `set` flags. `variants` change the effects, note or quality depending on flags; `hidden` options only happen on timeout.
 - **A consequence beat** has `outcomes` instead: the first whose `if` flags fit happens, or every matching one marked `all`.
-- **Conditions** (`if`) are flags, or `!flag` for "not set". The rolled facts start as flags (`backupsClean`, `stolen`).
-- **Placeholders:** `{org}`, `{sys}`, `{Sys}`.
+- **Conditions** (`if`) are flags, or `!flag` for "not set". The rolled facts start as flags (e.g. `backupsClean`, `stolen`, `paid`, `mailbox`). Set `icoOnTime` when personal data is reported to the ICO in time (it earns By the Book).
+- **Placeholders:** `{org}` and any `vars` key, in text and clocks. `{Sys}` gives the same value with a capital letter. Message `text` can be a list of alternative wordings; one is picked each play.
 - Mark a scenario `"soon": true` to list it without content.
 
 ## Profile, levels and badges

@@ -1489,7 +1489,7 @@ mark.hl { padding: 0 2px; }
 .rule-decide .rule-icon { color: var(--freeze); }
 .rule-timer .rule-icon { color: var(--signal); }
 .rule-gauge .rule-icon { color: var(--good); }
-.ic-scenario { cursor: default; }
+.ic-scenario.locked { cursor: default; }
 .ic-scenario.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .ic-meta { margin-top: 4px; color: var(--ink-2) !important; font-weight: 600; }
 .ic-toggle {

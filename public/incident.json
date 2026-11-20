@@ -8,7 +8,9 @@
     "comms": { "name": "Leo Grant", "role": "Communications" },
     "dpo": { "name": "Hannah Cole", "role": "Legal and DPO" },
     "pa": { "name": "Sophie Lin", "role": "CEO’s assistant" },
-    "press": { "name": "Ruth Adams", "role": "Reporter, Northern Post" }
+    "press": { "name": "Ruth Adams", "role": "Reporter, Northern Post" },
+    "ap": { "name": "Jess Morgan", "role": "Accounts payable" },
+    "supplier": { "name": "Mark Ellis", "role": "Supplier accounts team" }
   },
   "scenarios": [
     {
@@ -17,13 +19,17 @@
       "level": 1,
       "minutes": 5,
       "blurb": "Files are being encrypted across the business. Contain it, keep people informed and get running again.",
-      "facts": {
-        "sys": ["the file server", "the finance system", "the warehouse system"],
-        "backupsClean": 0.6,
-        "stolen": 0.6
-      },
+      "facts": { "backupsClean": 0.6, "stolen": 0.6 },
+      "recap": [
+        { "text": "The attack hit **{sys}**." },
+        { "if": ["backupsClean"], "text": "The backups were **clean**." },
+        { "if": ["!backupsClean"], "text": "The backups were **encrypted too**." },
+        { "if": ["stolen"], "text": "Customer data **was stolen**." },
+        { "if": ["!stolen"], "text": "Customer data **wasn’t taken**." }
+      ],
       "start": { "c": 50, "o": 70, "t": 60, "k": 60 },
       "vars": {
+        "sys": ["the file server", "the finance system", "the warehouse system"],
         "ransom": ["£250,000", "£400,000", "£650,000", "£1.2 million"],
         "deadline": ["24 hours", "48 hours", "72 hours"],
         "ext": [".lckd", ".crypt", ".vault", ".x9k"],
@@ -215,7 +221,7 @@
           ],
           "ask": "Do we report it to the ICO?",
           "options": [
-            { "id": "report", "text": "Yes, report now (within 72 hours) and add details as we learn them", "effects": { "k": 20 }, "set": ["icoReported"], "quality": "good",
+            { "id": "report", "text": "Yes, report now (within 72 hours) and add details as we learn them", "effects": { "k": 20 }, "set": ["icoReported", "icoOnTime"], "quality": "good",
               "note": "UK GDPR requires a report within 72 hours of becoming aware. You can send it in stages.",
               "reply": [{ "from": "dpo", "text": "Submitted. I’ll send updates as the investigation goes on." }] },
             { "id": "wait", "text": "Wait until the investigation is finished", "effects": { "k": -5 }, "set": ["icoLate"], "quality": "poor",
@@ -322,7 +328,250 @@
         }
       ]
     },
-    { "id": "bec", "title": "Invoice fraud", "level": 3, "minutes": 5, "blurb": "A supplier’s ‘new bank details’ arrive just before a big payment run.", "soon": true },
+    {
+      "id": "bec",
+      "title": "Invoice fraud",
+      "level": 3,
+      "minutes": 5,
+      "blurb": "A supplier’s ‘new bank details’ arrive just before a big payment. Stop the money, find the hole, and keep everyone onside.",
+      "facts": { "paid": 0.55, "mailbox": 0.6 },
+      "recap": [
+        { "if": ["paid"], "text": "The **{amount}** payment had **already gone** before anyone noticed." },
+        { "if": ["!paid"], "text": "The payment was **stopped** before it went out." },
+        { "if": ["mailbox"], "text": "The attacker **was inside** your Accounts mailbox." },
+        { "if": ["!mailbox"], "text": "The emails came **from outside**; your mailboxes weren’t touched." }
+      ],
+      "start": { "c": 55, "o": 75, "t": 65, "k": 65 },
+      "vars": {
+        "supplier": ["Fenwick Supplies", "Ashdown Metals", "Brightford Print", "Hollin Freight"],
+        "amount": ["£48,600", "£126,300", "£212,900"],
+        "day": ["Tuesday", "Wednesday", "Thursday"]
+      },
+      "beats": [
+        {
+          "id": "spot",
+          "clock": "{Day} 14:10",
+          "category": "Phishing and Social Engineering",
+          "messages": [
+            { "from": "ap", "if": ["paid"], "text": [
+              "We paid {supplier}’s invoice of {amount} this morning, to the new bank details they emailed last week. They’ve just rung asking where their money is.",
+              "{Supplier} have called chasing {amount}. We paid it at 10 this morning, to the new account in their email. They say they never changed banks."
+            ] },
+            { "from": "ap", "if": ["!paid"], "text": [
+              "I was about to pay {supplier}’s invoice of {amount} to the new bank details they emailed last week. Something felt off, so I’ve paused it.",
+              "Before I send {amount} to {supplier}: their email says they’ve changed banks. It looks right, but I wanted to check with someone."
+            ] }
+          ],
+          "ask": "What’s the first thing you do?",
+          "timer": 35,
+          "timeout": "wait",
+          "options": [
+            { "id": "recall", "if": ["paid"], "text": "Call our bank’s fraud team now to try to stop or recall the payment", "effects": { "c": 20 }, "set": ["recallFast"], "quality": "good",
+              "note": "Speed matters most. Banks can often freeze money in the first hours, but not after it’s moved on.",
+              "reply": [{ "from": "cfo", "text": "Bank’s on it. They’ve flagged it with the receiving bank." }] },
+            { "id": "callback", "if": ["!paid"], "text": "Keep it on hold and call {supplier} on the number we already have", "effects": { "c": 20 }, "set": ["verified"], "quality": "good",
+              "note": "A call-back on a number you already trust is the single best defence against invoice fraud.",
+              "reply": [{ "from": "ap", "text": "They’ve never changed banks. The email was fake. Payment stays on hold." }] },
+            { "id": "reply-email", "text": "Reply to the email asking {supplier} to confirm the new details", "effects": { "c": -12 }, "quality": "poor",
+              "note": "If the email is fake or the thread is hijacked, you’re asking the attacker to confirm their own details.",
+              "reply": [{ "from": "ap", "text": "They replied in two minutes: ‘Yes, all correct, please proceed.’" }] },
+            { "id": "pay-anyway", "if": ["!paid"], "text": "Pay it. The email came from a real thread with them", "effects": { "c": -25, "o": -10 }, "set": ["paidLate"], "quality": "poor",
+              "note": "Real threads get hijacked. New bank details always need a call-back, whatever the email looks like.",
+              "reply": [{ "from": "ap", "text": "Sent. I’ll let them know." }] },
+            { "id": "wait", "text": "Leave it until tomorrow to see if it sorts itself out", "effects": { "c": -20 }, "set": ["slow"], "quality": "poor",
+              "note": "Fraudsters move money within hours. Waiting until tomorrow usually means it’s gone.",
+              "reply": [{ "from": "ap", "text": "Okay, I’ll look again in the morning." }] }
+          ]
+        },
+        {
+          "id": "how",
+          "clock": "{Day} 14:45",
+          "category": "Security Monitoring and Incident Response",
+          "messages": [
+            { "from": "soc", "text": "The ‘new bank details’ email came from a look-alike of {supplier}’s domain, slipped into a genuine email thread." },
+            { "from": "soc", "if": ["mailbox"], "text": "Worse: someone set up a rule in the Accounts mailbox forwarding anything with ‘invoice’ in it to an outside address. They’ve been reading along." },
+            { "from": "soc", "if": ["!mailbox"], "text": "Our mailboxes look clean. No odd sign-ins or forwarding rules so far." }
+          ],
+          "ask": "Pick two things to do now.",
+          "pick": 2,
+          "options": [
+            { "id": "reset", "text": "Reset the Accounts team’s passwords and turn on multi-factor sign-in", "effects": { "c": 12 }, "set": ["creds"], "quality": "good",
+              "variants": [{ "if": ["!mailbox"], "quality": "ok", "effects": { "c": 5 }, "note": "Not strictly needed this time, but a sensible precaution." }],
+              "note": "If they were in the mailbox, they had a password. Take it away and make sure they can’t use it again." },
+            { "id": "rules", "text": "Check every mailbox for forwarding rules and remove any you find", "effects": { "c": 14 }, "quality": "good",
+              "variants": [{ "if": ["!mailbox"], "quality": "ok", "effects": { "c": 3 }, "note": "Nothing found this time, but always worth checking." }],
+              "note": "Forwarding rules are how attackers keep watching after you change the password." },
+            { "id": "block", "text": "Block the look-alike domain at the email gateway", "effects": { "c": 8 }, "quality": "good",
+              "note": "Stops more fake emails from that domain reaching anyone." },
+            { "id": "announce", "text": "Email the whole company about the scam right now", "effects": { "t": 4, "c": -3 }, "quality": "ok",
+              "note": "Useful later, but right now your people are better spent containing it, and the email system may not be trustworthy." }
+          ]
+        },
+        {
+          "id": "blame",
+          "clock": "{Day} 15:30",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "ceo", "if": ["paid"], "text": "How did {amount} just walk out of the door? I want whoever paid it dealt with." },
+            { "from": "ceo", "if": ["!paid"], "text": "So we nearly paid {amount} to criminals? I want to know whose mistake that was." }
+          ],
+          "ask": "What do you tell Dana?",
+          "timer": 40,
+          "timeout": "silent",
+          "options": [
+            { "id": "process", "text": "It’s a process gap: there was no call-back check. Fix the process and support the team", "effects": { "t": 12 }, "set": ["supportive"], "quality": "good",
+              "note": "These emails are built to fool careful people. The missing control was the call-back, not a person.",
+              "reply": [{ "from": "ceo", "text": "Fair. Make sure it can’t happen again." }] },
+            { "id": "report", "text": "First report it to Action Fraud and tell the insurer, then review what happened", "effects": { "k": 10, "t": 4 }, "set": ["reported"], "quality": "good",
+              "note": "Reporting quickly can help recovery, and insurers often require early notice.",
+              "reply": [{ "from": "cfo", "text": "Reported. Insurer wants the timeline by Friday." }] },
+            { "id": "discipline", "text": "Agree, discipline the person who handled it", "effects": { "t": -15 }, "set": ["blamed"], "quality": "poor",
+              "note": "Blame teaches people to hide mistakes. Next time, nobody speaks up in time.",
+              "reply": [{ "from": "ap", "text": "I flagged it. I don’t understand why I’m in trouble." }] },
+            { "id": "silent", "hidden": true, "text": "Say nothing", "effects": { "t": -8 }, "quality": "poor",
+              "note": "Without a clear answer, the CEO draws their own conclusions.",
+              "reply": [{ "from": "ceo", "text": "I’ll take that as ‘we don’t know’." }] }
+          ]
+        },
+        {
+          "id": "recovery",
+          "clock": "{Day} 17:20",
+          "category": "Resilience and Security Management",
+          "if": ["paid"],
+          "outcomes": [
+            { "if": ["recallFast"], "messages": [{ "from": "cfo", "text": "The bank caught most of it before it moved on. We should get the bulk of {amount} back." }],
+              "effects": { "c": 10, "o": 10 }, "quality": "good", "note": "Acting fast meant the bank could freeze most of the money." },
+            { "if": [], "messages": [{ "from": "cfo", "text": "The bank says the money moved on within an hour. It’s gone." }],
+              "effects": { "o": -15 }, "quality": "poor", "note": "Without a quick call to the bank, the money was gone." }
+          ]
+        },
+        {
+          "id": "supplier",
+          "clock": "Next day 09:15",
+          "category": "Phishing and Social Engineering",
+          "messages": [
+            { "from": "supplier", "text": "Two of our other customers got the same email. Was it your system or ours that was breached?" }
+          ],
+          "ask": "How do you respond to {supplier}?",
+          "options": [
+            { "id": "share", "text": "Share what we’ve found (the fake domain, dates, how it reached us) and agree next steps", "effects": { "t": 15 }, "quality": "good",
+              "note": "Working together finds the source faster and protects their other customers too.",
+              "reply": [{ "from": "supplier", "text": "Thanks, that helps. We think one of our mailboxes was compromised. We’re on it." }] },
+            { "id": "blame-them", "text": "Tell them it must have been their system", "effects": { "t": -15 }, "quality": "poor",
+              "note": "You don’t know yet, and blame damages a relationship you’ll need.",
+              "reply": [{ "from": "supplier", "text": "That’s not helpful. We’ll be talking to our lawyers." }] },
+            { "id": "lawyers", "text": "Say nothing until the lawyers are involved", "effects": { "t": -6, "k": 3 }, "quality": "ok",
+              "note": "Careful, but silence slows everyone down. You can share facts without admitting fault.",
+              "reply": [{ "from": "supplier", "text": "Okay. We’ll wait to hear from you." }] }
+          ]
+        },
+        {
+          "id": "data",
+          "clock": "Next day 11:00",
+          "category": "Data Protection and Privacy",
+          "if": ["mailbox"],
+          "messages": [
+            { "from": "dpo", "text": "The forwarding rule sent three weeks of Accounts email outside, including staff bank details from payroll queries. We found out yesterday." }
+          ],
+          "ask": "Do we report it to the ICO?",
+          "options": [
+            { "id": "report", "text": "Yes, report within 72 hours and tell the affected staff", "effects": { "k": 20, "t": 5 }, "set": ["icoOnTime"], "quality": "good",
+              "note": "Staff bank details are personal data. Report within 72 hours and tell the people affected so they can watch their accounts.",
+              "reply": [{ "from": "dpo", "text": "Submitted, and I’m writing to the staff affected today." }] },
+            { "id": "wait", "text": "Wait until we know exactly what was taken", "effects": { "k": -5 }, "set": ["icoLate"], "quality": "poor",
+              "note": "The 72 hours started yesterday. Report what you know now and add details later.",
+              "reply": [{ "from": "dpo", "text": "Okay, but we’re already a day in." }] },
+            { "id": "skip", "text": "No need, it’s only internal email", "effects": { "k": -20, "t": -8 }, "quality": "poor",
+              "note": "It left the organisation, and it included bank details. That’s reportable.",
+              "reply": [{ "from": "dpo", "text": "I don’t agree, and I’ll note that." }] }
+          ]
+        },
+        {
+          "id": "nodata",
+          "clock": "Next day 11:00",
+          "category": "Data Protection and Privacy",
+          "if": ["!mailbox"],
+          "messages": [
+            { "from": "dpo", "text": "No sign anyone got into our systems, so no personal data of ours has gone. The fake emails came entirely from outside." }
+          ],
+          "ask": "What do we do about data protection?",
+          "options": [
+            { "id": "log", "text": "Record the incident and our reasoning in the breach log", "effects": { "k": 12 }, "quality": "good",
+              "note": "Even when nothing’s reportable, you record what happened and why you decided that.",
+              "reply": [{ "from": "dpo", "text": "Logged." }] },
+            { "id": "report-anyway", "text": "Report it to the ICO anyway", "effects": { "k": 3 }, "quality": "ok",
+              "note": "Not needed here. Recording your reasoning is the key step.",
+              "reply": [{ "from": "dpo", "text": "Sent. They may ask why." }] },
+            { "id": "nothing", "text": "Nothing to record", "effects": { "k": -10 }, "quality": "poor",
+              "note": "Security incidents should still be logged, even when no personal data was lost.",
+              "reply": [{ "from": "dpo", "text": "We should still log it." }] }
+          ]
+        },
+        {
+          "id": "second",
+          "clock": "Next day 14:00",
+          "category": "Phishing and Social Engineering",
+          "messages": [
+            { "from": "ap", "text": [
+              "Now Harlow Office Supplies have emailed asking us to update their bank details too. It’s from their real domain and the same contact we’ve used for years.",
+              "Another one: Harlow Office Supplies want us to use a new bank account. Real email address, same person as always."
+            ] }
+          ],
+          "ask": "How do you handle it?",
+          "timer": 35,
+          "timeout": "process-it",
+          "options": [
+            { "id": "callback2", "text": "Call Harlow on the number we already hold before changing anything", "effects": { "c": 8, "o": 2 }, "quality": "good",
+              "note": "It was genuine this time, and the call-back proved it. The same check works either way.",
+              "reply": [{ "from": "ap", "text": "Spoke to them. It’s real, they’ve moved banks. Updated." }] },
+            { "id": "freeze", "text": "Refuse all bank changes for a month", "effects": { "o": -10, "t": -5 }, "quality": "ok",
+              "note": "Safe, but it hurts genuine suppliers. A call-back keeps you safe without stopping the business.",
+              "reply": [{ "from": "ap", "text": "Harlow aren’t happy. Their payment will be late." }] },
+            { "id": "process-it", "text": "Process it, it’s from their real address", "effects": { "c": -10 }, "quality": "poor",
+              "note": "It was genuine this time, but real addresses get hijacked too, as you just saw. Always call back.",
+              "reply": [{ "from": "ap", "text": "Done. Fingers crossed." }] }
+          ]
+        },
+        {
+          "id": "lessons",
+          "clock": "End of the week",
+          "category": "Resilience and Security Management",
+          "messages": [
+            { "from": "ceo", "text": "Right. What’s the one change that stops this happening again?" }
+          ],
+          "ask": "Your recommendation?",
+          "options": [
+            { "id": "callback-rule", "text": "Make a call-back to a known number, plus a second person’s sign-off, mandatory for any bank change", "effects": { "c": 10, "k": 5 }, "quality": "good",
+              "note": "This one control would have stopped the whole incident.",
+              "reply": [{ "from": "cfo", "text": "In the finance manual from Monday." }] },
+            { "id": "mfa", "text": "Multi-factor sign-in on every mailbox", "effects": { "c": 8 }, "quality": "good",
+              "note": "Stops attackers getting into mailboxes with stolen passwords. Pair it with the call-back rule.",
+              "reply": [{ "from": "it", "text": "We’ll roll it out this month." }] },
+            { "id": "training", "text": "Fraud awareness training for the finance team", "effects": { "t": 4, "c": 3 }, "quality": "ok",
+              "note": "Helpful, but people under pressure still get fooled. A hard process check works every time.",
+              "reply": [{ "from": "comms", "text": "I’ll book a session." }] },
+            { "id": "new-email", "text": "Move to a different email provider", "effects": { "o": -6 }, "quality": "poor",
+              "note": "The provider wasn’t the problem. The missing check was.",
+              "reply": [{ "from": "it", "text": "That’s a six-month project. Are we sure?" }] }
+          ]
+        },
+        {
+          "id": "aftermath",
+          "clock": "The following week",
+          "category": "Resilience and Security Management",
+          "outcomes": [
+            { "if": ["icoLate"], "all": true, "messages": [{ "from": "dpo", "text": "We reported to the ICO after the 72 hours. They’ve asked for an explanation." }],
+              "effects": { "k": -18 }, "quality": "poor", "note": "The ICO report went in late." },
+            { "if": ["blamed"], "all": true, "messages": [{ "from": "cfo", "text": "Jess has handed in her notice. The team’s nervous about raising anything now." }],
+              "effects": { "t": -10, "o": -5 }, "quality": "poor", "note": "Blaming an individual cost you a good person and made others less likely to speak up." },
+            { "if": ["paidLate"], "all": true, "messages": [{ "from": "cfo", "text": "The payment we sent after the warning is gone. The bank can’t recover it." }],
+              "effects": { "o": -15 }, "quality": "poor", "note": "Paying after doubts were raised lost the money." },
+            { "if": [], "messages": [{ "from": "ceo", "text": "Good work, everyone. That could have been a lot worse." }],
+              "effects": {}, "quality": "good", "note": "No nasty surprises afterwards." }
+          ]
+        }
+      ]
+    },
     { "id": "supplier", "title": "Supplier breach", "level": 4, "minutes": 5, "blurb": "A software supplier you rely on announces it’s been hacked.", "soon": true },
     { "id": "insider", "title": "Insider leak", "level": 5, "minutes": 5, "blurb": "Confidential files turn up somewhere they shouldn’t.", "soon": true },
     { "id": "cloud", "title": "Open cloud storage", "level": 6, "minutes": 5, "blurb": "A researcher finds your customer files open to the internet.", "soon": true },

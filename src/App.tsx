@@ -64,6 +64,7 @@ export default function App() {
   const [showDirectory, setShowDirectory] = useState(false);
   const [incident, setIncident] = useState<Incident>({ phase: 'intro' });
   const [timed, setTimed] = useState(true); // Incident Commander countdowns (on by default)
+  const [scenarioPick, setScenarioPick] = useState<string | null>(null); // chosen on the start page
 
   const bank = load.status === 'ready' ? load.bank : null;
   const acronyms = load.status === 'ready' ? load.acronyms : null;
@@ -271,13 +272,17 @@ export default function App() {
     open('incident');
   }, [open]);
 
+  // scenarios you can play now (unlocked, with content); the choice falls back to the first of them
+  const playable = useMemo(() => (incidentBank?.scenarios ?? []).filter((x) => !x.soon && x.beats?.length && level >= x.level),
+    [incidentBank, level]);
+  const scenarioId = playable.some((x) => x.id === scenarioPick) ? scenarioPick! : (playable[0]?.id ?? '');
   const startIncident = useCallback(() => {
-    const scenario = incidentBank?.scenarios.find((x) => !x.soon && x.beats?.length);
+    const scenario = playable.find((x) => x.id === scenarioId);
     if (!incidentBank || !scenario) return;
     haptic();
     setIncident({ phase: 'play', round: Date.now(), run: newRun(incidentBank, scenario) });
     window.scrollTo(0, 0);
-  }, [incidentBank]);
+  }, [incidentBank, playable, scenarioId]);
 
   const incidentDecision = useCallback((category: string, id: string, ok: boolean) => {
     update((s) => logIncidentDecision(s, category, id, ok));
@@ -467,8 +472,8 @@ export default function App() {
       );
     } else if (incident.phase === 'intro') {
       body = <IncidentIntro bank={incidentBank} level={level} best={state.incident.best} timed={timed} onTimed={setTimed}
-        roundsToday={incidentRoundsToday(state)} />;
-      barButton = <button type="button" className="btn" onClick={startIncident}>Start the incident<ArrowIcon /></button>;
+        roundsToday={incidentRoundsToday(state)} selected={scenarioId} onSelect={setScenarioPick} />;
+      barButton = <button type="button" className="btn" onClick={startIncident}>Start: {playable.find((x) => x.id === scenarioId)?.title}<ArrowIcon /></button>;
     } else {
       body = <IncidentDebrief result={incident.result} prevBest={incident.prevBest} xp={incident.xp} rate={incident.rate} />;
       barButton = endBar('Play again', againIncident);

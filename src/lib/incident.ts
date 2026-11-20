@@ -50,8 +50,9 @@ export interface Scenario {
   minutes: number;
   blurb: string;
   soon?: boolean;
-  facts?: { sys: string[]; backupsClean: number; stolen: number };
-  vars?: Record<string, string[]>;   // small details rolled each play, e.g. {ransom}, {deadline}
+  facts?: Record<string, number>;    // hidden facts rolled each play: flag name -> chance it's true
+  vars?: Record<string, string[]>;   // small details rolled each play, e.g. {sys}, {ransom}, {amount}
+  recap?: { if?: string[]; text: string }[]; // the debrief's "This time" lines (**bold** allowed)
   start?: Gauges;
   beats?: Beat[];
 }
@@ -71,30 +72,30 @@ export interface Run {
   org: string;
   sys: string;
   vars: Record<string, string>;
-  flags: string[];   // starts with the rolled facts (backupsClean, stolen)
+  flags: string[];   // starts with the rolled facts (e.g. backupsClean, stolen)
 }
 
 const pick = <T,>(list: T[]): T => list[Math.floor(Math.random() * list.length)];
 
 export function newRun(bank: IncidentBank, scenario: Scenario): Run {
-  const f = scenario.facts;
-  const flags: string[] = [];
-  if (f && Math.random() < f.backupsClean) flags.push('backupsClean');
-  if (f && Math.random() < f.stolen) flags.push('stolen');
+  const flags = Object.entries(scenario.facts ?? {}).filter(([, chance]) => Math.random() < chance).map(([f]) => f);
   const vars: Record<string, string> = {};
   Object.entries(scenario.vars ?? {}).forEach(([k, list]) => { vars[k] = pick(list); });
-  return { scenario, org: pick(bank.orgs), sys: f ? pick(f.sys) : 'the network', vars, flags };
+  return { scenario, org: pick(bank.orgs), sys: vars.sys ?? 'the network', vars, flags };
 }
 
 /* Conditions: every flag must be set ("x") or not set ("!x") */
 export const holds = (conds: string[] | undefined, flags: string[]) =>
   (conds ?? []).every((c) => (c.startsWith('!') ? !flags.includes(c.slice(1)) : flags.includes(c)));
 
+/* Fills {org} and the rolled details. A capitalised placeholder ({Sys}) capitalises the value. */
 export const fill = (text: string | string[], run: Run) => (Array.isArray(text) ? pick(text) : text)
   .replace(/\{org\}/g, run.org)
-  .replace(/\{sys\}/g, run.sys)
-  .replace(/\{Sys\}/g, run.sys[0].toUpperCase() + run.sys.slice(1))
-  .replace(/\{([a-z]+)\}/g, (m, k: string) => run.vars[k] ?? m);
+  .replace(/\{([A-Za-z]+)\}/g, (m, k: string) => {
+    const v = run.vars[k] ?? run.vars[k[0].toLowerCase() + k.slice(1)];
+    if (v === undefined) return m;
+    return k[0] === k[0].toUpperCase() ? v[0].toUpperCase() + v.slice(1) : v;
+  });
 
 /* An option's effects, note and quality, after any variant that fits the facts */
 export function resolveOption(o: Option, flags: string[]): { effects: Effects; note: string; quality: Quality } {
@@ -157,6 +158,7 @@ export interface IncidentResult {
   title: string;
   org: string;
   sys: string;
+  recap: string[];   // the debrief's "This time" lines, filled in
   flags: string[];
   gauges: Gauges;
   grade: string;
@@ -179,7 +181,7 @@ export function finishIncident(state: State, r: IncidentResult): { prevBest: str
   s.rounds += 1;
   if (!prevBest || r.grade < prevBest) s.best[r.scenarioId] = r.grade; // 'A' sorts before 'B'
   if (r.grade === 'A') s.aGrades += 1;
-  if (r.flags.includes('stolen') && r.flags.includes('icoReported')) s.icoOnTime += 1;
+  if (r.flags.includes('icoOnTime')) s.icoOnTime += 1; // a scenario sets this when personal data is reported in time
   if (s.xpDay !== today) { s.xpDay = today; s.xpRounds = 0; }
   const rate = gameXpRate(s.xpRounds);
   s.xpRounds += 1;
