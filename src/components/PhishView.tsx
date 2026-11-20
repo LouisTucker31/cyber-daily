@@ -664,7 +664,7 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
       )}
 
       {createPortal(
-        <div className="actionbar">
+        <div className="actionbar floating">
           <div className="actionbar-inner">
             {stage === 'review' ? (
               <button type="button" className="btn" onClick={() => { haptic(); next(); }}>

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { createPortal } from 'react-dom';
 import {
   addEffects, applyEffects, fill, GAUGES, gradeFor, holds, pickOutcomes, resolveOption,
   type Decision, type Effects, type Gauge, type Gauges, type IncidentBank, type IncidentResult,
   type Person, type Quality, type Run
 } from '../lib/incident.ts';
 import { haptic } from '../lib/haptics.ts';
+import { shuffle } from '../lib/quiz.ts';
 import { xpRateText } from '../lib/progress.ts';
 import { XpNote } from './BlitzView.tsx';
 import {
@@ -120,7 +120,8 @@ interface GameProps {
   onEnd: (r: IncidentResult) => void;
 }
 
-const TYPE_MS = 750; // gap between messages arriving
+const TYPE_MS = 750;  // gap between messages arriving
+const NEXT_MS = 1300; // pause after the last reply before the next update starts
 
 export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProps) {
   const beats = run.scenario.beats ?? [];
@@ -133,6 +134,7 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
   const [queue, setQueue] = useState<FeedItem[]>([]);
   const [answered, setAnswered] = useState(false);
   const [picks, setPicks] = useState<string[]>([]);
+  const [order, setOrder] = useState<string[]>([]); // the options, shuffled for each decision
   const [flash, setFlash] = useState<{ d: Effects; n: number } | null>(null);
   const decisions = useRef<Decision[]>([]);
   const pendingOutcome = useRef<{ effects: Effects; decision: Omit<Decision, 'deltas'> } | null>(null);
@@ -141,7 +143,8 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
   const beat = beatIdx >= 0 ? beats[beatIdx] : null;
   const typing = queue.length > 0;
   const deciding = !!beat?.options && !typing && !answered;
-  const options = (beat?.options ?? []).filter((o) => !o.hidden && holds(o.if, flags.current));
+  const options = (beat?.options ?? []).filter((o) => !o.hidden && holds(o.if, flags.current))
+    .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
   const want = beat?.pick ?? 1;
 
   const applyGauges = useCallback((e: Effects): Effects => {
@@ -170,6 +173,7 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
     setBeatIdx(i);
     setAnswered(false);
     setPicks([]);
+    setOrder(shuffle((b.options ?? []).map((o) => o.id))); // so the best answer isn't always first
     const items: FeedItem[] = [{ kind: 'clock', text: b.clock }];
     if (b.outcomes) {
       const outs = pickOutcomes(b, flags.current);
@@ -209,6 +213,15 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
     decisions.current.push({ ...p.decision, deltas });
     setAnswered(true);
   }, [typing, answered, beat, applyGauges]);
+
+  // no Continue button: once the replies have arrived, the next update follows by itself
+  const enterRef = useRef(enter);
+  enterRef.current = enter;
+  useEffect(() => {
+    if (!answered || typing || beatIdx < 0) return;
+    const t = window.setTimeout(() => enterRef.current(beatIdx + 1), still ? 500 : NEXT_MS);
+    return () => window.clearTimeout(t);
+  }, [answered, typing, beatIdx, still]);
 
   // keep the newest message in view
   useEffect(() => {
@@ -300,24 +313,12 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
               );
             })}
           </ul>
+          {want > 1 && (
+            <button type="button" className="btn ic-confirm" disabled={picks.length !== want} onClick={() => choose(picks)}>
+              {picks.length === want ? 'Confirm' : `Pick ${want - picks.length} more`}<ArrowIcon />
+            </button>
+          )}
         </section>
-      )}
-
-      {createPortal(
-        <div className="actionbar">
-          <div className="actionbar-inner">
-            {deciding && want > 1 ? (
-              <button type="button" className="btn" disabled={picks.length !== want} onClick={() => choose(picks)}>
-                {picks.length === want ? 'Confirm' : `Pick ${want - picks.length} more`}<ArrowIcon />
-              </button>
-            ) : answered && !typing ? (
-              <button type="button" className="btn" onClick={() => { haptic(); enter(beatIdx + 1); }}>Continue<ArrowIcon /></button>
-            ) : (
-              <p className="ic-wait">{typing ? 'Updates coming in…' : 'Make your call above'}</p>
-            )}
-          </div>
-        </div>,
-        document.body
       )}
     </div>
   );

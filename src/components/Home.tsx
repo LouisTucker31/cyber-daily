@@ -115,15 +115,14 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         tone: 'locked'
       };
 
-  /* ---------- Incident Commander (full width: the standout mode) ---------- */
+  /* ---------- Incident Commander ---------- */
   const incidentTile: TileSpec = incident.available
     ? {
         id: 'incident',
         title: 'Incident Commander',
         icon: <IncidentIcon />,
-        meta: incident.best ? `Ransomware · best grade ${incident.best}` : 'Lead the response to a live cyber attack · 5 min',
+        meta: incident.best ? `Best grade ${incident.best}` : 'Lead the response to a cyber attack',
         tone: 'plain',
-        wide: true,
         onOpen: onIncident,
         foot: <span className="tile-cta">Play</span>
       }
@@ -132,8 +131,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         title: 'Incident Commander',
         icon: <IncidentIcon />,
         meta: 'Go online once to download it',
-        tone: 'locked',
-        wide: true
+        tone: 'locked'
       };
 
   /* ---------- Profile (full width) ---------- */
@@ -149,8 +147,8 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
   };
 
   /* Add new modes here: each entry becomes a tile in the grid. */
-  // Today's 10 and Practice, then the flagship game, the two quick games side by side, and the Profile
-  const tiles: TileSpec[] = [daily, practice, incidentTile, blitzTile, phishTile, profile];
+  // the primary pair (Today's 10, Practice), the Profile, then the games as square tiles
+  const tiles: TileSpec[] = [daily, practice, profile, incidentTile, blitzTile, phishTile];
 
   return (
     <>
@@ -159,7 +157,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
           ? (due > 0 ? `Today’s set is done. ${due} ${due === 1 ? 'question is' : 'questions are'} due in Practice.` : 'Today’s set is done. Keep sharp in Practice.')
           : started ? 'Pick up where you left off.' : 'Your daily cyber workout is ready.'}
       </p>
-      <div className="tile-grid">
+      <div className={'tile-grid' + (done ? ' pill-space' : '')}>
         {tiles.map((t) => <Tile key={t.id} {...t} />)}
       </div>
 

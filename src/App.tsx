@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   answer, completeDay, dateKey, daysUntil, drawPractice, dueIds, ensureToday, loadState, parseBank,
   practiceIds, recordResult, saveState,
@@ -28,7 +28,7 @@ import { evaluateProgress, levelInfo } from './lib/progress.ts';
 import useCountdown from './hooks/useCountdown.ts';
 import useEdgeSwipe from './hooks/useEdgeSwipe.ts';
 import { haptic } from './lib/haptics.ts';
-import { ArrowIcon, ClockIcon, HomeIcon } from './components/icons.tsx';
+import { ArrowIcon, BackIcon, ClockIcon, HomeIcon } from './components/icons.tsx';
 
 /* practiceBank = questions plus acronyms (as Practice questions), used only by Smart Practice */
 type Load =
@@ -143,6 +143,10 @@ export default function App() {
   /* Navigation. Opening a mode adds a history entry, so Android's back button
      (and the edge swipe) returns Home like a native app. */
   const skipMotion = useRef(false);
+
+  // every screen change (including back to Home) starts at the top; the browser mustn't restore old scroll
+  useEffect(() => { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; }, []);
+  useLayoutEffect(() => { window.scrollTo(0, 0); }, [view, round]);
 
   // a fresh launch always starts at Home with a clean history entry
   useEffect(() => { if (history.state?.view) history.replaceState(null, ''); }, []);
@@ -457,7 +461,6 @@ export default function App() {
   } else if (view === 'incident' && incidentBank) {
     nav = { label: 'Incident Commander', onHome: () => goHome() };
     if (incident.phase === 'play') {
-      reserveBar = true; // the game draws its own buttons in the action bar
       body = (
         <IncidentGame key={incident.round} run={incident.run} people={incidentBank.people} timed={timed}
           onDecision={incidentDecision} onEnd={endIncident} />
@@ -496,18 +499,26 @@ export default function App() {
     }
   }
 
+  /* While a game is being played it goes full screen: no header, just a floating back button */
+  const immersive = (view === 'blitz' && blitz.phase === 'play') || (view === 'phish' && phish.phase === 'play') ||
+    (view === 'incident' && incident.phase === 'play');
+
   return (
     <>
-      <div className={'app' + (barButton || reserveBar ? ' has-bar' : '')}>
-        <Header
-          ready={state !== null}
-          streak={state ? shownStreak(state) : 0}
-          freezes={state?.freezes ?? 0}
-          level={levelInfo(state?.xp ?? 0).level}
-          levelProgress={levelInfo(state?.xp ?? 0).progress}
-          onProfile={view === 'home' && state ? () => { haptic(); open('profile'); } : undefined}
-          nav={nav}
-        />
+      <div className={'app' + (barButton || reserveBar ? ' has-bar' : '') + (immersive ? ` immersive immersive-${view}` : '')}>
+        {immersive ? (
+          <button type="button" className="float-back" onClick={() => goHome()} aria-label="Back to Home"><BackIcon /></button>
+        ) : (
+          <Header
+            ready={state !== null}
+            streak={state ? shownStreak(state) : 0}
+            freezes={state?.freezes ?? 0}
+            level={levelInfo(state?.xp ?? 0).level}
+            levelProgress={levelInfo(state?.xp ?? 0).progress}
+            onProfile={view === 'home' && state ? () => { haptic(); open('profile'); } : undefined}
+            nav={nav}
+          />
+        )}
         <main key={view + round} className={'screen screen-' + motion}>{body}</main>
       </div>
 

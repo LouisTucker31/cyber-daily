@@ -8,17 +8,17 @@ import {
   type LucideIcon
 } from 'lucide-react';
 
-const icon = (I: LucideIcon, strokeWidth = 2) =>
+const icon = (I: LucideIcon, strokeWidth = 1.75) => // a touch lighter than Lucide's default 2
   function Icon({ className }: { className?: string }) {
     return <I aria-hidden="true" focusable="false" strokeWidth={strokeWidth} className={className} />;
   };
 
-export const TickIcon = icon(Check, 2.4);
-export const CrossIcon = icon(X, 2.4);
+export const TickIcon = icon(Check, 2.1);
+export const CrossIcon = icon(X, 2.1);
 export const ArrowIcon = icon(ArrowRight);
 export const ArrowLeftIcon = icon(ArrowLeft);
-export const BackIcon = icon(ChevronLeft, 2.4);
-export const ChevronRightIcon = icon(ChevronRight, 2.4);
+export const BackIcon = icon(ChevronLeft, 2.1);
+export const ChevronRightIcon = icon(ChevronRight, 2.1);
 export const PracticeIcon = icon(RefreshCw);
 export const BlitzIcon = icon(Zap);
 export const PhishIcon = icon(Fish);
@@ -38,7 +38,7 @@ export const TextIcon = icon(MessageSquare);
 // phone-style mock-ups in Spot the Phish
 export const ArchiveIcon = icon(Archive);
 export const CameraIcon = icon(Camera);
-export const UpIcon = icon(ChevronUp, 2.4);
+export const UpIcon = icon(ChevronUp, 2.1);
 export const FileIcon = icon(FileText);
 export const FolderIcon = icon(Folder);
 export const InfoIcon = icon(Info);
@@ -58,7 +58,7 @@ export const TimerIcon = icon(Timer);
 
 /* Chevron that turns to point up when its section is open */
 export function ChevronIcon({ open }: { open: boolean }) {
-  return <ChevronDown aria-hidden="true" focusable="false" strokeWidth={2.4} className={'chev' + (open ? ' open' : '')} />;
+  return <ChevronDown aria-hidden="true" focusable="false" strokeWidth={2.1} className={'chev' + (open ? ' open' : '')} />;
 }
 
 /* 10 squares, echoing the app icon */

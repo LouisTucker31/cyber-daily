@@ -445,6 +445,7 @@ button.me:active { transform: scale(0.96); }
   line-height: 1.35;
   color: var(--ink);
 }
+.tile-grid.pill-space { margin-bottom: 64px; } /* room to scroll the last tile clear of the "Next set" pill */
 .tile-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -634,7 +635,7 @@ div.tile-locked { cursor: default; }
 .xp-bar i { display: block; height: 100%; border-radius: 3px; background: var(--orange); }
 
 /* wide Profile tile on Home: horizontal layout, shorter */
-.tile-wide { height: auto; min-height: 0; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 14px; }
+.tile-wide { height: 120px; min-height: 0; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 14px; } /* every wide tile the same height */
 .tile-wide .tile-icon { height: 48px; grid-row: span 2; }
 .tile-wide .tile-icon svg { height: 48px; }
 .tile-wide .tile-foot { grid-column: 2; margin-top: 6px; }
@@ -729,6 +730,9 @@ div.tile-locked { cursor: default; }
   font-size: var(--t-lead); font-weight: 700; letter-spacing: -0.015em;
 }
 .p-count { font-size: var(--t-small); color: var(--muted); font-weight: 600; }
+.p-fold { display: inline-flex; align-items: center; gap: 4px; margin: -6px -6px -6px 0; padding: 6px; border: 0; border-radius: 8px; background: none; color: inherit; font: inherit; cursor: pointer; }
+.p-fold:active { background: var(--press); }
+.p-fold .chev { width: 18px; height: 18px; }
 .p-note { color: var(--muted); font-size: var(--t-small); margin: 10px 0 0; }
 
 /* XP total, at the top of the ranks list */
@@ -804,7 +808,7 @@ div.tile-locked { cursor: default; }
 
 /* ---------- Acronym Blitz ---------- */
 /* start page: four rule cards, each an icon, a short value and a line of explanation */
-.rule-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 24px; }
+.rule-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 158px; gap: 10px; margin-top: 24px; } /* every card the same size */
 .rule {
   display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
   padding: 14px;
@@ -814,7 +818,7 @@ div.tile-locked { cursor: default; }
 .rule-icon { display: block; width: 24px; height: 24px; margin-bottom: 8px; color: var(--ink); }
 .rule-icon svg { width: 24px; height: 24px; display: block; }
 .rule-value { font-size: var(--t-title); font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.rule-label { font-size: var(--t-small); color: var(--muted); line-height: 1.3; }
+.rule-label { font-size: var(--t-small); color: var(--muted); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .rule-good .rule-icon, .rule-good .rule-value { color: var(--good); }
 .rule-bad .rule-icon, .rule-bad .rule-value { color: var(--bad); }
 .rule-combo .rule-icon, .rule-combo .rule-value { color: var(--signal); }
@@ -1602,3 +1606,32 @@ mark.hl { padding: 0 2px; }
   .ic-typing i:nth-child(3) { animation-delay: .3s; }
   @keyframes ic-dot { 0%, 100% { opacity: .3; transform: none; } 50% { opacity: 1; transform: translateY(-3px); } }
 }
+
+/* ---------- games in play: full screen ---------- */
+.float-back {
+  position: fixed; z-index: 20;
+  top: calc(env(safe-area-inset-top) + 12px); left: calc(env(safe-area-inset-left) + 16px);
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 1px solid var(--line); border-radius: 50%;
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow); cursor: pointer;
+}
+.float-back svg { width: 24px; height: 24px; margin-left: -2px; }
+.float-back:active { transform: scale(0.94); }
+/* room for the back button above the game */
+.app.immersive main { padding-top: calc(env(safe-area-inset-top) + 64px); }
+.app.immersive .blitz-clock { top: 0; }
+/* Incident Commander: the gauges sit beside the back button, the chat runs to the bottom */
+.app.immersive-incident main { padding-top: 0; }
+.app.immersive-incident .incident .ic-gauges {
+  top: 0;
+  padding-top: calc(env(safe-area-inset-top) + 12px);
+  padding-left: calc(env(safe-area-inset-left) + var(--pad) + 56px);
+}
+.app.immersive-incident .ic-feed { padding-bottom: calc(env(safe-area-inset-bottom) + 24px); }
+.ic-confirm { margin-top: 12px; }
+/* Spot the Phish: the two answer buttons float, with no bar behind them */
+.actionbar.floating { background: none; border-top: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.actionbar.floating .btn { box-shadow: var(--shadow); }
+/* Acronym Blitz: the clock bar runs along the very top, the score row sits beside the back button */
+.app.immersive-blitz main { padding-top: 0; }
+.app.immersive-blitz .blitz-meta { padding: calc(env(safe-area-inset-top) + 20px) 0 0 56px; min-height: 64px; }

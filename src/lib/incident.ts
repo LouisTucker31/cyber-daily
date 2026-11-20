@@ -16,7 +16,7 @@ export type Gauges = Record<Gauge, number>;
 export type Effects = Partial<Gauges>;
 export type Quality = 'good' | 'ok' | 'poor';
 
-export interface Msg { from: string; text: string; if?: string[] }
+export interface Msg { from: string; text: string | string[]; if?: string[] }   // a list = one is picked at random
 export interface Option {
   id: string;
   text: string;
@@ -51,6 +51,7 @@ export interface Scenario {
   blurb: string;
   soon?: boolean;
   facts?: { sys: string[]; backupsClean: number; stolen: number };
+  vars?: Record<string, string[]>;   // small details rolled each play, e.g. {ransom}, {deadline}
   start?: Gauges;
   beats?: Beat[];
 }
@@ -69,6 +70,7 @@ export interface Run {
   scenario: Scenario;
   org: string;
   sys: string;
+  vars: Record<string, string>;
   flags: string[];   // starts with the rolled facts (backupsClean, stolen)
 }
 
@@ -79,17 +81,20 @@ export function newRun(bank: IncidentBank, scenario: Scenario): Run {
   const flags: string[] = [];
   if (f && Math.random() < f.backupsClean) flags.push('backupsClean');
   if (f && Math.random() < f.stolen) flags.push('stolen');
-  return { scenario, org: pick(bank.orgs), sys: f ? pick(f.sys) : 'the network', flags };
+  const vars: Record<string, string> = {};
+  Object.entries(scenario.vars ?? {}).forEach(([k, list]) => { vars[k] = pick(list); });
+  return { scenario, org: pick(bank.orgs), sys: f ? pick(f.sys) : 'the network', vars, flags };
 }
 
 /* Conditions: every flag must be set ("x") or not set ("!x") */
 export const holds = (conds: string[] | undefined, flags: string[]) =>
   (conds ?? []).every((c) => (c.startsWith('!') ? !flags.includes(c.slice(1)) : flags.includes(c)));
 
-export const fill = (text: string, run: Run) => text
+export const fill = (text: string | string[], run: Run) => (Array.isArray(text) ? pick(text) : text)
   .replace(/\{org\}/g, run.org)
   .replace(/\{sys\}/g, run.sys)
-  .replace(/\{Sys\}/g, run.sys[0].toUpperCase() + run.sys.slice(1));
+  .replace(/\{Sys\}/g, run.sys[0].toUpperCase() + run.sys.slice(1))
+  .replace(/\{([a-z]+)\}/g, (m, k: string) => run.vars[k] ?? m);
 
 /* An option's effects, note and quality, after any variant that fits the facts */
 export function resolveOption(o: Option, flags: string[]): { effects: Effects; note: string; quality: Quality } {

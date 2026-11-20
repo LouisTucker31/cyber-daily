@@ -24,16 +24,21 @@ interface Props {
 }
 
 /* A grid of tiles: the first row shows, the rest fold away behind "Show all" */
-function FoldGrid({ count, open, onToggle, children }:
-  { count: number; open: boolean; onToggle: () => void; children: ReactNode }) {
+/* A section whose title row has the count and a small arrow that shows or hides the rest */
+function FoldGrid({ title, summary, count, open, onToggle, children }:
+  { title: string; summary: string; count: number; open: boolean; onToggle: () => void; children: ReactNode }) {
   return (
     <>
-      <div className={'badges' + (open ? ' all' : '')}>{children}</div>
-      {count > FIRST_ROW && (
-        <button type="button" className="more" onClick={onToggle} aria-expanded={open}>
-          {open ? 'Show less' : `Show all ${count}`}<Chevron open={open} />
-        </button>
-      )}
+      <h2 className="p-title">
+        <span>{title}</span>
+        {count > FIRST_ROW ? (
+          <button type="button" className="p-fold" onClick={() => { haptic(); onToggle(); }} aria-expanded={open}
+            aria-label={`${summary}. ${open ? 'Show fewer' : `Show all ${count}`}`}>
+            <span className="p-count">{summary}</span><Chevron open={open} />
+          </button>
+        ) : <span className="p-count">{summary}</span>}
+      </h2>
+      <div className="badges">{children}</div>
     </>
   );
 }
@@ -77,6 +82,13 @@ export default function Profile({ state, bank, practiceBank, acronyms, streak, o
     (y.r.score ?? -1) - (x.r.score ?? -1) || y.r.n - x.r.n || x.i - y.i).map((x) => x.r);
   // strongest and weakest (only once there's enough to compare)
   const scored = skills.filter((r) => r.score !== null);
+  /* the next milestone across all skills: every one scored, then silver, gold, platinum */
+  const MILESTONES: [string, (s: number | null) => boolean][] = [
+    ['scored', (s) => s !== null], ['silver or better', (s) => (s ?? 0) >= 50],
+    ['gold or better', (s) => (s ?? 0) >= 75], ['platinum', (s) => (s ?? 0) >= 90]
+  ];
+  const goal = MILESTONES.find(([, ok]) => rows.filter((r) => ok(r.score)).length < rows.length) ?? MILESTONES[3];
+  const skillGoal = `${rows.filter((r) => goal[1](r.score)).length} of ${rows.length} ${goal[0]}`;
   const top = scored.length >= 3 ? scored[0].name : null;
   const focus = scored.length >= 3 ? scored[scored.length - 1].name : null;
   const selected = rows.find((r) => r.name === skill) ?? null;
@@ -176,8 +188,7 @@ export default function Profile({ state, bank, practiceBank, acronyms, streak, o
 
       {/* skills: one medal per category, coloured by score; tap for details */}
       <section className="p-section">
-        <h2 className="p-title">Skills <span className="p-count">{scored.length} of {rows.length} scored</span></h2>
-        <FoldGrid count={skills.length} open={showAllSkills} onToggle={() => setShowAllSkills((v) => !v)}>
+        <FoldGrid title="Skills" summary={skillGoal} count={skills.length} open={showAllSkills} onToggle={() => setShowAllSkills((v) => !v)}>
           {skills.map((r, i) => {
             const t = skillTier(r.score);
             return (
@@ -200,8 +211,8 @@ export default function Profile({ state, bank, practiceBank, acronyms, streak, o
 
       {/* badges: first row, the rest folded away */}
       <section className="p-section">
-        <h2 className="p-title">Badges <span className="p-count">{earnedCount} of {BADGES.length}</span></h2>
-        <FoldGrid count={badges.length} open={showAllBadges} onToggle={() => setShowAllBadges((v) => !v)}>
+        <FoldGrid title="Badges" summary={`${earnedCount} of ${BADGES.length}`} count={badges.length} open={showAllBadges}
+          onToggle={() => setShowAllBadges((v) => !v)}>
           {badges.map(({ b, earnedAt }, i) => (
             <button
               key={b.id}

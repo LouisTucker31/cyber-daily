@@ -23,23 +23,34 @@
         "stolen": 0.6
       },
       "start": { "c": 50, "o": 70, "t": 60, "k": 60 },
+      "vars": {
+        "ransom": ["£250,000", "£400,000", "£650,000", "£1.2 million"],
+        "deadline": ["24 hours", "48 hours", "72 hours"],
+        "ext": [".lckd", ".crypt", ".vault", ".x9k"],
+        "count": ["three", "four"],
+        "team": ["finance", "sales", "HR"]
+      },
       "beats": [
         {
           "id": "detect",
           "clock": "Monday 08:47",
           "category": "Security Monitoring and Incident Response",
           "messages": [
-            { "from": "soc", "text": "Morning. Antivirus on three finance laptops has flagged files being renamed to .lckd in the last ten minutes. One of them is still doing it." }
+            { "from": "soc", "text": [
+              "Morning. Antivirus on {count} {team} laptops has flagged files being renamed to {ext} in the last ten minutes. One of them is still doing it.",
+              "Heads up: {count} laptops in {team} are renaming their files to {ext}. Antivirus caught it about ten minutes ago and one is still going.",
+              "We’ve got a problem. Files on {count} {team} laptops are turning into {ext} files, and it’s still happening on one of them."
+            ] }
           ],
           "ask": "What’s your first move?",
           "timer": 30,
           "timeout": "watch",
           "options": [
-            { "id": "isolate", "text": "Isolate those three laptops from the network", "effects": { "c": 15, "o": -3 }, "set": ["isolated"], "quality": "good",
+            { "id": "isolate", "text": "Isolate those {count} laptops from the network", "effects": { "c": 15, "o": -3 }, "set": ["isolated"], "quality": "good",
               "note": "Fast, targeted containment of the machines you know about.",
               "reply": [{ "from": "soc", "text": "Done, they’re cut off. Checking everything else now." }] },
             { "id": "shutdown", "text": "Shut down the whole network now", "effects": { "c": 20, "o": -25, "t": -5 }, "set": ["shutdown"], "quality": "ok",
-              "note": "It stops the spread, but it stops the whole business too. Heavy-handed for three laptops.",
+              "note": "It stops the spread, but it stops the whole business too. Heavy-handed for a few laptops.",
               "reply": [{ "from": "it", "text": "Everything’s down. The phones are ringing off the hook." }] },
             { "id": "email", "text": "Email all staff telling them to switch off their computers", "effects": { "c": 5, "o": -10, "t": -5 }, "quality": "ok",
               "note": "Slow and patchy, and email might not be trustworthy during an attack. Isolate the known machines first.",
@@ -54,7 +65,11 @@
           "clock": "Monday 09:05",
           "category": "Malware and Attacks",
           "messages": [
-            { "from": "it", "text": "Bad news: it’s on {sys} too. I’ve got two people free right now." }
+            { "from": "it", "text": [
+              "Bad news: it’s on {sys} too. I’ve got two people free right now.",
+              "It’s spread to {sys}. I can spare two people, no more.",
+              "{Sys} is showing the same file names. Two of my team are free."
+            ] }
           ],
           "ask": "Pick two jobs for them.",
           "pick": 2,
@@ -74,7 +89,11 @@
           "clock": "Monday 09:40",
           "category": "Resilience and Security Management",
           "messages": [
-            { "from": "ceo", "text": "There’s a note on the screens demanding £400,000 in bitcoin within 48 hours. Can we just pay and make this go away?" },
+            { "from": "ceo", "text": [
+              "There’s a note on the screens demanding {ransom} in bitcoin within {deadline}. Can we just pay and make this go away?",
+              "They want {ransom} in bitcoin, deadline {deadline}. Honestly, is paying the quickest way out?",
+              "A ransom note says {ransom} within {deadline} or they publish everything. Should we just pay it?"
+            ] },
             { "from": "cfo", "text": "We do have cyber insurance. I’m finding the policy now." }
           ],
           "ask": "What do you advise Dana?",
@@ -100,7 +119,11 @@
           "clock": "Monday 11:15",
           "category": "Resilience and Security Management",
           "messages": [
-            { "from": "comms", "text": "Staff are asking on WhatsApp what’s going on, and a customer has posted that our website’s down." }
+            { "from": "comms", "text": [
+              "Staff are asking on WhatsApp what’s going on, and a customer has posted that our website’s down.",
+              "People are starting to talk. Two customers have posted that they can’t reach us.",
+              "The switchboard is getting calls about the outage, and staff are asking me what to say."
+            ] }
           ],
           "ask": "What do we tell people?",
           "timer": 40,
@@ -229,7 +252,11 @@
           "clock": "Tuesday 15:00",
           "category": "Resilience and Security Management",
           "messages": [
-            { "from": "press", "text": "I’m writing about the outage at {org}. Was customer data stolen? My deadline is 5pm." }
+            { "from": "press", "text": [
+              "I’m writing about the outage at {org}. Was customer data stolen? My deadline is 5pm.",
+              "Hi, Northern Post here. We’ve heard {org} has been hit by ransomware. Can you confirm whether customer data was taken? We go to print at 5.",
+              "A source tells me {org} is about to pay the hackers. Was customer data stolen? I need a response by 5pm."
+            ] }
           ],
           "ask": "How do you respond?",
           "timer": 40,
