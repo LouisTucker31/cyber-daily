@@ -31,12 +31,17 @@ export default function LevelUp({ level, progress, onDone }: Props) {
   const rank = RANKS[level - 1] ?? RANKS[RANKS.length - 1];
   const next = RANKS[level] ?? null;
 
+  // the parent re-renders every second (the countdown), handing over a new onDone each time;
+  // keep the latest in a ref so the timeline below runs once and isn't restarted
+  const done = useRef(onDone);
+  useEffect(() => { done.current = onDone; }, [onDone]);
+
   const leave = useCallback(() => {
     if (left.current) return;
     left.current = true;
     setLeaving(true);
-    window.setTimeout(onDone, still ? 0 : FADE_MS);
-  }, [onDone, still]);
+    window.setTimeout(() => done.current(), still ? 0 : FADE_MS);
+  }, [still]);
 
   useEffect(() => {
     const centre = () => {
