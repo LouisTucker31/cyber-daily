@@ -1160,7 +1160,8 @@ div.tile-locked { cursor: default; }
 .avatar.sq { border-radius: 10px; }
 .addr { color: var(--ink); overflow-wrap: anywhere; }
 .msg-link { color: var(--freeze); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; overflow-wrap: anywhere; }
-.link-real { display: block; margin-top: 2px; font-size: var(--t-small); color: var(--muted); overflow-wrap: anywhere; }
+.link-real { font-size: var(--t-small); color: var(--muted); overflow-wrap: anywhere; }
+.link-real::before { content: " → "; }
 
 .mock { color: var(--ink); }
 .mock svg { width: 20px; height: 20px; flex: none; }
