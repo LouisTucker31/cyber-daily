@@ -1,4 +1,5 @@
 /* Level ring and medals (badges and skills), drawn in SVG so they stay crisp and themeable. */
+import { useId } from 'react';
 
 /* Progress ring with a number in the middle. Fills with an animation when it appears,
    unless animate is false. */
@@ -72,7 +73,7 @@ const HEX_IN = 'M24 8.2l13.7 7.9v15.8L24 39.8l-13.7-7.9V16.1z';
 export function Medal({ glyph, earned, hidden, tier = 'bronze', size = 56 }:
   { glyph: string; earned: boolean; hidden?: boolean; tier?: Tier; size?: number }) {
   const t = TIERS[tier];
-  const id = `m-${tier}`;
+  const id = `m-${tier}-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`; // unique per medal: a shared id breaks when its first copy is hidden
   if (!earned) {
     return (
       <svg viewBox="0 0 48 48" width={size} height={size} className="medal locked" aria-hidden="true">
