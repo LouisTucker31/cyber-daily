@@ -1114,6 +1114,8 @@ div.tile-locked { cursor: default; }
 .ph-dir-chip svg { width: 18px; height: 18px; }
 .ph-context { margin: 18px 0 10px; font-size: var(--t-small); color: var(--muted); line-height: 1.4; }
 .ph-hint { margin: 12px 0 0; text-align: center; font-size: var(--t-small); color: var(--muted); }
+/* cards with no context line still get a gap below the counter / verdict */
+.ph-swipe > .ph-card:first-child, .ph-verdict + .ph-card { margin-top: 18px; }
 
 /* the card you swipe */
 .ph-swipe {
