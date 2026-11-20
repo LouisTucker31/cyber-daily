@@ -801,7 +801,7 @@ div.tile-locked { cursor: default; }
 }
 .blitz-score b { color: var(--ink); font-weight: 750; font-size: var(--t-lead); margin-left: 4px; display: inline-block; }
 .blitz-time { position: relative; justify-self: end; color: var(--ink); font-weight: 700; font-size: var(--t-lead); }
-.blitz.final .blitz-time { color: var(--orange); }
+.blitz.final .blitz-time { color: var(--signal); }
 .blitz-penalty {
   position: absolute; right: 0; top: 100%;
   color: var(--bad); font-size: var(--t-small); font-weight: 700;
@@ -812,7 +812,7 @@ div.tile-locked { cursor: default; }
 .combo { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; }
 .combo i { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
 .combo i.on { background: var(--ink); }
-.combo.on { gap: 6px; color: var(--orange); font-weight: 700; }
+.combo.on { gap: 6px; color: var(--signal); font-weight: 700; } /* text orange: brighter in dark mode */
 .combo.on b { font-weight: 800; }
 
 .blitz-card { padding-top: 24px; }
