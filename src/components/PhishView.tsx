@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState, type PointerEvent, type ReactNode } from 'react';
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import {
   hostOf, POINTS, TIERS, verdictFor,
@@ -106,13 +106,15 @@ interface MsgProps {
   onPressLink?: (url: string, el: HTMLElement) => void;
   onReleaseLink?: () => void;
   onTapLink?: () => void;
+  cardStyle?: CSSProperties;             // the swipe transform (only the card moves, not the context line)
+  overlay?: ReactNode;                   // the Phish / Legit stamps
 }
 
 function Pin({ n, kind }: { n: number; kind: string }) {
   return <i className={'pin ' + kind} aria-label={`sign ${n}`}>{n}</i>;
 }
 
-function Message({ card, review, open, onToggle, onPressLink, onReleaseLink, onTapLink }: MsgProps) {
+function Message({ card, review, open, onToggle, onPressLink, onReleaseLink, onTapLink, cardStyle, overlay }: MsgProps) {
   const kind = card.phish ? 'flag' : 'ok';
   const pts = card.points.map((p, i) => ({ ...p, n: i + 1 }));
   const quotes = review ? pts.filter((p) => p.quote).map((p) => ({ q: p.quote!, n: p.n })) : [];
@@ -323,7 +325,7 @@ function Message({ card, review, open, onToggle, onPressLink, onReleaseLink, onT
   return (
     <>
       {card.context && <p className="ph-context">{hl(card.context)}</p>}
-      <div className={'ph-card' + (review ? ' review' : '')}>{inner}</div>
+      <div className={'ph-card' + (review ? ' review' : '')} style={cardStyle}>{overlay}{inner}</div>
     </>
   );
 }
@@ -509,15 +511,12 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
         ) : (
           <div
             className={'ph-swipe' + (dragging ? ' dragging' : '') + (lean ? ' lean-' + lean : '')}
-            style={dx ? { transform: `translateX(${dx}px) rotate(${dx / 22}deg)` } : undefined}
             onPointerDown={onDown}
             onPointerMove={onMove}
             onPointerUp={onUp}
             onPointerCancel={() => { drag.current = null; setDragging(false); setDx(0); releaseLink(); }}
             onClickCapture={(e) => { if (swallowClick.current) { swallowClick.current = false; e.stopPropagation(); e.preventDefault(); } }}
           >
-            <span className="stamp stamp-phish" style={{ opacity: dx < 0 ? strength : 0 }} aria-hidden="true">Phish</span>
-            <span className="stamp stamp-legit" style={{ opacity: dx > 0 ? strength : 0 }} aria-hidden="true">Legit</span>
             <Message
               card={card}
               review={false}
@@ -526,6 +525,11 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
               onPressLink={pressLink}
               onReleaseLink={releaseLink}
               onTapLink={tapLink}
+              cardStyle={dx ? { transform: `translateX(${dx}px) rotate(${dx / 22}deg)` } : undefined}
+              overlay={<>
+                <span className="stamp stamp-phish" style={{ opacity: dx < 0 ? strength : 0 }} aria-hidden="true">Phish</span>
+                <span className="stamp stamp-legit" style={{ opacity: dx > 0 ? strength : 0 }} aria-hidden="true">Legit</span>
+              </>}
             />
           </div>
         )}
@@ -640,7 +644,8 @@ export function DirectorySheet({ directory, onClose }: { directory: DirectoryEnt
               <p className="dir-name"><b>{d.org}</b><span>{d.note}</span></p>
               <dl className="dir-rows">
                 {d.rows.map(([k, val]) => (
-                  <div key={k}><dt>{k}</dt><dd>{val}</dd></div>
+                  // long domains wrap after a dot, never mid-word
+                  <div key={k}><dt>{k}</dt><dd>{val.split('.').map((part, i) => <Fragment key={i}>{i > 0 && <>.<wbr /></>}{part}</Fragment>)}</dd></div>
                 ))}
               </dl>
               {d.rules.length > 0 && <ul className="dir-rules">{d.rules.map((r) => <li key={r}>{r}</li>)}</ul>}
