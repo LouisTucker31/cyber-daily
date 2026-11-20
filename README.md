@@ -179,7 +179,7 @@ A tabletop exercise on the phone: you lead the response to a cyber incident. The
 - **Four gauges, pinned at the top:** Containment, Operations, Trust and Compliance, from 0 to 100. Every choice moves them, with the change shown briefly beside each name.
 - **Knock-on effects:** choices set flags that come back later. Wipe machines before taking evidence and the day-2 investigation can't find the way in. Wait on the ICO and the 72-hour deadline catches you on Friday. One alert is a red herring, where checking first is better than locking things down.
 - **Different every time:** each play picks a fictional employer and rolls three facts: which system was hit, whether the backups are clean, and whether customer data was stolen. These change the messages, options and consequences.
-- **Debrief:** a grade from A to E (from the average of the gauges), the final gauges, what happened this time, "What went well", "What to improve", and a timeline of every call with its note and gauge changes.
+- **Debrief:** a grade from A to E (from the average of the gauges, capped by the weakest one: any gauge under 60 caps it at B, under 40 at C), the final gauges, what happened this time, "What went well", "What to improve", and a timeline of every call with its note and gauge changes.
 - **Progress:** every decision is logged as mode `incident` under its category, so it feeds the Profile skills. XP depends on the grade (A 60, B 45, C 32, D 22, E 12) and tapers like the other games.
 - **Badges:** First Responder (first incident), Calm Under Fire (an A grade), By the Book (reporting stolen personal data to the ICO in time).
 

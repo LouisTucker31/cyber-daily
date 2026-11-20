@@ -126,9 +126,14 @@ export function applyEffects(g: Gauges, e: Effects): { gauges: Gauges; deltas: E
 
 export const average = (g: Gauges) => Math.round((g.c + g.o + g.t + g.k) / 4);
 
+/* The grade comes from the average gauge, but a weak gauge caps it: you can't ace an incident
+   while one area falls apart (any gauge under 60 caps it at B, under 40 at C). */
 export function gradeFor(g: Gauges): string {
   const a = average(g);
-  return a >= 82 ? 'A' : a >= 70 ? 'B' : a >= 58 ? 'C' : a >= 45 ? 'D' : 'E';
+  const byAverage = a >= 82 ? 'A' : a >= 70 ? 'B' : a >= 58 ? 'C' : a >= 45 ? 'D' : 'E';
+  const low = Math.min(g.c, g.o, g.t, g.k);
+  const cap = low < 40 ? 'C' : low < 60 ? 'B' : 'A';
+  return byAverage > cap ? byAverage : cap; // the worse of the two ('E' sorts after 'A')
 }
 
 /* ---------- the debrief record ---------- */
