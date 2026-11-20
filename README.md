@@ -1,43 +1,37 @@
 # Cyber Daily 10
 
 A daily cybersecurity quiz PWA: 10 multiple-choice questions a day.
-Built with React, TypeScript and Vite. Every source file lives in the repo root.
+Built with React 19, TypeScript and Vite.
 
-## Files
-| File | What it is |
+## Project structure
+| Path | What it is |
 | --- | --- |
 | `index.html` | Page shell |
-| `main.tsx` | Starts the app, zoom lock, service worker registration and auto-update |
-| `App.tsx` | Loads questions, holds state, switches between Home, Today's 10 and Practice |
-| `Home.tsx` | Home screen tile grid: Today's 10 (locks with a countdown once done) and Practice |
-| `Tile.tsx` | A single home-screen tile |
-| `useCountdown.ts` | Countdown to the next daily set |
-| `useEdgeSwipe.ts` | Swipe from the left edge to go back Home |
-| `haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
-| `QuestionView.tsx` | Question, answers, hint and result |
-| `DoneView.tsx` | End-of-set summary for both modes |
-| `Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
-| `quiz.ts` | Quiz logic: daily draw, Smart Practice, streak, storage |
-| `progress.ts` | XP, levels, badges, streak freezes, category scores, recommendations |
-| `Profile.tsx` | Profile screen |
-| `Badge.tsx` | Level ring and badge medals |
-| `Celebration.tsx` | Pop-up sheet for level-ups, badges and streak freezes |
-| `styles.css` | All styling, including the dark theme (follows the phone's light/dark setting) |
-| `questions.json` | The question bank |
-| `sw.js` | Service worker (offline + updates) |
-| `manifest.json`, icons, `figtree.woff2` | PWA manifest, icons and font |
+| `src/main.tsx` | Starts the app, zoom lock, service worker registration and auto-update |
+| `src/App.tsx` | Loads questions, holds state, switches between Home, Today's 10 and Practice |
+| `src/styles.css` | All styling, including the dark theme (follows the phone's light/dark setting) |
+| `src/sw.js` | Service worker template (offline + updates), version-stamped at build time |
+| `src/assets/fonts/` | Figtree font |
+| `src/components/Home.tsx` | Home screen tile grid: Today's 10 (locks with a countdown once done) and Practice |
+| `src/components/Tile.tsx` | A single home-screen tile |
+| `src/components/QuestionView.tsx` | Question, answers, hint and result |
+| `src/components/DoneView.tsx` | End-of-set summary for both modes |
+| `src/components/Profile.tsx` | Profile screen |
+| `src/components/Badge.tsx` | Level ring and badge medals |
+| `src/components/Celebration.tsx` | Pop-up sheet for level-ups, badges and streak freezes |
+| `src/components/Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
+| `src/hooks/useCountdown.ts` | Countdown to the next daily set |
+| `src/hooks/useEdgeSwipe.ts` | Swipe from the left edge to go back Home |
+| `src/lib/quiz.ts` | Quiz logic: daily draw, Smart Practice, streak, storage |
+| `src/lib/progress.ts` | XP, levels, badges, streak freezes, category scores, recommendations |
+| `src/lib/haptics.ts` | Light haptic taps (iPhone iOS 18+ and Android) |
+| `public/questions.json` | The question bank |
+| `public/manifest.json`, icons, `figtree-OFL.txt` | PWA manifest, icons and font licence (copied into the build with their exact names) |
+| `.github/workflows/deploy.yml` | GitHub Actions workflow (see below) |
 | `vite.config.ts`, `tsconfig.json`, `package.json`, `package-lock.json` | Build setup |
-| `deploy.yml` | GitHub Actions workflow (see below) |
 
 ## Publishing on GitHub Pages
-A Vite app has to be built before it can be served, so GitHub builds it for you on every push.
-
-1. Upload every file to the root of the repo.
-2. **Add file → Create new file**, type the name `.github/workflows/deploy.yml` (the slashes create the folders), paste in the contents of `deploy.yml`, and commit.
-3. **Settings → Pages → Source: GitHub Actions**.
-4. Check the **Actions** tab: when the run goes green, the app is live at your Pages URL.
-
-From then on, every commit rebuilds and redeploys automatically.
+A Vite app has to be built before it can be served, so GitHub builds it for you. Every push to `main` runs `.github/workflows/deploy.yml`, which builds the app and publishes `dist/` to GitHub Pages (**Settings → Pages → Source: GitHub Actions**). Check the **Actions** tab: when the run goes green, the app is live at your Pages URL.
 
 ## Updates on your phone
 Each build stamps `sw.js` with a new cache version, so old copies are cleared automatically. The app also checks for an update every time it opens or comes back to the foreground, and reloads once to apply it.
@@ -54,7 +48,7 @@ Each build stamps `sw.js` with a new cache version, so old copies are cleared au
 Progress is stored on the device (localStorage, same key as the original version, so existing progress carries over).
 
 ## Adding a home-screen tile
-In `Home.tsx`, add an entry to the `tiles` list. Each tile has a `title`, `icon`, one-line `meta`, optional `foot`, a `tone` (`feature` orange, `feature-done` soft orange, `plain` white, `locked` grey) and an `onOpen` action. Tiles flow into the two-column grid automatically; set `wide: true` to span both columns.
+In `src/components/Home.tsx`, add an entry to the `tiles` list. Each tile has a `title`, `icon`, one-line `meta`, optional `foot`, a `tone` (`feature` orange, `feature-done` soft orange, `plain` white, `locked` grey) and an `onOpen` action. Tiles flow into the two-column grid automatically; set `wide: true` to span both columns.
 
 ## Smart Practice
 Uses every question you've ever answered correctly (this list never resets). Each one sits in one of five boxes:
@@ -80,7 +74,7 @@ Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
 - XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due).
-- Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see them all; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `progress.ts`.
+- Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see them all; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
 
 **Category scores**
 - Each category gets a score from 0 to 100, based on your last 30 answers with recent ones weighted more.
@@ -92,10 +86,10 @@ Tap the level ring (top right of Home) or the Profile tile.
 
 **Badges**
 - There are 18 badges. Three are hidden until earned.
-- To add one, add an entry to `BADGES` in `progress.ts`.
+- To add one, add an entry to `BADGES` in `src/lib/progress.ts`.
 
 ## Adding questions
-Add entries to `questions.json` with a new unique `id`:
+Add entries to `public/questions.json` with a new unique `id`:
 
 ```json
 {
@@ -119,4 +113,4 @@ npm run build    # type-check and build to dist/
 ```
 
 ## Font
-Figtree (SIL Open Font License, see `figtree-OFL.txt`).
+Figtree (SIL Open Font License, see `public/figtree-OFL.txt`).
