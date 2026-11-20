@@ -8,13 +8,16 @@ import Header from './Header.tsx';
 import Home from './Home.tsx';
 import QuestionView from './QuestionView.tsx';
 import DoneView from './DoneView.tsx';
+import Profile from './Profile.tsx';
+import Celebration from './Celebration.tsx';
+import { evaluateProgress, levelInfo } from './progress.ts';
 import useCountdown from './useCountdown.ts';
 import useEdgeSwipe from './useEdgeSwipe.ts';
 import { haptic } from './haptics.ts';
 import { ArrowIcon, ClockIcon } from './icons.tsx';
 
 type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bank: Question[] };
-type View = 'home' | 'daily' | 'practice';
+type View = 'home' | 'daily' | 'practice' | 'profile';
 type Motion = 'forward' | 'back' | 'none';
 
 export default function App() {
@@ -27,6 +30,7 @@ export default function App() {
   const [round, setRound] = useState(0); // bumps on each new screen so the slide animation replays
 
   const bank = load.status === 'ready' ? load.bank : null;
+  const bankRef = useRef<Question[]>([]);
   const byId = useMemo(() => new Map((bank ?? []).map((q) => [q.id, q])), [bank]);
 
   /* Every change: copy, apply, save straight away, then re-render.
@@ -42,6 +46,7 @@ export default function App() {
     if (!prev) return;
     const next = structuredClone(prev);
     fn(next);
+    evaluateProgress(next, bankRef.current); // XP level-ups, badges
     commit(next);
   }, [commit]);
 
@@ -53,6 +58,9 @@ export default function App() {
         const b = parseBank(data);
         const s = loadState();
         ensureToday(s, b);
+        bankRef.current = b;
+        // first run with levels: count past progress quietly, then show one welcome sheet
+        evaluateProgress(s, b, s.celebrations.some((c) => c.kind === 'welcome'));
         commit(s);
         setLoad({ status: 'ready', bank: b });
       })
@@ -149,6 +157,8 @@ export default function App() {
         learned={learnedIds(state, bank!).length}
         due={dueIds(state, bank!).length}
         onDaily={() => { haptic(); open('daily'); }}
+        onProfile={() => { haptic(); open('profile'); }}
+        level={levelInfo(state.xp)}
         onPractice={startPractice}
       />
     );
@@ -188,6 +198,17 @@ export default function App() {
         );
       }
     }
+  } else if (view === 'profile') {
+    nav = { label: 'Profile', onHome: () => goHome() };
+    body = (
+      <Profile
+        state={state}
+        bank={bank!}
+        streak={shownStreak(state)}
+        onDaily={() => open('daily')}
+        onPractice={startPractice}
+      />
+    );
   } else if (view === 'practice' && practice) {
     nav = { label: 'Practice', onHome: () => goHome() };
     if (practice.index >= practice.items.length) {
@@ -255,7 +276,14 @@ export default function App() {
   return (
     <>
       <div className={'app' + (barButton ? ' has-bar' : '')}>
-        <Header streak={state ? shownStreak(state) : 0} nav={nav} />
+        <Header
+          streak={state ? shownStreak(state) : 0}
+          freezes={state?.freezes ?? 0}
+          level={levelInfo(state?.xp ?? 0).level}
+          levelProgress={levelInfo(state?.xp ?? 0).progress}
+          onProfile={view === 'home' && state ? () => { haptic(); open('profile'); } : undefined}
+          nav={nav}
+        />
         <main key={view + round} className={'screen screen-' + motion}>{body}</main>
       </div>
 
@@ -266,6 +294,21 @@ export default function App() {
           <span>Next set</span>
           <strong>{countdown}</strong>
         </div>
+      )}
+
+      {/* Level-ups, badges and streak news: only on calm screens, never mid-question */}
+      {state && state.celebrations.length > 0 && (
+        view === 'home' || view === 'profile' ||
+        (view === 'daily' && dayDone) ||
+        (view === 'practice' && practice && practice.index >= practice.items.length)
+      ) && (
+        <Celebration
+          key={state.celebrations.length + (state.celebrations[0].id ?? state.celebrations[0].kind)}
+          item={state.celebrations[0]}
+          state={state}
+          onDone={() => update((s) => { s.celebrations.shift(); })}
+          onProfile={() => open('profile')}
+        />
       )}
 
       {barButton && (

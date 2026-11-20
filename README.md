@@ -17,7 +17,11 @@ Built with React, TypeScript and Vite. Every source file lives in the repo root.
 | `QuestionView.tsx` | Question, answers, hint and result |
 | `DoneView.tsx` | End-of-set summary for both modes |
 | `Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
-| `quiz.ts` | All quiz logic: daily draw, progress, streak, storage |
+| `quiz.ts` | Quiz logic: daily draw, Smart Practice, streak, storage |
+| `progress.ts` | XP, levels, badges, streak freezes, category scores, recommendations |
+| `Profile.tsx` | Profile screen |
+| `Badge.tsx` | Level ring and badge medals |
+| `Celebration.tsx` | Pop-up sheet for level-ups, badges and streak freezes |
 | `styles.css` | All styling, including the dark theme (follows the phone's light/dark setting) |
 | `questions.json` | The question bank |
 | `sw.js` | Service worker (offline + updates) |
@@ -70,6 +74,25 @@ Uses every question you've ever answered correctly (this list never resets). Eac
 - Practice never changes daily progress or the streak.
 
 Every answer in every mode is logged with its category (`log` in saved state), ready for the Profile.
+
+## Profile, levels and badges
+Tap the level ring (top right of Home) or the Profile tile.
+
+**XP and ranks**
+- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due).
+- Ranks run from Trainee (level 1) to CISO (level 10). The XP needed for each is set in `RANKS` in `progress.ts`.
+
+**Category scores**
+- Each category gets a score from 0 to 100, based on your last 30 answers with recent ones weighted more.
+- A score appears after 5 answers. Trend arrows compare with 2 weeks ago.
+
+**Streak freezes**
+- You earn one for every 7 days in a row, up to 2.
+- A missed day uses one automatically.
+
+**Badges**
+- There are 18 badges. Three are hidden until earned.
+- To add one, add an entry to `BADGES` in `progress.ts`.
 
 ## Adding questions
 Add entries to `questions.json` with a new unique `id`:

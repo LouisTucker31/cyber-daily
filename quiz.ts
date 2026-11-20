@@ -1,5 +1,7 @@
 /* Quiz logic: daily draw, progress and streak. No React in here. */
 
+import { applyFreezes, levelFor, onDayComplete, XP } from './progress.ts';
+
 export const DAILY_COUNT = 10;
 export const STORE_KEY = 'cyberDaily10.state.v1'; // same key as the original app, so progress carries over
 export const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -35,12 +37,41 @@ export interface State {
   mastered: string[];               // ids answered correctly this cycle
   lastSeen: Record<string, string>; // id -> date key last shown
   prevSet: string[];                // ids shown on the previous day
-  streak: { count: number; last: string | null };
+  streak: { count: number; last: string | null; best?: number };
   day: Day | null;
   learned: string[];                    // every id ever answered correctly (feeds Practice; never resets)
   practiceSeen: Record<string, string>; // (legacy, no longer used)
   srs: Record<string, SrsEntry>;        // spaced-repetition box + next due date per learned question
   log: LogEntry[];                      // every answer, tagged by category (feeds the Profile)
+  xp: number;
+  levelSeen: number;                    // highest level already celebrated
+  badges: Record<string, string>;       // badge id -> date earned
+  freezes: number;                      // streak freezes held (max 2)
+  stats: Stats;
+  celebrations: Celebration[];          // level-ups, badges etc. waiting to be shown
+}
+
+export interface Stats {
+  daysCompleted: number;
+  cleanSweeps: number;
+  cleanNoHints: number;
+  secondChance: number;
+  reviewsCleared: number;
+  lastCleared?: string;
+  freezesUsed: number;
+  earlyBird: number;
+  nightOwl: number;
+}
+
+export interface Celebration {
+  kind: 'level' | 'badge' | 'freeze-earned' | 'freeze-used' | 'welcome';
+  id?: string;
+  n?: number;
+}
+
+function freshStats(): Stats {
+  return { daysCompleted: 0, cleanSweeps: 0, cleanNoHints: 0, secondChance: 0, reviewsCleared: 0,
+    freezesUsed: 0, earlyBird: 0, nightOwl: 0 };
 }
 
 /* Spaced repetition: 5 boxes. A right answer moves a question up a box, a wrong one sends it
@@ -124,7 +155,13 @@ export function freshState(): State {
     learned: [],
     practiceSeen: {},
     srs: {},
-    log: []
+    log: [],
+    xp: 0,
+    levelSeen: 1,
+    badges: {},
+    freezes: 0,
+    stats: freshStats(),
+    celebrations: []
   };
 }
 
@@ -140,6 +177,23 @@ export function loadState(): State {
     // questions learned before Smart Practice existed start in box 1, due now
     const today = dateKey();
     s.learned.forEach((id) => { if (!s.srs[id]) s.srs[id] = { box: 1, due: today }; });
+
+    // first run with levels & badges: give credit for what's already been done
+    if ((JSON.parse(raw) as Partial<State>).xp === undefined) {
+      const done = !!s.day?.completed;
+      s.stats = freshStats();
+      s.stats.daysCompleted = Math.max(s.streak.count, done ? 1 : 0);
+      if (done && s.day!.items.every((it) => it.correct)) {
+        s.stats.cleanSweeps = 1;
+        if (s.day!.items.every((it) => !it.hint)) s.stats.cleanNoHints = 1;
+      }
+      s.streak.best = s.streak.count;
+      s.xp = s.learned.length * XP.dailyCorrect + s.stats.daysCompleted * XP.dailyComplete +
+        s.stats.cleanSweeps * XP.cleanSweep;
+      s.levelSeen = levelFor(s.xp);
+      s.celebrations = [{ kind: 'welcome' }];
+    }
+    s.stats = { ...freshStats(), ...s.stats };
     return s;
   } catch {
     return freshState();
@@ -228,6 +282,7 @@ export function ensureToday(state: State, bank: Question[]): void {
     return;
   }
   if (state.day) state.prevSet = state.day.items.map((it) => it.id);
+  applyFreezes(state);
   const items = drawDailySet(bank, state);
   items.forEach((it) => { state.lastSeen[it.id] = today; });
   state.day = { date: today, items, index: 0, completed: false };
@@ -246,6 +301,10 @@ export function answer(state: State, bank: Question[], displayIdx: number): void
     state.mastered.push(item.id);
   }
   if (item.correct && !state.learned.includes(item.id)) state.learned.push(item.id);
+  if (item.correct) {
+    state.xp += XP.dailyCorrect;
+    if (state.log.some((e) => e.id === item.id && e.m === 'daily' && !e.ok)) state.stats.secondChance += 1;
+  }
   recordResult(state, q, 'daily', item.correct);
 }
 
@@ -269,6 +328,7 @@ export function recordResult(state: State, q: Question, mode: LogEntry['m'], ok:
   if (state.log.length > LOG_LIMIT) state.log.splice(0, state.log.length - LOG_LIMIT);
 
   const entry = state.srs[q.id];
+  if (mode === 'practice' && ok) state.xp += entry && entry.due > today ? XP.practiceEarly : XP.practiceDue;
   if (ok) {
     if (!entry) {
       state.srs[q.id] = { box: 1, due: addDays(today, INTERVALS[0]) }; // just learned: first review tomorrow
@@ -357,13 +417,11 @@ export function completeDay(state: State): void {
   if (!day || day.completed) return;
   day.completed = true;
   const today = day.date;
-  if (state.streak.last === today) return;
-  if (state.streak.last === dayBefore(today)) {
-    state.streak.count += 1;
-  } else {
-    state.streak.count = 1;
+  if (state.streak.last !== today) {
+    state.streak.count = state.streak.last === dayBefore(today) ? state.streak.count + 1 : 1;
+    state.streak.last = today;
   }
-  state.streak.last = today;
+  onDayComplete(state);
 }
 
 export function shownStreak(state: State): number {

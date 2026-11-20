@@ -2,6 +2,7 @@ import type { Day } from './quiz.ts';
 import Tile, { type TileSpec } from './Tile.tsx';
 import Ticks from './Ticks.tsx';
 import { DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';
+import { LevelRing } from './Badge.tsx';
 
 interface Props {
   day: Day;
@@ -9,9 +10,11 @@ interface Props {
   due: number;
   onDaily: () => void;
   onPractice: () => void;
+  onProfile: () => void;
+  level: { level: number; rank: string; progress: number; toNext: number; next: { name: string } | null };
 }
 
-export default function Home({ day, learned, due, onDaily, onPractice }: Props) {
+export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
   const right = day.items.filter((it) => it.correct === true).length;
@@ -65,8 +68,20 @@ export default function Home({ day, learned, due, onDaily, onPractice }: Props) 
         tone: 'locked'
       };
 
+  /* ---------- Profile (full width) ---------- */
+  const profile: TileSpec = {
+    id: 'profile',
+    title: `Level ${level.level} · ${level.rank}`,
+    icon: <LevelRing level={level.level} progress={level.progress} size={48} />,
+    meta: level.next ? `${level.toNext.toLocaleString('en-GB')} XP to ${level.next.name}` : 'Top rank reached',
+    tone: 'plain',
+    wide: true,
+    onOpen: onProfile,
+    foot: <span className="xp-bar" aria-hidden="true"><i style={{ width: `${Math.round(level.progress * 100)}%` }} /></span>
+  };
+
   /* Add new modes here: each entry becomes a tile in the grid. */
-  const tiles: TileSpec[] = [daily, practice];
+  const tiles: TileSpec[] = [daily, practice, profile];
 
   return (
     <>
