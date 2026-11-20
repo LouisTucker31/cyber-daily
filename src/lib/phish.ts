@@ -34,15 +34,85 @@ export interface PhishCard {
   lesson: string;                // one line for the end screen
 }
 
-export interface DirectoryEntry { org: string; note: string; rows: [string, string][]; rules: string[] }
-export interface PhishBank { directory: DirectoryEntry[]; cards: PhishCard[] }
+/* ---------- the cast: fictional organisations, a different mix every round ----------
+   Cards are written with placeholders such as {E} (employer name), {Eslug} (its domain name),
+   {Edig} (a look-alike with a digit), {Bs} (bank's short name) and so on. Each round picks one
+   employer, bank, delivery company and energy supplier and fills them in. */
+
+export type Cast = Record<string, string>;
+export interface Casts { employer: Cast[]; bank: Cast[]; delivery: Cast[]; energy: Cast[] }
+export interface PhishBank { casts: Casts; cards: PhishCard[] }
 
 export function parsePhish(data: unknown): PhishBank | null {
   const d = data as PhishBank;
-  if (!d || !Array.isArray(d.cards) || !Array.isArray(d.directory)) return null;
+  if (!d || !Array.isArray(d.cards) || !d.casts) return null;
+  const ok = (['employer', 'bank', 'delivery', 'energy'] as const).every((k) => Array.isArray(d.casts[k]) && d.casts[k].length > 0);
   const cards = d.cards.filter((c) => c && typeof c.id === 'string' && [1, 2, 3].includes(c.tier) &&
     typeof c.phish === 'boolean' && Array.isArray(c.points) && typeof c.lesson === 'string');
-  return cards.length >= ROUND ? { directory: d.directory, cards } : null;
+  return ok && cards.length >= ROUND ? { casts: d.casts, cards } : null;
+}
+
+const pick = <T,>(list: T[]): T => list[Math.floor(Math.random() * list.length)];
+
+/* A new random cast, avoiding the last one's employer where possible */
+export function pickCast(casts: Casts, previous?: Cast | null): Cast {
+  const employers = casts.employer.length > 1 && previous
+    ? casts.employer.filter((e) => e.E !== previous.E) : casts.employer;
+  return { ...pick(employers), ...pick(casts.bank), ...pick(casts.delivery), ...pick(casts.energy) };
+}
+
+/* The card with the cast's names filled in */
+export function applyCast(card: PhishCard, cast: Cast): PhishCard {
+  return JSON.parse(JSON.stringify(card).replace(/\{([A-Za-z]+)\}/g, (m, k: string) => cast[k] ?? m));
+}
+
+/* ---------- the Directory: just enough to check every card ---------- */
+
+export type DirIcon = 'web' | 'phone' | 'text';
+export interface DirectoryEntry {
+  org: string;
+  role: string;
+  rows: { icon: DirIcon; value: string; label: string }[];
+  rules: string[];
+}
+
+export function directoryFor(c: Cast): DirectoryEntry[] {
+  return [
+    {
+      org: c.E, role: 'Your employer',
+      rows: [
+        { icon: 'web', value: `${c.Eslug}.co.uk`, label: 'All its websites and email' },
+        { icon: 'phone', value: c.Ephone, label: 'IT Service Desk' }
+      ],
+      rules: ['IT never asks for passwords or sign-in codes', 'Messages from outside are tagged External',
+        'Bank details only change after a call-back']
+    },
+    {
+      org: c.B, role: 'Your bank',
+      rows: [
+        { icon: 'web', value: `${c.Bslug}.co.uk`, label: 'Website and email' },
+        { icon: 'text', value: c.Bs, label: 'Texts come from' },
+        { icon: 'phone', value: c.Bphone, label: 'Fraud team' }
+      ],
+      rules: ['Texts never include a sign-in link', 'Never asks you to move money']
+    },
+    {
+      org: c.D, role: 'Deliveries',
+      rows: [
+        { icon: 'web', value: `${c.Dslug}.co.uk`, label: 'Website and email' },
+        { icon: 'text', value: `${c.D} · ${c.Dlink}.uk`, label: 'Texts and short links' }
+      ],
+      rules: ['Redelivery is always free']
+    },
+    {
+      org: c.N, role: 'Energy, home and office',
+      rows: [
+        { icon: 'web', value: `${c.Nslug}.co.uk`, label: 'Website and email' },
+        { icon: 'phone', value: c.Nphone, label: 'Customer service' }
+      ],
+      rules: ['Refunds are automatic, never claimed']
+    }
+  ];
 }
 
 /* ---------- levels ---------- */
@@ -57,12 +127,31 @@ export const TIERS: { tier: Tier; name: string; unlock: number; desc: string }[]
 /* How many cards from each tier make up a round at each level */
 const MIX: Record<Tier, [number, number, number]> = { 1: [10, 0, 0], 2: [3, 7, 0], 3: [1, 3, 6] };
 
-/* Picks a round: the right mix of difficulty, a varying number of phish (4 to 7, never 50/50 every time),
-   and cards you haven't seen recently first. */
-export function drawRound(cards: PhishCard[], tier: Tier, seen: Record<string, number>): PhishCard[] {
+/* Picks a round:
+   - the right mix of difficulty for the level
+   - a varying number of phish (4 to 7, so it's never a predictable 50/50)
+   - cards you haven't seen recently first
+   - a spread of card types (no more than 3 of a kind), dealt so the same type rarely comes twice in a row */
+export function drawRound(cards: PhishCard[], tier: Tier, seen: Record<string, number>, round: number): PhishCard[] {
   const phishWanted = 4 + Math.floor(Math.random() * 4);
-  const freshest = (list: PhishCard[]) =>
-    shuffle(list).sort((a, b) => (seen[a.id] ?? -1) - (seen[b.id] ?? -1));
+  const typeCount: Record<string, number> = {};
+  // 0: never seen, 1: seen a while ago, 2: seen in the last 2 rounds
+  const age = (c: PhishCard) => (seen[c.id] === undefined ? 0 : seen[c.id] >= round - 2 ? 2 : 1);
+
+  const take = (pool: PhishCard[], n: number): PhishCard[] => {
+    const out: PhishCard[] = [];
+    const left = shuffle(pool);
+    while (out.length < n && left.length) {
+      left.sort((a, b) => age(a) - age(b) ||
+        Math.min(typeCount[a.type] ?? 0, 3) - Math.min(typeCount[b.type] ?? 0, 3) ||
+        (seen[a.id] ?? -1) - (seen[b.id] ?? -1));
+      const c = left.shift()!;
+      out.push(c);
+      typeCount[c.type] = (typeCount[c.type] ?? 0) + 1;
+    }
+    return out;
+  };
+
   const quota = MIX[tier];
   const picked: PhishCard[] = [];
   let phishLeft = phishWanted;
@@ -71,21 +160,33 @@ export function drawRound(cards: PhishCard[], tier: Tier, seen: Record<string, n
     const q = quota[i];
     if (!q) return;
     const pool = cards.filter((c) => c.tier === t);
-    // share of this tier's slots that should be phish, rounded, kept within what's left
-    let p = Math.round((q * phishLeft) / slotsLeft);
-    const phish = freshest(pool.filter((c) => c.phish));
-    const legit = freshest(pool.filter((c) => !c.phish));
-    p = Math.min(p, phish.length, q);
-    const l = Math.min(q - p, legit.length);
-    const take = [...phish.slice(0, p), ...legit.slice(0, l)];
+    // this tier's share of the phish, kept within what's left
+    const p = Math.min(Math.round((q * phishLeft) / slotsLeft), q);
+    const got = [...take(pool.filter((c) => c.phish), p)];
+    got.push(...take(pool.filter((c) => !c.phish), q - got.length));
     // not enough of one kind: top up with the other
-    const rest = freshest([...phish.slice(p), ...legit.slice(l)]);
-    while (take.length < q && rest.length) take.push(rest.shift()!);
-    picked.push(...take);
-    phishLeft -= take.filter((c) => c.phish).length;
+    if (got.length < q) got.push(...take(pool.filter((c) => !got.includes(c)), q - got.length));
+    picked.push(...got);
+    phishLeft -= got.filter((c) => c.phish).length;
     slotsLeft -= q;
   });
-  return shuffle(picked);
+  return spread(picked);
+}
+
+/* Orders the round so the same card type doesn't come twice in a row (when it can be helped) */
+function spread(cards: PhishCard[]): PhishCard[] {
+  const left = shuffle(cards);
+  const out: PhishCard[] = [];
+  while (left.length) {
+    const count = (type: string) => left.filter((c) => c.type === type).length;
+    const prev = out[out.length - 1]?.type;
+    // the most common remaining type goes first, so it gets spaced out
+    const order = [...left].sort((a, b) => count(b.type) - count(a.type));
+    const next = order.find((c) => c.type !== prev) ?? order[0];
+    out.push(next);
+    left.splice(left.indexOf(next), 1);
+  }
+  return out;
 }
 
 /* ---------- scoring ---------- */

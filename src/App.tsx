@@ -16,8 +16,8 @@ import Celebration from './components/Celebration.tsx';
 import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
 import { DirectorySheet, PhishDone, PhishGame, PhishIntro } from './components/PhishView.tsx';
 import {
-  drawRound, finishPhish, logPhishAnswer, parsePhish, phishXpRoundsLeft, TIERS,
-  type PhishBank, type PhishCard, type PhishResult, type Tier
+  applyCast, directoryFor, drawRound, finishPhish, logPhishAnswer, parsePhish, phishXpRoundsLeft, pickCast, TIERS,
+  type Cast, type PhishBank, type PhishCard, type PhishResult, type Tier
 } from './lib/phish.ts';
 import { evaluateProgress, levelInfo } from './lib/progress.ts';
 import useCountdown from './hooks/useCountdown.ts';
@@ -39,7 +39,7 @@ type Blitz =
 type Phish =
   | { phase: 'intro' }
   | { phase: 'play'; round: number; tier: Tier; cards: PhishCard[] }
-  | { phase: 'done'; result: PhishResult; prevBest: number; xp: number };
+  | { phase: 'done'; result: PhishResult; prevBest: number; xp: number; cards: PhishCard[] };
 
 export default function App() {
   const [load, setLoad] = useState<Load>({ status: 'loading' });
@@ -63,7 +63,7 @@ export default function App() {
   const practiceById = useMemo(() => new Map((practiceBank ?? []).map((q) => [q.id, q])), [practiceBank]);
   const acronymById = useMemo(() => new Map((acronyms ?? []).map((a) => [a.id, a])), [acronyms]);
   const phishBank = load.status === 'ready' ? load.phish : null;
-  const phishById = useMemo(() => new Map((phishBank?.cards ?? []).map((c) => [c.id, c])), [phishBank]);
+  const [phishCast, setPhishCast] = useState<Cast | null>(null); // this round's fictional organisations
 
   /* Every change: copy, apply, save straight away, then re-render.
      Saving immediately means a refresh can never give a second chance. */
@@ -209,19 +209,25 @@ export default function App() {
   const unlockedTier = ([...TIERS].reverse().find((t) => level >= t.unlock)?.tier ?? 1) as Tier;
   const tier: Tier = phishTier && level >= TIERS[phishTier - 1].unlock ? phishTier : unlockedTier;
 
+  /* Every round has a new cast of fictional organisations. The intro shows the Directory for the
+     round you're about to play; Play again deals a fresh cast. */
   const openPhish = useCallback(() => {
+    if (phishBank) setPhishCast((prev) => pickCast(phishBank.casts, prev));
     setPhish({ phase: 'intro' });
     haptic();
     open('phish');
-  }, [open]);
+  }, [open, phishBank]);
 
   const startPhish = useCallback(() => {
     const s = stateRef.current;
     if (!phishBank || !s) return;
     haptic();
-    setPhish({ phase: 'play', round: Date.now(), tier, cards: drawRound(phishBank.cards, tier, s.phish.seen) });
+    const cast = phish.phase === 'done' || !phishCast ? pickCast(phishBank.casts, phishCast) : phishCast;
+    setPhishCast(cast);
+    const cards = drawRound(phishBank.cards, tier, s.phish.seen, s.phish.rounds).map((c) => applyCast(c, cast));
+    setPhish({ phase: 'play', round: Date.now(), tier, cards });
     window.scrollTo(0, 0);
-  }, [phishBank, tier]);
+  }, [phishBank, tier, phish.phase, phishCast]);
 
   const phishAnswer = useCallback((c: PhishCard, saidPhish: boolean) => {
     update((s) => logPhishAnswer(s, c, saidPhish));
@@ -231,7 +237,7 @@ export default function App() {
     let info = { prevBest: 0, xp: 0 };
     update((s) => { info = finishPhish(s, result); });
     haptic('success');
-    setPhish({ phase: 'done', result, ...info });
+    setPhish((p) => ({ phase: 'done', result, ...info, cards: p.phase === 'intro' ? [] : p.cards }));
     window.scrollTo(0, 0);
   }, [update]);
 
@@ -405,7 +411,7 @@ export default function App() {
       body = phish.phase === 'intro'
         ? <PhishIntro level={level} tier={tier} onTier={setPhishTier} best={state.phish.best}
             xpLeft={phishXpRoundsLeft(state)} onDirectory={() => setShowDirectory(true)} />
-        : <PhishDone result={phish.result} prevBest={phish.prevBest} best={state.phish.best} xp={phish.xp} byId={phishById} />;
+        : <PhishDone result={phish.result} prevBest={phish.prevBest} best={state.phish.best} xp={phish.xp} byId={new Map(phish.cards.map((c) => [c.id, c]))} />;
       const name = TIERS[tier - 1].name;
       barButton = (
         <button type="button" className="btn" onClick={startPhish}>
@@ -464,8 +470,8 @@ export default function App() {
       )}
 
       {/* Spot the Phish Directory: genuine domains and numbers, open from the intro or mid-round */}
-      {showDirectory && view === 'phish' && phishBank && (
-        <DirectorySheet directory={phishBank.directory} onClose={() => setShowDirectory(false)} />
+      {showDirectory && view === 'phish' && phishCast && (
+        <DirectorySheet directory={directoryFor(phishCast)} onClose={() => setShowDirectory(false)} />
       )}
     </>
   );

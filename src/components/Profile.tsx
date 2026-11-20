@@ -5,7 +5,7 @@ import {
 } from '../lib/progress.ts';
 import type { Acronym } from '../lib/blitz.ts';
 import { LevelRing, Medal, SnowIcon } from './Badge.tsx';
-import { BlitzIcon, DailyIcon, PhishIcon, PracticeIcon } from './icons.tsx';
+import { BlitzIcon, ChevronIcon, ChevronRightIcon, DailyIcon, PhishIcon, PracticeIcon } from './icons.tsx';
 import { CATEGORY as PHISH_CATEGORY } from '../lib/phish.ts';
 import { haptic } from '../lib/haptics.ts';
 import Sheet from './Sheet.tsx';
@@ -41,14 +41,7 @@ const tileClass = (i: number, open: boolean, earned: boolean) =>
   'badge' + (earned ? ' earned' : '') + (i >= FIRST_ROW ? ' extra' : '') + (i >= FIRST_ROW && !open ? ' folded' : '');
 const tileStyle = (i: number) => (i >= FIRST_ROW ? { animationDelay: `${(i - FIRST_ROW) * 25}ms` } : undefined);
 
-function Chevron({ open }: { open: boolean }) {
-  return (
-    <svg className={'chev' + (open ? ' open' : '')} viewBox="0 0 20 20" fill="none" stroke="currentColor"
-      strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M5.5 8l4.5 4.5L14.5 8" />
-    </svg>
-  );
-}
+const Chevron = ChevronIcon;
 
 export default function Profile({ state, bank, practiceBank, acronyms, streak, onDaily }: Props) {
   const lv = levelInfo(state.xp);
@@ -113,8 +106,7 @@ export default function Profile({ state, bank, practiceBank, acronyms, streak, o
         <button type="button" className="nudge" onClick={onDaily}>
           <span className="nudge-dot" aria-hidden="true" />
           Today’s 10 is waiting
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"
-            strokeLinejoin="round" aria-hidden="true"><path d="M8 4.5l5.5 5.5L8 15.5" /></svg>
+          <ChevronRightIcon />
         </button>
       )}
 

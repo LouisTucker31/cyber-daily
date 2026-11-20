@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LevelRing, SnowIcon } from './Badge.tsx';
+import { BackIcon } from './icons.tsx';
 
 /* The header ring fills in once when the app opens, not on every page change. */
 let headerRingPlayed = false;
@@ -30,10 +31,7 @@ export default function Header({ ready, streak, freezes, level, levelProgress, o
       {nav ? (
         <div className="nav">
           <button type="button" className="back-btn" onClick={nav.onHome} aria-label="Back to Home">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2.2}
-              strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M12 4.5L6.5 10l5.5 5.5" />
-            </svg>
+            <BackIcon />
           </button>
           <h1 className="screen-title">{nav.label}</h1>
         </div>

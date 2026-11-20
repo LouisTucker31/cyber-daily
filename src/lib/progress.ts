@@ -276,6 +276,21 @@ export function evaluateProgress(state: State, bank: Question[], silent = false,
       if (!silent) state.celebrations.push({ kind: 'badge', id: b.id });
     }
   }
+
+  // skills: celebrate the first time a category reaches silver, gold or platinum.
+  // The first time this runs it just records where everyone is, so nobody gets a flood.
+  const RANK = { bronze: 1, silver: 2, gold: 3, platinum: 4 } as const;
+  const first = !state.skillTiers;
+  const tiers = state.skillTiers ?? {};
+  for (const r of ctx.rows) {
+    const t = skillTier(r.score);
+    const n = t ? RANK[t.tier] : 0;
+    if (n > (tiers[r.name] ?? 0)) {
+      if (!silent && !first && n >= 2) state.celebrations.push({ kind: 'skill', id: r.name, n });
+      tiers[r.name] = n;
+    }
+  }
+  state.skillTiers = tiers;
 }
 
 export function badgeContext(state: State, bank: Question[]): Ctx {

@@ -1,21 +1,41 @@
-const stroke = {
-  fill: 'none',
-  stroke: 'currentColor',
-  strokeLinecap: 'round' as const,
-  strokeLinejoin: 'round' as const,
-  'aria-hidden': true
-};
+/* Interface icons. Most come from Lucide (lucide.dev, ISC licence) so they're consistent and crisp;
+   the badge medals and their glyphs are drawn separately in Badge.tsx. */
+import {
+  ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, FishingHook,
+  Globe, Link, Lock, MessageSquare, Paperclip, Phone, Play, Pointer, RefreshCw, ShieldCheck, TriangleAlert, X, Zap,
+  type LucideIcon
+} from 'lucide-react';
 
-export function TickIcon() {
-  return <svg viewBox="0 0 20 20" strokeWidth={2.2} {...stroke}><path d="M4.5 10.5l3.5 3.5 7.5-8" /></svg>;
-}
+const icon = (I: LucideIcon, strokeWidth = 2) =>
+  function Icon({ className }: { className?: string }) {
+    return <I aria-hidden="true" focusable="false" strokeWidth={strokeWidth} className={className} />;
+  };
 
-export function CrossIcon() {
-  return <svg viewBox="0 0 20 20" strokeWidth={2.2} {...stroke}><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" /></svg>;
-}
+export const TickIcon = icon(Check, 2.4);
+export const CrossIcon = icon(X, 2.4);
+export const ArrowIcon = icon(ArrowRight);
+export const ArrowLeftIcon = icon(ArrowLeft);
+export const BackIcon = icon(ChevronLeft, 2.4);
+export const ChevronRightIcon = icon(ChevronRight, 2.4);
+export const PracticeIcon = icon(RefreshCw);
+export const BlitzIcon = icon(Zap);
+export const PhishIcon = icon(FishingHook);
+export const LockIcon = icon(Lock);
+export const ClockIcon = icon(Clock);
+export const BookIcon = icon(BookOpen);
+export const LinkIcon = icon(Link);
+export const ClipIcon = icon(Paperclip);
+export const PlayIcon = icon(Play);
+export const ShieldIcon = icon(ShieldCheck);
+export const WarnIcon = icon(TriangleAlert);
+export const TapIcon = icon(Pointer);
+export const GlobeIcon = icon(Globe);
+export const PhoneIcon = icon(Phone);
+export const TextIcon = icon(MessageSquare);
 
-export function ArrowIcon() {
-  return <svg viewBox="0 0 20 20" strokeWidth={2} {...stroke}><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" /></svg>;
+/* Chevron that turns to point up when its section is open */
+export function ChevronIcon({ open }: { open: boolean }) {
+  return <ChevronDown aria-hidden="true" focusable="false" strokeWidth={2.4} className={'chev' + (open ? ' open' : '')} />;
 }
 
 /* 10 squares, echoing the app icon */
@@ -31,53 +51,4 @@ export function DailyIcon() {
     }
   }
   return <svg viewBox="0 0 30 24" aria-hidden="true">{cells}</svg>;
-}
-
-/* Two arrows chasing each other: go again */
-export function PracticeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
-      <path d="M19.5 9A8 8 0 0 0 5.2 7.4" />
-      <path d="M4.5 3.8v3.9h3.9" />
-      <path d="M4.5 15a8 8 0 0 0 14.3 1.6" />
-      <path d="M19.5 20.2v-3.9h-3.9" />
-    </svg>
-  );
-}
-
-/* Lightning bolt: Acronym Blitz */
-export function BlitzIcon() {
-  return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
-      <path d="M13.5 2.5L5 13.5h6.5l-1 8 8.5-11h-6.5z" />
-    </svg>
-  );
-}
-
-/* Fish hook: Spot the Phish */
-export function PhishIcon() {
-  return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
-      <circle cx="15" cy="4.5" r="1.8" />
-      <path d="M15 6.3v9.2a5.5 5.5 0 0 1-11 0v-3.5l3.5 2.6" />
-    </svg>
-  );
-}
-
-export function LockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} {...stroke}>
-      <rect x="5" y="10.5" width="14" height="10" rx="2" />
-      <path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" />
-    </svg>
-  );
-}
-
-export function ClockIcon() {
-  return (
-    <svg viewBox="0 0 20 20" strokeWidth={1.8} {...stroke}>
-      <circle cx="10" cy="10" r="7.25" />
-      <path d="M10 6.2V10l2.6 1.6" />
-    </svg>
-  );
 }

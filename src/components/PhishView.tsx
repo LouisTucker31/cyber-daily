@@ -6,24 +6,15 @@ import {
 } from '../lib/phish.ts';
 import { haptic } from '../lib/haptics.ts';
 import Sheet from './Sheet.tsx';
-import { ArrowIcon, CrossIcon, LockIcon, PhishIcon, TickIcon } from './icons.tsx';
+import {
+  ArrowIcon, ArrowLeftIcon, BookIcon, ChevronIcon, ClipIcon, CrossIcon, GlobeIcon, LinkIcon, LockIcon, PhishIcon,
+  PhoneIcon, PlayIcon, ShieldIcon, TapIcon, TextIcon, TickIcon, WarnIcon
+} from './icons.tsx';
 
-/* ---------- small icons used only here ---------- */
+const SwipeLeftIcon = ArrowLeftIcon;
+const SwipeRightIcon = ArrowIcon;
+const HoldIcon = LinkIcon;
 
-const st = { fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-const SwipeLeftIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M19 12H5M10 7l-5 5 5 5" /></svg>;
-const SwipeRightIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>;
-const TapIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><circle cx="12" cy="12" r="3" /><circle cx="12" cy="12" r="8" opacity=".45" /></svg>;
-const HoldIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M10 13.5a3.5 3.5 0 0 1 4.9-3.2M8.5 14.5l2.8 2.8a2 2 0 0 0 2.8 0l3.4-3.4a2 2 0 0 0 0-2.8" /><path d="M13.5 6.5l1.5-1.5a3.5 3.5 0 0 1 5 5l-1.5 1.5M10.5 17.5L9 19a3.5 3.5 0 0 1-5-5l1.5-1.5" /></svg>;
-const BookIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M5 4.5h10.5a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z" /><path d="M5 16.5a3 3 0 0 1 3-3h10.5" /></svg>;
-const LinkIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1" /><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" /></svg>;
-const ClipIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M20 11.5l-7.8 7.8a5 5 0 0 1-7-7l8.3-8.3a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6" /></svg>;
-const PlayIcon = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7.5v9l7.5-4.5z" fill="currentColor" /></svg>;
-const ShieldIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M12 3.5l7 2.8v5.2c0 4.3-3 7.6-7 9-4-1.4-7-4.7-7-9V6.3z" /></svg>;
-const WarnIcon = () => <svg viewBox="0 0 24 24" {...st} aria-hidden="true"><path d="M12 4l9 16H3z" /><path d="M12 10v4.5M12 17.3v.2" /></svg>;
-const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg viewBox="0 0 20 20" className={'chev' + (open ? ' open' : '')} {...st} strokeWidth={2.2} aria-hidden="true"><path d="M5.5 8l4.5 4.5L14.5 8" /></svg>
-);
 
 /* ---------- before a round ---------- */
 
@@ -342,7 +333,7 @@ const VERDICT: Record<Verdict, { title: string; sub: string; good: boolean }> = 
 const SWIPE = 90;      // px to count as a decision
 const EDGE = 28;       // touches starting this close to the left edge are the "back" swipe
 const HOLD_MS = 420;   // press and hold a link this long to preview it
-const FLIP_MS = 200;
+const FLY_MS = 300;    // the card flies off the screen this fast, then the explanation flips in
 
 interface GameProps {
   cards: PhishCard[];
@@ -355,7 +346,8 @@ interface GameProps {
 export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GameProps) {
   const [index, setIndex] = useState(0);
   const [said, setSaid] = useState<boolean | null>(null);
-  const [flip, setFlip] = useState<'none' | 'out' | 'in'>('none');
+  const [flip, setFlip] = useState<'none' | 'in'>('none');
+  const [fly, setFly] = useState<0 | 1 | -1>(0); // the card leaving: -1 left (Phish), 1 right (Legit)
   const [open, setOpen] = useState(false);
   const [dx, setDx] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -393,14 +385,16 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
     onAnswer(card, saidPhish);
     setPeek(null);
     setDragging(false);
-    setDx(0);
-    if (still) { setSaid(saidPhish); return; }
-    setFlip('out');
+    if (still) { setDx(0); setSaid(saidPhish); return; }
+    // the card carries on in the direction you chose, right off the screen
+    setFly(saidPhish ? -1 : 1);
     timers.current.push(window.setTimeout(() => {
+      setFly(0);
+      setDx(0);
       setSaid(saidPhish);
       setFlip('in');
       window.scrollTo(0, 0);
-    }, FLIP_MS));
+    }, FLY_MS));
   };
 
   const next = () => {
@@ -493,7 +487,7 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
         <button type="button" className="ph-dir-chip" onClick={() => { haptic(); onDirectory(); }}><BookIcon />Directory</button>
       </div>
 
-      <div key={card.id + (answered ? '-r' : '')} className={'ph-stage' + (flip === 'out' ? ' flip-out' : flip === 'in' ? ' flip-in' : '')}>
+      <div key={card.id + (answered ? '-r' : '')} className={'ph-stage' + (flip === 'in' ? ' flip-in' : '')}>
         {answered && v ? (
           <>
             <div className={'ph-verdict ' + (VERDICT[v].good ? 'good' : 'bad')}>
@@ -510,7 +504,7 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
           </>
         ) : (
           <div
-            className={'ph-swipe' + (dragging ? ' dragging' : '') + (lean ? ' lean-' + lean : '')}
+            className={'ph-swipe' + (dragging ? ' dragging' : '') + (fly ? ' flying' : '') + (lean || fly ? ' lean-' + (fly ? (fly < 0 ? 'phish' : 'legit') : lean) : '')}
             onPointerDown={onDown}
             onPointerMove={onMove}
             onPointerUp={onUp}
@@ -525,10 +519,12 @@ export function PhishGame({ cards, tier, onAnswer, onEnd, onDirectory }: GamePro
               onPressLink={pressLink}
               onReleaseLink={releaseLink}
               onTapLink={tapLink}
-              cardStyle={dx ? { transform: `translateX(${dx}px) rotate(${dx / 22}deg)` } : undefined}
+              cardStyle={fly
+                ? { transform: `translateX(${fly * (window.innerWidth + 120)}px) rotate(${fly * 18}deg)` }
+                : dx ? { transform: `translateX(${dx}px) rotate(${dx / 22}deg)` } : undefined}
               overlay={<>
-                <span className="stamp stamp-phish" style={{ opacity: dx < 0 ? strength : 0 }} aria-hidden="true">Phish</span>
-                <span className="stamp stamp-legit" style={{ opacity: dx > 0 ? strength : 0 }} aria-hidden="true">Legit</span>
+                <span className="stamp stamp-phish" style={{ opacity: fly < 0 ? 1 : dx < 0 ? strength : 0 }} aria-hidden="true">Phish</span>
+                <span className="stamp stamp-legit" style={{ opacity: fly > 0 ? 1 : dx > 0 ? strength : 0 }} aria-hidden="true">Legit</span>
               </>}
             />
           </div>
@@ -630,7 +626,12 @@ export function PhishDone({ result, prevBest, best, xp, byId }: DoneProps) {
   );
 }
 
-/* ---------- the Directory: genuine details to check against ---------- */
+/* ---------- the Directory: just the genuine details, one small card per organisation ---------- */
+
+const DIR_ICON = { web: <GlobeIcon />, phone: <PhoneIcon />, text: <TextIcon /> };
+
+// long domains wrap after a dot, never mid-word
+const breakable = (s: string) => s.split('.').map((part, i) => <Fragment key={i}>{i > 0 && <>.<wbr /></>}{part}</Fragment>);
 
 export function DirectorySheet({ directory, onClose }: { directory: DirectoryEntry[]; onClose: () => void }) {
   return (
@@ -638,17 +639,21 @@ export function DirectorySheet({ directory, onClose }: { directory: DirectoryEnt
       {(close) => (
         <div className="dir">
           <h2 className="sheet-title" id="dir-title">Directory</h2>
-          <p className="sheet-small">The genuine details for each organisation. Check messages against these.</p>
+          <p className="sheet-small">The real details. Anything else is someone else.</p>
           {directory.map((d) => (
-            <section key={d.org} className="dir-org">
-              <p className="dir-name"><b>{d.org}</b><span>{d.note}</span></p>
-              <dl className="dir-rows">
-                {d.rows.map(([k, val]) => (
-                  // long domains wrap after a dot, never mid-word
-                  <div key={k}><dt>{k}</dt><dd>{val.split('.').map((part, i) => <Fragment key={i}>{i > 0 && <>.<wbr /></>}{part}</Fragment>)}</dd></div>
+            <section key={d.org} className="dir-card">
+              <p className="dir-name"><b>{d.org}</b><span>{d.role}</span></p>
+              <ul className="dir-rows">
+                {d.rows.map((r) => (
+                  <li key={r.label}>
+                    <span className="dir-icon">{DIR_ICON[r.icon]}</span>
+                    <span className="dir-text"><b>{breakable(r.value)}</b><span>{r.label}</span></span>
+                  </li>
                 ))}
-              </dl>
-              {d.rules.length > 0 && <ul className="dir-rules">{d.rules.map((r) => <li key={r}>{r}</li>)}</ul>}
+              </ul>
+              <ul className="dir-rules">
+                {d.rules.map((r) => <li key={r}><ShieldIcon />{r}</li>)}
+              </ul>
             </section>
           ))}
           <button type="button" className="btn" onClick={() => close()}>Done</button>

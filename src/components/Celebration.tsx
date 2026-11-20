@@ -1,10 +1,11 @@
 import { useEffect, type ReactNode } from 'react';
 import type { Celebration as C, State } from '../lib/quiz.ts';
-import { BADGES, levelInfo, MAX_FREEZES } from '../lib/progress.ts';
+import { BADGES, categoryScore, levelInfo, MAX_FREEZES, skillTier } from '../lib/progress.ts';
 import { LevelRing, Medal } from './Badge.tsx';
 import { haptic } from '../lib/haptics.ts';
 import Sheet from './Sheet.tsx';
 import LevelUp from './LevelUp.tsx';
+import Award from './Award.tsx';
 
 interface Props {
   item: C;
@@ -13,14 +14,38 @@ interface Props {
   onProfile: () => void;
 }
 
-/* Level-ups get the full-screen LevelUp; new badges and streak-freeze news get a bottom sheet. */
+const TIER_NAME = { bronze: 'Bronze', silver: 'Silver', gold: 'Gold', platinum: 'Platinum', special: 'Secret' } as const;
+
+/* Level-ups get the full-screen LevelUp, badges and skill-ups the smaller Award,
+   and streak-freeze news a bottom sheet. */
 export default function Celebration({ item, state, onDone, onProfile }: Props) {
-  useEffect(() => { if (item.kind !== 'level') haptic('success'); }, [item]); // LevelUp plays its own
+  const own = item.kind === 'level' || item.kind === 'badge' || item.kind === 'skill';
+  useEffect(() => { if (!own) haptic('success'); }, [item, own]); // the full-screen ones play their own
 
   if (item.kind === 'level') {
     const n = item.n ?? 1;
     const lv = levelInfo(state.xp);
     return <LevelUp level={n} progress={lv.level === n ? lv.progress : 1} onDone={onDone} />;
+  }
+  if (item.kind === 'badge') {
+    const b = BADGES.find((x) => x.id === item.id);
+    if (b) {
+      return (
+        <Award art={<Medal glyph={b.glyph} earned tier={b.tier} size={132} />}
+          kicker={`Badge earned · ${TIER_NAME[b.tier]}`} title={b.name} body={b.desc} onDone={onDone} />
+      );
+    }
+  }
+  if (item.kind === 'skill' && item.id) {
+    const { score } = categoryScore(state, item.id);
+    const t = skillTier(score);
+    if (t) {
+      return (
+        <Award art={<Medal glyph={String(score)} earned tier={t.tier} size={132} />}
+          kicker={`Skill up · ${TIER_NAME[t.tier]}`} title={item.id}
+          body={`You’re now ${t.label.toLowerCase()} here, scoring ${score} out of 100. Keep it up.`} onDone={onDone} />
+      );
+    }
   }
 
   let art: ReactNode;
@@ -28,13 +53,7 @@ export default function Celebration({ item, state, onDone, onProfile }: Props) {
   let title: string;
   let body: string;
 
-  if (item.kind === 'badge') {
-    const b = BADGES.find((x) => x.id === item.id)!;
-    art = <Medal glyph={b.glyph} earned tier={b.tier} size={96} />;
-    kicker = 'Badge earned';
-    title = b.name;
-    body = b.desc;
-  } else if (item.kind === 'freeze-earned') {
+  if (item.kind === 'freeze-earned') {
     art = <Medal glyph="snow" earned tier="platinum" size={96} />;
     kicker = 'Streak freeze earned';
     title = `${item.n} of ${MAX_FREEZES}`;

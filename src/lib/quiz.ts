@@ -52,6 +52,7 @@ export interface State {
   blitz: BlitzStats;                    // Acronym Blitz records
   blitzReview: string[];                // acronym ids missed in Blitz (feed Practice; never resets)
   phish: PhishStats;                    // Spot the Phish records
+  skillTiers?: Record<string, number>;  // best medal reached per skill (1 bronze to 4 platinum), for skill-up celebrations
 }
 
 export interface BlitzStats {
@@ -99,7 +100,7 @@ export interface Stats {
 }
 
 export interface Celebration {
-  kind: 'level' | 'badge' | 'freeze-earned' | 'freeze-used' | 'welcome';
+  kind: 'level' | 'badge' | 'skill' | 'freeze-earned' | 'freeze-used' | 'welcome';
   id?: string;
   n?: number;
 }

@@ -19,12 +19,14 @@ Built with React 19, TypeScript and Vite.
 | `src/components/DoneView.tsx` | End-of-set summary for both modes |
 | `src/components/Profile.tsx` | Profile screen |
 | `src/components/Badge.tsx` | Level ring and badge medals |
-| `src/components/Celebration.tsx` | Picks how to celebrate: the full-screen level-up, or a pop-up sheet for badges and streak freezes |
+| `src/components/Celebration.tsx` | Picks how to celebrate: the level-up, the badge/skill award, or a sheet for streak freezes |
 | `src/components/LevelUp.tsx` | Full-screen level-up: the old level slams in, spins into the new one, slams down with confetti, floats, then fades (tap to skip) |
 | `src/components/Sheet.tsx` | Slide-up bottom sheet (swipe down or tap outside to close), used for celebrations and badge details |
 | `src/components/BlitzView.tsx` | Acronym Blitz: intro, the timed round and the results |
 | `src/components/PhishView.tsx` | Spot the Phish: intro and level picker, the swipeable cards with inspecting, the flip to the explanation, results and the Directory |
-| `src/components/Header.tsx`, `Ticks.tsx`, `icons.tsx` | Small UI pieces |
+| `src/components/Header.tsx`, `Ticks.tsx` | Small UI pieces |
+| `src/components/icons.tsx` | Interface icons, mostly from [Lucide](https://lucide.dev) (`lucide-react`, ISC licence). Badge medals and glyphs are drawn separately in `Badge.tsx` |
+| `src/components/Award.tsx` | Full-screen moment for a new badge or skill-up: a smaller version of the level-up |
 | `src/hooks/useCountdown.ts` | Countdown to the next daily set |
 | `src/hooks/useEdgeSwipe.ts` | Swipe from the left edge to go back Home |
 | `src/lib/quiz.ts` | Quiz logic: daily draw, Smart Practice, streak, storage |
@@ -35,7 +37,7 @@ Built with React 19, TypeScript and Vite.
 | `src/lib/confetti.ts` | Small canvas confetti in the medal colours (off when the phone asks for reduced motion) |
 | `public/questions.json` | The question bank |
 | `public/acronyms.json` | The Acronym Blitz bank |
-| `public/phish.json` | The Spot the Phish cards and the Directory |
+| `public/phish.json` | The Spot the Phish cards (written with placeholders) and the casts of fictional organisations |
 | `public/manifest.json`, icons, `figtree-OFL.txt` | PWA manifest, icons and font licence (copied into the build with their exact names) |
 | `.github/workflows/deploy.yml` | GitHub Actions workflow (see below) |
 | `vite.config.ts`, `tsconfig.json`, `package.json`, `package-lock.json` | Build setup |
@@ -115,19 +117,19 @@ Add entries to `public/acronyms.json` with a new unique `id`:
 Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe right (or tap **Legit**) if it's genuine. Available from level 1.
 
 - **Cards:** emails, texts, Kestrel Chat messages, bare links, sign-in prompts, sign-in pages, app permission requests and voicemails.
-- **Fictional organisations only:** Kestrel Group (your employer), Northgate Bank, ParcelPoint and Harbourline Energy. Phone numbers come from Ofcom's ranges reserved for drama, so none are real.
-- **The Directory** lists each organisation's genuine domains, numbers and rules. Open it from the intro or the chip above the card. Checking details against it is the skill.
+- **A new cast every round:** one employer, bank, delivery company and energy supplier, picked at random from the fictional ones in `casts` in `public/phish.json` (4 employers, 3 of each of the others). Phone numbers come from Ofcom's ranges reserved for drama, so none are real.
+- **The Directory** shows just the genuine details for this round's cast: each organisation's domain, phone number or text sender, and a rule or two. It's built in `directoryFor()` in `src/lib/phish.ts`. Open it from the intro or the chip above the card.
 - **Inspecting, as on a real phone:**
   - Tap a sender's name to see the full address, including any different reply-to address.
   - Tap a browser address bar to see the full web address.
   - Press and hold a link to see where it really goes. A short tap just shows a reminder.
-- **After each call** the card flips. The warning signs (red) or the reasons it's safe (green) are highlighted where they appear, each with a numbered note.
+- **After each call** the card flies off the screen the way you chose, then the explanation flips in. The warning signs (red) or the reasons it's safe (green) are highlighted where they appear, each with a numbered note.
 - **Levels:**
   - **Rookie:** from level 1, Rookie cards only.
   - **Analyst:** from level 4, 7 Analyst and 3 Rookie cards.
   - **Expert:** from level 7, 6 Expert, 3 Analyst and 1 Rookie card.
   - Each round has between 4 and 7 phish, so it's never a predictable 50/50.
-- **No repeats:** cards you haven't seen are dealt first. After that, the ones seen longest ago come back.
+- **Dealing:** cards you haven't seen come first, then the ones seen longest ago. A round has no more than 3 of one type (email, text and so on), and the same type rarely comes twice in a row.
 - **Scoring:** out of 100. Each right call is 10, a false alarm (flagging a genuine message) is 3, and letting a phish through is 0.
 - **Progress:**
   - Every answer is logged as mode `phish` under "Phishing and Social Engineering", so it feeds that skill on the Profile.
@@ -135,7 +137,12 @@ Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe rig
 - **Badges:** Gone Phishing (first round), Cool Head (no false alarms, at least 4 caught), Unhookable (20 caught in a row) and Expert Eye (a perfect Expert round).
 
 ### Adding cards
-Add to `cards` in `public/phish.json` with a new unique `id`.
+Add to `cards` in `public/phish.json` with a new unique `id`. Write organisation details as placeholders so the cast can change each round:
+
+- **Employer:** `{E}` name, `{Es}` short name, `{Eslug}` domain name (`{Eslug}.co.uk`), `{Edig}` / `{Elet}` / `{Ehyp}` look-alikes (a digit 1, a letter i, a hyphen), `{Elow}`, `{Ephone}`, `{Ecity}`, `{Etown}`.
+- **Bank:** `{B}`, `{Bs}`, `{Bslug}`, `{Bphone}`.
+- **Delivery:** `{D}`, `{Dslug}`, `{Dlink}` (short links are `{Dlink}.uk`).
+- **Energy:** `{N}`, `{Ns}`, `{Nslug}`, `{Nhyp}`, `{Nabbr}`, `{Nphone}`.
 
 - `tier`: 1 Rookie, 2 Analyst, 3 Expert.
 - `type`: one of `email`, `sms`, `chat`, `link`, `mfa`, `login`, `consent`, `voicemail`.
@@ -173,6 +180,7 @@ Tap the level ring (top right of Home) or the Profile tile.
 
 **Badges**
 - There are 28 badges, including one for the first time you play each mode. Three are hidden until earned.
+- A new badge gets a short full-screen moment: the medal drops in with a shine and a little confetti. The same happens when a skill first reaches silver, gold or platinum. Level-ups get the bigger version.
 - On the Profile they are ordered: earned (newest first), then closest to completion, then not started. Tap one to see its details and progress in a sheet that slides up; swipe it down or tap outside to close.
 - To add one, add an entry to `BADGES` in `src/lib/progress.ts`.
 
