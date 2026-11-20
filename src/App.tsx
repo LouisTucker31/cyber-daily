@@ -3,18 +3,18 @@ import {
   answer, completeDay, dateKey, daysUntil, drawPractice, dueIds, ensureToday, learnedIds, loadState, parseBank,
   recordResult, saveState,
   shownStreak, type PracticeSession, type Question, type State
-} from './quiz.ts';
-import Header from './Header.tsx';
-import Home from './Home.tsx';
-import QuestionView from './QuestionView.tsx';
-import DoneView from './DoneView.tsx';
-import Profile from './Profile.tsx';
-import Celebration from './Celebration.tsx';
-import { evaluateProgress, levelInfo } from './progress.ts';
-import useCountdown from './useCountdown.ts';
-import useEdgeSwipe from './useEdgeSwipe.ts';
-import { haptic } from './haptics.ts';
-import { ArrowIcon, ClockIcon } from './icons.tsx';
+} from './lib/quiz.ts';
+import Header from './components/Header.tsx';
+import Home from './components/Home.tsx';
+import QuestionView from './components/QuestionView.tsx';
+import DoneView from './components/DoneView.tsx';
+import Profile from './components/Profile.tsx';
+import Celebration from './components/Celebration.tsx';
+import { evaluateProgress, levelInfo } from './lib/progress.ts';
+import useCountdown from './hooks/useCountdown.ts';
+import useEdgeSwipe from './hooks/useEdgeSwipe.ts';
+import { haptic } from './lib/haptics.ts';
+import { ArrowIcon, ClockIcon } from './components/icons.tsx';
 
 type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bank: Question[] };
 type View = 'home' | 'daily' | 'practice' | 'profile';

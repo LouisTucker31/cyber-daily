@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import type { Question, State } from './quiz.ts';
-import { BADGES, badgeContext, levelInfo, MIN_ANSWERS, profileRows, RANKS, shortName, XP } from './progress.ts';
-import { learnedIds } from './quiz.ts';
+import type { Question, State } from '../lib/quiz.ts';
+import { BADGES, badgeContext, levelInfo, MIN_ANSWERS, profileRows, RANKS, shortName, XP } from '../lib/progress.ts';
+import { learnedIds } from '../lib/quiz.ts';
 import { LevelRing, Medal, SkillRing, SnowIcon } from './Badge.tsx';
-import { haptic } from './haptics.ts';
+import { haptic } from '../lib/haptics.ts';
 
 interface Props {
   state: State;

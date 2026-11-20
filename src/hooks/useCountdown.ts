@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { dateKey } from './quiz.ts';
+import { dateKey } from '../lib/quiz.ts';
 
 function timeToMidnight(): string {
   const now = new Date();

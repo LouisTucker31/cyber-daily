@@ -1,8 +1,8 @@
 import { useEffect, type ReactNode } from 'react';
-import type { Celebration as C, State } from './quiz.ts';
-import { BADGES, levelInfo, MAX_FREEZES, RANKS } from './progress.ts';
+import type { Celebration as C, State } from '../lib/quiz.ts';
+import { BADGES, levelInfo, MAX_FREEZES, RANKS } from '../lib/progress.ts';
 import { LevelRing, Medal } from './Badge.tsx';
-import { haptic } from './haptics.ts';
+import { haptic } from '../lib/haptics.ts';
 
 interface Props {
   item: C;

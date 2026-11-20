@@ -16,6 +16,6 @@
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["*.ts", "*.tsx"],
-  "exclude": ["vite.config.ts", "node_modules", "dist"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

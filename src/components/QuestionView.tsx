@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { LETTERS, MAX_BOX, type Question } from './quiz.ts';
+import { LETTERS, MAX_BOX, type Question } from '../lib/quiz.ts';
 import Ticks from './Ticks.tsx';
 import { CrossIcon, TickIcon } from './icons.tsx';
 

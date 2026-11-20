@@ -1,4 +1,4 @@
-import type { Day } from './quiz.ts';
+import type { Day } from '../lib/quiz.ts';
 import Tile, { type TileSpec } from './Tile.tsx';
 import Ticks from './Ticks.tsx';
 import { DailyIcon, LockIcon, PracticeIcon } from './icons.tsx';

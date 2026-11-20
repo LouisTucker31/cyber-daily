@@ -1,4 +1,4 @@
-import type { Question } from './quiz.ts';
+import type { Question } from '../lib/quiz.ts';
 import Ticks from './Ticks.tsx';
 import { CrossIcon, TickIcon } from './icons.tsx';
 import { StrengthDots } from './QuestionView.tsx';

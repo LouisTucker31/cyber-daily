@@ -2,22 +2,15 @@ import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readFileSync } from 'node:fs';
 
-/* Files that must keep their exact names in the build (no hashing),
-   because the manifest, service worker and app fetch them by name. */
-const STATIC_FILES = [
-  'manifest.json',
-  'questions.json',
-  'icon-192.png',
-  'icon-512.png',
-  'apple-touch-icon.png',
-  'figtree-OFL.txt'
-];
+/* Files in public/ (manifest, questions.json, icons, font licence) are copied
+   into the build as-is, keeping their exact names, because the manifest,
+   service worker and app fetch them by name. */
 
-/* Copies the static files into the build and writes sw.js with a fresh
-   version stamp, so every deploy clears the old cache on the phone. */
-function rootStatic(): Plugin {
+/* Adds the manifest and icon links, and writes sw.js with a fresh version
+   stamp, so every deploy clears the old cache on the phone. */
+function pwa(): Plugin {
   return {
-    name: 'root-static',
+    name: 'pwa',
     transformIndexHtml: {
       order: 'post',
       handler: () => [
@@ -27,11 +20,8 @@ function rootStatic(): Plugin {
       ]
     },
     generateBundle() {
-      for (const file of STATIC_FILES) {
-        this.emitFile({ type: 'asset', fileName: file, source: readFileSync(file) });
-      }
       const version = 'cyber-daily-' + new Date().toISOString().replace(/[-:.TZ]/g, '');
-      const sw = readFileSync('sw.js', 'utf8').replaceAll('__BUILD_VERSION__', version);
+      const sw = readFileSync('src/sw.js', 'utf8').replaceAll('__BUILD_VERSION__', version);
       this.emitFile({ type: 'asset', fileName: 'sw.js', source: sw });
     }
   };
@@ -39,7 +29,6 @@ function rootStatic(): Plugin {
 
 export default defineConfig({
   base: './',
-  publicDir: false,
-  plugins: [react(), rootStatic()],
+  plugins: [react(), pwa()],
   build: { outDir: 'dist', emptyOutDir: true }
 });
