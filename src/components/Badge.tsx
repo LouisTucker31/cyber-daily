@@ -1,10 +1,12 @@
 /* Level ring, skill rings and badge medals, drawn in SVG so they stay crisp and themeable. */
 
-/* Progress ring with a number in the middle. Fills with an animation when it appears. */
-export function LevelRing({ level, progress, size = 44 }: { level: number; progress: number; size?: number }) {
+/* Progress ring with a number in the middle. Fills with an animation when it appears,
+   unless animate is false. */
+export function LevelRing({ level, progress, size = 44, animate = true }:
+  { level: number; progress: number; size?: number; animate?: boolean }) {
   const p = Math.max(0, Math.min(1, progress)) * 100;
   return (
-    <svg className="level-ring" viewBox="0 0 48 48" width={size} height={size} aria-label={`Level ${level}`}>
+    <svg className={'level-ring' + (animate ? '' : ' no-intro')} viewBox="0 0 48 48" width={size} height={size} aria-label={`Level ${level}`}>
       <circle cx="24" cy="24" r="20" className="ring-track" />
       <circle cx="24" cy="24" r="20" className="ring-fill" pathLength={100}
         strokeDasharray={`${p} 100`} transform="rotate(-90 24 24)" />

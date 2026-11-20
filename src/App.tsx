@@ -276,6 +276,7 @@ export default function App() {
     <>
       <div className={'app' + (barButton ? ' has-bar' : '')}>
         <Header
+          ready={state !== null}
           streak={state ? shownStreak(state) : 0}
           freezes={state?.freezes ?? 0}
           level={levelInfo(state?.xp ?? 0).level}

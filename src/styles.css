@@ -777,6 +777,7 @@ div.tile-locked { cursor: default; }
 @media (prefers-reduced-motion: no-preference) {
   /* rings and bars fill in when they appear */
   .ring-fill { animation: ring-in 1s cubic-bezier(.2, .8, .2, 1) both; }
+  .level-ring.no-intro .ring-fill { animation: none; }
   @keyframes ring-in { from { stroke-dasharray: 0 100; } }
   .xp-bar i, .score-bar i { animation: bar-in .9s cubic-bezier(.2, .8, .2, 1) both; }
   @keyframes bar-in { from { width: 0; } }

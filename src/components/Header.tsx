@@ -1,6 +1,18 @@
+import { useEffect, useState } from 'react';
 import { LevelRing, SnowIcon } from './Badge.tsx';
 
+/* The header ring fills in once when the app opens, not on every page change. */
+let headerRingPlayed = false;
+
+function HeaderRing({ level, progress }: { level: number; progress: number }) {
+  const [animate] = useState(() => !headerRingPlayed);
+  useEffect(() => { headerRingPlayed = true; }, []);
+  return <LevelRing level={level} progress={progress} animate={animate} />;
+}
+
 interface Props {
+  /** True once saved progress has loaded, so the opening animation shows the real level */
+  ready: boolean;
   streak: number;
   freezes: number;
   level: number;
@@ -11,7 +23,7 @@ interface Props {
   nav?: { label: string; onHome: () => void };
 }
 
-export default function Header({ streak, freezes, level, levelProgress, onProfile, nav }: Props) {
+export default function Header({ ready, streak, freezes, level, levelProgress, onProfile, nav }: Props) {
   const today = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
   return (
     <header className="topbar">
@@ -41,7 +53,9 @@ export default function Header({ streak, freezes, level, levelProgress, onProfil
               </span>
               <span className="streak-value">{streak}<small>{streak === 1 ? 'day' : 'days'}</small></span>
             </span>
-            <LevelRing level={level} progress={levelProgress} />
+            {ready
+              ? <HeaderRing level={level} progress={levelProgress} />
+              : <LevelRing level={level} progress={levelProgress} animate={false} />}
           </>
         );
         return onProfile
