@@ -60,7 +60,7 @@ export default function PracticeIntro({ dueToday, waiting, doneToday, learned, b
         {boxes.map((n, i) => (
           <li key={i}>
             <span className="box-count">{n}</span>
-            <span className="box-bar"><i style={{ height: `${Math.round((n / most) * 100)}%` }} /></span>
+            <span className="box-bar">{n > 0 && <i style={{ height: `${Math.max(6, Math.round((n / most) * 100))}%` }} />}</span>
             <span className="box-name">Box {i + 1}</span>
             <span className="box-gap">{days(INTERVALS[i])}</span>
           </li>
