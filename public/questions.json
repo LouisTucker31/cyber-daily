@@ -3108,6 +3108,1266 @@
       "correctIndex": 2,
       "hint": "Enough to understand and act on the case.",
       "explanation": "A good report covers what the email looked like, the artifacts or IOCs, the analysis and results, the defensive measures taken, and lessons learned."
+    },
+    {
+      "id": "CYB-223",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the main job of a SIEM?",
+      "options": [
+        "Encrypting data stored on company servers and backups",
+        "Blocking malicious websites before staff can visit them",
+        "Managing staff passwords and multi-factor sign-in",
+        "Centralising and analysing activity from many systems to detect and investigate threats"
+      ],
+      "correctIndex": 3,
+      "hint": "One place to see everything.",
+      "explanation": "A SIEM collects, stores, normalises and analyses activity from many sources so the security team can detect threats, investigate and respond from one place."
+    },
+    {
+      "id": "CYB-224",
+      "category": "Security Monitoring and Incident Response",
+      "question": "SIEM is a combination of which two older ideas?",
+      "options": [
+        "SIM and SEM",
+        "SOC and SOAR",
+        "IDS and IPS",
+        "EDR and NDR"
+      ],
+      "correctIndex": 0,
+      "hint": "Information management plus event management.",
+      "explanation": "SIEM combines Security Information Management (collecting, storing and reporting) with Security Event Management (real-time monitoring, correlation and alerting)."
+    },
+    {
+      "id": "CYB-225",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which side of SIEM focuses on real-time monitoring, correlation and alerting?",
+      "options": [
+        "SIM",
+        "SEM",
+        "SOAR",
+        "UEBA"
+      ],
+      "correctIndex": 1,
+      "hint": "E for event.",
+      "explanation": "Security Event Management handles the live side: monitoring events, correlating them and alerting. SIM handles longer-term collection, storage and reporting."
+    },
+    {
+      "id": "CYB-226",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which side of SIEM focuses on collecting, storing and reporting on security information?",
+      "options": [
+        "SEM",
+        "NDR",
+        "SIM",
+        "EDR"
+      ],
+      "correctIndex": 2,
+      "hint": "I for information.",
+      "explanation": "Security Information Management covers collecting, storing, translating, analysing and reporting security information from many sources."
+    },
+    {
+      "id": "CYB-227",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between an event and an alert?",
+      "options": [
+        "An event is always malicious; an alert is always harmless activity",
+        "They are two words for the same thing in a SIEM",
+        "An alert is recorded activity; an event is the notification sent",
+        "An event is recorded activity; an alert is raised when logic flags activity needing attention"
+      ],
+      "correctIndex": 3,
+      "hint": "Not every event deserves attention.",
+      "explanation": "An event is anything recorded, such as a login or process start. An alert is a notification created when detection logic finds activity that needs an analyst."
+    },
+    {
+      "id": "CYB-228",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which of these is a log source for a SIEM?",
+      "options": [
+        "A firewall",
+        "A dashboard panel",
+        "A correlation rule",
+        "A Sigma condition"
+      ],
+      "correctIndex": 0,
+      "hint": "Something that generates logs.",
+      "explanation": "Log sources generate the data: firewalls, servers, domain controllers, proxies, IDS/IPS, antivirus and EDR. Dashboards and rules work on that data."
+    },
+    {
+      "id": "CYB-229",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A SIEM brings logs from hundreds of systems into one platform. What is this step called?",
+      "options": [
+        "Normalisation",
+        "Aggregation",
+        "Correlation",
+        "Enrichment"
+      ],
+      "correctIndex": 1,
+      "hint": "Bringing it all together.",
+      "explanation": "Aggregation combines logs from many sources into a central platform. Normalisation then makes the fields consistent, and correlation connects related events."
+    },
+    {
+      "id": "CYB-230",
+      "category": "Security Monitoring and Incident Response",
+      "question": "One firewall logs ‘src_ip’ and another logs ‘SourceAddress’. Which SIEM step makes these consistent?",
+      "options": [
+        "Aggregation",
+        "Correlation",
+        "Normalisation",
+        "Retention"
+      ],
+      "correctIndex": 2,
+      "hint": "Making the formats the same.",
+      "explanation": "Normalisation converts differently formatted logs into consistent fields, so events from different products can be compared and correlated."
+    },
+    {
+      "id": "CYB-231",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Failed logins on a VPN, then a successful login, then a large download: linking these events is called what?",
+      "options": [
+        "Aggregation",
+        "Normalisation",
+        "Indexing",
+        "Correlation"
+      ],
+      "correctIndex": 3,
+      "hint": "Connecting the dots across sources.",
+      "explanation": "Correlation links events from one or more sources to reveal patterns, like a brute-force attempt followed by data theft."
+    },
+    {
+      "id": "CYB-232",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which SIEM component applies rules and analytics to incoming data to find activity of interest?",
+      "options": [
+        "The correlation engine",
+        "The front-end dashboard",
+        "The log collector",
+        "The SIEM database"
+      ],
+      "correctIndex": 0,
+      "hint": "The ‘brain’ of the SIEM.",
+      "explanation": "The correlation engine evaluates incoming data using rules, analytics or statistics to identify suspicious activity."
+    },
+    {
+      "id": "CYB-233",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A SIEM alerts on a legitimate admin running a scheduled backup. What is this?",
+      "options": [
+        "A false negative",
+        "A false positive",
+        "A true positive",
+        "A true negative"
+      ],
+      "correctIndex": 1,
+      "hint": "Harmless activity flagged as bad.",
+      "explanation": "A false positive is benign activity alerted as malicious. Too many of them cause alert fatigue, so rules are tuned to reduce them."
+    },
+    {
+      "id": "CYB-234",
+      "category": "Security Monitoring and Incident Response",
+      "question": "An attacker’s activity goes completely unnoticed by the SIEM. What is this?",
+      "options": [
+        "A false positive",
+        "A true positive",
+        "A false negative",
+        "A policy violation"
+      ],
+      "correctIndex": 2,
+      "hint": "Malicious, but missed.",
+      "explanation": "A false negative is malicious activity that isn’t detected. Tuning must reduce false positives without creating false negatives."
+    },
+    {
+      "id": "CYB-235",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why do SIEMs keep historical logs?",
+      "options": [
+        "Because older logs are needed to generate new alerts",
+        "To replace the need for backups of company data",
+        "Because logs can’t be deleted once they are created",
+        "So analysts can investigate earlier activity and build timelines"
+      ],
+      "correctIndex": 3,
+      "hint": "Looking back after something’s found.",
+      "explanation": "Retained historical logs let analysts investigate past activity, reconstruct timelines and support forensic investigations and audits."
+    },
+    {
+      "id": "CYB-236",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a SaaS SIEM and an on-premises SIEM?",
+      "options": [
+        "SaaS is hosted by the vendor; on-premises runs on the organisation’s own infrastructure",
+        "SaaS only collects cloud logs; on-premises only collects office logs",
+        "On-premises is always cheaper and needs no administration",
+        "They differ only in their licence, not where they run"
+      ],
+      "correctIndex": 0,
+      "hint": "Who hosts it?",
+      "explanation": "A SaaS SIEM is delivered as a hosted service with the vendor providing infrastructure. An on-premises SIEM runs inside the organisation, which must provide compute, storage and administration."
+    },
+    {
+      "id": "CYB-237",
+      "category": "Security Monitoring and Incident Response",
+      "question": "How does SOAR differ from SIEM?",
+      "options": [
+        "SOAR collects logs; SIEM automates the response to alerts",
+        "SOAR orchestrates tools and automates response; SIEM focuses on visibility and alerts",
+        "SOAR is a type of firewall; SIEM is a type of antivirus",
+        "They are the same product sold under different names"
+      ],
+      "correctIndex": 1,
+      "hint": "Orchestration, automation and response.",
+      "explanation": "SIEM centralises data, correlates and alerts. SOAR coordinates security tools and automates repeatable response workflows, often triggered by SIEM alerts."
+    },
+    {
+      "id": "CYB-238",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which technology models normal user behaviour and flags deviations, like a user suddenly downloading gigabytes at 3am?",
+      "options": [
+        "SOAR",
+        "Syslog",
+        "UEBA",
+        "NetFlow"
+      ],
+      "correctIndex": 2,
+      "hint": "Behaviour analytics.",
+      "explanation": "User and Entity Behaviour Analytics learns normal behaviour for users and devices and flags anomalies that may be malicious or risky."
+    },
+    {
+      "id": "CYB-239",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does NDR focus on?",
+      "options": [
+        "Detecting threats on individual laptops and servers",
+        "Automating responses across many security tools",
+        "Storing logs for compliance reporting",
+        "Detecting and responding to threats using network traffic"
+      ],
+      "correctIndex": 3,
+      "hint": "Network Detection and Response.",
+      "explanation": "NDR detects and responds to suspicious activity using network telemetry, whereas EDR focuses on endpoints and SIEM on centralised correlation."
+    },
+    {
+      "id": "CYB-240",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Adding the country an IP address belongs to, or a threat-intel verdict, to an alert is called what?",
+      "options": [
+        "Enrichment",
+        "Normalisation",
+        "Aggregation",
+        "Parsing"
+      ],
+      "correctIndex": 0,
+      "hint": "Adding context.",
+      "explanation": "Enrichment adds contextual information, such as geolocation or threat intelligence, to make alerts quicker to understand and prioritise."
+    },
+    {
+      "id": "CYB-241",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is incident triage in a SOC?",
+      "options": [
+        "Writing the final report once an incident is closed",
+        "Quickly assessing an alert to decide its priority and next steps",
+        "Deleting low-priority alerts without looking at them",
+        "Restoring systems from backups after an attack"
+      ],
+      "correctIndex": 1,
+      "hint": "Sorting by urgency.",
+      "explanation": "Triage is a rapid assessment of an alert or event to judge its significance, priority and what should happen next."
+    },
+    {
+      "id": "CYB-242",
+      "category": "Resilience and Security Management",
+      "question": "An auditor asks for proof that admin logins are monitored. Which SIEM use case helps?",
+      "options": [
+        "Event streaming",
+        "DNS tunnelling detection",
+        "Compliance reporting",
+        "Packet capture"
+      ],
+      "correctIndex": 2,
+      "hint": "Proving requirements are met.",
+      "explanation": "Compliance reporting uses centralised log data to show that security and regulatory requirements, like monitoring admin access, are being met."
+    },
+    {
+      "id": "CYB-243",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why should logging be scoped rather than sending everything to the SIEM?",
+      "options": [
+        "Because SIEMs can only accept logs from ten sources",
+        "Because logs from servers are never useful for security",
+        "To make sure no alerts are ever generated",
+        "To keep useful visibility without unnecessary noise and cost"
+      ],
+      "correctIndex": 3,
+      "hint": "A SIEM isn’t just a log dump.",
+      "explanation": "Log scoping selects the systems and event types worth sending, keeping the visibility you need without drowning analysts in noise or paying to store junk."
+    },
+    {
+      "id": "CYB-244",
+      "category": "Networks and the Web",
+      "question": "What is Syslog?",
+      "options": [
+        "A standard protocol for sending log messages to a central server",
+        "A Windows tool for viewing event logs",
+        "A query language for searching Azure logs",
+        "A file format for captured network packets"
+      ],
+      "correctIndex": 0,
+      "hint": "Defined in RFC 5424.",
+      "explanation": "Syslog is the standard protocol for sending event and system log messages from devices to a central Syslog server."
+    },
+    {
+      "id": "CYB-245",
+      "category": "Networks and the Web",
+      "question": "What is the default transport and port for Syslog?",
+      "options": [
+        "TCP 443",
+        "UDP 514",
+        "UDP 53",
+        "TCP 3389"
+      ],
+      "correctIndex": 1,
+      "hint": "Fast, but with no delivery guarantee.",
+      "explanation": "Syslog defaults to UDP port 514, which is lightweight but doesn’t guarantee delivery. TCP 514 is more reliable, and TCP 6514 is commonly used for secure Syslog."
+    },
+    {
+      "id": "CYB-246",
+      "category": "Networks and the Web",
+      "question": "Which port is commonly used for securely transported Syslog?",
+      "options": [
+        "UDP 514",
+        "TCP 25",
+        "TCP 6514",
+        "UDP 161"
+      ],
+      "correctIndex": 2,
+      "hint": "It’s a higher number than the default.",
+      "explanation": "TCP 6514 is commonly used for Syslog sent over a secure, encrypted transport. UDP 514 is the unencrypted default."
+    },
+    {
+      "id": "CYB-247",
+      "category": "Networks and the Web",
+      "question": "How is a Syslog PRI value calculated?",
+      "options": [
+        "Facility code + severity + 8",
+        "Severity × facility code",
+        "(Severity × 8) − facility code",
+        "(Facility code × 8) + severity"
+      ],
+      "correctIndex": 3,
+      "hint": "Facility is multiplied first.",
+      "explanation": "The priority value combines facility and severity: PRI = (facility × 8) + severity. It sits at the start of a Syslog message, before the header."
+    },
+    {
+      "id": "CYB-248",
+      "category": "Networks and the Web",
+      "question": "What are the three parts of a Syslog message?",
+      "options": [
+        "PRI, header and message",
+        "Source, destination and port",
+        "Index, sourcetype and host",
+        "Logsource, detection and condition"
+      ],
+      "correctIndex": 0,
+      "hint": "Priority first.",
+      "explanation": "A Syslog message has the PRI (priority), a header (timestamp, hostname, app) and the message content itself."
+    },
+    {
+      "id": "CYB-249",
+      "category": "Devices and Endpoint Security",
+      "question": "In which file format are modern Windows event logs stored?",
+      "options": [
+        ".pcap",
+        ".evtx",
+        ".eml",
+        ".json"
+      ],
+      "correctIndex": 1,
+      "hint": "EV for event.",
+      "explanation": "Windows Event Logs are stored in the binary .evtx format and can be viewed and filtered in Event Viewer."
+    },
+    {
+      "id": "CYB-250",
+      "category": "Devices and Endpoint Security",
+      "question": "Which Windows Event ID records a successful logon?",
+      "options": [
+        "4720",
+        "4634",
+        "4624",
+        "4732"
+      ],
+      "correctIndex": 2,
+      "hint": "One of the most-searched IDs.",
+      "explanation": "4624 is a successful logon. 4634 is a logoff, 4720 is a new user account and 4732 is a member added to a local security group."
+    },
+    {
+      "id": "CYB-251",
+      "category": "Devices and Endpoint Security",
+      "question": "Which Windows Event ID shows a logon that was given special or administrative privileges?",
+      "options": [
+        "4624",
+        "4647",
+        "5379",
+        "4672"
+      ],
+      "correctIndex": 3,
+      "hint": "‘Special logon’.",
+      "explanation": "4672 is a special logon: the session received admin-level privileges. It’s often seen alongside 4624 for privileged accounts."
+    },
+    {
+      "id": "CYB-252",
+      "category": "Devices and Endpoint Security",
+      "question": "An analyst suspects an attacker created a backdoor account. Which Event ID should they search for?",
+      "options": [
+        "4720",
+        "4624",
+        "4634",
+        "4672"
+      ],
+      "correctIndex": 0,
+      "hint": "A new user account.",
+      "explanation": "Event ID 4720 is generated when a user account is created, which makes it key for spotting attackers adding their own accounts."
+    },
+    {
+      "id": "CYB-253",
+      "category": "Devices and Endpoint Security",
+      "question": "Which Windows Event ID shows a member being added to a security-enabled local group, such as Administrators?",
+      "options": [
+        "4720",
+        "4732",
+        "4647",
+        "4624"
+      ],
+      "correctIndex": 1,
+      "hint": "Group membership change.",
+      "explanation": "4732 records a member added to a security-enabled local group, a common step when attackers give themselves admin rights."
+    },
+    {
+      "id": "CYB-254",
+      "category": "Devices and Endpoint Security",
+      "question": "What is the difference between Event IDs 4647 and 4634?",
+      "options": [
+        "4647 is a failed logon; 4634 is a successful logon",
+        "4647 is account creation; 4634 is account deletion",
+        "4647 is a user-initiated logoff; 4634 shows a logon session ended",
+        "They both record new processes starting"
+      ],
+      "correctIndex": 2,
+      "hint": "Both are about logging off.",
+      "explanation": "4647 is logged when a user starts the logoff, and 4634 records that a logon session has ended."
+    },
+    {
+      "id": "CYB-255",
+      "category": "Devices and Endpoint Security",
+      "question": "What does Sysmon add to Windows logging?",
+      "options": [
+        "Encryption of Windows event logs so attackers can’t read or alter them",
+        "A full replacement for antivirus that removes malware it finds",
+        "Automatic blocking of any process that isn’t digitally signed",
+        "Richer endpoint detail, such as full command lines, parent processes and hashes"
+      ],
+      "correctIndex": 3,
+      "hint": "It’s a Sysinternals monitoring tool.",
+      "explanation": "Sysmon records detailed endpoint activity to the event log: process creation with command lines and parents, network connections, hashes, drivers and DLLs."
+    },
+    {
+      "id": "CYB-256",
+      "category": "Devices and Endpoint Security",
+      "question": "Why does Sysmon log changes to a file’s creation time?",
+      "options": [
+        "Malware may change timestamps to hide when it arrived",
+        "It’s needed to calculate the file’s hash",
+        "Windows requires it for every file",
+        "It shows who owns the file"
+      ],
+      "correctIndex": 0,
+      "hint": "Timestomping.",
+      "explanation": "Attackers can change file creation times to blend in. Sysmon logging those changes helps investigators spot the tampering."
+    },
+    {
+      "id": "CYB-257",
+      "category": "Devices and Endpoint Security",
+      "question": "Why do analysts tune a Sysmon configuration?",
+      "options": [
+        "To make Sysmon run faster than antivirus",
+        "To keep useful telemetry while filtering out noisy events",
+        "To stop Sysmon logging process creation",
+        "To encrypt the events it records"
+      ],
+      "correctIndex": 1,
+      "hint": "Signal versus noise.",
+      "explanation": "A Sysmon configuration includes and excludes events so you keep valuable endpoint data without flooding the SIEM with noise."
+    },
+    {
+      "id": "CYB-258",
+      "category": "Cloud and Application Security",
+      "question": "Which query language is used to search logs in Microsoft Azure monitoring services?",
+      "options": [
+        "SQL",
+        "SPL",
+        "KQL",
+        "YAML"
+      ],
+      "correctIndex": 2,
+      "hint": "Kusto.",
+      "explanation": "Kusto Query Language (KQL) is used to search and analyse logs in Azure Monitor and Log Analytics workspaces."
+    },
+    {
+      "id": "CYB-259",
+      "category": "Cloud and Application Security",
+      "question": "Where does Azure store monitoring data so it can be queried?",
+      "options": [
+        "An Event Viewer custom view",
+        "A Splunk index",
+        "A Syslog server",
+        "A Log Analytics workspace"
+      ],
+      "correctIndex": 3,
+      "hint": "Azure’s own log store.",
+      "explanation": "Azure Monitor sends data to a Log Analytics workspace, where it can be stored and queried with KQL."
+    },
+    {
+      "id": "CYB-260",
+      "category": "Cloud and Application Security",
+      "question": "Cloud services commonly expose log data through which kind of interface?",
+      "options": [
+        "A REST API returning JSON",
+        "A Syslog feed over UDP 514",
+        "Printed daily reports",
+        "A PCAP file per day"
+      ],
+      "correctIndex": 0,
+      "hint": "HTTP-based, structured text.",
+      "explanation": "Cloud platforms usually expose data through HTTP-based REST APIs, often in JSON format, which SIEMs collect directly."
+    },
+    {
+      "id": "CYB-261",
+      "category": "Devices and Endpoint Security",
+      "question": "What does osquery let analysts do?",
+      "options": [
+        "Capture and index full network traffic",
+        "Query an endpoint’s operating system state using SQL",
+        "Convert Sigma rules into SIEM queries",
+        "Decode Base64 in suspicious emails"
+      ],
+      "correctIndex": 1,
+      "hint": "The OS as database tables.",
+      "explanation": "osquery exposes operating system information as relational tables that can be queried with SQL, giving consistent endpoint visibility."
+    },
+    {
+      "id": "CYB-262",
+      "category": "Networks and the Web",
+      "question": "What does Arkime (formerly Moloch) do?",
+      "options": [
+        "Queries endpoint state using SQL tables",
+        "Converts Sigma rules for different SIEMs",
+        "Stores and indexes network traffic as PCAP for fast searching",
+        "Scans websites for known vulnerabilities"
+      ],
+      "correctIndex": 2,
+      "hint": "Network packet capture at scale.",
+      "explanation": "Arkime captures and indexes network traffic in standard PCAP format, so analysts can search, browse and export sessions quickly."
+    },
+    {
+      "id": "CYB-263",
+      "category": "Networks and the Web",
+      "question": "What is a PCAP file?",
+      "options": [
+        "A binary Windows event log viewed in Event Viewer",
+        "A compressed bundle of Sigma rules for sharing",
+        "A feed of known malicious IP addresses and domains",
+        "A file of captured network traffic for later analysis"
+      ],
+      "correctIndex": 3,
+      "hint": "Packet capture.",
+      "explanation": "PCAP files contain captured network packets that can be analysed later in tools like Wireshark or Arkime."
+    },
+    {
+      "id": "CYB-264",
+      "category": "Networks and the Web",
+      "question": "Which of these are examples of event streaming from network devices?",
+      "options": [
+        "SNMP, NetFlow and IPFIX",
+        "SPF, DKIM and DMARC",
+        "KQL, SQL and SPL",
+        "MD5, SHA-1 and SHA-256"
+      ],
+      "correctIndex": 0,
+      "hint": "Protocols that stream device and flow data.",
+      "explanation": "Event streaming uses protocols like SNMP, NetFlow and IPFIX to push operational and flow information from network devices to a collector."
+    },
+    {
+      "id": "CYB-265",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between structured and unstructured log data?",
+      "options": [
+        "Structured is encrypted; unstructured is in plain text",
+        "Structured has consistent fields; unstructured needs more parsing first",
+        "Unstructured is always more accurate than structured",
+        "Structured logs only come from cloud services"
+      ],
+      "correctIndex": 1,
+      "hint": "Predictable fields or not.",
+      "explanation": "Structured logs have clearly defined, predictable fields and are easy to normalise. Unstructured logs lack consistent fields and need more parsing."
+    },
+    {
+      "id": "CYB-266",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does parsing do to a raw log message?",
+      "options": [
+        "Encrypts the message so it can be stored safely",
+        "Deletes duplicate log messages from storage",
+        "Extracts fields and values so the data can be searched and normalised",
+        "Sends the message on to a Syslog server"
+      ],
+      "correctIndex": 2,
+      "hint": "Pulling the fields out.",
+      "explanation": "Parsing extracts fields and values from raw logs. Indexing then makes them fast to search, and normalisation maps them to common names."
+    },
+    {
+      "id": "CYB-267",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a log collector?",
+      "options": [
+        "A dashboard that shows log volumes over time",
+        "A person who reviews logs by hand each day",
+        "A rule that deletes old logs after a set time",
+        "An agent or service that captures logs and forwards them to a central SIEM"
+      ],
+      "correctIndex": 3,
+      "hint": "It gathers and forwards.",
+      "explanation": "A log collector captures logs, may parse them, and forwards them to an aggregator or SIEM. The source generates events; the aggregator centralises them."
+    },
+    {
+      "id": "CYB-268",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does categorisation add to normalised events?",
+      "options": [
+        "Meaning, by grouping events into types like authentication or remote access",
+        "External context, such as threat-intel verdicts and IP geolocation",
+        "Encryption of each event so it meets compliance requirements",
+        "Faster searching by organising stored data into indexes"
+      ],
+      "correctIndex": 0,
+      "hint": "Labelling what kind of event it is.",
+      "explanation": "Categorisation classifies events into meaningful groups, such as authentication or system activity. Enrichment adds external context; normalisation standardises fields."
+    },
+    {
+      "id": "CYB-269",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between an out-of-the-box rule and a custom detection rule?",
+      "options": [
+        "Custom rules are written by the vendor; out-of-the-box rules by analysts",
+        "Vendor rules give generic coverage; custom rules fit your environment and threats",
+        "Out-of-the-box rules never produce false positives",
+        "Custom rules can’t raise alerts, only reports"
+      ],
+      "correctIndex": 1,
+      "hint": "Who wrote it, and for whom?",
+      "explanation": "Out-of-the-box rules are prebuilt by the SIEM vendor for common attacks. Custom rules are written for your organisation’s systems, behaviour and threats."
+    },
+    {
+      "id": "CYB-270",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a real-time rule and a scheduled rule?",
+      "options": [
+        "Scheduled rules are always more accurate than real-time rules",
+        "Real-time rules only run overnight",
+        "Real-time rules evaluate continuously; scheduled rules run at set intervals",
+        "There is no difference in how they run"
+      ],
+      "correctIndex": 2,
+      "hint": "Always on versus every so often.",
+      "explanation": "Real-time rules evaluate events as they arrive. Scheduled rules run periodically, such as every few minutes or daily."
+    },
+    {
+      "id": "CYB-271",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A rule only alerts after 10 failed logons from the same IP within five minutes. What is this called?",
+      "options": [
+        "A rule exclusion",
+        "Normalisation",
+        "Enrichment",
+        "A rule threshold"
+      ],
+      "correctIndex": 3,
+      "hint": "A minimum amount before alerting.",
+      "explanation": "A threshold requires a number or rate of matching events before alerting, cutting noise from the odd mistyped password."
+    },
+    {
+      "id": "CYB-272",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A network-scan detection keeps firing on the company’s approved vulnerability scanner. What is the best fix?",
+      "options": [
+        "Add an exclusion for the scanner’s IP while keeping its logs",
+        "Delete the detection rule so it can never fire again",
+        "Stop collecting network logs from that part of the site",
+        "Raise the rule’s severity so analysts look at it faster"
+      ],
+      "correctIndex": 0,
+      "hint": "Ignore known-good, keep visibility.",
+      "explanation": "A rule exclusion deliberately ignores known benign activity, like an approved scanner, while the telemetry stays available for investigation."
+    },
+    {
+      "id": "CYB-273",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the goal of rule tuning?",
+      "options": [
+        "Make every rule trigger as often as possible",
+        "Reduce false positives without creating false negatives",
+        "Remove all rules that ever fire",
+        "Speed up log collection from sources"
+      ],
+      "correctIndex": 1,
+      "hint": "Balance noise and misses.",
+      "explanation": "Tuning adjusts logic, thresholds and exclusions so detections stay useful, cutting unnecessary alerts without missing real attacks."
+    },
+    {
+      "id": "CYB-274",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is Sigma?",
+      "options": [
+        "A commercial SIEM platform made by IBM for large SOCs",
+        "A Sysinternals service that logs detailed endpoint activity",
+        "A vendor-agnostic, shareable format for writing detection rules",
+        "A query language used to search Azure Log Analytics data"
+      ],
+      "correctIndex": 2,
+      "hint": "Write once, convert for many SIEMs.",
+      "explanation": "Sigma is a generic, human-readable rule format for log-based detections that can be converted into queries for supported SIEM platforms."
+    },
+    {
+      "id": "CYB-275",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What problem does Sigma help organisations avoid?",
+      "options": [
+        "Running out of log storage",
+        "Needing any log sources at all",
+        "Writing incident reports",
+        "Vendor lock-in to one SIEM’s rule format"
+      ],
+      "correctIndex": 3,
+      "hint": "Moving detections between platforms.",
+      "explanation": "Because Sigma rules are vendor-agnostic, detections can be shared and converted for other SIEMs, reducing dependence on one vendor."
+    },
+    {
+      "id": "CYB-276",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which part of a Sigma rule states what kind of logs the detection needs, such as Windows process creation?",
+      "options": [
+        "The logsource",
+        "The condition",
+        "The level",
+        "The tags"
+      ],
+      "correctIndex": 0,
+      "hint": "Where the data comes from.",
+      "explanation": "The logsource section identifies the telemetry needed. The detection section defines the selections, and the condition decides when they count as a match."
+    },
+    {
+      "id": "CYB-277",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In a Sigma rule, what does the ‘falsepositives’ field describe?",
+      "options": [
+        "Real attacks the rule has previously failed to detect",
+        "Known legitimate situations that could trigger the rule",
+        "The severity level given to alerts the rule raises",
+        "The SIEM platforms the rule can be converted for"
+      ],
+      "correctIndex": 1,
+      "hint": "Expected benign triggers.",
+      "explanation": "The falsepositives field lists legitimate scenarios that might trigger the detection, helping analysts judge alerts quickly."
+    },
+    {
+      "id": "CYB-278",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does Sigmac do?",
+      "options": [
+        "Collects Windows logs from domain controllers",
+        "Encrypts Sigma rules before sharing them",
+        "Converts Sigma rules into queries for specific SIEM platforms",
+        "Scores Sigma rules for accuracy"
+      ],
+      "correctIndex": 2,
+      "hint": "Sigma converter.",
+      "explanation": "Sigmac translates Sigma rules into SIEM-specific query or rule formats for supported platforms."
+    },
+    {
+      "id": "CYB-279",
+      "category": "Threat Intelligence",
+      "question": "What do Sigma tags commonly link a rule to?",
+      "options": [
+        "The analyst who wrote the rule",
+        "The licence the SIEM runs under",
+        "Specific users who triggered it",
+        "MITRE ATT&CK tactics or techniques"
+      ],
+      "correctIndex": 3,
+      "hint": "A well-known framework of attacker behaviour.",
+      "explanation": "Sigma tags usually reference MITRE ATT&CK tactic or technique IDs, so detections can be mapped to known adversary behaviour."
+    },
+    {
+      "id": "CYB-280",
+      "category": "Malware and Attacks",
+      "question": "Unusually long or frequent DNS queries to one domain could indicate which technique?",
+      "options": [
+        "DNS tunnelling",
+        "Typosquatting",
+        "Credential stuffing",
+        "Smishing"
+      ],
+      "correctIndex": 0,
+      "hint": "Data hidden inside DNS.",
+      "explanation": "DNS tunnelling abuses DNS queries and responses to carry data or command-and-control traffic. Unusual query patterns or volume can reveal it."
+    },
+    {
+      "id": "CYB-281",
+      "category": "Threat Intelligence",
+      "question": "MITRE ATT&CK T1071.004 covers adversaries using which protocol for command and control?",
+      "options": [
+        "SMTP",
+        "DNS",
+        "FTP",
+        "SNMP"
+      ],
+      "correctIndex": 1,
+      "hint": "Application Layer Protocol: …",
+      "explanation": "T1071.004 is Application Layer Protocol: DNS, covering attackers who use DNS for command-and-control communication."
+    },
+    {
+      "id": "CYB-282",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In Splunk, what is the difference between an index and a sourcetype?",
+      "options": [
+        "A sourcetype is where data is stored; an index describes the format of each event",
+        "They are two names for the same thing, used in different Splunk versions",
+        "An index is the stored collection of data; sourcetype is the format of events within it",
+        "An index is a type of dashboard; a sourcetype is a type of saved report"
+      ],
+      "correctIndex": 2,
+      "hint": "Container versus type.",
+      "explanation": "An index is a named collection of stored data. Sourcetype identifies the format or type of event, such as Suricata or Windows events."
+    },
+    {
+      "id": "CYB-283",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In Splunk, what does the ‘host’ field identify?",
+      "options": [
+        "The format of the event data",
+        "The file the data came from",
+        "The analyst running the search",
+        "The system the event is associated with"
+      ],
+      "correctIndex": 3,
+      "hint": "Which machine?",
+      "explanation": "host is the system associated with the event. source is where the data came from, and sourcetype is the event format."
+    },
+    {
+      "id": "CYB-284",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A Splunk search uses dest_ip=\"10.10.10.*\". What does the asterisk do?",
+      "options": [
+        "Acts as a wildcard matching any value in that position",
+        "Excludes those addresses from the results",
+        "Marks the field as required",
+        "Sorts the results by IP address"
+      ],
+      "correctIndex": 0,
+      "hint": "Broadening the match.",
+      "explanation": "The asterisk is a wildcard, matching any characters in that position, so this matches every address in 10.10.10.x."
+    },
+    {
+      "id": "CYB-285",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In a Splunk search, what does the pipe character (|) do?",
+      "options": [
+        "Comments out everything after it in the search bar",
+        "Passes results from one command to the next in a pipeline",
+        "Combines two separate indexes into a single one",
+        "Separates a field name from the value being searched"
+      ],
+      "correctIndex": 1,
+      "hint": "Chaining commands.",
+      "explanation": "The pipe joins commands into a pipeline, with each command processing the results of the previous one."
+    },
+    {
+      "id": "CYB-286",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which Splunk command calculates summaries, such as a count of events per IP address?",
+      "options": [
+        "table",
+        "sort",
+        "stats",
+        "dedup"
+      ],
+      "correctIndex": 2,
+      "hint": "Statistics.",
+      "explanation": "stats calculates statistics like counts grouped by a field. table shows chosen fields, sort orders results and dedup removes duplicates."
+    },
+    {
+      "id": "CYB-287",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which Splunk command shows only the fields you choose, in a table?",
+      "options": [
+        "stats",
+        "spath",
+        "sort",
+        "table"
+      ],
+      "correctIndex": 3,
+      "hint": "Its name says it.",
+      "explanation": "table displays only the selected fields, cutting noise so results are easier to review."
+    },
+    {
+      "id": "CYB-288",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which Splunk command removes duplicate results based on a field?",
+      "options": [
+        "dedup",
+        "stats",
+        "table",
+        "sort"
+      ],
+      "correctIndex": 0,
+      "hint": "De-duplicate.",
+      "explanation": "dedup removes duplicate results based on one or more fields, a practical way to list unique values."
+    },
+    {
+      "id": "CYB-289",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which Splunk command orders results, for example to rebuild a sequence of events?",
+      "options": [
+        "dedup",
+        "sort",
+        "values",
+        "spath"
+      ],
+      "correctIndex": 1,
+      "hint": "Ascending or descending.",
+      "explanation": "sort orders results by a field, ascending or descending, which is useful for reconstructing what happened when."
+    },
+    {
+      "id": "CYB-290",
+      "category": "Devices and Endpoint Security",
+      "question": "In Sysmon events, which two fields are most useful for seeing what a process actually ran?",
+      "options": [
+        "host and source",
+        "Logon ID and Session GUID",
+        "Image and CommandLine",
+        "Facility and severity"
+      ],
+      "correctIndex": 2,
+      "hint": "The executable path and its arguments.",
+      "explanation": "Image shows the executable’s path and CommandLine shows the arguments it ran with, which together reveal what a process actually did."
+    },
+    {
+      "id": "CYB-291",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a Splunk alert trigger and an alert action?",
+      "options": [
+        "The action decides when it fires; the trigger sends the email",
+        "They are the same setting shown twice",
+        "Triggers are only for dashboards, actions only for reports",
+        "The trigger is when it fires; the action is what Splunk does next"
+      ],
+      "correctIndex": 3,
+      "hint": "When versus what.",
+      "explanation": "The trigger is the condition for the alert to fire, such as a threshold. The action is what happens afterwards, like a notification or log entry."
+    },
+    {
+      "id": "CYB-292",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a Splunk report and a dashboard panel?",
+      "options": [
+        "A report is a saved search; a panel visualises data powered by a search or report",
+        "A panel is a saved search; a report is a chart that sits on a dashboard",
+        "Reports can only be run once, while panels can be reused anywhere",
+        "They are the same feature, just shown in different parts of Splunk"
+      ],
+      "correctIndex": 0,
+      "hint": "Saved search versus visual.",
+      "explanation": "A report is a reusable saved search. A dashboard panel displays data as a table, chart or counter, powered by a search or report."
+    },
+    {
+      "id": "CYB-293",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does ‘single pane of glass’ mean in a SOC?",
+      "options": [
+        "A one-way mirror in the security operations room",
+        "One consolidated view of the key security metrics and visuals",
+        "A single analyst watching every alert",
+        "Using only one log source for simplicity"
+      ],
+      "correctIndex": 1,
+      "hint": "Everything on one screen.",
+      "explanation": "A single pane of glass puts the most important security information on one screen for fast situational awareness."
+    },
+    {
+      "id": "CYB-294",
+      "category": "Security Monitoring and Incident Response",
+      "question": "An analyst finds a suspicious IP in firewall logs, then searches the proxy and endpoint logs for it. What is this called?",
+      "options": [
+        "Log scoping",
+        "Event sampling",
+        "Log source pivoting",
+        "Normalisation"
+      ],
+      "correctIndex": 2,
+      "hint": "Using one clue to search elsewhere.",
+      "explanation": "Pivoting uses an indicator from one source, like an IP or hash, to find more context in other sources."
+    },
+    {
+      "id": "CYB-295",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why must analysts watch for field-name variance when pivoting between products?",
+      "options": [
+        "Field names change every time the SIEM restarts",
+        "Different products can’t log the same information",
+        "Field names are encrypted in some log sources",
+        "The same idea may be called src_ip in one product and SourceIp in another"
+      ],
+      "correctIndex": 3,
+      "hint": "Same meaning, different labels.",
+      "explanation": "Products name the same concept differently, so analysts search by meaning rather than assuming identical field names."
+    },
+    {
+      "id": "CYB-296",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why might an analyst use event sampling (such as 1:100) in Splunk?",
+      "options": [
+        "To explore data quickly before running the full search",
+        "To permanently delete 99% of the events",
+        "To make alerts fire 100 times faster",
+        "To encrypt the search results"
+      ],
+      "correctIndex": 0,
+      "hint": "A quick look first.",
+      "explanation": "Sampling searches a fraction of events to speed up exploration. The final query is then rerun without sampling for complete results."
+    },
+    {
+      "id": "CYB-297",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Does a SIEM replace the need for analysts?",
+      "options": [
+        "Yes: SIEMs investigate and close every alert",
+        "No: tuning and human investigation are still needed",
+        "Yes, but only for small organisations",
+        "No: SIEMs can’t raise alerts without analysts"
+      ],
+      "correctIndex": 1,
+      "hint": "Tools support people.",
+      "explanation": "A SIEM surfaces and correlates activity, but rules need tuning and alerts still need human judgement and investigation."
+    },
+    {
+      "id": "CYB-298",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the typical order of the core SIEM flow?",
+      "options": [
+        "Alerts, correlation, normalisation, collection, log sources",
+        "Storage, alerts, log sources, collection",
+        "Log sources, collection, normalisation, correlation, storage, alerts",
+        "Correlation, log sources, alerts, normalisation"
+      ],
+      "correctIndex": 2,
+      "hint": "Data in, alerts out.",
+      "explanation": "Logs come from sources, are collected and aggregated, normalised, correlated and stored, then surface as alerts and dashboards."
+    },
+    {
+      "id": "CYB-299",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is detection engineering?",
+      "options": [
+        "Physically installing sensors in a data centre",
+        "Engineering networks to avoid detection",
+        "Writing marketing material for a SIEM product",
+        "Designing, testing and tuning detection logic over time"
+      ],
+      "correctIndex": 3,
+      "hint": "Building and maintaining detections.",
+      "explanation": "Detection engineering is the discipline of designing, testing, tuning and maintaining detection logic based on available telemetry."
+    },
+    {
+      "id": "CYB-300",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Searching the SIEM for a known-malicious hash to find every affected host is an example of what?",
+      "options": [
+        "An IOC search",
+        "Log scoping",
+        "Normalisation",
+        "Rule tuning"
+      ],
+      "correctIndex": 0,
+      "hint": "Indicators of Compromise.",
+      "explanation": "An IOC search queries collected data for indicators like hashes, IPs or domains to identify affected users and hosts."
+    },
+    {
+      "id": "CYB-301",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does indexing do for log data?",
+      "options": [
+        "Encrypts it for long-term storage",
+        "Organises it so large datasets can be searched quickly",
+        "Converts it into a consistent field format",
+        "Deletes logs that are older than a year"
+      ],
+      "correctIndex": 1,
+      "hint": "Like the index in a book.",
+      "explanation": "Indexing organises ingested data for fast searching. Normalisation is the separate step that makes field names consistent."
+    },
+    {
+      "id": "CYB-302",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does Splunk’s values() function return when used with stats?",
+      "options": [
+        "The number of events in an index",
+        "The average of a numeric field",
+        "The distinct values of a field",
+        "The first event in the results"
+      ],
+      "correctIndex": 2,
+      "hint": "Unique values, grouped.",
+      "explanation": "values() returns the distinct values of a field, useful for summarising, for example, every command line run on each host."
+    },
+    {
+      "id": "CYB-303",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a scheduled alert and a real-time alert in Splunk?",
+      "options": [
+        "Real-time alerts run once a day; scheduled alerts run continuously",
+        "Scheduled alerts can’t trigger actions, only appear on dashboards",
+        "There’s no difference; the names describe the same type of alert",
+        "Scheduled alerts run at intervals; real-time alerts evaluate continuously"
+      ],
+      "correctIndex": 3,
+      "hint": "Same idea as rules.",
+      "explanation": "A scheduled alert runs its search at defined intervals. A real-time alert evaluates activity continuously within a time window."
+    },
+    {
+      "id": "CYB-304",
+      "category": "Devices and Endpoint Security",
+      "question": "In Event Viewer, what is a Custom View?",
+      "options": [
+        "A saved filter for chosen logs, IDs, users or time ranges",
+        "A theme that changes Event Viewer’s colours",
+        "A way to delete events in bulk",
+        "A tool that converts .evtx to PCAP"
+      ],
+      "correctIndex": 0,
+      "hint": "Filtering the noise.",
+      "explanation": "A Custom View saves a filter so analysts can focus on selected logs, event levels, IDs, keywords, users, computers or times."
+    },
+    {
+      "id": "CYB-305",
+      "category": "Devices and Endpoint Security",
+      "question": "Which Windows log records logons, account management and privilege use under the audit policy?",
+      "options": [
+        "The Application event log",
+        "The Security event log",
+        "The Setup event log",
+        "The DNS server log"
+      ],
+      "correctIndex": 1,
+      "hint": "Security-relevant activity.",
+      "explanation": "The Security event log holds events generated by Windows security audit policies, including logons, account changes and privilege use."
+    },
+    {
+      "id": "CYB-306",
+      "category": "Devices and Endpoint Security",
+      "question": "What does the Windows Logon ID help analysts do?",
+      "options": [
+        "Identify which user created a file",
+        "Calculate a file’s hash",
+        "Link together events from the same logon session",
+        "Find the IP address of a website"
+      ],
+      "correctIndex": 2,
+      "hint": "It ties a session together.",
+      "explanation": "The Logon ID is a semi-unique identifier that links events belonging to the same Windows logon session."
+    },
+    {
+      "id": "CYB-307",
+      "category": "Devices and Endpoint Security",
+      "question": "Event ID 5379 appears on a workstation. What does it indicate?",
+      "options": [
+        "A new local user account was just created",
+        "A user started logging off from their session",
+        "A member was added to a local security group",
+        "Stored Credential Manager credentials were read"
+      ],
+      "correctIndex": 3,
+      "hint": "Saved credentials.",
+      "explanation": "5379 means credentials stored in Credential Manager were read, which can be worth investigating if unexpected."
+    },
+    {
+      "id": "CYB-308",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which SIEM platform is made by IBM and can use X-Force threat intelligence?",
+      "options": [
+        "QRadar",
+        "Graylog",
+        "Arkime",
+        "Splunk"
+      ],
+      "correctIndex": 0,
+      "hint": "IBM’s SIEM.",
+      "explanation": "QRadar is IBM’s SIEM platform, and it can use IBM X-Force threat intelligence to enrich investigations."
+    },
+    {
+      "id": "CYB-309",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which log management and SIEM platform comes in both open-source and commercial editions?",
+      "options": [
+        "QRadar",
+        "Graylog",
+        "ArcSight ESM",
+        "Azure Monitor"
+      ],
+      "correctIndex": 1,
+      "hint": "One of these has a free version.",
+      "explanation": "Graylog is a log management and SIEM platform with open-source and commercial editions."
+    },
+    {
+      "id": "CYB-310",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A SIEM is used to check that a ‘no USB storage’ policy is actually being followed. What is this called?",
+      "options": [
+        "Log source pivoting",
+        "Rule threshold tuning",
+        "Policy enforcement validation",
+        "Event streaming analysis"
+      ],
+      "correctIndex": 2,
+      "hint": "Proving controls work.",
+      "explanation": "Policy enforcement validation uses logs to verify security policies and controls are operating as intended."
+    },
+    {
+      "id": "CYB-311",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is real-time monitoring?",
+      "options": [
+        "Reviewing the previous month’s logs together at the end of each quarter",
+        "Recording CCTV footage of the server room so access can be checked",
+        "Running a vulnerability scan across the network once every week",
+        "Continuously analysing incoming events so suspicious activity is spotted quickly"
+      ],
+      "correctIndex": 3,
+      "hint": "As it happens.",
+      "explanation": "Real-time monitoring continuously observes and analyses incoming events so suspicious activity can be identified fast."
+    },
+    {
+      "id": "CYB-312",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What makes information ‘actionable’ for a SOC analyst?",
+      "options": [
+        "It has enough context and relevance to support a useful action",
+        "It has been encrypted before being shared with the team",
+        "It comes from a paid commercial threat-intelligence feed",
+        "It has been approved by a manager before it is used"
+      ],
+      "correctIndex": 0,
+      "hint": "Can you do something with it?",
+      "explanation": "Actionable information has enough context and relevance for an analyst or automated system to take a useful security action."
     }
   ]
 }
