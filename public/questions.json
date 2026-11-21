@@ -9142,6 +9142,1210 @@
       "correctIndex": 1,
       "hint": "How the disk is divided.",
       "explanation": "A partition table describes the volumes on a disk image, including start sector, length and file-system type."
+    },
+    {
+      "id": "CYB-654",
+      "category": "Passwords and Authentication",
+      "question": "What do the three As in AAA stand for?",
+      "options": [
+        "Access, authority and auditing",
+        "Authentication, access and alerting",
+        "Authentication, authorisation and accountability",
+        "Assurance, authorisation and availability"
+      ],
+      "correctIndex": 2,
+      "hint": "Who you are, what you can do, what you did.",
+      "explanation": "AAA verifies identity (authentication), controls permitted actions (authorisation) and records activity for review (accountability)."
+    },
+    {
+      "id": "CYB-655",
+      "category": "Passwords and Authentication",
+      "question": "What is the difference between authentication and authorisation?",
+      "options": [
+        "Authorisation checks who you are; authentication decides what you can do",
+        "Authentication is for users; authorisation is only for computers",
+        "They are two words for the same check",
+        "Authentication checks who you are; authorisation decides what you can do"
+      ],
+      "correctIndex": 3,
+      "hint": "Who are you? What can you do?",
+      "explanation": "Authentication verifies identity. Authorisation determines what an authenticated user is allowed to access or do."
+    },
+    {
+      "id": "CYB-656",
+      "category": "Passwords and Authentication",
+      "question": "In AAA, what does accountability rely on?",
+      "options": [
+        "Logs and evidence showing what happened, when and by whom",
+        "Strong, unique passwords on every single account",
+        "Encrypting all stored data at rest on servers",
+        "Blocking all unknown devices from the network"
+      ],
+      "correctIndex": 0,
+      "hint": "Being able to prove actions.",
+      "explanation": "Accountability keeps evidence of actions, usually logs, so an organisation can determine what happened, when, and which identity was involved."
+    },
+    {
+      "id": "CYB-657",
+      "category": "Passwords and Authentication",
+      "question": "A login asks for a password and a fingerprint. Which factor categories are these?",
+      "options": [
+        "Something you have and something you know",
+        "Something you know and something you are",
+        "Something you are and something you have",
+        "Two different types of something you know"
+      ],
+      "correctIndex": 1,
+      "hint": "Knowledge and biometrics.",
+      "explanation": "A password is a knowledge factor (something you know). A fingerprint is a biometric factor (something you are)."
+    },
+    {
+      "id": "CYB-658",
+      "category": "Passwords and Authentication",
+      "question": "Why is a password plus a security question NOT true multi-factor authentication?",
+      "options": [
+        "Security questions can’t be changed once set",
+        "Passwords don’t count as an authentication factor",
+        "Both are something you know, so they’re the same category",
+        "MFA must always include a fingerprint"
+      ],
+      "correctIndex": 2,
+      "hint": "Different categories are required.",
+      "explanation": "MFA needs factors from two or more different categories: something you know, have or are. Two knowledge factors is still single-category."
+    },
+    {
+      "id": "CYB-659",
+      "category": "Passwords and Authentication",
+      "question": "What is IAM?",
+      "options": [
+        "A firewall that blocks unknown IP addresses",
+        "A type of malware that steals identities",
+        "A protocol for sending email securely",
+        "Processes and technology for managing identities and their access"
+      ],
+      "correctIndex": 3,
+      "hint": "Identity and Access Management.",
+      "explanation": "IAM covers the processes and technologies used to manage identities, accounts and access to resources."
+    },
+    {
+      "id": "CYB-660",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is alert fatigue?",
+      "options": [
+        "Analysts becoming desensitised to frequent alerts, so real threats may be missed",
+        "A SIEM slowing down because it has too many rules",
+        "An attacker sending fake alerts to distract the SOC",
+        "Alerts expiring if they aren’t handled within an hour"
+      ],
+      "correctIndex": 0,
+      "hint": "Too many alarms.",
+      "explanation": "Alert fatigue is when frequent or repetitive alerts desensitise analysts, increasing the risk that genuine malicious activity is missed."
+    },
+    {
+      "id": "CYB-661",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What does an organisation’s ‘security posture’ describe?",
+      "options": [
+        "The physical layout of its security office",
+        "The overall state and effectiveness of its security controls",
+        "The number of staff in its security team",
+        "The amount it spends on security tools"
+      ],
+      "correctIndex": 1,
+      "hint": "How strong its defences are overall.",
+      "explanation": "Security posture is the overall state and effectiveness of an organisation’s security controls and defences."
+    },
+    {
+      "id": "CYB-662",
+      "category": "Cybersecurity Fundamentals",
+      "question": "Security awareness training for staff is which type of control?",
+      "options": [
+        "Technical",
+        "Physical",
+        "Administrative",
+        "Detective"
+      ],
+      "correctIndex": 2,
+      "hint": "Policies, procedures and training.",
+      "explanation": "Administrative controls are implemented through policies, procedures, training or processes. Technical controls use technology; physical controls protect buildings and assets."
+    },
+    {
+      "id": "CYB-663",
+      "category": "Cybersecurity Fundamentals",
+      "question": "A firewall and an EDR platform are examples of which type of control?",
+      "options": [
+        "Administrative",
+        "Physical",
+        "Deterrent",
+        "Technical"
+      ],
+      "correctIndex": 3,
+      "hint": "Implemented through technology.",
+      "explanation": "Technical controls are implemented through technology, such as firewalls, EDR and encryption."
+    },
+    {
+      "id": "CYB-664",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What does RFID do in a staff access badge?",
+      "options": [
+        "Uses radio signals so a reader can identify the badge",
+        "Stores a photo of the badge holder’s face",
+        "Encrypts the building’s Wi-Fi network",
+        "Records CCTV footage of who enters"
+      ],
+      "correctIndex": 0,
+      "hint": "Radio-Frequency Identification.",
+      "explanation": "RFID uses radio signals to identify tagged items, such as access badges presented to a door reader."
+    },
+    {
+      "id": "CYB-665",
+      "category": "Devices and Endpoint Security",
+      "question": "What is the difference between a credentialed and a non-credentialed vulnerability scan?",
+      "options": [
+        "Non-credentialed logs in for internal detail; credentialed shows an outsider’s view",
+        "Credentialed logs in for internal detail; non-credentialed shows an outsider’s view",
+        "Credentialed scans only check passwords; non-credentialed scans only check ports",
+        "They produce exactly the same results"
+      ],
+      "correctIndex": 1,
+      "hint": "Logged in or not.",
+      "explanation": "A credentialed scan logs in with authorised credentials to collect more detail. A non-credentialed scan resembles what an unauthenticated attacker sees."
+    },
+    {
+      "id": "CYB-666",
+      "category": "Devices and Endpoint Security",
+      "question": "What does it mean when antivirus quarantines a file?",
+      "options": [
+        "It permanently deletes the file from the disk",
+        "It uploads the file to a public website",
+        "It isolates the file so it can’t normally run or reach the user",
+        "It renames the file so the user can find it"
+      ],
+      "correctIndex": 2,
+      "hint": "Isolation, not deletion.",
+      "explanation": "Quarantine isolates suspicious or malicious content so it can’t normally execute or reach the user, while keeping it for review."
+    },
+    {
+      "id": "CYB-667",
+      "category": "Data Protection and Privacy",
+      "question": "What is PII?",
+      "options": [
+        "A type of encryption used for payment data",
+        "A protocol for sending private email",
+        "A list of a company’s internal IP addresses",
+        "Information that can identify or relate to a particular person"
+      ],
+      "correctIndex": 3,
+      "hint": "Personally Identifiable Information.",
+      "explanation": "PII is information capable of identifying or relating to a particular individual, such as a name, address or ID number."
+    },
+    {
+      "id": "CYB-668",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What is a regular expression (regex)?",
+      "options": [
+        "A pattern used to search for, match or extract text",
+        "A type of firewall rule that blocks websites",
+        "A way of encrypting email attachments",
+        "A schedule for running regular backups"
+      ],
+      "correctIndex": 0,
+      "hint": "Pattern matching.",
+      "explanation": "A regex is a pattern used to search, match or extract specific text or data, such as every IP address in a log."
+    },
+    {
+      "id": "CYB-669",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What is an attack vector?",
+      "options": [
+        "The direction an attacker’s IP address comes from",
+        "The method or route an attacker uses to compromise a target",
+        "A chart showing attacks over time",
+        "The amount of damage an attack causes"
+      ],
+      "correctIndex": 1,
+      "hint": "The way in.",
+      "explanation": "An attack vector is the method or route used to compromise a target, such as phishing email, an exposed service or a USB stick."
+    },
+    {
+      "id": "CYB-670",
+      "category": "Cybersecurity Fundamentals",
+      "question": "A storage bucket is accidentally left open to the public. What kind of weakness is this?",
+      "options": [
+        "A zero-day vulnerability",
+        "An insider threat",
+        "A misconfiguration",
+        "A false positive"
+      ],
+      "correctIndex": 2,
+      "hint": "An insecure setting.",
+      "explanation": "A misconfiguration is an incorrect or insecure setting that creates a potential security weakness."
+    },
+    {
+      "id": "CYB-671",
+      "category": "Networks and the Web",
+      "question": "What is the key difference between TCP and UDP?",
+      "options": [
+        "UDP is reliable and connection-based; TCP is faster but doesn’t guarantee delivery",
+        "TCP is only for email; UDP is only for websites",
+        "TCP is encrypted; UDP is not",
+        "TCP is reliable and connection-based; UDP is faster but doesn’t guarantee delivery"
+      ],
+      "correctIndex": 3,
+      "hint": "Reliability versus speed.",
+      "explanation": "TCP establishes a connection and retransmits lost data. UDP is connectionless and faster, with no guarantee of delivery or order."
+    },
+    {
+      "id": "CYB-672",
+      "category": "Networks and the Web",
+      "question": "What is the order of the TCP three-way handshake?",
+      "options": [
+        "SYN, SYN-ACK, ACK",
+        "ACK, SYN, SYN-ACK",
+        "SYN, ACK, FIN",
+        "SYN-ACK, SYN, ACK"
+      ],
+      "correctIndex": 0,
+      "hint": "Hello, hello back, got it.",
+      "explanation": "A TCP connection starts with SYN from the client, SYN-ACK from the server, then ACK from the client."
+    },
+    {
+      "id": "CYB-673",
+      "category": "Networks and the Web",
+      "question": "Which protocol does the ping command use?",
+      "options": [
+        "UDP",
+        "ICMP",
+        "ARP",
+        "DHCP"
+      ],
+      "correctIndex": 1,
+      "hint": "Diagnostics and error reporting.",
+      "explanation": "ICMP is used mainly for network diagnostics and error reporting, including ping."
+    },
+    {
+      "id": "CYB-674",
+      "category": "Networks and the Web",
+      "question": "What does DHCP do?",
+      "options": [
+        "Translates domain names into IP addresses",
+        "Finds the MAC address for a local IP address",
+        "Automatically gives devices an IP address, subnet mask and gateway",
+        "Encrypts traffic between a browser and website"
+      ],
+      "correctIndex": 2,
+      "hint": "Automatic network settings.",
+      "explanation": "DHCP automatically assigns hosts their IP configuration, using UDP ports 67 and 68. DNS translates names; ARP finds MAC addresses."
+    },
+    {
+      "id": "CYB-675",
+      "category": "Networks and the Web",
+      "question": "What is the difference between a private and a public IP address?",
+      "options": [
+        "Public is used inside a network; private is routable on the internet",
+        "Private addresses are encrypted; public ones are not",
+        "Public addresses are only used by governments",
+        "Private is used inside a network; public is routable on the internet"
+      ],
+      "correctIndex": 3,
+      "hint": "Inside versus outside.",
+      "explanation": "Private IP addresses are used inside private networks and aren’t routed on the internet. Public addresses communicate across the internet."
+    },
+    {
+      "id": "CYB-676",
+      "category": "Networks and the Web",
+      "question": "Why shouldn’t a MAC address be fully trusted to identify a device?",
+      "options": [
+        "It can be spoofed",
+        "It changes every time the device restarts",
+        "It is the same for every device on a network",
+        "It is only used by Apple devices"
+      ],
+      "correctIndex": 0,
+      "hint": "It can be faked.",
+      "explanation": "A MAC address is a hardware identifier for a network interface, but it can be spoofed, so it shouldn’t be the only means of identification."
+    },
+    {
+      "id": "CYB-677",
+      "category": "Networks and the Web",
+      "question": "What is the correct order of the OSI model, from layer 7 down to layer 1?",
+      "options": [
+        "Application, session, presentation, network, transport, physical, data link",
+        "Application, presentation, session, transport, network, data link, physical",
+        "Physical, data link, network, transport, session, presentation, application",
+        "Application, transport, presentation, session, network, data link, physical"
+      ],
+      "correctIndex": 1,
+      "hint": "All People Seem To Need Data Processing.",
+      "explanation": "From 7 to 1: Application, Presentation, Session, Transport, Network, Data Link, Physical."
+    },
+    {
+      "id": "CYB-678",
+      "category": "Networks and the Web",
+      "question": "At which OSI layer do TCP and UDP operate?",
+      "options": [
+        "Layer 3, Network",
+        "Layer 2, Data Link",
+        "Layer 4, Transport",
+        "Layer 7, Application"
+      ],
+      "correctIndex": 2,
+      "hint": "End-to-end transport.",
+      "explanation": "TCP and UDP work at Layer 4, Transport. IP is at Layer 3, Network, and MAC addresses at Layer 2, Data Link."
+    },
+    {
+      "id": "CYB-679",
+      "category": "Networks and the Web",
+      "question": "At which OSI layer do IP addresses and routing operate?",
+      "options": [
+        "Layer 4, Transport",
+        "Layer 2, Data Link",
+        "Layer 1, Physical",
+        "Layer 3, Network"
+      ],
+      "correctIndex": 3,
+      "hint": "Logical addressing between networks.",
+      "explanation": "Layer 3, Network, handles logical addressing and routing between networks; IP operates here."
+    },
+    {
+      "id": "CYB-680",
+      "category": "Networks and the Web",
+      "question": "Which OSI layer uses frames and MAC addresses for local delivery?",
+      "options": [
+        "Layer 2, Data Link",
+        "Layer 3, Network",
+        "Layer 1, Physical",
+        "Layer 5, Session"
+      ],
+      "correctIndex": 0,
+      "hint": "Switches work here.",
+      "explanation": "Layer 2, Data Link, handles local delivery using frames and hardware addresses such as MAC addresses."
+    },
+    {
+      "id": "CYB-681",
+      "category": "Networks and the Web",
+      "question": "Which OSI layer handles data representation, such as encryption and decryption?",
+      "options": [
+        "Layer 5, Session",
+        "Layer 6, Presentation",
+        "Layer 7, Application",
+        "Layer 4, Transport"
+      ],
+      "correctIndex": 1,
+      "hint": "How data is presented.",
+      "explanation": "Layer 6, Presentation, handles data representation and functions such as encryption and decryption."
+    },
+    {
+      "id": "CYB-682",
+      "category": "Networks and the Web",
+      "question": "What is encapsulation in networking?",
+      "options": [
+        "Encrypting data before it leaves a device",
+        "Compressing files to send them faster",
+        "Adding protocol information as data moves down the stack",
+        "Blocking traffic that doesn’t match a rule"
+      ],
+      "correctIndex": 2,
+      "hint": "Wrapping data in headers.",
+      "explanation": "Encapsulation adds protocol information, like headers, as data moves down the networking stack before transmission."
+    },
+    {
+      "id": "CYB-683",
+      "category": "Networks and the Web",
+      "question": "What is the difference between a switch and a hub?",
+      "options": [
+        "A hub sends traffic to the right device; a switch repeats it to every device",
+        "A switch connects networks; a hub connects to the internet",
+        "They both work exactly the same way",
+        "A switch sends traffic to the right device; a hub repeats it to every device"
+      ],
+      "correctIndex": 3,
+      "hint": "Smart versus noisy.",
+      "explanation": "A switch forwards traffic within a LAN to the correct device using MAC addresses. A hub repeats traffic to all connected devices."
+    },
+    {
+      "id": "CYB-684",
+      "category": "Networks and the Web",
+      "question": "What does ARP do?",
+      "options": [
+        "Finds the MAC address for an IP address on a local network",
+        "Translates domain names into IP addresses",
+        "Assigns IP addresses to devices automatically",
+        "Encrypts traffic on a local network"
+      ],
+      "correctIndex": 0,
+      "hint": "Address Resolution Protocol.",
+      "explanation": "ARP is used on a local network to determine the MAC address associated with an IP address."
+    },
+    {
+      "id": "CYB-685",
+      "category": "Networks and the Web",
+      "question": "Which command shows the route, hop by hop, that traffic takes to a destination?",
+      "options": [
+        "ipconfig /all (ip on Linux)",
+        "traceroute (tracert on Windows)",
+        "nslookup (dig on Linux)",
+        "netstat -ab (ss on Linux)"
+      ],
+      "correctIndex": 1,
+      "hint": "Tracing the route.",
+      "explanation": "traceroute or tracert shows the hops traffic takes. ipconfig shows local config, nslookup queries DNS and netstat shows connections."
+    },
+    {
+      "id": "CYB-686",
+      "category": "Networks and the Web",
+      "question": "An analyst wants to look up a domain’s mail server (MX) records. Which tool fits?",
+      "options": [
+        "tracert",
+        "netstat",
+        "dig or nslookup",
+        "ipconfig"
+      ],
+      "correctIndex": 2,
+      "hint": "DNS queries.",
+      "explanation": "dig and nslookup query DNS information for domains, including address and mail-server records."
+    },
+    {
+      "id": "CYB-687",
+      "category": "Networks and the Web",
+      "question": "What is Nmap mainly used for?",
+      "options": [
+        "Capturing and reading network packets",
+        "Querying DNS records for a domain",
+        "Managing firewall rules",
+        "Discovering hosts, open ports and running services"
+      ],
+      "correctIndex": 3,
+      "hint": "Network Mapper.",
+      "explanation": "Nmap is a network discovery and scanning tool used to identify hosts, open ports and running services."
+    },
+    {
+      "id": "CYB-688",
+      "category": "Networks and the Web",
+      "question": "Connecting to a service and reading the version string it shows is called what?",
+      "options": [
+        "Banner grabbing",
+        "Port forwarding",
+        "Packet sniffing",
+        "DNS tunnelling"
+      ],
+      "correctIndex": 0,
+      "hint": "The service introduces itself.",
+      "explanation": "Banner grabbing collects information exposed by a service to identify the software or version running."
+    },
+    {
+      "id": "CYB-689",
+      "category": "Networks and the Web",
+      "question": "Which port does SSH use by default?",
+      "options": [
+        "23",
+        "22",
+        "25",
+        "3389"
+      ],
+      "correctIndex": 1,
+      "hint": "Secure Shell.",
+      "explanation": "SSH uses port 22. Telnet uses 23, SMTP uses 25 and RDP uses 3389."
+    },
+    {
+      "id": "CYB-690",
+      "category": "Networks and the Web",
+      "question": "Why should SSH be used instead of Telnet for remote access?",
+      "options": [
+        "Telnet only works on Windows computers",
+        "SSH uses less bandwidth than Telnet",
+        "Telnet sends everything, including passwords, unencrypted",
+        "Telnet can’t connect to Linux servers"
+      ],
+      "correctIndex": 2,
+      "hint": "Cleartext.",
+      "explanation": "Telnet (port 23) provides remote terminal access without encryption. SSH (port 22) encrypts the session."
+    },
+    {
+      "id": "CYB-691",
+      "category": "Networks and the Web",
+      "question": "Which port does Microsoft’s Remote Desktop Protocol use?",
+      "options": [
+        "443",
+        "22",
+        "445",
+        "3389"
+      ],
+      "correctIndex": 3,
+      "hint": "A four-digit port.",
+      "explanation": "RDP uses port 3389 for remote graphical connections to Windows computers."
+    },
+    {
+      "id": "CYB-692",
+      "category": "Networks and the Web",
+      "question": "Which port does SMTP use for sending email between mail servers?",
+      "options": [
+        "25",
+        "53",
+        "80",
+        "110"
+      ],
+      "correctIndex": 0,
+      "hint": "Simple Mail Transfer Protocol.",
+      "explanation": "SMTP uses port 25 to send email between servers. DNS uses 53 and HTTP uses 80."
+    },
+    {
+      "id": "CYB-693",
+      "category": "Networks and the Web",
+      "question": "Which port does DNS use?",
+      "options": [
+        "67",
+        "53",
+        "443",
+        "514"
+      ],
+      "correctIndex": 1,
+      "hint": "Over both TCP and UDP.",
+      "explanation": "DNS uses port 53 over both UDP and TCP. DHCP uses 67/68, HTTPS 443 and Syslog 514."
+    },
+    {
+      "id": "CYB-694",
+      "category": "Networks and the Web",
+      "question": "Which ports does FTP use?",
+      "options": [
+        "22 and 23",
+        "67 and 68",
+        "20 and 21",
+        "80 and 443"
+      ],
+      "correctIndex": 2,
+      "hint": "Data and control.",
+      "explanation": "FTP uses ports 20 and 21. It’s insecure because traditional FTP sends traffic and credentials in cleartext."
+    },
+    {
+      "id": "CYB-695",
+      "category": "Networks and the Web",
+      "question": "Which protocol protects HTTPS traffic?",
+      "options": [
+        "SMTP",
+        "ARP",
+        "DHCP",
+        "TLS"
+      ],
+      "correctIndex": 3,
+      "hint": "Transport Layer Security.",
+      "explanation": "HTTPS (port 443) is HTTP protected with TLS, the modern cryptographic protocol for securing network communications."
+    },
+    {
+      "id": "CYB-696",
+      "category": "Networks and the Web",
+      "question": "What is the difference between SMTP and IMAP or POP3?",
+      "options": [
+        "SMTP sends email between servers; IMAP and POP3 let clients access mailboxes",
+        "IMAP and POP3 send email between servers; SMTP lets clients read mail",
+        "SMTP is for internal mail only; IMAP is for external mail only",
+        "They all do exactly the same job"
+      ],
+      "correctIndex": 0,
+      "hint": "Sending versus reading.",
+      "explanation": "SMTP sends email between mail servers. POP3 and IMAP are used by email clients to retrieve or access mailbox content."
+    },
+    {
+      "id": "CYB-697",
+      "category": "Networks and the Web",
+      "question": "What is packet sniffing?",
+      "options": [
+        "Blocking packets that come from unknown sources",
+        "Capturing and inspecting network traffic as it travels",
+        "Speeding up a slow network connection",
+        "Scanning a website for vulnerabilities"
+      ],
+      "correctIndex": 1,
+      "hint": "Listening in on traffic.",
+      "explanation": "Sniffing is capturing and inspecting network traffic. Cleartext protocols like FTP and Telnet are especially exposed."
+    },
+    {
+      "id": "CYB-698",
+      "category": "Resilience and Security Management",
+      "question": "What is the difference between a threat, a vulnerability and a risk?",
+      "options": [
+        "A vulnerability can cause harm, a threat is a weakness, risk is the cost of a fix",
+        "A risk can cause harm, a threat is a weakness, a vulnerability is the impact",
+        "A threat can cause harm, a vulnerability is a weakness, risk is the chance of harm",
+        "They all mean the same thing in security"
+      ],
+      "correctIndex": 2,
+      "hint": "Danger, weakness, chance.",
+      "explanation": "A threat is a potential cause of harm. A vulnerability is an exploitable weakness. Risk is the possibility of harm when a threat can exploit a vulnerability."
+    },
+    {
+      "id": "CYB-699",
+      "category": "Resilience and Security Management",
+      "question": "Which two factors are usually weighed to judge the size of a risk?",
+      "options": [
+        "Cost and speed",
+        "Threat and attacker",
+        "Policy and procedure",
+        "Likelihood and impact"
+      ],
+      "correctIndex": 3,
+      "hint": "How likely, how bad.",
+      "explanation": "Risk is assessed by likelihood, the probability it happens, and impact, the harm if it does."
+    },
+    {
+      "id": "CYB-700",
+      "category": "Resilience and Security Management",
+      "question": "What is risk appetite?",
+      "options": [
+        "The level of risk an organisation is willing to accept",
+        "The number of risks found in an assessment",
+        "The budget set aside for fixing risks",
+        "How quickly risks are fixed after being found"
+      ],
+      "correctIndex": 0,
+      "hint": "How much risk is OK.",
+      "explanation": "Risk appetite is the level and type of risk an organisation is willing to accept while pursuing its objectives."
+    },
+    {
+      "id": "CYB-701",
+      "category": "Resilience and Security Management",
+      "question": "What is the difference between a policy and a procedure?",
+      "options": [
+        "A procedure sets high-level rules; a policy gives step-by-step instructions",
+        "A policy sets high-level rules; a procedure gives step-by-step instructions",
+        "Policies are optional; procedures are always legally required",
+        "They are the same document with different names"
+      ],
+      "correctIndex": 1,
+      "hint": "What versus how.",
+      "explanation": "A policy is a high-level statement of rules and direction. A procedure documents how an activity is carried out in practice."
+    },
+    {
+      "id": "CYB-702",
+      "category": "Resilience and Security Management",
+      "question": "What is the difference between a standard and a guideline?",
+      "options": [
+        "A guideline is mandatory; a standard is recommended good practice",
+        "Standards are for IT staff; guidelines are for managers",
+        "A standard is mandatory; a guideline is recommended good practice",
+        "There is no difference between them"
+      ],
+      "correctIndex": 2,
+      "hint": "Must versus should.",
+      "explanation": "A standard is a defined mandatory requirement supporting a policy. A guideline is recommended guidance and less prescriptive."
+    },
+    {
+      "id": "CYB-703",
+      "category": "Resilience and Security Management",
+      "question": "What is an SOP?",
+      "options": [
+        "A high-level statement of the company’s security goals",
+        "A legal contract with a service provider",
+        "A list of a company’s security tools",
+        "A step-by-step process for doing a routine task consistently"
+      ],
+      "correctIndex": 3,
+      "hint": "Standard Operating Procedure.",
+      "explanation": "A Standard Operating Procedure is a documented step-by-step process for performing a routine task consistently and correctly."
+    },
+    {
+      "id": "CYB-704",
+      "category": "Resilience and Security Management",
+      "question": "How does an MOU usually differ from a contract?",
+      "options": [
+        "An MOU outlines an agreement but generally isn’t legally binding",
+        "An MOU is always more legally binding than a contract",
+        "An MOU can only be signed by governments",
+        "An MOU replaces the need for any agreement"
+      ],
+      "correctIndex": 0,
+      "hint": "Memorandum of Understanding.",
+      "explanation": "An MOU is a formal document outlining an agreement between parties that is generally not legally binding."
+    },
+    {
+      "id": "CYB-705",
+      "category": "Resilience and Security Management",
+      "question": "What is compliance?",
+      "options": [
+        "Agreeing with whatever the security team decides",
+        "Meeting the requirements of applicable laws, regulations and standards",
+        "Buying the security tools a regulator recommends",
+        "Passing a phishing simulation"
+      ],
+      "correctIndex": 1,
+      "hint": "Following the rules that apply.",
+      "explanation": "Compliance means meeting the rules and requirements of applicable laws, regulations, standards or frameworks."
+    },
+    {
+      "id": "CYB-706",
+      "category": "Data Protection and Privacy",
+      "question": "Under GDPR, what is the difference between a data controller and a data processor?",
+      "options": [
+        "The processor decides why and how data is processed; the controller acts on its behalf",
+        "The controller is the person the data is about; the processor is the regulator",
+        "The controller decides why and how data is processed; the processor acts on its behalf",
+        "They are the same role with different names"
+      ],
+      "correctIndex": 2,
+      "hint": "Decides versus does.",
+      "explanation": "The data controller determines why and how personal data is processed. A data processor processes it on the controller’s behalf."
+    },
+    {
+      "id": "CYB-707",
+      "category": "Data Protection and Privacy",
+      "question": "Under GDPR, who is the data subject?",
+      "options": [
+        "The company that decides how data is used",
+        "The supplier that stores the data",
+        "The regulator that enforces GDPR",
+        "The person whose personal data is being processed"
+      ],
+      "correctIndex": 3,
+      "hint": "The individual.",
+      "explanation": "The data subject is the individual whose personal data is being collected or processed."
+    },
+    {
+      "id": "CYB-708",
+      "category": "Data Protection and Privacy",
+      "question": "What is the difference between pseudonymisation and anonymisation?",
+      "options": [
+        "Pseudonymised data can be re-linked with separate info; anonymised data can’t",
+        "Anonymised data can be re-linked with separate info; pseudonymised data can’t",
+        "Pseudonymisation deletes the data; anonymisation encrypts it",
+        "They are two words for the same process"
+      ],
+      "correctIndex": 0,
+      "hint": "Reversible or not.",
+      "explanation": "Pseudonymised data can’t be linked to a person without extra information kept separately. Anonymised data can no longer reasonably identify anyone."
+    },
+    {
+      "id": "CYB-709",
+      "category": "Resilience and Security Management",
+      "question": "What is ISO/IEC 27001?",
+      "options": [
+        "A US law protecting electronic health information held by providers",
+        "An international standard for an information security management system",
+        "A security standard for organisations that handle payment cards",
+        "A UK law making unauthorised access to computers a crime"
+      ],
+      "correctIndex": 1,
+      "hint": "You can be certified against it.",
+      "explanation": "ISO/IEC 27001 specifies requirements for an information security management system that organisations can be audited and certified against."
+    },
+    {
+      "id": "CYB-710",
+      "category": "Resilience and Security Management",
+      "question": "Which standard applies to organisations that handle payment card data?",
+      "options": [
+        "HIPAA",
+        "GDPR",
+        "PCI DSS",
+        "ISO 9001"
+      ],
+      "correctIndex": 2,
+      "hint": "Payment Card Industry.",
+      "explanation": "PCI DSS is the Payment Card Industry Data Security Standard for organisations that handle payment-card data."
+    },
+    {
+      "id": "CYB-711",
+      "category": "Resilience and Security Management",
+      "question": "Under PCI DSS, what is the difference between an SAQ and a QSA?",
+      "options": [
+        "A QSA is a self-assessment; an SAQ is an approved external assessor",
+        "An SAQ is for banks; a QSA is for shops",
+        "They are both types of payment card",
+        "An SAQ is a self-assessment; a QSA is an approved external assessor"
+      ],
+      "correctIndex": 3,
+      "hint": "Self versus qualified assessor.",
+      "explanation": "A Self-Assessment Questionnaire lets qualifying organisations assess themselves. A Qualified Security Assessor is an approved external assessor."
+    },
+    {
+      "id": "CYB-712",
+      "category": "Data Protection and Privacy",
+      "question": "Which US regulation protects health information, including ePHI?",
+      "options": [
+        "HIPAA",
+        "PCI DSS",
+        "GDPR",
+        "SOX"
+      ],
+      "correctIndex": 0,
+      "hint": "Health Insurance Portability and Accountability Act.",
+      "explanation": "HIPAA requires covered entities and business associates to protect health information, including electronic protected health information (ePHI)."
+    },
+    {
+      "id": "CYB-713",
+      "category": "Resilience and Security Management",
+      "question": "What is the difference between change management and patch management?",
+      "options": [
+        "Patch management governs all changes; change management handles software updates",
+        "Change management governs all changes; patch management handles software updates",
+        "Change management is only for hardware; patch management is only for people",
+        "They are the same process"
+      ],
+      "correctIndex": 1,
+      "hint": "Broad versus specific.",
+      "explanation": "Change management plans, reviews, documents and audits changes. Patch management specifically identifies, tests, deploys and tracks updates."
+    },
+    {
+      "id": "CYB-714",
+      "category": "Resilience and Security Management",
+      "question": "What is WSUS used for?",
+      "options": [
+        "Monitoring Windows event logs for attacks",
+        "Encrypting Windows file shares",
+        "Centrally approving and distributing Microsoft updates",
+        "Managing user passwords in Active Directory"
+      ],
+      "correctIndex": 2,
+      "hint": "Windows Server Update Services.",
+      "explanation": "WSUS centrally downloads, approves and distributes Microsoft updates to systems on a network. SCCM adds wider software and configuration management."
+    },
+    {
+      "id": "CYB-715",
+      "category": "Resilience and Security Management",
+      "question": "Why is software that has reached end of support a growing risk?",
+      "options": [
+        "It stops working completely on the end date",
+        "It automatically deletes user data",
+        "It can no longer connect to the internet",
+        "The vendor stops releasing security updates for it"
+      ],
+      "correctIndex": 3,
+      "hint": "No more fixes.",
+      "explanation": "At end of support, the vendor stops providing normal support and security updates, so new vulnerabilities stay unpatched."
+    },
+    {
+      "id": "CYB-716",
+      "category": "Resilience and Security Management",
+      "question": "What does segregation of duties prevent?",
+      "options": [
+        "One person controlling an entire critical process alone",
+        "Staff from different teams talking to each other",
+        "Users having more than one account",
+        "Managers approving their team’s holidays"
+      ],
+      "correctIndex": 0,
+      "hint": "Split the responsibility.",
+      "explanation": "Segregation of duties splits sensitive responsibilities between people, so no single person controls a whole critical process, like raising and approving payments."
+    },
+    {
+      "id": "CYB-717",
+      "category": "Passwords and Authentication",
+      "question": "What is Active Directory Domain Services (AD DS)?",
+      "options": [
+        "A Microsoft cloud service for storing and sharing staff files",
+        "Microsoft’s directory for managing users, computers, logons and policies",
+        "A Windows tool that scans domain computers for malware",
+        "A protocol for sending email between Microsoft mail servers"
+      ],
+      "correctIndex": 1,
+      "hint": "The central Windows directory.",
+      "explanation": "AD DS centrally manages users, computers, authentication, permissions, policies and other resources in a Windows domain."
+    },
+    {
+      "id": "CYB-718",
+      "category": "Passwords and Authentication",
+      "question": "What is a domain controller?",
+      "options": [
+        "A router that controls traffic between domains",
+        "The person who registers the company’s domain name",
+        "A server running AD DS that authenticates users and applies policy",
+        "A firewall that blocks unknown domains"
+      ],
+      "correctIndex": 2,
+      "hint": "DC.",
+      "explanation": "A domain controller runs AD DS, authenticates users, provides directory information and applies domain security policies."
+    },
+    {
+      "id": "CYB-719",
+      "category": "Passwords and Authentication",
+      "question": "In Active Directory, what is the difference between a GUID and a DN?",
+      "options": [
+        "A DN stays the same if the object moves; a GUID shows its location and can change",
+        "A GUID is for users only; a DN is for computers only",
+        "They are two names for the same identifier",
+        "A GUID stays the same if the object moves; a DN shows its location and can change"
+      ],
+      "correctIndex": 3,
+      "hint": "Permanent ID versus address.",
+      "explanation": "A GUID is a persistent unique identifier. A Distinguished Name identifies the object’s location in the hierarchy, so it changes if the object is moved."
+    },
+    {
+      "id": "CYB-720",
+      "category": "Passwords and Authentication",
+      "question": "In a Windows SID, what does the RID identify?",
+      "options": [
+        "The specific object within the domain",
+        "The domain the object belongs to",
+        "The date the object was created",
+        "The computer the object logged into"
+      ],
+      "correctIndex": 0,
+      "hint": "Relative Identifier.",
+      "explanation": "A SID combines the domain SID, shared by objects in the domain, with the RID, the unique final part that distinguishes one object from another."
+    },
+    {
+      "id": "CYB-721",
+      "category": "Passwords and Authentication",
+      "question": "What is the difference between an OU and a security group?",
+      "options": [
+        "A security group organises objects and applies GPOs; an OU assigns permissions",
+        "An OU organises objects and applies GPOs; a security group assigns permissions",
+        "An OU is for email lists; a security group is for printers",
+        "They are the same thing in Active Directory"
+      ],
+      "correctIndex": 1,
+      "hint": "Organising versus access.",
+      "explanation": "An Organisational Unit organises objects and supports delegated admin and Group Policy. A security group assigns permissions to many accounts at once."
+    },
+    {
+      "id": "CYB-722",
+      "category": "Passwords and Authentication",
+      "question": "What is a distribution group in Active Directory?",
+      "options": [
+        "A group used to give users admin rights",
+        "A group of domain controllers that replicate changes",
+        "A group mainly used for email lists, not for permissions",
+        "A group of computers in the same office"
+      ],
+      "correctIndex": 2,
+      "hint": "Email, not access.",
+      "explanation": "A distribution group is mainly used for email distribution and not for assigning security permissions."
+    },
+    {
+      "id": "CYB-723",
+      "category": "Passwords and Authentication",
+      "question": "What is the difference between a domain, a tree and a forest in Active Directory?",
+      "options": [
+        "A forest is one environment, a tree links forests, a domain holds trees",
+        "A tree is one environment, a domain links trees, a forest is a single server",
+        "They all describe the same thing",
+        "A domain is one environment, a tree links related domains, a forest holds trees"
+      ],
+      "correctIndex": 3,
+      "hint": "From smallest to largest.",
+      "explanation": "A domain is one logical AD environment. A tree is related domains in a hierarchy. A forest, the highest level, contains one or more trees."
+    },
+    {
+      "id": "CYB-724",
+      "category": "Passwords and Authentication",
+      "question": "What does an Active Directory trust relationship allow?",
+      "options": [
+        "Users or resources in one domain to be trusted by another",
+        "Domain controllers to skip authentication checks",
+        "Anyone on the internet to log in to the domain",
+        "Passwords to be shared between users"
+      ],
+      "correctIndex": 0,
+      "hint": "Access across domains.",
+      "explanation": "A trust relationship lets users or resources in one AD domain or tree be trusted by another for access."
+    },
+    {
+      "id": "CYB-725",
+      "category": "Passwords and Authentication",
+      "question": "What does AD replication do?",
+      "options": [
+        "Makes backup copies of every user’s files",
+        "Keeps directory changes in sync across domain controllers",
+        "Copies Group Policy to every laptop each hour",
+        "Duplicates user accounts for testing"
+      ],
+      "correctIndex": 1,
+      "hint": "Several DCs, one directory.",
+      "explanation": "Replication synchronises Active Directory changes between multiple domain controllers. Modern AD uses multi-master replication."
+    },
+    {
+      "id": "CYB-726",
+      "category": "Passwords and Authentication",
+      "question": "Why might a branch office with weak physical security use an RODC?",
+      "options": [
+        "It is faster than a normal domain controller",
+        "It doesn’t need any network connection",
+        "It holds a read-only copy of AD, limiting damage if it’s stolen",
+        "It stores every user’s password in plain text"
+      ],
+      "correctIndex": 2,
+      "hint": "Read-only domain controller.",
+      "explanation": "An RODC holds a read-only copy of the AD database and is commonly used where physical security is weaker."
+    },
+    {
+      "id": "CYB-727",
+      "category": "Passwords and Authentication",
+      "question": "What is LDAP used for?",
+      "options": [
+        "Encrypting traffic between web browsers and servers",
+        "Assigning IP addresses to network devices",
+        "Sending email between mail servers",
+        "Accessing, searching and managing directory services like AD"
+      ],
+      "correctIndex": 3,
+      "hint": "Lightweight Directory Access Protocol.",
+      "explanation": "LDAP is a protocol used to access, search and manage information in directory services such as Active Directory."
+    },
+    {
+      "id": "CYB-728",
+      "category": "Passwords and Authentication",
+      "question": "Which PowerShell cmdlet retrieves information about an Active Directory user?",
+      "options": [
+        "Get-ADUser",
+        "Get-LocalUser",
+        "Get-Process",
+        "Get-FileHash"
+      ],
+      "correctIndex": 0,
+      "hint": "AD in the name.",
+      "explanation": "Get-ADUser retrieves information and properties about an AD user. Get-LocalUser is for local accounts on one machine."
+    },
+    {
+      "id": "CYB-729",
+      "category": "Devices and Endpoint Security",
+      "question": "What is the difference between a local GPO and a non-local GPO?",
+      "options": [
+        "A non-local GPO applies to one computer; a local GPO is stored in AD for many",
+        "A local GPO applies to one computer; a non-local GPO is stored in AD for many",
+        "Local GPOs are for users; non-local GPOs are for printers",
+        "They are the same thing"
+      ],
+      "correctIndex": 1,
+      "hint": "One machine versus the domain.",
+      "explanation": "A local GPO applies only to one computer. A non-local GPO is stored in AD and applied across domain users or computers."
+    },
+    {
+      "id": "CYB-730",
+      "category": "Devices and Endpoint Security",
+      "question": "What happens when a GPO is set to ‘enforced’?",
+      "options": [
+        "It is applied once at start-up and then removed",
+        "It can no longer be linked to any OU or site",
+        "It takes precedence over conflicting policies further down the order",
+        "It is ignored by domain controllers in the forest"
+      ],
+      "correctIndex": 2,
+      "hint": "It wins conflicts.",
+      "explanation": "An enforced GPO takes precedence over conflicting policies lower in the normal LSDOU processing order."
+    },
+    {
+      "id": "CYB-731",
+      "category": "Devices and Endpoint Security",
+      "question": "What is a starter GPO?",
+      "options": [
+        "The first GPO applied when a computer starts",
+        "A GPO that only applies during start-up",
+        "A GPO used to install new software",
+        "A reusable template of baseline settings for creating new GPOs"
+      ],
+      "correctIndex": 3,
+      "hint": "A template.",
+      "explanation": "A starter GPO is a reusable template containing baseline settings used as a starting point for new GPOs."
+    },
+    {
+      "id": "CYB-732",
+      "category": "Passwords and Authentication",
+      "question": "What is Kerberos?",
+      "options": [
+        "The main Windows domain authentication protocol, using encrypted tickets",
+        "An older challenge-response protocol replaced by NTLM",
+        "A tool for cracking Windows password hashes",
+        "A firewall built into Windows Server"
+      ],
+      "correctIndex": 0,
+      "hint": "Named after a three-headed dog.",
+      "explanation": "Kerberos is the primary modern Windows domain authentication protocol, using encrypted tickets rather than repeatedly sending passwords."
+    },
+    {
+      "id": "CYB-733",
+      "category": "Passwords and Authentication",
+      "question": "In Kerberos, what does the KDC do?",
+      "options": [
+        "Stores every user’s files",
+        "Issues authentication and service tickets",
+        "Encrypts the domain’s web traffic",
+        "Blocks failed logon attempts"
+      ],
+      "correctIndex": 1,
+      "hint": "Key Distribution Center.",
+      "explanation": "The Key Distribution Center issues Kerberos tickets. It includes the Authentication Server (AS) and Ticket Granting Server (TGS)."
+    },
+    {
+      "id": "CYB-734",
+      "category": "Passwords and Authentication",
+      "question": "What is the order of the Kerberos ticket process?",
+      "options": [
+        "TGS checks credentials and issues a TGT; the AS then issues a service ticket",
+        "The service issues a TGT; the AS then checks the password",
+        "AS checks credentials and issues a TGT; the TGS then issues a service ticket",
+        "The user sends their password to every service directly"
+      ],
+      "correctIndex": 2,
+      "hint": "AS → TGT → TGS → service ticket.",
+      "explanation": "The AS verifies the initial login and issues a Ticket Granting Ticket. The TGS uses the TGT to issue a service ticket for a specific service."
+    },
+    {
+      "id": "CYB-735",
+      "category": "Passwords and Authentication",
+      "question": "What is a Kerberos Ticket Granting Ticket (TGT)?",
+      "options": [
+        "A ticket that grants admin rights to any service",
+        "A one-time code sent by text message",
+        "A certificate used to encrypt websites",
+        "A ticket obtained at login, used later to request access to services"
+      ],
+      "correctIndex": 3,
+      "hint": "A ticket for getting tickets.",
+      "explanation": "A TGT is obtained after login and used to request service tickets, so the password isn’t sent each time."
+    },
+    {
+      "id": "CYB-736",
+      "category": "Passwords and Authentication",
+      "question": "What is the difference between Kerberos and NTLM?",
+      "options": [
+        "Kerberos is modern and ticket-based; NTLM is older challenge-response",
+        "NTLM is modern and ticket-based; Kerberos is older challenge-response",
+        "Kerberos is for Linux only; NTLM is for Windows only",
+        "They are the same protocol with different names"
+      ],
+      "correctIndex": 0,
+      "hint": "Tickets versus challenges.",
+      "explanation": "Kerberos is modern ticket-based domain authentication. NTLM is an older challenge-response protocol."
+    },
+    {
+      "id": "CYB-737",
+      "category": "Passwords and Authentication",
+      "question": "In challenge-response authentication, how does the client prove its identity?",
+      "options": [
+        "By sending its password in plain text to the server",
+        "By calculating a valid response to a challenge without sending the password",
+        "By sending a photo of the user to the server",
+        "By connecting from a trusted IP address"
+      ],
+      "correctIndex": 1,
+      "hint": "No password on the wire.",
+      "explanation": "The server sends a challenge, and the client proves it knows the credential by calculating a valid response, without sending the password directly."
+    },
+    {
+      "id": "CYB-738",
+      "category": "Passwords and Authentication",
+      "question": "Why do systems store password hashes rather than the passwords themselves?",
+      "options": [
+        "Hashes are shorter, which saves disk space",
+        "Hashes can be reversed if the user forgets their password",
+        "Hashes are one-way, so the plain password isn’t stored or sent",
+        "Hashes let administrators read users’ passwords"
+      ],
+      "correctIndex": 2,
+      "hint": "One-way.",
+      "explanation": "A password hash is a one-way representation, letting systems authenticate users without storing or transmitting the plain password."
+    },
+    {
+      "id": "CYB-739",
+      "category": "Passwords and Authentication",
+      "question": "What is the PDC Emulator role in Active Directory?",
+      "options": [
+        "A backup copy of the whole domain that is stored offline for recovery",
+        "A virtual machine that pretends to be a domain controller for testing",
+        "A tool for checking which Group Policy settings apply to a user",
+        "A special domain controller role that handles password changes and compatibility"
+      ],
+      "correctIndex": 3,
+      "hint": "Primary Domain Controller Emulator.",
+      "explanation": "The PDC Emulator is a special domain-controller role responsible for operations including password-change handling and backward compatibility."
     }
   ]
 }

@@ -95,7 +95,7 @@ A speed round against the clock, available from level 1. The round runs until yo
 - 5 right in a row starts a ×2 combo (each answer then scores 2) until you get one wrong.
 - The bar under the header shows the time left out of 60 seconds. It turns orange for the last 10 seconds, and the haptics get firmer.
 - It starts with common acronyms (tier 1) and moves to specialist ones (tier 3) as the round goes on.
-- No acronym repeats within a round. Ones you get right are rested: new ones and ones you missed come first, and a right one only comes back once the others at that difficulty have been used (longest-ago first). The bank has 130, and a round uses about 25 to 45.
+- No acronym repeats within a round. Ones you get right are rested: new ones and ones you missed come first, and a right one only comes back once the others at that difficulty have been used (longest-ago first). The bank has 270, and a round uses about 25 to 45.
 - The end screen shows your score, your best, and every acronym you missed with its meaning. Missed acronyms go into Smart Practice, due straight away.
 - Every answer is logged as mode `blitz` with its category, so it feeds the Profile.
 - XP: 2 per right answer and 10 for finishing. Full XP for your first 3 rounds each day, then half up to round 10, then a quarter (it never stops). Set in `gameXpRate()` in `src/lib/progress.ts`. Leaving mid-round earns no XP.
@@ -220,11 +220,15 @@ Tap the level ring (top right of Home) or the Profile tile.
 - To add one, add an entry to `BADGES` in `src/lib/progress.ts`.
 
 ## Adding questions
+The bank has 739 questions (CYB-001 to CYB-739) across 12 skills: Cybersecurity Fundamentals, Passwords and Authentication, Phishing and Social Engineering, Malware and Attacks, Networks and the Web, Devices and Endpoint Security, Data Protection and Privacy, Security Monitoring and Incident Response, Cloud and Application Security, Resilience and Security Management, Digital Forensics, and Threat Intelligence. CYB-101 onwards and ACR-131 onwards were written from the BTL1 course key-term sheets (Phishing Analysis, SIEM, Incident Response, Threat Intelligence, Digital Forensics and Security Fundamentals/Active Directory).
+
+At 10 a day, 739 questions last about 74 days before a new round starts.
+
 Add entries to `public/questions.json` with a new unique `id`:
 
 ```json
 {
-  "id": "CYB-101",
+  "id": "CYB-740",
   "category": "Category name",
   "question": "Question text?",
   "options": ["A", "B", "C", "D"],
