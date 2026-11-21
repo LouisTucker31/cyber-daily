@@ -56,7 +56,7 @@ Each build stamps `sw.js` with a new cache version, so old copies are cleared au
 
 ## How the daily draw works
 - A new set of 10 unlocks at local midnight. Your set is saved, so closing the app resumes where you left off. An answer is locked the moment you tap it.
-- Correct answers are ticked off for the current round. Wrong answers go back in the pot and the answer is never shown.
+- Correct answers are ticked off for the current round. A wrong answer shows the right one and the explanation, so you learn from it, but it still counts as wrong and goes back in the pot.
 - Yesterday's questions are held back, so you won't get the same one two days in a row unless nothing else is left.
 - Questions you haven't seen for longest are favoured, randomly among equals.
 - If fewer than 10 remain, the rest are topped up with "Review" questions you've already got right. These don't affect progress.
@@ -230,7 +230,7 @@ Add entries to `public/questions.json` with a new unique `id`:
   "options": ["A", "B", "C", "D"],
   "correctIndex": 0,
   "hint": "A subtle nudge.",
-  "explanation": "Shown only when answered correctly."
+  "explanation": "Shown after answering, right or wrong."
 }
 ```
 

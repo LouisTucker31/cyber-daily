@@ -73,7 +73,7 @@ export default function QuestionView({ mode, items, index, question: q, onAnswer
         {item.order.map((origIdx, displayIdx) => {
           const picked = answered && displayIdx === item.chosen;
           // in Practice, a wrong answer also shows which one was right
-          const reveal = practice && answered && !item.correct && origIdx === q.correctIndex;
+          const reveal = answered && !item.correct && origIdx === q.correctIndex;
           let cls = 'option';
           if (answered) {
             if (picked) cls += item.correct ? ' picked-right' : ' picked-wrong';
@@ -123,11 +123,15 @@ export default function QuestionView({ mode, items, index, question: q, onAnswer
               {!item.review && <p className="note">Ticked off. It won’t come up again this round.</p>}
             </>
           ) : (
-            <p>
-              {item.review
-                ? 'This was a review question, so your progress isn’t affected.'
-                : 'This one goes back in the pot. You’ll get another go on a later day.'}
-            </p>
+            <>
+              <p className="note">The right answer is marked above.</p>
+              {q.explanation && <p>{q.explanation}</p>}
+              <p className="note">
+                {item.review
+                  ? 'This was a review question, so your progress isn’t affected.'
+                  : 'It still counts as wrong and goes back in the pot, so you’ll get another go on a later day.'}
+              </p>
+            </>
           )}
         </section>
       )}
