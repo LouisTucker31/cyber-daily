@@ -444,6 +444,10 @@ button.me:active { transform: scale(0.96); }
   letter-spacing: -0.01em;
   line-height: 1.35;
   color: var(--ink);
+  /* always one line: the taglines are short, and anything longer is cut with an ellipsis */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tile-grid.pill-space { margin-bottom: 64px; } /* room to scroll the last tile clear of the "Next set" pill */
 .tile-grid {

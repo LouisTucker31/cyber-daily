@@ -23,6 +23,38 @@ interface Props {
   onIncident: () => void;
 }
 
+/* Home tagline: one short line, picked at random once per app open (kept short so it fits one line on a phone). */
+const LINES = {
+  done: [
+    'Today’s set is done.',
+    'Done for today. Nice work.',
+    'That’s today sorted.',
+    'All ten done. Go stretch.',
+    'Set complete. Hackers, beware.',
+    'Done. Your firewall is proud.',
+    'Today’s ten: handled.',
+    'Job done. See you tomorrow.'
+  ],
+  started: [
+    'Pick up where you left off.',
+    'Welcome back. Let’s finish it.',
+    'Halfway there. Keep going.',
+    'Your set is waiting for you.',
+    'Back for more? Good call.'
+  ],
+  fresh: [
+    'Your daily cyber workout is ready.',
+    'Ten questions. Let’s go.',
+    'Fresh set, fresh brain.',
+    'Today’s ten are ready.',
+    'Welcome back. Coffee first?',
+    'Ready when you are.',
+    'New day, new questions.'
+  ]
+};
+const pick = (list: string[]) => list[Math.floor(Math.random() * list.length)];
+const TAGLINE = { done: pick(LINES.done), started: pick(LINES.started), fresh: pick(LINES.fresh) };
+
 export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz, phish, onPhish, incident, onIncident }: Props) {
   const total = day.items.length;
   const answered = day.items.filter((it) => it.chosen !== null).length;
@@ -153,9 +185,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
   return (
     <>
       <p className="home-intro">
-        {done
-          ? (due > 0 ? `Today’s set is done. ${due} ${due === 1 ? 'question is' : 'questions are'} due in Practice.` : 'Today’s set is done. Keep sharp in Practice.')
-          : started ? 'Pick up where you left off.' : 'Your daily cyber workout is ready.'}
+        {done ? TAGLINE.done : started ? TAGLINE.started : TAGLINE.fresh}
       </p>
       <div className={'tile-grid' + (done ? ' pill-space' : '')}>
         {tiles.map((t) => <Tile key={t.id} {...t} />)}
