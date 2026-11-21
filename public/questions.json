@@ -7686,6 +7686,1462 @@
       "correctIndex": 1,
       "hint": "Early warning of leaked data.",
       "explanation": "Stolen data and credentials may be sold on hidden marketplaces, so threat-intel teams monitor them for signs of exposure."
+    },
+    {
+      "id": "CYB-550",
+      "category": "Digital Forensics",
+      "question": "What is digital forensics?",
+      "options": [
+        "Recovering a company’s systems as quickly as possible after an attack",
+        "Testing an organisation’s defences by simulating real attacks",
+        "Collecting, analysing and preserving digital evidence, sometimes for court",
+        "Monitoring network traffic for signs of malicious activity"
+      ],
+      "correctIndex": 2,
+      "hint": "Evidence is the key word.",
+      "explanation": "Digital forensics is the process of collecting, analysing and preserving digital evidence, sometimes so it can be presented in legal proceedings."
+    },
+    {
+      "id": "CYB-551",
+      "category": "Digital Forensics",
+      "question": "What does DFIR combine?",
+      "options": [
+        "Data filtering and intrusion reporting",
+        "Disk formatting and image recovery",
+        "Detection, filtering and IP reputation",
+        "Digital forensics and incident response"
+      ],
+      "correctIndex": 3,
+      "hint": "Two disciplines in one.",
+      "explanation": "DFIR combines digital forensics with incident response, investigating incidents while gathering and preserving evidence."
+    },
+    {
+      "id": "CYB-552",
+      "category": "Digital Forensics",
+      "question": "In digital forensics, what is an exhibit?",
+      "options": [
+        "An item formally seized or submitted for forensic examination",
+        "A slide used to present findings to a jury",
+        "A report summarising the investigation’s results",
+        "A screenshot taken during an investigation"
+      ],
+      "correctIndex": 0,
+      "hint": "A legal term.",
+      "explanation": "An exhibit is digital media or another item formally seized or submitted for forensic examination."
+    },
+    {
+      "id": "CYB-553",
+      "category": "Digital Forensics",
+      "question": "What is the correct order of the five-stage digital forensics process?",
+      "options": [
+        "Collection, identification, analysis, preservation, reporting",
+        "Identification, preservation, collection, analysis, reporting",
+        "Preservation, collection, identification, reporting, analysis",
+        "Identification, collection, reporting, preservation, analysis"
+      ],
+      "correctIndex": 1,
+      "hint": "Find it, protect it, take it, examine it, write it up.",
+      "explanation": "The process runs Identification, Preservation, Collection, Analysis and Reporting."
+    },
+    {
+      "id": "CYB-554",
+      "category": "Digital Forensics",
+      "question": "What is the difference between the preservation and collection stages?",
+      "options": [
+        "Collection protects evidence from change; preservation acquires it for examination",
+        "Preservation is for paper evidence; collection is for digital evidence",
+        "Preservation protects evidence from change; collection acquires it for examination",
+        "They are the same stage with two different names"
+      ],
+      "correctIndex": 2,
+      "hint": "Protect versus take.",
+      "explanation": "Preservation protects relevant data and documents the scene so nothing is altered or lost. Collection acquires the data, such as by imaging."
+    },
+    {
+      "id": "CYB-555",
+      "category": "Digital Forensics",
+      "question": "Why must a forensic report be detailed enough for another examiner to follow?",
+      "options": [
+        "So the report can be used as a training manual",
+        "Because courts only accept reports over 50 pages",
+        "So the attacker can understand what was found",
+        "So a competent examiner can reproduce the results"
+      ],
+      "correctIndex": 3,
+      "hint": "Repeatable.",
+      "explanation": "Reporting documents methods, findings and conclusions so another competent examiner can understand and reproduce the results."
+    },
+    {
+      "id": "CYB-556",
+      "category": "Digital Forensics",
+      "question": "What does ESI stand for in a forensic or legal context?",
+      "options": [
+        "Electronically Stored Information",
+        "Evidence Security Index",
+        "External System Image",
+        "Encrypted Storage Interface"
+      ],
+      "correctIndex": 0,
+      "hint": "Information in electronic form.",
+      "explanation": "ESI is Electronically Stored Information: anything created, stored or used electronically that may be relevant to an investigation."
+    },
+    {
+      "id": "CYB-557",
+      "category": "Digital Forensics",
+      "question": "What are contemporaneous notes?",
+      "options": [
+        "Notes written at the end of the investigation from memory",
+        "Notes written as actions happen, detailed enough to reproduce them",
+        "Notes taken by the suspect during their interview",
+        "Notes the attacker left behind on the device"
+      ],
+      "correctIndex": 1,
+      "hint": "Written at the time.",
+      "explanation": "Contemporaneous notes are written immediately after actions are performed, with enough detail for someone else to reproduce what was done."
+    },
+    {
+      "id": "CYB-558",
+      "category": "Digital Forensics",
+      "question": "What does a chain of custody record?",
+      "options": [
+        "Every command the examiner typed during analysis",
+        "The hash of every file on the suspect drive",
+        "Who handled the evidence, when, where and why",
+        "The suspect’s movements before the incident"
+      ],
+      "correctIndex": 2,
+      "hint": "Tracking possession.",
+      "explanation": "Chain of custody is a continuous record of who possessed or handled evidence, when, where and why, demonstrating its integrity."
+    },
+    {
+      "id": "CYB-559",
+      "category": "Digital Forensics",
+      "question": "What is the difference between contemporaneous notes and a chain of custody?",
+      "options": [
+        "Chain of custody records what the examiner did; notes record who handled it",
+        "Notes are for police only; chain of custody is for companies only",
+        "They are two names for the same document",
+        "Notes record what the examiner did; chain of custody records who handled the evidence"
+      ],
+      "correctIndex": 3,
+      "hint": "Actions versus handling.",
+      "explanation": "Contemporaneous notes record the examiner’s actions. Chain of custody records who handled the evidence and how it moved."
+    },
+    {
+      "id": "CYB-560",
+      "category": "Digital Forensics",
+      "question": "How many bits are in a byte?",
+      "options": [
+        "8",
+        "4",
+        "16",
+        "2"
+      ],
+      "correctIndex": 0,
+      "hint": "256 possible values.",
+      "explanation": "A byte is a group of eight bits, which can represent 256 different values."
+    },
+    {
+      "id": "CYB-561",
+      "category": "Digital Forensics",
+      "question": "Which number system uses the digits 0–9 and the letters A–F?",
+      "options": [
+        "Octal (base 8)",
+        "Hexadecimal (base 16)",
+        "Binary (base 2)",
+        "Decimal (base 10)"
+      ],
+      "correctIndex": 1,
+      "hint": "Sixteen symbols.",
+      "explanation": "Hexadecimal is base 16, using 0–9 and A–F. It’s a compact way to represent binary data."
+    },
+    {
+      "id": "CYB-562",
+      "category": "Digital Forensics",
+      "question": "Which number system is commonly associated with Linux file permissions, like 755?",
+      "options": [
+        "Hexadecimal (base 16)",
+        "Binary (base 2)",
+        "Octal (base 8)",
+        "Base64"
+      ],
+      "correctIndex": 2,
+      "hint": "Digits 0–7 only.",
+      "explanation": "Octal uses digits 0–7 and is commonly used to represent UNIX and Linux permissions."
+    },
+    {
+      "id": "CYB-563",
+      "category": "Digital Forensics",
+      "question": "What is the key difference between encoding and encryption?",
+      "options": [
+        "Encryption changes format and is reversible without a key; encoding protects confidentiality",
+        "Encoding always uses a secret key, so it is stronger than encryption for protecting data",
+        "They are two words for the same process, used by different teams in different contexts",
+        "Encoding changes format and is reversible without a key; encryption protects confidentiality"
+      ],
+      "correctIndex": 3,
+      "hint": "One is secret, one isn’t.",
+      "explanation": "Encoding changes how data is represented and can be reversed by anyone. Encryption uses cryptography to keep data confidential."
+    },
+    {
+      "id": "CYB-564",
+      "category": "Digital Forensics",
+      "question": "What is the difference between ASCII and Unicode?",
+      "options": [
+        "Unicode covers far more writing systems than the original ASCII set",
+        "ASCII covers more writing systems than Unicode",
+        "ASCII is for numbers only; Unicode is for letters only",
+        "Unicode is a type of encryption; ASCII is not"
+      ],
+      "correctIndex": 0,
+      "hint": "Broader character set.",
+      "explanation": "ASCII represents characters with numeric values. Unicode is a broader standard designed to represent text from many writing systems."
+    },
+    {
+      "id": "CYB-565",
+      "category": "Digital Forensics",
+      "question": "In CyberChef, what is a ‘recipe’?",
+      "options": [
+        "A saved list of known malicious hashes",
+        "A chain of operations applied to input data",
+        "A template for writing forensic reports",
+        "A configuration file for imaging a drive"
+      ],
+      "correctIndex": 1,
+      "hint": "Steps in a sequence.",
+      "explanation": "A CyberChef recipe is a sequence of operations, such as decode then decompress, applied to input data to transform or analyse it."
+    },
+    {
+      "id": "CYB-566",
+      "category": "Digital Forensics",
+      "question": "Which organisation developed CyberChef?",
+      "options": [
+        "MITRE",
+        "NIST",
+        "GCHQ",
+        "Microsoft"
+      ],
+      "correctIndex": 2,
+      "hint": "A UK intelligence agency.",
+      "explanation": "CyberChef was developed by GCHQ, the UK’s intelligence and security organisation."
+    },
+    {
+      "id": "CYB-567",
+      "category": "Digital Forensics",
+      "question": "How does an HDD store data, compared with an SSD?",
+      "options": [
+        "HDDs use flash memory; SSDs use spinning magnetic platters",
+        "Both use spinning platters, but SSDs spin faster",
+        "Both use flash memory, but HDDs are larger",
+        "HDDs use spinning magnetic platters; SSDs use flash memory"
+      ],
+      "correctIndex": 3,
+      "hint": "Moving parts or not.",
+      "explanation": "HDDs store data magnetically on rotating platters. SSDs use flash memory with no moving parts."
+    },
+    {
+      "id": "CYB-568",
+      "category": "Digital Forensics",
+      "question": "What is the difference between a sector and a cluster?",
+      "options": [
+        "A sector is a physical disk unit; a cluster is a file-system unit made of sectors",
+        "A cluster is a physical disk unit; a sector is a group of clusters",
+        "A sector is for SSDs only; a cluster is for HDDs only",
+        "They are two names for the same storage unit"
+      ],
+      "correctIndex": 0,
+      "hint": "Physical versus file system.",
+      "explanation": "A sector is the minimum physical storage unit, traditionally 512 bytes. A cluster is a group of sectors the file system allocates to files."
+    },
+    {
+      "id": "CYB-569",
+      "category": "Digital Forensics",
+      "question": "Why can slack space be valuable to an investigator?",
+      "options": [
+        "It contains a backup of every deleted file",
+        "It may still hold data from files that were stored there before",
+        "It stores the operating system’s passwords",
+        "It records every time the disk was accessed"
+      ],
+      "correctIndex": 1,
+      "hint": "Leftover space in a cluster.",
+      "explanation": "Slack space is unused space inside an allocated cluster. It can retain remnants of previously stored files, which may be recoverable evidence."
+    },
+    {
+      "id": "CYB-570",
+      "category": "Digital Forensics",
+      "question": "Why can deleted files be harder to recover from an SSD than from an HDD?",
+      "options": [
+        "SSDs encrypt every file automatically when it is deleted",
+        "SSDs don’t store any deleted data in the first place",
+        "TRIM and garbage collection can clear deleted data in the background",
+        "Forensic tools can’t connect to SSDs"
+      ],
+      "correctIndex": 2,
+      "hint": "Background clean-up.",
+      "explanation": "TRIM lets the OS tell the SSD which deleted data can be cleared, and garbage collection erases stale blocks, reducing the chance of recovery."
+    },
+    {
+      "id": "CYB-571",
+      "category": "Digital Forensics",
+      "question": "What does wear levelling do on an SSD?",
+      "options": [
+        "Encrypts data evenly across every block",
+        "Measures how much space is left on the drive",
+        "Speeds up reads by caching popular files",
+        "Spreads writes across blocks so the same cells don’t wear out"
+      ],
+      "correctIndex": 3,
+      "hint": "Even out the wear.",
+      "explanation": "Wear levelling distributes writes across SSD blocks to avoid repeatedly wearing the same physical cells."
+    },
+    {
+      "id": "CYB-572",
+      "category": "Digital Forensics",
+      "question": "What is a key limitation of the FAT32 file system?",
+      "options": [
+        "Individual files must be under 4 GB",
+        "It can’t be read by any version of Windows",
+        "It only supports filenames of eight characters",
+        "It can only be used on SSDs"
+      ],
+      "correctIndex": 0,
+      "hint": "Big video files won’t fit.",
+      "explanation": "FAT32 is widely compatible but limits individual files to under 4 GB and lacks modern security features like ACLs."
+    },
+    {
+      "id": "CYB-573",
+      "category": "Digital Forensics",
+      "question": "What does NTFS add compared with FAT32?",
+      "options": [
+        "Support for Linux-only systems",
+        "Journaling, richer metadata and ACL-based permissions",
+        "A 4 GB limit on individual file sizes",
+        "Automatic encryption of every file"
+      ],
+      "correctIndex": 1,
+      "hint": "Modern Windows file system.",
+      "explanation": "NTFS is Microsoft’s journaling file system, supporting metadata, ACL-based security and improved reliability."
+    },
+    {
+      "id": "CYB-574",
+      "category": "Digital Forensics",
+      "question": "What does journaling do in a file system?",
+      "options": [
+        "Keeps a diary of which users logged in",
+        "Encrypts the file system’s metadata",
+        "Records changes so the system can recover after a crash",
+        "Deletes files that haven’t been used in a year"
+      ],
+      "correctIndex": 2,
+      "hint": "A log of changes.",
+      "explanation": "Journaling records file-system changes in a journal, so recovery after a crash can use it instead of scanning the whole structure."
+    },
+    {
+      "id": "CYB-575",
+      "category": "Digital Forensics",
+      "question": "What does ext4 improve on compared with ext3?",
+      "options": [
+        "It was the first Linux file system to add journaling",
+        "It adds Windows ACL support",
+        "It removes the need for any journal",
+        "Larger volumes and extents that reduce fragmentation"
+      ],
+      "correctIndex": 3,
+      "hint": "Extents.",
+      "explanation": "ext4 succeeds ext3, supporting larger volumes and files and using extents to improve performance and reduce fragmentation."
+    },
+    {
+      "id": "CYB-576",
+      "category": "Digital Forensics",
+      "question": "What is corroborating evidence?",
+      "options": [
+        "Independent evidence that supports another piece of evidence",
+        "Evidence that has been damaged or altered",
+        "Evidence collected from the suspect’s own statement",
+        "The first piece of evidence found at a scene"
+      ],
+      "correctIndex": 0,
+      "hint": "Backing it up.",
+      "explanation": "Corroborating evidence is additional independent evidence used to verify another piece before relying on it, important because digital evidence can be manipulated."
+    },
+    {
+      "id": "CYB-577",
+      "category": "Digital Forensics",
+      "question": "What does ‘forensically sound’ mean?",
+      "options": [
+        "Recorded with a high-quality microphone so it can be played in court",
+        "Handled with methods that preserve integrity and can be defended or reproduced",
+        "Collected by a police officer rather than a civilian investigator",
+        "Stored on an encrypted drive so nobody else can ever open it"
+      ],
+      "correctIndex": 1,
+      "hint": "Defensible handling.",
+      "explanation": "Forensically sound evidence is acquired and handled using methods that preserve its integrity and allow the process to be defended or reproduced."
+    },
+    {
+      "id": "CYB-578",
+      "category": "Digital Forensics",
+      "question": "What is tainted evidence?",
+      "options": [
+        "Evidence that proves the suspect is guilty",
+        "Evidence that has been encrypted by malware",
+        "Evidence whose reliability may be undermined by poor handling",
+        "Evidence collected from a public website"
+      ],
+      "correctIndex": 2,
+      "hint": "Compromised integrity.",
+      "explanation": "Tainted evidence may have been undermined by improper acquisition, alteration or handling, weakening its reliability."
+    },
+    {
+      "id": "CYB-579",
+      "category": "Digital Forensics",
+      "question": "What is the difference between a software and a hardware write blocker?",
+      "options": [
+        "Hardware works at OS level; software blocks writes independently of the OS",
+        "Software blockers can only be used on SSDs",
+        "Hardware blockers allow writes; software blockers don’t",
+        "Software works at OS level; hardware blocks writes independently of the OS"
+      ],
+      "correctIndex": 3,
+      "hint": "Where the blocking happens.",
+      "explanation": "Software write blockers operate at the OS level. Hardware blockers physically intercept write signals, independent of the OS, and are generally preferred."
+    },
+    {
+      "id": "CYB-580",
+      "category": "Digital Forensics",
+      "question": "What is the order of volatility used to prioritise evidence collection?",
+      "options": [
+        "Registers and cache, RAM, disk, remote logs, then archival media",
+        "Disk, RAM, archival media, registers, then remote logs",
+        "Archival media, disk, remote logs, RAM, then registers",
+        "RAM, disk, registers, archival media, then remote logs"
+      ],
+      "correctIndex": 0,
+      "hint": "Most fleeting first.",
+      "explanation": "Collect from most to least volatile: registers and cache, RAM, disk, remote logging data, then physical configuration, topology and archival media."
+    },
+    {
+      "id": "CYB-581",
+      "category": "Digital Forensics",
+      "question": "Which RFC gives guidance on evidence collection and the order of volatility?",
+      "options": [
+        "RFC 5424",
+        "RFC 3227",
+        "RFC 5322",
+        "RFC 2616"
+      ],
+      "correctIndex": 1,
+      "hint": "Guidelines for Evidence Collection and Archiving.",
+      "explanation": "RFC 3227 is the IETF guidance on evidence collection and archiving, including order of volatility. RFC 5424 is Syslog."
+    },
+    {
+      "id": "CYB-582",
+      "category": "Digital Forensics",
+      "question": "What is file carving?",
+      "options": [
+        "Splitting a large file into smaller pieces for analysis",
+        "Removing malware from an infected file",
+        "Recovering files from raw data using their signatures, without the file system",
+        "Compressing evidence files to save storage space"
+      ],
+      "correctIndex": 2,
+      "hint": "Headers and footers.",
+      "explanation": "File carving searches raw data or disk images for file signatures, recovering deleted files even when normal file-system references are gone."
+    },
+    {
+      "id": "CYB-583",
+      "category": "Digital Forensics",
+      "question": "How does a carving tool tell where a file starts and ends?",
+      "options": [
+        "By reading the file’s name in the folder",
+        "By checking the date the file was created",
+        "By asking the operating system",
+        "By recognising its header and footer bytes"
+      ],
+      "correctIndex": 3,
+      "hint": "Signatures at each end.",
+      "explanation": "File headers are characteristic bytes at the start of a file; footers mark the end. Carvers like Scalpel search for both."
+    },
+    {
+      "id": "CYB-584",
+      "category": "Digital Forensics",
+      "question": "Which Linux tool carves files from a disk image using signatures defined in its .conf file?",
+      "options": [
+        "Scalpel",
+        "ExifTool",
+        "Steghide",
+        "LiME"
+      ],
+      "correctIndex": 0,
+      "hint": "A sharp name.",
+      "explanation": "Scalpel searches a disk image for file types configured in scalpel.conf and writes recovered files to an output directory."
+    },
+    {
+      "id": "CYB-585",
+      "category": "Digital Forensics",
+      "question": "Which command-line tool extracts metadata from documents and images?",
+      "options": [
+        "Scalpel",
+        "ExifTool",
+        "PECmd",
+        "RBCmd"
+      ],
+      "correctIndex": 1,
+      "hint": "EXIF data.",
+      "explanation": "ExifTool extracts metadata such as author, timestamps, device details and GPS location from files."
+    },
+    {
+      "id": "CYB-586",
+      "category": "Digital Forensics",
+      "question": "Why is memory forensics important for detecting fileless malware?",
+      "options": [
+        "Fileless malware is always saved to the Recycle Bin",
+        "Memory forensics can only find malware with a file name",
+        "Fileless malware runs mainly in memory, so it may leave little on disk",
+        "Fileless malware deletes the hard drive when found"
+      ],
+      "correctIndex": 2,
+      "hint": "No file to find on disk.",
+      "explanation": "Fileless malware operates primarily in memory, so analysing a memory dump can reveal it when disk analysis wouldn’t."
+    },
+    {
+      "id": "CYB-587",
+      "category": "Digital Forensics",
+      "question": "What is the difference between pagefile.sys and hiberfil.sys?",
+      "options": [
+        "hiberfil holds memory paged out of RAM; pagefile stores RAM during hibernation",
+        "pagefile stores passwords; hiberfil stores browser history",
+        "Both are Linux files used for swap",
+        "pagefile holds memory paged out of RAM; hiberfil stores RAM during hibernation"
+      ],
+      "correctIndex": 3,
+      "hint": "Paging versus hibernating.",
+      "explanation": "pagefile.sys stores memory pages moved out of RAM. hiberfil.sys stores memory contents during hibernation. Both can hold useful artefacts."
+    },
+    {
+      "id": "CYB-588",
+      "category": "Digital Forensics",
+      "question": "What is the Linux equivalent of the Windows page file?",
+      "options": [
+        "Swap space",
+        "The /etc/shadow file",
+        "The .bash_history file",
+        "The dpkg status file"
+      ],
+      "correctIndex": 0,
+      "hint": "Partition or file.",
+      "explanation": "Linux uses swap space, a swap partition or swap file, to hold memory data when RAM is full or data isn’t currently active."
+    },
+    {
+      "id": "CYB-589",
+      "category": "Digital Forensics",
+      "question": "What does ACPO Principle 1 say?",
+      "options": [
+        "The investigation lead is responsible for following the principles",
+        "No action should change data that may later be relied on in court",
+        "A full audit trail must be kept so results can be reproduced",
+        "Only police officers may handle digital evidence"
+      ],
+      "correctIndex": 1,
+      "hint": "Don’t change anything.",
+      "explanation": "ACPO Principle 1: no action should change data on a device that may later be relied upon as evidence in court."
+    },
+    {
+      "id": "CYB-590",
+      "category": "Digital Forensics",
+      "question": "An examiner has to access original data on a live device. Which ACPO principle applies?",
+      "options": [
+        "Principle 1: no action should ever change the data",
+        "Principle 3: a full audit trail must be kept",
+        "Principle 2: they must be competent and able to explain their actions",
+        "Principle 4: the lead investigator is responsible"
+      ],
+      "correctIndex": 2,
+      "hint": "Competence and explanation.",
+      "explanation": "ACPO Principle 2: if original data must be accessed, the person must be competent and able to explain their actions and their impact."
+    },
+    {
+      "id": "CYB-591",
+      "category": "Digital Forensics",
+      "question": "What does ACPO Principle 3 require?",
+      "options": [
+        "That no action changes data relied upon in court",
+        "That the person leading the case is responsible for compliance",
+        "That evidence is destroyed after the case closes",
+        "A complete audit trail so an independent examiner can reproduce the results"
+      ],
+      "correctIndex": 3,
+      "hint": "Reproducibility.",
+      "explanation": "ACPO Principle 3: an audit trail of all processes applied to digital evidence must be created and preserved so an independent third party can reproduce the result."
+    },
+    {
+      "id": "CYB-592",
+      "category": "Digital Forensics",
+      "question": "Under ACPO Principle 4, who is responsible for making sure the principles are followed?",
+      "options": [
+        "The person in charge of the investigation",
+        "Every police officer at the scene",
+        "The suspect’s legal representative",
+        "The manufacturer of the forensic tools"
+      ],
+      "correctIndex": 0,
+      "hint": "Overall responsibility.",
+      "explanation": "ACPO Principle 4: the person leading the investigation has overall responsibility for ensuring the principles are adhered to."
+    },
+    {
+      "id": "CYB-593",
+      "category": "Digital Forensics",
+      "question": "Why is a seized mobile phone placed in a Faraday bag?",
+      "options": [
+        "To protect it from static electricity damage",
+        "To block signals so it can’t be remotely wiped or contacted",
+        "To keep it charged during transport",
+        "To stop fingerprints being left on it"
+      ],
+      "correctIndex": 1,
+      "hint": "No signal in or out.",
+      "explanation": "A Faraday bag or cage blocks wireless and cellular signals, preventing remote access, communication or wiping of a seized device."
+    },
+    {
+      "id": "CYB-594",
+      "category": "Digital Forensics",
+      "question": "What do antistatic evidence bags and grounding bracelets protect against?",
+      "options": [
+        "Wireless signals reaching the device",
+        "Water damage during transport",
+        "Electrostatic discharge damaging the evidence",
+        "Someone opening the bag unnoticed"
+      ],
+      "correctIndex": 2,
+      "hint": "ESD.",
+      "explanation": "Antistatic bags and grounding bracelets reduce the risk of electrostatic discharge (ESD) damaging sensitive electronic evidence."
+    },
+    {
+      "id": "CYB-595",
+      "category": "Digital Forensics",
+      "question": "What is the purpose of a tamper-evident seal on an evidence bag?",
+      "options": [
+        "It blocks wireless signals to the device",
+        "It stops static electricity damaging the device",
+        "It encrypts the evidence inside",
+        "It shows clearly if the bag has been opened"
+      ],
+      "correctIndex": 3,
+      "hint": "Visible proof.",
+      "explanation": "A tamper-evident seal visibly shows if an evidence container has been opened, supporting the chain of custody."
+    },
+    {
+      "id": "CYB-596",
+      "category": "Digital Forensics",
+      "question": "When imaging a 1 TB suspect drive, what should be true of the destination drive?",
+      "options": [
+        "It should be clean and larger than the source",
+        "It should be the exact same make and model",
+        "It should already contain the examiner’s tools",
+        "It should be smaller to keep the image compressed"
+      ],
+      "correctIndex": 0,
+      "hint": "Blank and big enough.",
+      "explanation": "A blank evidence drive receives the forensic copy, and its capacity should exceed that of the source media."
+    },
+    {
+      "id": "CYB-597",
+      "category": "Digital Forensics",
+      "question": "Which Linux command is commonly used to make a bit-for-bit copy of a drive?",
+      "options": [
+        "ls -a",
+        "dd",
+        "chown",
+        "history -c"
+      ],
+      "correctIndex": 1,
+      "hint": "Two letters.",
+      "explanation": "dd performs low-level bit-for-bit copying of storage media or images."
+    },
+    {
+      "id": "CYB-598",
+      "category": "Digital Forensics",
+      "question": "Which of these is a Linux distribution built for digital forensics?",
+      "options": [
+        "pfSense",
+        "Splunk",
+        "CAINE",
+        "TheHive"
+      ],
+      "correctIndex": 2,
+      "hint": "Computer Aided INvestigative Environment.",
+      "explanation": "CAINE is a Linux distribution designed for digital forensics work, commonly used on forensic laptops and workstations."
+    },
+    {
+      "id": "CYB-599",
+      "category": "Digital Forensics",
+      "question": "Why might investigators choose live acquisition instead of powering a machine off?",
+      "options": [
+        "Because live acquisition never changes anything on the system",
+        "Because powering off always destroys the hard drive",
+        "Because it’s the only method courts accept",
+        "To capture volatile data and possibly decrypted data or keys"
+      ],
+      "correctIndex": 3,
+      "hint": "Full-disk encryption.",
+      "explanation": "Live acquisition preserves volatile runtime evidence and, with full-disk encryption, may allow access to decrypted data or keys while the system runs."
+    },
+    {
+      "id": "CYB-600",
+      "category": "Digital Forensics",
+      "question": "What is forensic triage?",
+      "options": [
+        "Quickly collecting high-value artefacts to get early leads",
+        "Imaging every drive in the building before analysis",
+        "Deciding which evidence to destroy first",
+        "Ranking examiners by their experience"
+      ],
+      "correctIndex": 0,
+      "hint": "Fast first look.",
+      "explanation": "Forensic triage quickly collects and reviews high-value artefacts, like with KAPE, to generate leads before a full acquisition is complete."
+    },
+    {
+      "id": "CYB-601",
+      "category": "Digital Forensics",
+      "question": "In KAPE, what is the difference between a Target and a Module?",
+      "options": [
+        "Modules define what to collect; Targets define how to process it",
+        "Targets define what to collect; Modules define how to process it",
+        "Targets are for Linux; Modules are for Windows",
+        "They are the same feature with two names"
+      ],
+      "correctIndex": 1,
+      "hint": "Collect versus process.",
+      "explanation": "KAPE Targets specify which artefacts or locations to collect. Modules run additional processing or analysis on what was collected."
+    },
+    {
+      "id": "CYB-602",
+      "category": "Digital Forensics",
+      "question": "What does degaussing do?",
+      "options": [
+        "Overwrites every sector of an SSD with zeros",
+        "Encrypts a hard drive before it is thrown away",
+        "Uses a strong magnetic field to make data on magnetic media unrecoverable",
+        "Repairs damaged sectors on a hard drive"
+      ],
+      "correctIndex": 2,
+      "hint": "Magnets.",
+      "explanation": "Degaussing neutralises magnetic data on suitable media like hard drives and tapes. It doesn’t work on flash-based SSDs."
+    },
+    {
+      "id": "CYB-603",
+      "category": "Digital Forensics",
+      "question": "What is the difference between overwriting and physical destruction of a drive?",
+      "options": [
+        "Physical destruction lets the drive be reused; overwriting ruins it",
+        "Overwriting only works on paper records",
+        "They both leave the data fully recoverable",
+        "Overwriting sanitises data so the drive can be reused; destruction ruins the drive"
+      ],
+      "correctIndex": 3,
+      "hint": "Reuse or not.",
+      "explanation": "Overwriting replaces contents, like with zeros, so data can’t be recovered and the media stays reusable. Shredding or crushing physically destroys the device."
+    },
+    {
+      "id": "CYB-604",
+      "category": "Digital Forensics",
+      "question": "What does the DoD 5220.22-M wipe method do, as described in the course?",
+      "options": [
+        "Writes zeros, then ones, then random characters, verifying each pass",
+        "Writes random characters once and then formats the drive",
+        "Uses a magnetic field to wipe the drive three times",
+        "Encrypts the drive with three different keys"
+      ],
+      "correctIndex": 0,
+      "hint": "Three passes.",
+      "explanation": "The course describes DoD 5220.22-M as three passes: write and verify zeros, then ones, then random characters."
+    },
+    {
+      "id": "CYB-605",
+      "category": "Digital Forensics",
+      "question": "Which Windows artefact is strong evidence that a program was actually executed?",
+      "options": [
+        "LNK files",
+        "Prefetch files",
+        "Cookies",
+        "The Recycle Bin"
+      ],
+      "correctIndex": 1,
+      "hint": ".pf files.",
+      "explanation": "Prefetch files show an executable’s name, path, run count and last run times, making them strong evidence of program execution."
+    },
+    {
+      "id": "CYB-606",
+      "category": "Digital Forensics",
+      "question": "Where are Windows Prefetch files stored by default?",
+      "options": [
+        "C:\\Users\\Public\\Prefetch",
+        "C:\\Program Files\\Prefetch",
+        "C:\\Windows\\Prefetch",
+        "C:\\Windows\\System32\\Logs"
+      ],
+      "correctIndex": 2,
+      "hint": "In the Windows folder.",
+      "explanation": "Prefetch files, with the .pf extension, are stored by default in C:\\Windows\\Prefetch. PECmd parses them."
+    },
+    {
+      "id": "CYB-607",
+      "category": "Digital Forensics",
+      "question": "What can a Windows LNK (shortcut) file reveal?",
+      "options": [
+        "The user’s saved passwords",
+        "Every website the user visited",
+        "The contents of the deleted file",
+        "The linked file’s path, size and timestamps"
+      ],
+      "correctIndex": 3,
+      "hint": "Shortcut metadata.",
+      "explanation": "LNK files can reveal the target path, file size and created, modified and accessed timestamps, even if the target has since been deleted."
+    },
+    {
+      "id": "CYB-608",
+      "category": "Digital Forensics",
+      "question": "What do Jump Lists show?",
+      "options": [
+        "Recent and pinned files and apps the user interacted with",
+        "Every program that has ever been installed",
+        "Failed logon attempts on the computer",
+        "The network connections a process made"
+      ],
+      "correctIndex": 0,
+      "hint": "Right-click on a taskbar icon.",
+      "explanation": "Jump Lists record interaction with pinned and recent applications and files, including paths, timestamps and application IDs."
+    },
+    {
+      "id": "CYB-609",
+      "category": "Digital Forensics",
+      "question": "What is the difference between browser history and browser cache?",
+      "options": [
+        "Cache records sites visited; history stores copies of pages and images",
+        "History records sites visited; cache stores local copies of pages and images",
+        "History is only kept by Chrome; cache only by Edge",
+        "They store exactly the same information"
+      ],
+      "correctIndex": 1,
+      "hint": "List of visits versus stored content.",
+      "explanation": "Browser history records visited resources and timestamps. The cache preserves local copies of web content, letting examiners see what was viewed."
+    },
+    {
+      "id": "CYB-610",
+      "category": "Digital Forensics",
+      "question": "What could browser autofill data reveal to an investigator?",
+      "options": [
+        "Only the browser’s version number and update history",
+        "Every file stored on the user’s local hard drive",
+        "Names, addresses and other values typed into web forms",
+        "The user’s Windows password and their PIN code"
+      ],
+      "correctIndex": 2,
+      "hint": "Form history.",
+      "explanation": "Autofill or form history stores values entered into web forms, potentially revealing names, addresses, searches and other user data."
+    },
+    {
+      "id": "CYB-611",
+      "category": "Digital Forensics",
+      "question": "Windows 4624 events include a Logon Type value. What does it tell an investigator?",
+      "options": [
+        "Which user account was used to sign in to the machine",
+        "How many times the password was tried before success",
+        "Which files the user opened during that logon session",
+        "How the session was created, such as interactive or network"
+      ],
+      "correctIndex": 3,
+      "hint": "The ‘how’ of a logon.",
+      "explanation": "Logon Type describes how a logon occurred. The course lists 2 interactive, 3 network, 4 batch, 5 service, 7 unlock, 8 network cleartext and 9 new credentials."
+    },
+    {
+      "id": "CYB-612",
+      "category": "Digital Forensics",
+      "question": "Which Windows logon type indicates a network logon, such as accessing a shared folder?",
+      "options": [
+        "Type 3",
+        "Type 2",
+        "Type 5",
+        "Type 7"
+      ],
+      "correctIndex": 0,
+      "hint": "Not at the keyboard.",
+      "explanation": "Type 3 is a network logon. Type 2 is interactive, Type 5 is a service and Type 7 is an unlock."
+    },
+    {
+      "id": "CYB-613",
+      "category": "Digital Forensics",
+      "question": "Which Windows logon type indicates someone logging on at the keyboard?",
+      "options": [
+        "Type 3 (network)",
+        "Type 2 (interactive)",
+        "Type 4 (batch)",
+        "Type 9 (new credentials)"
+      ],
+      "correctIndex": 1,
+      "hint": "Physically at the machine.",
+      "explanation": "Type 2 is an interactive logon at the console. Type 3 is network, Type 4 is batch, such as a scheduled task, and Type 9 is new credentials."
+    },
+    {
+      "id": "CYB-614",
+      "category": "Digital Forensics",
+      "question": "A 4625 event has status code 0xC000006A. What does it mean?",
+      "options": [
+        "The user account doesn’t exist",
+        "The account is disabled",
+        "The password was wrong",
+        "The account is locked out"
+      ],
+      "correctIndex": 2,
+      "hint": "Right user, wrong secret.",
+      "explanation": "0xC000006A is a bad password. 0xC0000064 is user not found, 0xC0000072 is a disabled account and 0xC0000234 is a locked account."
+    },
+    {
+      "id": "CYB-615",
+      "category": "Digital Forensics",
+      "question": "Lots of 4625 events show status 0xC0000064 for many different usernames. What does that suggest?",
+      "options": [
+        "A user keeps mistyping their password",
+        "Accounts are being locked out",
+        "Disabled accounts are being used",
+        "Someone is trying usernames that don’t exist"
+      ],
+      "correctIndex": 3,
+      "hint": "User not found.",
+      "explanation": "0xC0000064 means the user doesn’t exist, so many of these across different names suggests someone guessing usernames."
+    },
+    {
+      "id": "CYB-616",
+      "category": "Digital Forensics",
+      "question": "Where are the Windows Event Log files stored?",
+      "options": [
+        "C:\\Windows\\System32\\winevt\\Logs",
+        "C:\\Windows\\Prefetch\\Logs",
+        "C:\\$Recycle.Bin\\Logs",
+        "C:\\Users\\Public\\winevt"
+      ],
+      "correctIndex": 0,
+      "hint": "winevt.",
+      "explanation": "Windows Event Log files, including the Security log, are stored under C:\\Windows\\System32\\winevt\\Logs."
+    },
+    {
+      "id": "CYB-617",
+      "category": "Digital Forensics",
+      "question": "In the Windows Recycle Bin, what is the difference between a $R file and a $I file?",
+      "options": [
+        "$I holds the deleted file’s contents; $R holds its original name, path and deletion time",
+        "$R holds the deleted file’s contents; $I holds its original name, path and deletion time",
+        "$R is for documents; $I is for images",
+        "They are identical copies kept for backup"
+      ],
+      "correctIndex": 1,
+      "hint": "R for real content, I for information.",
+      "explanation": "$R files contain the actual deleted content. $I files hold metadata like original filename, path, size and deletion timestamp."
+    },
+    {
+      "id": "CYB-618",
+      "category": "Digital Forensics",
+      "question": "Recycle Bin subfolders are named with long strings like S-1-5-21-…. What are these?",
+      "options": [
+        "SHA-256 hashes of each deleted file, used to check their integrity",
+        "Serial numbers of the hard drive that the files were deleted from",
+        "Security identifiers (SIDs) linking deleted items to user accounts",
+        "Timestamps recording the date and time the bin was last emptied"
+      ],
+      "correctIndex": 2,
+      "hint": "Each user has one.",
+      "explanation": "Recycle Bin subdirectories are named by account SID, associating deleted items with specific users. WMIC can map names to SIDs."
+    },
+    {
+      "id": "CYB-619",
+      "category": "Digital Forensics",
+      "question": "Which Eric Zimmerman tool parses Recycle Bin $I files?",
+      "options": [
+        "PECmd",
+        "JumpList Explorer",
+        "Windows File Analyzer",
+        "RBCmd"
+      ],
+      "correctIndex": 3,
+      "hint": "RB for Recycle Bin.",
+      "explanation": "RBCmd parses $I Recycle Bin metadata files individually or in bulk. PECmd parses Prefetch files."
+    },
+    {
+      "id": "CYB-620",
+      "category": "Digital Forensics",
+      "question": "When correlating timestamps into a timeline, what should an investigator be careful about?",
+      "options": [
+        "Clearly separating what the evidence shows from what they infer",
+        "Only using timestamps from one artefact type",
+        "Removing any timestamps that don’t fit the theory",
+        "Converting every time into the suspect’s local timezone"
+      ],
+      "correctIndex": 0,
+      "hint": "Evidence versus inference.",
+      "explanation": "Artefacts and timestamps are evidence. Conclusions drawn from timing and context are inferences and should be stated with appropriate confidence."
+    },
+    {
+      "id": "CYB-621",
+      "category": "Digital Forensics",
+      "question": "What is the difference between /etc/passwd and /etc/shadow on Linux?",
+      "options": [
+        "shadow holds account details; passwd holds protected password hashes",
+        "passwd holds account details; shadow holds protected password hashes",
+        "passwd is for root only; shadow is for normal users",
+        "They are backup copies of each other"
+      ],
+      "correctIndex": 1,
+      "hint": "One needs root to read.",
+      "explanation": "/etc/passwd stores account attributes like username, UID, GID, home directory and shell. /etc/shadow stores password hashes and needs root access."
+    },
+    {
+      "id": "CYB-622",
+      "category": "Digital Forensics",
+      "question": "Which Linux file lists the software packages currently installed on a Debian-based system?",
+      "options": [
+        "/var/log/dpkg.log",
+        "/var/log/auth.log",
+        "/var/lib/dpkg/status",
+        "/etc/shadow"
+      ],
+      "correctIndex": 2,
+      "hint": "Status, not log.",
+      "explanation": "/var/lib/dpkg/status lists installed packages. /var/log/dpkg.log records installation and removal activity over time."
+    },
+    {
+      "id": "CYB-623",
+      "category": "Digital Forensics",
+      "question": "Which Linux log would you check for user login and authentication activity on Ubuntu?",
+      "options": [
+        "/var/log/dpkg.log",
+        "/var/lib/dpkg/status",
+        "/var/log/cron",
+        "/var/log/auth.log"
+      ],
+      "correctIndex": 3,
+      "hint": "Authentication.",
+      "explanation": "/var/log/auth.log records authentication activity such as logins. Some distributions use /var/log/secure instead."
+    },
+    {
+      "id": "CYB-624",
+      "category": "Digital Forensics",
+      "question": "Which Linux log is a binary record of failed login attempts?",
+      "options": [
+        "/var/log/btmp",
+        "/var/log/auth.log",
+        "/var/log/dpkg.log",
+        "/var/log/cron"
+      ],
+      "correctIndex": 0,
+      "hint": "Bad logins.",
+      "explanation": "/var/log/btmp is a binary log of failed login attempts. faillog also records failed logins on systems that use it."
+    },
+    {
+      "id": "CYB-625",
+      "category": "Digital Forensics",
+      "question": "Why is /var/log/cron worth checking during an investigation?",
+      "options": [
+        "It lists every file the user deleted",
+        "Cron jobs can be abused for persistence",
+        "It stores the system’s password hashes",
+        "It records every website visited"
+      ],
+      "correctIndex": 1,
+      "hint": "Scheduled tasks on Linux.",
+      "explanation": "/var/log/cron records cron daemon activity and scheduled jobs, which attackers can abuse to keep persistence."
+    },
+    {
+      "id": "CYB-626",
+      "category": "Digital Forensics",
+      "question": "What can an Apache access log show?",
+      "options": [
+        "The web server’s administrator password",
+        "Every file stored on the web server",
+        "Client IP, timestamp, request, response code and bytes returned",
+        "The private keys for the site’s certificate"
+      ],
+      "correctIndex": 2,
+      "hint": "Each request to the server.",
+      "explanation": "Apache access logs record requests, commonly including client IP, user, timestamp, method and resource, response code and bytes, helping spot scanning or exploitation."
+    },
+    {
+      "id": "CYB-627",
+      "category": "Digital Forensics",
+      "question": "A suspect ran ‘history -c’ before logging off. Why might their commands still be recoverable?",
+      "options": [
+        "history -c only works for the root account",
+        "Linux keeps a hidden copy of every command forever",
+        "history -c only clears commands from the last minute",
+        "Earlier commands may already have been written to .bash_history"
+      ],
+      "correctIndex": 3,
+      "hint": "The file versus the active list.",
+      "explanation": "history -c clears the current shell’s list, but commands already written to the .bash_history file may remain."
+    },
+    {
+      "id": "CYB-628",
+      "category": "Digital Forensics",
+      "question": "On Linux, how do you list hidden files whose names start with a dot?",
+      "options": [
+        "ls -a",
+        "ls -h",
+        "dd -a",
+        "chown -a"
+      ],
+      "correctIndex": 0,
+      "hint": "a for all.",
+      "explanation": "ls normally hides dot-prefixed files. ls -a includes hidden files and directories."
+    },
+    {
+      "id": "CYB-629",
+      "category": "Digital Forensics",
+      "question": "What is steganography?",
+      "options": [
+        "Encrypting data so only the recipient can read it",
+        "Hiding data inside other innocent-looking data, like an image",
+        "Encoding data into Base64 for email",
+        "Compressing files to make them smaller"
+      ],
+      "correctIndex": 1,
+      "hint": "Hiding that data exists at all.",
+      "explanation": "Steganography conceals information inside other data, such as a file inside an image. Encoding changes representation but doesn’t hide that data exists."
+    },
+    {
+      "id": "CYB-630",
+      "category": "Digital Forensics",
+      "question": "In steganography, what is the cover file?",
+      "options": [
+        "The file containing the password to extract the data",
+        "The report describing what was hidden",
+        "The innocent-looking file that holds the hidden data",
+        "A backup of the original hidden data"
+      ],
+      "correctIndex": 2,
+      "hint": "The disguise.",
+      "explanation": "The cover file is the apparently legitimate file, such as a photo, used to contain hidden data."
+    },
+    {
+      "id": "CYB-631",
+      "category": "Digital Forensics",
+      "question": "What does StegCracker do?",
+      "options": [
+        "Hides files inside images using a password",
+        "Extracts metadata from photos and documents",
+        "Carves deleted files from disk images",
+        "Brute-forces Steghide passphrases to recover hidden data"
+      ],
+      "correctIndex": 3,
+      "hint": "Cracking stego passwords.",
+      "explanation": "StegCracker brute-forces Steghide passphrases so investigators can try to recover password-protected hidden data. Steghide does the hiding."
+    },
+    {
+      "id": "CYB-632",
+      "category": "Digital Forensics",
+      "question": "What are counter-forensics techniques?",
+      "options": [
+        "Methods that make forensic discovery or analysis harder",
+        "Methods investigators use to count pieces of evidence",
+        "Tools that speed up forensic imaging",
+        "Checks that confirm a forensic report is accurate"
+      ],
+      "correctIndex": 0,
+      "hint": "Working against investigators.",
+      "explanation": "Counter-forensics aims to frustrate forensic discovery or analysis, for example by hiding data with steganography or wiping logs."
+    },
+    {
+      "id": "CYB-633",
+      "category": "Digital Forensics",
+      "question": "Which tool captures memory from a Linux system?",
+      "options": [
+        "Scalpel",
+        "LiME",
+        "RBCmd",
+        "PECmd"
+      ],
+      "correctIndex": 1,
+      "hint": "Linux Memory Extractor.",
+      "explanation": "LiME (Linux Memory Extractor) captures Linux system memory for later analysis. memdump is another option."
+    },
+    {
+      "id": "CYB-634",
+      "category": "Digital Forensics",
+      "question": "What is Volatility?",
+      "options": [
+        "A tool for imaging hard drives bit by bit",
+        "A Linux log analysis and search tool",
+        "An open-source framework for analysing memory dumps",
+        "A file-carving utility for disk images"
+      ],
+      "correctIndex": 2,
+      "hint": "Memory forensics.",
+      "explanation": "Volatility is an open-source memory-forensics framework that uses plugins to examine processes, network activity, files and more from memory dumps."
+    },
+    {
+      "id": "CYB-635",
+      "category": "Digital Forensics",
+      "question": "In Volatility 2, what is the job of the imageinfo plugin?",
+      "options": [
+        "To list every process running at the time",
+        "To show the network connections in memory",
+        "To dump the files referenced in memory",
+        "To suggest the right profile for the memory image"
+      ],
+      "correctIndex": 3,
+      "hint": "Profiles.",
+      "explanation": "imageinfo analyses a memory image and suggests the most suitable Volatility 2 profile, which is then passed with --profile in later commands."
+    },
+    {
+      "id": "CYB-636",
+      "category": "Digital Forensics",
+      "question": "How does Volatility 3 differ from Volatility 2?",
+      "options": [
+        "It drops profiles and uses symbol tables with OS-specific plugins",
+        "It requires a profile to be chosen with imageinfo first",
+        "It can only analyse Linux memory images",
+        "It analyses disk images instead of memory"
+      ],
+      "correctIndex": 0,
+      "hint": "No more profiles.",
+      "explanation": "Volatility 3 removes the need for profiles, using symbol tables and OS-namespaced plugins like windows.pslist or linux.pstree."
+    },
+    {
+      "id": "CYB-637",
+      "category": "Digital Forensics",
+      "question": "Which Volatility plugin shows processes as a parent–child tree?",
+      "options": [
+        "pslist",
+        "pstree",
+        "psscan",
+        "netscan"
+      ],
+      "correctIndex": 1,
+      "hint": "Tree.",
+      "explanation": "pstree displays processes by parent and child, helping spot odd relationships like Word spawning cmd.exe."
+    },
+    {
+      "id": "CYB-638",
+      "category": "Digital Forensics",
+      "question": "Why compare psscan output with pslist in Volatility?",
+      "options": [
+        "pslist shows network connections that psscan doesn’t",
+        "psscan is faster but only shows system processes",
+        "psscan can reveal hidden or terminated processes that pslist misses",
+        "They always show the same results, so it confirms accuracy"
+      ],
+      "correctIndex": 2,
+      "hint": "Scanning versus listing.",
+      "explanation": "pslist shows the normal process list. psscan scans memory for process objects, including hidden or terminated ones, so differences are suspicious."
+    },
+    {
+      "id": "CYB-639",
+      "category": "Digital Forensics",
+      "question": "Which Volatility plugin compares several process-listing methods to find hidden processes?",
+      "options": [
+        "pstree",
+        "cmdline",
+        "timeliner",
+        "psxview"
+      ],
+      "correctIndex": 3,
+      "hint": "Cross-view.",
+      "explanation": "psxview compares multiple process-enumeration methods to help identify processes hidden from normal listings."
+    },
+    {
+      "id": "CYB-640",
+      "category": "Digital Forensics",
+      "question": "Which Volatility plugin finds network connections in a memory image?",
+      "options": [
+        "netscan",
+        "filescan",
+        "dumpfiles",
+        "iehistory"
+      ],
+      "correctIndex": 0,
+      "hint": "Net.",
+      "explanation": "netscan identifies active and closed network connections in memory, including addresses and the associated process where available."
+    },
+    {
+      "id": "CYB-641",
+      "category": "Digital Forensics",
+      "question": "Which Volatility plugin shows the arguments a process was started with?",
+      "options": [
+        "pslist",
+        "cmdline",
+        "netscan",
+        "procdump"
+      ],
+      "correctIndex": 1,
+      "hint": "Command line.",
+      "explanation": "cmdline retrieves a process’s command-line arguments, revealing how an executable was launched and what parameters it received."
+    },
+    {
+      "id": "CYB-642",
+      "category": "Digital Forensics",
+      "question": "What is the difference between procdump and dumpfiles in Volatility?",
+      "options": [
+        "dumpfiles extracts a process by PID; procdump extracts files referenced in memory",
+        "procdump lists processes; dumpfiles lists network connections",
+        "procdump extracts a process’s executable by PID; dumpfiles extracts files referenced in memory",
+        "They do exactly the same thing"
+      ],
+      "correctIndex": 2,
+      "hint": "Process versus files.",
+      "explanation": "procdump extracts a selected process’s executable, normally by PID. dumpfiles tries to extract files identified in the memory image."
+    },
+    {
+      "id": "CYB-643",
+      "category": "Digital Forensics",
+      "question": "Why do Volatility plugins often target a PID rather than a process name?",
+      "options": [
+        "Process names are encrypted inside memory images and can’t be read",
+        "PIDs never change, even after the computer is restarted",
+        "Volatility can’t read process names, only their numbers",
+        "Several processes can share a name, but a PID identifies one instance"
+      ],
+      "correctIndex": 3,
+      "hint": "There may be several svchost.exe.",
+      "explanation": "A process name can appear many times, but a PID uniquely identifies one process instance for targeted analysis."
+    },
+    {
+      "id": "CYB-644",
+      "category": "Digital Forensics",
+      "question": "What is YARA used for in forensics?",
+      "options": [
+        "Rule-based searching of files or memory for malware patterns",
+        "Capturing memory from a running Linux system",
+        "Parsing Windows Prefetch files",
+        "Building a timeline of disk activity"
+      ],
+      "correctIndex": 0,
+      "hint": "Pattern-matching rules.",
+      "explanation": "YARA uses rules to search memory or files for malware-related strings, byte patterns and other indicators."
+    },
+    {
+      "id": "CYB-645",
+      "category": "Digital Forensics",
+      "question": "What is Autopsy?",
+      "options": [
+        "A tool for capturing live RAM from a running Windows machine",
+        "A forensic platform for analysing disk images with automated ingest",
+        "A network packet analyser for reviewing captured traffic",
+        "A command-line hashing tool for verifying evidence copies"
+      ],
+      "correctIndex": 1,
+      "hint": "Built on The Sleuth Kit.",
+      "explanation": "Autopsy is a forensic disk-analysis platform built on The Sleuth Kit, with automated ingest modules and read-only file-system browsing."
+    },
+    {
+      "id": "CYB-646",
+      "category": "Digital Forensics",
+      "question": "What is the difference between Autopsy and FTK Imager?",
+      "options": [
+        "FTK Imager mainly analyses disk images; Autopsy is for acquiring them",
+        "Autopsy is for memory only; FTK Imager is for network traffic only",
+        "Autopsy mainly analyses disk images; FTK Imager is mainly for acquiring and verifying them",
+        "They are the same tool from different vendors"
+      ],
+      "correctIndex": 2,
+      "hint": "Analysis versus acquisition.",
+      "explanation": "Autopsy is primarily an analysis platform. FTK Imager is heavily used for acquisition, imaging, hash verification and read-only viewing."
+    },
+    {
+      "id": "CYB-647",
+      "category": "Digital Forensics",
+      "question": "What is the typical Autopsy workflow?",
+      "options": [
+        "Run ingest modules, create a case, delete the data source, then report",
+        "Add a data source, write the report, then create the case",
+        "Image the drive, wipe it, then create the case",
+        "Create a case, add a data source, run ingest modules, then review results"
+      ],
+      "correctIndex": 3,
+      "hint": "Case first.",
+      "explanation": "In Autopsy you create a case, add a data source like a disk image, choose ingest modules, then review, tag and export results."
+    },
+    {
+      "id": "CYB-648",
+      "category": "Digital Forensics",
+      "question": "In Autopsy, what is an ingest module?",
+      "options": [
+        "An automated routine that extracts or classifies artefacts from a data source",
+        "The disk image or virtual machine file being analysed in the case",
+        "A label, like ‘suspicious’, applied to a file during review",
+        "The final report that is exported at the end of the case"
+      ],
+      "correctIndex": 0,
+      "hint": "Automated analysis.",
+      "explanation": "Ingest modules automatically process a data source, such as Recent Activity, File Type Identification or EXIF Parser, to reduce manual triage."
+    },
+    {
+      "id": "CYB-649",
+      "category": "Digital Forensics",
+      "question": "A file called holiday.jpg is detected as an executable. What has Autopsy found?",
+      "options": [
+        "Slack space",
+        "An extension mismatch",
+        "A hash collision",
+        "An encrypted file"
+      ],
+      "correctIndex": 1,
+      "hint": "The name doesn’t match the contents.",
+      "explanation": "An extension mismatch is when a file’s extension disagrees with its detected signature, which can indicate disguised or suspicious content."
+    },
+    {
+      "id": "CYB-650",
+      "category": "Digital Forensics",
+      "question": "Why is unallocated space valuable in disk analysis?",
+      "options": [
+        "It holds the operating system’s core files",
+        "It stores every password used on the device",
+        "It may contain remnants of deleted files",
+        "It contains a log of every disk write"
+      ],
+      "correctIndex": 2,
+      "hint": "Space not assigned to active files.",
+      "explanation": "Unallocated space isn’t assigned to active files, so it can still contain remnants of deleted data."
+    },
+    {
+      "id": "CYB-651",
+      "category": "Digital Forensics",
+      "question": "Which disk image format, associated with EnCase, is commonly imported into Autopsy?",
+      "options": [
+        "PCAP",
+        "EVTX",
+        "AD1",
+        "E01"
+      ],
+      "correctIndex": 3,
+      "hint": "E for EnCase.",
+      "explanation": "E01 is the EnCase evidence image format and can be imported into tools like Autopsy. AD1 is an AccessData/FTK container."
+    },
+    {
+      "id": "CYB-652",
+      "category": "Digital Forensics",
+      "question": "Autopsy can use RegRipper. What does RegRipper analyse?",
+      "options": [
+        "Windows Registry hives, for activity like USB use and recent documents",
+        "Linux log files, looking for failed login attempts and cron jobs",
+        "Network captures, looking for malicious traffic and beaconing",
+        "Memory dumps, looking for hidden or terminated processes"
+      ],
+      "correctIndex": 0,
+      "hint": "The Registry.",
+      "explanation": "RegRipper extracts and interprets forensic information from Windows Registry hives, such as recently accessed documents or USB usage."
+    },
+    {
+      "id": "CYB-653",
+      "category": "Digital Forensics",
+      "question": "What does a partition table describe?",
+      "options": [
+        "Every file stored on the disk, sorted by size and last modified date",
+        "The volumes on a disk, with their start sectors, lengths and file systems",
+        "Which users and groups are allowed to read or change each file",
+        "The order in which files were deleted and sent to the Recycle Bin"
+      ],
+      "correctIndex": 1,
+      "hint": "How the disk is divided.",
+      "explanation": "A partition table describes the volumes on a disk image, including start sector, length and file-system type."
     }
   ]
 }
