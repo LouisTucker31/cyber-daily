@@ -4368,6 +4368,1882 @@
       "correctIndex": 0,
       "hint": "Can you do something with it?",
       "explanation": "Actionable information has enough context and relevance for an analyst or automated system to take a useful security action."
+    },
+    {
+      "id": "CYB-313",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is incident response?",
+      "options": [
+        "A yearly audit that checks whether staff follow security policies",
+        "A structured way to manage security incidents, limit impact and restore operations",
+        "A sales process for buying new security tools after a breach",
+        "An automatic system that blocks every attack before it starts"
+      ],
+      "correctIndex": 1,
+      "hint": "Handling an incident from start to finish.",
+      "explanation": "Incident response is the structured methodology an organisation uses to manage and respond to cyber attacks or security incidents, limiting impact and restoring normal operations."
+    },
+    {
+      "id": "CYB-314",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a security event and a security incident?",
+      "options": [
+        "An incident is any activity; an event is one that has caused real damage",
+        "Events only happen on networks; incidents only happen on laptops",
+        "An event is observable activity; an incident has caused damage or material risk",
+        "They mean the same thing and the words are interchangeable"
+      ],
+      "correctIndex": 2,
+      "hint": "All incidents are events, but not all events are incidents.",
+      "explanation": "A security event is any observable activity with a possible security implication. An incident is an event that has caused damage, compromise or material risk."
+    },
+    {
+      "id": "CYB-315",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A server shows unusual activity nobody can explain yet. How should it be treated?",
+      "options": [
+        "As a false positive until someone proves otherwise",
+        "As normal activity, since nothing has been damaged",
+        "As a hardware fault to be passed to the supplier",
+        "As an incident until it’s properly scoped and explained"
+      ],
+      "correctIndex": 3,
+      "hint": "Unexplained anomalies.",
+      "explanation": "An unexplained anomaly is treated as an incident until its cause is established, so it gets proper handling rather than being ignored."
+    },
+    {
+      "id": "CYB-316",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A brute-force attack fails 500 times and then one login succeeds. When does it become an incident?",
+      "options": [
+        "When the successful unauthorised login happens",
+        "When the first failed password attempt is logged",
+        "Only once the attacker deletes some data",
+        "Never, because brute-force attempts are only events"
+      ],
+      "correctIndex": 0,
+      "hint": "Attempts versus access.",
+      "explanation": "Failed attempts are security events. Successful unauthorised access means compromise, which turns the situation into an incident."
+    },
+    {
+      "id": "CYB-317",
+      "category": "Malware and Attacks",
+      "question": "A workstation contacts the same external server every 60 seconds. What could this indicate?",
+      "options": [
+        "A normal software licence check every day",
+        "Beaconing to a command-and-control server",
+        "A user browsing lots of different websites",
+        "A backup job copying files to a NAS"
+      ],
+      "correctIndex": 1,
+      "hint": "Malware checking in for instructions.",
+      "explanation": "Beaconing is regular outbound communication from malware to a C2 server to receive instructions or keep in contact. Its regularity is a key clue."
+    },
+    {
+      "id": "CYB-318",
+      "category": "Malware and Attacks",
+      "question": "Why do attackers add ‘jitter’ to beaconing?",
+      "options": [
+        "To make the malware run faster on the infected host",
+        "To encrypt the data sent to the C2 server",
+        "To vary the timing so regular check-ins are harder to spot",
+        "To make the beacon use more bandwidth"
+      ],
+      "correctIndex": 2,
+      "hint": "Breaking up a pattern.",
+      "explanation": "Jitter adds variation to beacon intervals so periodic C2 traffic is less obvious during frequency analysis."
+    },
+    {
+      "id": "CYB-319",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which incident-handling guidance does the BTL1 course use as its main lifecycle model?",
+      "options": [
+        "ISO 27001 Annex A",
+        "PCI DSS v4.0",
+        "The Cyber Kill Chain",
+        "NIST SP 800-61r2"
+      ],
+      "correctIndex": 3,
+      "hint": "A NIST special publication.",
+      "explanation": "NIST SP 800-61r2 is the incident-handling guidance used as the primary model for the incident-response lifecycle."
+    },
+    {
+      "id": "CYB-320",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the correct order of the NIST incident response lifecycle?",
+      "options": [
+        "Preparation; Detection & Analysis; Containment, Eradication & Recovery; Post-Incident",
+        "Detection & Analysis; Preparation; Post-Incident; Containment, Eradication & Recovery",
+        "Containment, Eradication & Recovery; Preparation; Detection & Analysis; Post-Incident",
+        "Post-Incident; Detection & Analysis; Preparation; Containment, Eradication & Recovery"
+      ],
+      "correctIndex": 0,
+      "hint": "Get ready first, learn lessons last.",
+      "explanation": "The NIST lifecycle runs Preparation, Detection & Analysis, Containment Eradication & Recovery, then Post-Incident Activity, which feeds back into preparation."
+    },
+    {
+      "id": "CYB-321",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Setting up contact lists, a war room, baselines and training before anything happens belongs to which phase?",
+      "options": [
+        "Detection & Analysis",
+        "Preparation",
+        "Containment",
+        "Post-Incident Activity"
+      ],
+      "correctIndex": 1,
+      "hint": "Before an incident.",
+      "explanation": "Preparation establishes the people, documentation, communications, equipment, baselines and controls needed before an incident occurs."
+    },
+    {
+      "id": "CYB-322",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Confirming what happened, working out scope and cause, and notifying stakeholders belongs to which phase?",
+      "options": [
+        "Preparation",
+        "Recovery",
+        "Detection & Analysis",
+        "Lessons Learned"
+      ],
+      "correctIndex": 2,
+      "hint": "Finding out what’s going on.",
+      "explanation": "Detection & Analysis detects suspicious activity, confirms what happened, determines scope and cause, documents findings, prioritises and notifies stakeholders."
+    },
+    {
+      "id": "CYB-323",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between containment, eradication and recovery?",
+      "options": [
+        "Contain removes the threat, eradicate restores systems, recover limits the harm",
+        "Contain restores systems, eradicate limits harm, recover removes the threat",
+        "They are three names for the same single step in the lifecycle",
+        "Contain limits harm, eradicate removes the threat, recover restores trusted operation"
+      ],
+      "correctIndex": 3,
+      "hint": "Stop it, remove it, restore.",
+      "explanation": "Containment limits spread and damage, eradication removes the threat and its artefacts, and recovery returns systems to trusted normal operation."
+    },
+    {
+      "id": "CYB-324",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Removing malware, persistence and attacker accounts, then fixing the exploited weakness, is which activity?",
+      "options": [
+        "Eradication",
+        "Containment",
+        "Recovery",
+        "Preparation"
+      ],
+      "correctIndex": 0,
+      "hint": "Getting rid of the threat.",
+      "explanation": "Eradication removes malicious artefacts, persistence and compromised access, then addresses the weakness so the threat no longer remains."
+    },
+    {
+      "id": "CYB-325",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Patching, rebuilding systems, validating fixes and returning them to production is which activity?",
+      "options": [
+        "Eradication",
+        "Recovery",
+        "Detection",
+        "Containment"
+      ],
+      "correctIndex": 1,
+      "hint": "Back to normal.",
+      "explanation": "Recovery returns systems and services to trusted normal operation, including patching, hardening, restoring or rebuilding, and validating fixes."
+    },
+    {
+      "id": "CYB-326",
+      "category": "Security Monitoring and Incident Response",
+      "question": "How do lessons learned connect back to the start of the lifecycle?",
+      "options": [
+        "They replace the preparation phase entirely",
+        "They are only kept for legal reasons, not used",
+        "Improvements found afterwards feed back into preparation",
+        "They decide which staff to blame for the incident"
+      ],
+      "correctIndex": 2,
+      "hint": "It’s a cycle.",
+      "explanation": "Lessons learned identify what worked and what didn’t. Those improvements feed back into preparation to reduce recurrence and improve future response."
+    },
+    {
+      "id": "CYB-327",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between an incident response plan (IRP) and a runbook?",
+      "options": [
+        "A runbook is the organisation-wide plan; the IRP covers one incident type",
+        "The IRP is for IT staff only; runbooks are for executives only",
+        "They are the same document stored in different places",
+        "The IRP is the organisation-wide plan; a runbook is a step-by-step procedure for one type"
+      ],
+      "correctIndex": 3,
+      "hint": "Big picture versus specific steps.",
+      "explanation": "An IRP defines how the organisation prepares for, manages and recovers from incidents. A runbook gives specific steps for a particular incident type or task."
+    },
+    {
+      "id": "CYB-328",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does a communication plan define during an incident?",
+      "options": [
+        "Who must be told, when, and how internal and public messages are handled",
+        "Which firewall rules to change first when an attack is detected",
+        "How long logs are kept before they are deleted",
+        "Which backups to restore and in what order"
+      ],
+      "correctIndex": 0,
+      "hint": "Who hears what, and when.",
+      "explanation": "A communication plan sets out who must be notified, when they’re contacted and how internal, third-party and public communications are handled."
+    },
+    {
+      "id": "CYB-329",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a war room in incident response?",
+      "options": [
+        "A locked room where seized devices are kept as evidence",
+        "A central physical or virtual space to coordinate a major incident",
+        "A training lab where red teams practise attacks",
+        "The server room that holds the main firewall"
+      ],
+      "correctIndex": 1,
+      "hint": "Where the response is coordinated.",
+      "explanation": "A war room is a central physical or virtual space used to coordinate response activities, decisions and communications during a major incident."
+    },
+    {
+      "id": "CYB-330",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why is a baseline useful during detection and analysis?",
+      "options": [
+        "It lists every attacker who has targeted the company",
+        "It blocks unusual traffic automatically",
+        "It shows normal behaviour, so deviations stand out",
+        "It stores backups of every system"
+      ],
+      "correctIndex": 2,
+      "hint": "Knowing what normal looks like.",
+      "explanation": "A baseline is a recorded view of normal system or network behaviour, which helps identify deviations during detection and analysis."
+    },
+    {
+      "id": "CYB-331",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why must the root cause be found before recovery is complete?",
+      "options": [
+        "Because insurers won’t pay out without a named attacker",
+        "Because systems can’t be restarted until it is found",
+        "So the incident report can be made shorter",
+        "Otherwise the original way in may still be open to the attacker"
+      ],
+      "correctIndex": 3,
+      "hint": "Fixing the entry point.",
+      "explanation": "The root cause is the weakness or action that let the incident begin. If it isn’t found, the same entry point may remain exploitable."
+    },
+    {
+      "id": "CYB-332",
+      "category": "Security Monitoring and Incident Response",
+      "question": "When choosing a containment action, which factor must responders balance against stopping the attack?",
+      "options": [
+        "Preserving evidence and keeping services available",
+        "How quickly the incident report can be written",
+        "Which vendor supplied the affected system",
+        "Whether the attacker will notice the change"
+      ],
+      "correctIndex": 0,
+      "hint": "Don’t destroy what you need.",
+      "explanation": "Containment balances limiting harm with evidence preservation, service availability, effectiveness, time and resources."
+    },
+    {
+      "id": "CYB-333",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a CSIRT?",
+      "options": [
+        "A type of firewall used to separate the internal network",
+        "A cross-functional team that coordinates and responds to security incidents",
+        "A government regulator that issues fines after data breaches",
+        "A tool that converts detection rules between SIEMs"
+      ],
+      "correctIndex": 1,
+      "hint": "Computer Security Incident Response Team.",
+      "explanation": "A CSIRT is a cross-functional team responsible for coordinating and responding to security incidents and understanding their organisational impact."
+    },
+    {
+      "id": "CYB-334",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In the BTL1 course, how does a CERT usually differ from a CSIRT?",
+      "options": [
+        "CERT only handles physical security; CSIRT only handles cyber incidents",
+        "CERT writes the incident laws; CSIRT is the team that enforces them",
+        "CERT is often used for national or public teams; CSIRT for organisational ones",
+        "CERT is a detection tool; CSIRT is the team of people who operate it"
+      ],
+      "correctIndex": 2,
+      "hint": "Both coordinate response.",
+      "explanation": "Both coordinate incident response. CSIRT is commonly associated with internal organisational teams, while CERT is often used for national or public response teams."
+    },
+    {
+      "id": "CYB-335",
+      "category": "Security Monitoring and Incident Response",
+      "question": "How does a SOC analyst’s role usually differ from an incident responder’s?",
+      "options": [
+        "Responders monitor alerts; SOC analysts lead the response to major incidents",
+        "SOC analysts only write reports; responders only fix hardware",
+        "There’s no difference, as both roles do exactly the same work",
+        "SOC analysts monitor and triage; responders investigate confirmed incidents in depth"
+      ],
+      "correctIndex": 3,
+      "hint": "Front line versus deep dive.",
+      "explanation": "SOC analysts usually monitor and triage routine alerts. Incident responders investigate and coordinate higher-risk or confirmed incidents in greater depth."
+    },
+    {
+      "id": "CYB-336",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Who coordinates the overall response and keeps management updated during an incident?",
+      "options": [
+        "The incident commander",
+        "The forensic analyst",
+        "The threat intelligence analyst",
+        "The system owner"
+      ],
+      "correctIndex": 0,
+      "hint": "In charge of the response.",
+      "explanation": "The incident commander coordinates the response, keeps communication flowing across teams and updates management. Technical analysts provide findings."
+    },
+    {
+      "id": "CYB-337",
+      "category": "Security Monitoring and Incident Response",
+      "question": "During an incident, who acquires and preserves digital evidence for deeper analysis and possible legal use?",
+      "options": [
+        "The incident commander",
+        "The forensic analyst",
+        "The public relations team",
+        "The chief operating officer"
+      ],
+      "correctIndex": 1,
+      "hint": "DFIR.",
+      "explanation": "The forensic analyst performs deeper investigation and acquires and preserves digital evidence for analysis and possible legal use."
+    },
+    {
+      "id": "CYB-338",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which role advises on notification duties and evidence handling during an incident?",
+      "options": [
+        "Public relations",
+        "The security analyst",
+        "Legal counsel",
+        "The system owner"
+      ],
+      "correctIndex": 2,
+      "hint": "Legal obligations.",
+      "explanation": "Legal counsel advises on legal obligations, evidence handling, notifications and other legal considerations during response."
+    },
+    {
+      "id": "CYB-339",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a tabletop exercise?",
+      "options": [
+        "A live attack on production systems by an outside red team",
+        "A test of every backup by restoring it to a spare server",
+        "A review of the office’s physical security and door locks",
+        "A discussion-based run-through of an incident to test plans and decisions"
+      ],
+      "correctIndex": 3,
+      "hint": "Talking it through, no real impact.",
+      "explanation": "A tabletop exercise is a discussion-based simulation that tests plans, responsibilities, communication and decision-making without real operational impact."
+    },
+    {
+      "id": "CYB-340",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between an incident’s criticality and its impact?",
+      "options": [
+        "Criticality is how quickly to respond; impact is how badly business is affected",
+        "Impact is how quickly to respond; criticality is how badly business is affected",
+        "Criticality only applies to servers; impact only applies to users",
+        "They are the same measure with two different names"
+      ],
+      "correctIndex": 0,
+      "hint": "Speed versus effect.",
+      "explanation": "Criticality indicates how quickly a response is needed. Impact indicates how long or how severely business operations are affected."
+    },
+    {
+      "id": "CYB-341",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Disabling a compromised account and isolating the device straight away is an example of what?",
+      "options": [
+        "Long-term containment",
+        "Short-term containment",
+        "Eradication",
+        "Recovery"
+      ],
+      "correctIndex": 1,
+      "hint": "Immediate action.",
+      "explanation": "Short-term containment rapidly stops further harm, like disabling an account or isolating a host. It limits damage but doesn’t remove the root cause."
+    },
+    {
+      "id": "CYB-342",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Segmentation changes and permission reviews while full remediation is prepared are examples of what?",
+      "options": [
+        "Short-term containment",
+        "Preparation",
+        "Long-term containment",
+        "Detection"
+      ],
+      "correctIndex": 2,
+      "hint": "A sustainable holding position.",
+      "explanation": "Long-term containment applies sustainable controls, like segmentation, patching or permission reviews, while eradication and recovery are prepared."
+    },
+    {
+      "id": "CYB-343",
+      "category": "Resilience and Security Management",
+      "question": "What is a CMDB?",
+      "options": [
+        "A firewall that inspects traffic at the application layer",
+        "A list of known attackers and their techniques",
+        "A backup of every user’s mailbox",
+        "A central database tracking systems, owners and their purpose"
+      ],
+      "correctIndex": 3,
+      "hint": "Configuration management database.",
+      "explanation": "A CMDB is a central repository that tracks systems and related information so IT and security teams understand ownership, purpose and status."
+    },
+    {
+      "id": "CYB-344",
+      "category": "Resilience and Security Management",
+      "question": "What is the difference between an asset inventory and a risk assessment?",
+      "options": [
+        "Inventory says what exists and who owns it; risk assessment says what matters most",
+        "Risk assessment lists the devices; inventory decides which ones matter most",
+        "Inventory is only for hardware; risk assessment is only for software",
+        "They are the same exercise carried out by different teams"
+      ],
+      "correctIndex": 0,
+      "hint": "What you have versus what matters.",
+      "explanation": "An asset inventory tells you what exists and who owns it. A risk assessment helps decide what matters most and where to prioritise resources."
+    },
+    {
+      "id": "CYB-345",
+      "category": "Resilience and Security Management",
+      "question": "Buying cyber insurance to cover the cost of a breach is which type of risk treatment?",
+      "options": [
+        "Risk acceptance",
+        "Risk transfer",
+        "Risk avoidance",
+        "Risk mitigation"
+      ],
+      "correctIndex": 1,
+      "hint": "Passing it to someone else.",
+      "explanation": "Risk transfer moves some financial or operational risk to another party, such as through insurance or contracts."
+    },
+    {
+      "id": "CYB-346",
+      "category": "Resilience and Security Management",
+      "question": "Taking a high-risk legacy service offline completely is which type of risk treatment?",
+      "options": [
+        "Risk transfer",
+        "Risk acceptance",
+        "Risk avoidance",
+        "Risk mitigation"
+      ],
+      "correctIndex": 2,
+      "hint": "Removing the activity altogether.",
+      "explanation": "Risk avoidance removes the risky activity or exposure entirely. Mitigation reduces it with controls; acceptance tolerates it; transfer shifts it."
+    },
+    {
+      "id": "CYB-347",
+      "category": "Resilience and Security Management",
+      "question": "Management formally decides a low-impact risk isn’t worth spending money to fix. What is this?",
+      "options": [
+        "Risk avoidance",
+        "Risk transfer",
+        "Risk mitigation",
+        "Risk acceptance"
+      ],
+      "correctIndex": 3,
+      "hint": "Tolerating it.",
+      "explanation": "Risk acceptance is a formal decision to tolerate a risk when the impact is low or further controls aren’t cost-effective."
+    },
+    {
+      "id": "CYB-348",
+      "category": "Networks and the Web",
+      "question": "What is a DMZ?",
+      "options": [
+        "A separate subnet for internet-facing services, keeping them apart from the internal LAN",
+        "A part of the network where all security controls are switched off",
+        "The internal network that holds the most trusted systems",
+        "A VPN tunnel used by home workers to reach the office"
+      ],
+      "correctIndex": 0,
+      "hint": "A buffer zone.",
+      "explanation": "A DMZ (demilitarised zone) separates internet-facing services from the internal LAN, reducing direct exposure of internal systems."
+    },
+    {
+      "id": "CYB-349",
+      "category": "Networks and the Web",
+      "question": "What is the difference between a single-firewall and a dual-firewall DMZ?",
+      "options": [
+        "Single uses two firewalls side by side; dual uses one firewall with two cables",
+        "Single uses one firewall with several interfaces; dual puts firewalls either side of the DMZ",
+        "Single protects email only; dual protects websites only",
+        "Dual is just a single firewall with a backup power supply"
+      ],
+      "correctIndex": 1,
+      "hint": "One device or two.",
+      "explanation": "A single-firewall (three-legged) DMZ uses one firewall with external, internal and DMZ interfaces. A dual-firewall DMZ has separate frontend and backend firewalls."
+    },
+    {
+      "id": "CYB-350",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What does defence in depth mean?",
+      "options": [
+        "Putting all security spending into one very strong firewall",
+        "Hiding servers deep inside the building",
+        "Using multiple layers of controls so one failure doesn’t expose everything",
+        "Only defending the most important server"
+      ],
+      "correctIndex": 2,
+      "hint": "Layers.",
+      "explanation": "Defence in depth uses several layers of controls, so if one fails, critical systems still aren’t directly exposed."
+    },
+    {
+      "id": "CYB-351",
+      "category": "Networks and the Web",
+      "question": "What does network segmentation help limit during an attack?",
+      "options": [
+        "How many emails staff can send each day",
+        "How fast the internet connection can run",
+        "How many people can use Wi-Fi at once",
+        "How far an attacker can move between parts of the network"
+      ],
+      "correctIndex": 3,
+      "hint": "Walls inside the network.",
+      "explanation": "Segmentation separates systems or zones to restrict access and limit attacker movement around the environment."
+    },
+    {
+      "id": "CYB-352",
+      "category": "Devices and Endpoint Security",
+      "question": "What is the difference between a HIDS and a HIPS?",
+      "options": [
+        "A HIDS detects and alerts; a HIPS can also act, like blocking a connection",
+        "A HIPS detects and alerts; a HIDS can also act, like removing a file",
+        "A HIDS protects networks; a HIPS protects only email servers",
+        "They are identical products sold by different vendors"
+      ],
+      "correctIndex": 0,
+      "hint": "Detection versus prevention.",
+      "explanation": "A host intrusion detection system detects and alerts. A host intrusion prevention system can also take defensive action automatically."
+    },
+    {
+      "id": "CYB-353",
+      "category": "Devices and Endpoint Security",
+      "question": "Why might signature-based antivirus miss a brand-new piece of malware?",
+      "options": [
+        "It only scans files that are over a certain size",
+        "It matches known patterns, so unseen malware has no signature yet",
+        "It only works when the device is offline",
+        "It deletes its own signature list every day"
+      ],
+      "correctIndex": 1,
+      "hint": "It needs to have seen it before.",
+      "explanation": "Signature-based detection matches files against known malicious signatures. It’s effective for known threats but may miss malware nobody has seen yet."
+    },
+    {
+      "id": "CYB-354",
+      "category": "Devices and Endpoint Security",
+      "question": "How does EDR differ from traditional antivirus?",
+      "options": [
+        "EDR only removes viruses, while antivirus investigates incidents",
+        "EDR runs on firewalls, while antivirus runs on laptops",
+        "EDR adds detailed telemetry, investigation and response, not just malware removal",
+        "EDR is an older technology that antivirus replaced"
+      ],
+      "correctIndex": 2,
+      "hint": "Detection and response.",
+      "explanation": "AV mainly detects and removes malware. EDR provides richer endpoint telemetry, alerting, investigation and response, such as isolating a host."
+    },
+    {
+      "id": "CYB-355",
+      "category": "Devices and Endpoint Security",
+      "question": "What does NGAV add to traditional antivirus?",
+      "options": [
+        "A larger signature list that is updated every week",
+        "The ability to scan only email attachments",
+        "A firewall built into the antivirus program",
+        "Behavioural or predictive analysis to catch new and fileless threats"
+      ],
+      "correctIndex": 3,
+      "hint": "Beyond signatures.",
+      "explanation": "Next-generation antivirus goes beyond signatures and heuristics, using behavioural or predictive techniques to identify newer or fileless threats."
+    },
+    {
+      "id": "CYB-356",
+      "category": "Devices and Endpoint Security",
+      "question": "What is a Group Policy Object (GPO) used for?",
+      "options": [
+        "Applying standard Windows settings to users and computers across a domain",
+        "Encrypting every file stored on a Windows server",
+        "Scanning domain computers for malware every night",
+        "Recording network traffic between domain controllers"
+      ],
+      "correctIndex": 0,
+      "hint": "Central Windows settings.",
+      "explanation": "A GPO is a collection of Windows settings applied to sites, domains or OUs to standardise and secure users and computers, such as password policies."
+    },
+    {
+      "id": "CYB-357",
+      "category": "Devices and Endpoint Security",
+      "question": "In what order is Group Policy processed?",
+      "options": [
+        "OU, domain, site, then local",
+        "Local, site, domain, then OU",
+        "Domain, local, OU, then site",
+        "Site, OU, local, then domain"
+      ],
+      "correctIndex": 1,
+      "hint": "LSDOU.",
+      "explanation": "Group Policy is processed Local, Site, Domain, then OU, so settings applied later, at the OU level, can override earlier ones."
+    },
+    {
+      "id": "CYB-358",
+      "category": "Networks and the Web",
+      "question": "What is the difference between a NIDS and a NIPS?",
+      "options": [
+        "A NIPS monitors and alerts; a NIDS sits inline and can block traffic",
+        "A NIDS protects laptops; a NIPS protects web servers only",
+        "A NIDS monitors and alerts; a NIPS sits inline and can block traffic",
+        "They are the same thing with different names"
+      ],
+      "correctIndex": 2,
+      "hint": "Inline means it can act.",
+      "explanation": "A NIDS monitors traffic and alerts analysts. A NIPS sits inline in the traffic path and can automatically block or reset suspicious connections."
+    },
+    {
+      "id": "CYB-359",
+      "category": "Networks and the Web",
+      "question": "What is the risk of deploying a security device inline?",
+      "options": [
+        "It can only see a copy of the traffic, not the real thing",
+        "It can’t take any action to block traffic",
+        "It stops all logs from reaching the SIEM",
+        "If it fails, it can disrupt the traffic flowing through it"
+      ],
+      "correctIndex": 3,
+      "hint": "It sits in the path.",
+      "explanation": "Inline placement enables prevention, but because traffic flows through the device, a failure can create an availability problem."
+    },
+    {
+      "id": "CYB-360",
+      "category": "Networks and the Web",
+      "question": "What is the difference between a network tap and a SPAN port?",
+      "options": [
+        "A tap is a dedicated physical device; a SPAN port mirrors traffic on a switch",
+        "A SPAN port is a physical device; a tap is a setting on a switch",
+        "A tap blocks traffic; a SPAN port only logs it",
+        "Neither provides a copy of traffic for monitoring"
+      ],
+      "correctIndex": 0,
+      "hint": "Both copy traffic to a sensor.",
+      "explanation": "Both feed traffic copies to monitoring tools. A tap is a dedicated physical method; a SPAN port is a switch port configured to mirror traffic."
+    },
+    {
+      "id": "CYB-361",
+      "category": "Networks and the Web",
+      "question": "Which open-source network monitoring platform was formerly known as Bro?",
+      "options": [
+        "Snort",
+        "Zeek",
+        "Suricata",
+        "pfSense"
+      ],
+      "correctIndex": 1,
+      "hint": "Renamed in 2018.",
+      "explanation": "Zeek, formerly Bro, is an open-source network monitoring and analysis platform. Snort and Suricata are intrusion detection and prevention systems."
+    },
+    {
+      "id": "CYB-362",
+      "category": "Networks and the Web",
+      "question": "How does a WAF differ from a traditional firewall?",
+      "options": [
+        "A WAF filters by IP and port; a traditional firewall inspects web requests",
+        "A WAF protects email servers; a traditional firewall protects databases",
+        "A WAF filters web requests to protect web apps; a firewall mainly filters by IP and port",
+        "A WAF is installed on laptops; a traditional firewall is installed in browsers"
+      ],
+      "correctIndex": 2,
+      "hint": "Web Application Firewall.",
+      "explanation": "A traditional firewall filters mainly on IP, port and protocol. A WAF sits in front of a web application and filters web requests. An NGFW adds deeper application-aware inspection."
+    },
+    {
+      "id": "CYB-363",
+      "category": "Networks and the Web",
+      "question": "What is the difference between ‘Block’ and ‘Reject’ as firewall actions?",
+      "options": [
+        "Reject silently drops traffic; Block drops it and tells the source",
+        "Block allows traffic through; Reject drops it",
+        "There is no difference between the two actions",
+        "Block silently drops traffic; Reject drops it and tells the source"
+      ],
+      "correctIndex": 3,
+      "hint": "Silent or not.",
+      "explanation": "Pass allows traffic. Block silently drops it. Reject drops it and informs the source that the connection was rejected."
+    },
+    {
+      "id": "CYB-364",
+      "category": "Networks and the Web",
+      "question": "What does a ‘default deny’ firewall posture mean?",
+      "options": [
+        "Traffic is blocked unless a rule explicitly allows it",
+        "All traffic is allowed unless a rule blocks it",
+        "Only outbound traffic is ever blocked",
+        "The firewall turns off when it fails"
+      ],
+      "correctIndex": 0,
+      "hint": "No by default.",
+      "explanation": "Default deny blocks all traffic unless a rule explicitly permits it, which is safer than allowing everything by default."
+    },
+    {
+      "id": "CYB-365",
+      "category": "Networks and the Web",
+      "question": "A specific block rule isn’t working because a broad allow rule sits above it. What concept explains this?",
+      "options": [
+        "Default deny",
+        "Firewall rule order",
+        "Firewall aliases",
+        "Promiscuous mode"
+      ],
+      "correctIndex": 1,
+      "hint": "Rules are read top to bottom.",
+      "explanation": "Firewall rules are evaluated in order. A broader allow placed above a specific block can override the restriction you intended."
+    },
+    {
+      "id": "CYB-366",
+      "category": "Networks and the Web",
+      "question": "What is a firewall alias?",
+      "options": [
+        "A fake firewall used to trick attackers",
+        "A backup copy of the firewall’s rules",
+        "A reusable name for a host, network or port used in rules",
+        "A second firewall running in parallel"
+      ],
+      "correctIndex": 2,
+      "hint": "Easier rule maintenance.",
+      "explanation": "An alias is a reusable placeholder for a host, network or port, so when a value changes you update it once instead of in every rule."
+    },
+    {
+      "id": "CYB-367",
+      "category": "Networks and the Web",
+      "question": "What is the difference between pre-admission and post-admission NAC?",
+      "options": [
+        "Post-admission checks devices before access; pre-admission limits them after",
+        "Pre-admission is for Wi-Fi only; post-admission is for wired only",
+        "They are two names for the same check",
+        "Pre-admission checks devices before access; post-admission limits what they reach after"
+      ],
+      "correctIndex": 3,
+      "hint": "Before and after connecting.",
+      "explanation": "Pre-admission NAC checks compliance, like patch level or AV status, before granting access. Post-admission NAC restricts what a connected device can reach."
+    },
+    {
+      "id": "CYB-368",
+      "category": "Networks and the Web",
+      "question": "What does a web proxy let an organisation do?",
+      "options": [
+        "Monitor, filter and block web requests on behalf of users",
+        "Speed up email delivery between offices",
+        "Encrypt files stored on user laptops",
+        "Replace the need for a firewall entirely"
+      ],
+      "correctIndex": 0,
+      "hint": "An intermediary for browsing.",
+      "explanation": "A web proxy makes web requests on the client’s behalf, which lets the organisation filter, monitor and block malicious or prohibited destinations."
+    },
+    {
+      "id": "CYB-369",
+      "category": "Phishing and Social Engineering",
+      "question": "What does DLP do for email?",
+      "options": [
+        "Detonates attachments in a sandbox to see what they do",
+        "Detects or restricts sensitive data leaving in emails or attachments",
+        "Checks the sending server is authorised by SPF",
+        "Adds an external sender banner to incoming emails"
+      ],
+      "correctIndex": 1,
+      "hint": "Data Loss Prevention.",
+      "explanation": "DLP detects or restricts sensitive data leaving the organisation. Sandboxing detonates attachments; filtering blocks risky file types."
+    },
+    {
+      "id": "CYB-370",
+      "category": "Phishing and Social Engineering",
+      "question": "What is the difference between a gateway and a hosted spam filter?",
+      "options": [
+        "A hosted filter sits at the edge; a gateway filter runs on each desktop",
+        "A gateway filter only checks outgoing mail; hosted only incoming",
+        "A gateway filter sits at the organisation’s edge; a hosted filter runs in the cloud",
+        "They are the same thing with a different name"
+      ],
+      "correctIndex": 2,
+      "hint": "On site versus cloud.",
+      "explanation": "A gateway filter sits at the organisation boundary or mail gateway. A hosted filter is a cloud service. A desktop filter runs on each user’s device."
+    },
+    {
+      "id": "CYB-371",
+      "category": "Phishing and Social Engineering",
+      "question": "What is the difference between security awareness training and a phishing simulation?",
+      "options": [
+        "A simulation teaches the behaviour; training tests it and measures results",
+        "Training is only for IT staff; simulations are only for managers",
+        "They are the same activity under different names",
+        "Training teaches the behaviour; a simulation tests it and measures the results"
+      ],
+      "correctIndex": 3,
+      "hint": "Teach versus test.",
+      "explanation": "Training teaches expected behaviour. Phishing simulations test it, producing measurable results and highlighting who needs more support."
+    },
+    {
+      "id": "CYB-372",
+      "category": "Cybersecurity Fundamentals",
+      "question": "Warning signs, fencing and visible guards are which type of physical control?",
+      "options": [
+        "Deterrent",
+        "Access control",
+        "Monitoring",
+        "Recovery"
+      ],
+      "correctIndex": 0,
+      "hint": "Discouraging attempts.",
+      "explanation": "Deterrents discourage intrusion before it happens. Access controls restrict entry, and monitoring controls like CCTV observe and detect activity."
+    },
+    {
+      "id": "CYB-373",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What is a mantrap?",
+      "options": [
+        "A hidden camera placed near the server room door",
+        "A two-door entry area that checks identity before letting someone through",
+        "A fake login page used to catch attackers",
+        "An alarm that sounds if a window is opened"
+      ],
+      "correctIndex": 1,
+      "hint": "Two doors, one at a time.",
+      "explanation": "A mantrap is a two-door controlled entry area that allows identity and authorisation checks before access to a protected zone, helping stop tailgating."
+    },
+    {
+      "id": "CYB-374",
+      "category": "Resilience and Security Management",
+      "question": "What does an acceptable use policy (AUP) define?",
+      "options": [
+        "How quickly incidents must be reported to a regulator",
+        "Which firewall rules are allowed on the network",
+        "What staff may and may not do on company systems, and the consequences",
+        "How long logs must be kept before deletion"
+      ],
+      "correctIndex": 2,
+      "hint": "Permitted and prohibited use.",
+      "explanation": "An AUP defines permitted and prohibited use of organisational systems, networks and devices, including consequences for breaking the rules."
+    },
+    {
+      "id": "CYB-375",
+      "category": "Resilience and Security Management",
+      "question": "What is a security champion?",
+      "options": [
+        "The most senior person in the security team",
+        "A staff member who wins the phishing simulation",
+        "An outside consultant who tests the firewall",
+        "A non-security employee who promotes good security habits in their team"
+      ],
+      "correctIndex": 3,
+      "hint": "A friendly local contact.",
+      "explanation": "A security champion is a non-security employee who promotes secure behaviour, spots issues and acts as a positive security contact in their team."
+    },
+    {
+      "id": "CYB-376",
+      "category": "Resilience and Security Management",
+      "question": "How can a whistleblowing channel help with insider threats?",
+      "options": [
+        "Staff can confidentially report worrying behaviour before it becomes an incident",
+        "It automatically blocks staff who visit risky websites",
+        "It records every phone call made inside the office",
+        "It removes access for staff who are leaving"
+      ],
+      "correctIndex": 0,
+      "hint": "A safe way to raise concerns.",
+      "explanation": "A confidential or anonymous reporting route lets staff raise concerns about suspicious internal behaviour, surfacing insider risk early."
+    },
+    {
+      "id": "CYB-377",
+      "category": "Networks and the Web",
+      "question": "An internal workstation starts scanning other internal hosts. Which traffic direction is this?",
+      "options": [
+        "Remote to local (R2L)",
+        "Local to local (L2L)",
+        "Local to remote (L2R)",
+        "Remote to remote (R2R)"
+      ],
+      "correctIndex": 1,
+      "hint": "Inside to inside.",
+      "explanation": "L2L is activity between internal systems. Unexpected internal scanning can mean a compromised host preparing for lateral movement."
+    },
+    {
+      "id": "CYB-378",
+      "category": "Networks and the Web",
+      "question": "Traffic from an internal laptop to an external server is described as which direction?",
+      "options": [
+        "Remote to local (R2L)",
+        "Local to local (L2L)",
+        "Local to remote (L2R)",
+        "Remote to remote (R2R)"
+      ],
+      "correctIndex": 2,
+      "hint": "Inside to outside.",
+      "explanation": "L2R is activity from an internal system to an external destination. R2L is external to internal, and L2L is internal to internal."
+    },
+    {
+      "id": "CYB-379",
+      "category": "Malware and Attacks",
+      "question": "What is the difference between a DoS and a DDoS attack?",
+      "options": [
+        "DDoS comes from one source; DoS comes from many sources",
+        "DoS steals data; DDoS only encrypts files",
+        "They are different names for a phishing attack",
+        "DoS comes from one source; DDoS comes from many distributed sources"
+      ],
+      "correctIndex": 3,
+      "hint": "Distributed.",
+      "explanation": "A denial-of-service attack uses one source to disrupt a service. A distributed DoS uses many sources, increasing volume and making it harder to stop."
+    },
+    {
+      "id": "CYB-380",
+      "category": "Passwords and Authentication",
+      "question": "An attacker tries ‘Winter2026!’ against 400 different accounts. What is this?",
+      "options": [
+        "Password spraying",
+        "Brute force",
+        "Credential dumping",
+        "Pass the hash"
+      ],
+      "correctIndex": 0,
+      "hint": "One password, many accounts.",
+      "explanation": "Password spraying tries a few common passwords across many accounts to avoid lockouts. Brute force tries many passwords against one or a few accounts."
+    },
+    {
+      "id": "CYB-381",
+      "category": "Devices and Endpoint Security",
+      "question": "Which Windows Event ID records a failed logon?",
+      "options": [
+        "4624",
+        "4625",
+        "4720",
+        "4672"
+      ],
+      "correctIndex": 1,
+      "hint": "One more than a successful logon.",
+      "explanation": "4625 shows an account failed to log on, and its status information can help explain why. 4624 is a successful logon."
+    },
+    {
+      "id": "CYB-382",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a common weakness of anomaly-based detection?",
+      "options": [
+        "It can only detect malware that has already been seen",
+        "It doesn’t need any baseline to work",
+        "It can produce more false positives than signature-based detection",
+        "It can’t detect any new kinds of attack"
+      ],
+      "correctIndex": 2,
+      "hint": "Unusual isn’t always bad.",
+      "explanation": "Anomaly-based detection compares activity with a baseline and can catch unseen behaviour, but unusual-but-harmless activity often creates false positives."
+    },
+    {
+      "id": "CYB-383",
+      "category": "Networks and the Web",
+      "question": "In Wireshark, what is the difference between a capture filter and a display filter?",
+      "options": [
+        "A display filter limits what’s recorded; a capture filter limits what’s shown",
+        "Capture filters only work on saved files; display filters only work live",
+        "They do the same job with different syntax",
+        "A capture filter limits what’s recorded; a display filter limits what’s shown"
+      ],
+      "correctIndex": 3,
+      "hint": "Before versus after recording.",
+      "explanation": "A capture filter controls which packets Wireshark records. A display filter shows only matching packets from traffic already captured."
+    },
+    {
+      "id": "CYB-384",
+      "category": "Networks and the Web",
+      "question": "Which Wireshark feature rebuilds a whole TCP or HTTP conversation into one readable view?",
+      "options": [
+        "Follow Stream",
+        "Export Objects",
+        "Protocol Hierarchy",
+        "Endpoints"
+      ],
+      "correctIndex": 0,
+      "hint": "Following a conversation.",
+      "explanation": "Follow Stream reconstructs a TCP, UDP, TLS or HTTP conversation into a single view. Export Objects extracts transferred files."
+    },
+    {
+      "id": "CYB-385",
+      "category": "Networks and the Web",
+      "question": "Which Wireshark feature lets you extract a file that was downloaded over HTTP?",
+      "options": [
+        "Follow Stream",
+        "Export Objects",
+        "Conversations",
+        "Hex Dump"
+      ],
+      "correctIndex": 1,
+      "hint": "Pulling files out.",
+      "explanation": "Export Objects extracts transferred content from supported protocols such as HTTP for separate analysis."
+    },
+    {
+      "id": "CYB-386",
+      "category": "Networks and the Web",
+      "question": "Which Wireshark statistics view helps you spot unexpected protocols in a capture?",
+      "options": [
+        "Endpoints",
+        "Conversations",
+        "Protocol Hierarchy",
+        "Packet List"
+      ],
+      "correctIndex": 2,
+      "hint": "The protocol mix.",
+      "explanation": "Protocol Hierarchy shows the distribution of protocols by packets and bytes. Conversations shows host pairs, and Endpoints summarises individual hosts."
+    },
+    {
+      "id": "CYB-387",
+      "category": "Networks and the Web",
+      "question": "What does promiscuous mode let a network interface do?",
+      "options": [
+        "Connect to any Wi-Fi network without a password",
+        "Block all traffic except from trusted hosts",
+        "Encrypt every packet it sends",
+        "Capture traffic it can see, even if not addressed to it"
+      ],
+      "correctIndex": 3,
+      "hint": "Seeing more than its own traffic.",
+      "explanation": "Promiscuous mode lets an interface capture any traffic it can see, not just frames addressed to that host."
+    },
+    {
+      "id": "CYB-388",
+      "category": "Networks and the Web",
+      "question": "Why is FTP risky to see in a packet capture?",
+      "options": [
+        "It’s a plaintext protocol, so usernames and passwords can be read",
+        "It always contains malware hidden in its file transfers",
+        "It can only be used by attackers, never by staff",
+        "It deletes files once they have been transferred"
+      ],
+      "correctIndex": 0,
+      "hint": "No encryption.",
+      "explanation": "FTP sends credentials and commands without encryption, so they can be read directly from a packet capture."
+    },
+    {
+      "id": "CYB-389",
+      "category": "Devices and Endpoint Security",
+      "question": "Which command prompt command lists running processes with their IDs and memory use?",
+      "options": [
+        "netstat -ab",
+        "tasklist",
+        "sc query",
+        "net user"
+      ],
+      "correctIndex": 1,
+      "hint": "A list of tasks.",
+      "explanation": "tasklist lists running processes for quick triage. netstat -ab shows connections, sc query shows services and net user shows accounts."
+    },
+    {
+      "id": "CYB-390",
+      "category": "Devices and Endpoint Security",
+      "question": "Which command shows active network connections and the programs that own them?",
+      "options": [
+        "tasklist",
+        "net localgroup",
+        "netstat -ab",
+        "ipconfig /all"
+      ],
+      "correctIndex": 2,
+      "hint": "Network statistics.",
+      "explanation": "netstat -ab lists active and listening connections along with the executables behind them, when run with admin rights."
+    },
+    {
+      "id": "CYB-391",
+      "category": "Devices and Endpoint Security",
+      "question": "Which command lists the members of the local Administrators group?",
+      "options": [
+        "net user Administrators",
+        "sc query Administrators",
+        "tasklist /admin",
+        "net localgroup Administrators"
+      ],
+      "correctIndex": 3,
+      "hint": "Local group.",
+      "explanation": "net localgroup lists local groups or the members of a specified group, useful for spotting accounts an attacker has added to Administrators."
+    },
+    {
+      "id": "CYB-392",
+      "category": "Devices and Endpoint Security",
+      "question": "Which PowerShell cmdlet would you use to look for persistence set up through scheduled tasks?",
+      "options": [
+        "Get-ScheduledTask",
+        "Get-LocalUser",
+        "Get-NetIPAddress",
+        "Out-GridView"
+      ],
+      "correctIndex": 0,
+      "hint": "Scheduled tasks.",
+      "explanation": "Get-ScheduledTask lists scheduled tasks and their properties. Scheduled tasks are commonly abused so malware runs at logon or on a timer."
+    },
+    {
+      "id": "CYB-393",
+      "category": "Devices and Endpoint Security",
+      "question": "What is the main advantage of PowerShell over CMD for incident triage?",
+      "options": [
+        "It runs on any operating system without needing to be installed",
+        "It returns rich objects that can be filtered and piped for deeper inspection",
+        "It can’t be abused by attackers, unlike CMD",
+        "It doesn’t need any admin rights to see everything"
+      ],
+      "correctIndex": 1,
+      "hint": "Objects, not just text.",
+      "explanation": "CMD gives fast traditional commands. PowerShell returns rich objects and supports advanced filtering, pipelines and automation."
+    },
+    {
+      "id": "CYB-394",
+      "category": "Devices and Endpoint Security",
+      "question": "What does DeepBlueCLI do?",
+      "options": [
+        "Captures network traffic into a PCAP file",
+        "Creates forensic images of hard drives",
+        "Quickly triages Windows event logs for suspicious patterns",
+        "Manages incident cases and tasks"
+      ],
+      "correctIndex": 2,
+      "hint": "A PowerShell log-triage tool.",
+      "explanation": "DeepBlueCLI analyses local or exported Windows event logs for patterns like password spraying, new users and malicious PowerShell. Findings should be validated."
+    },
+    {
+      "id": "CYB-395",
+      "category": "Passwords and Authentication",
+      "question": "Why is LSASS.exe a high-value target for attackers?",
+      "options": [
+        "It controls the Windows firewall settings",
+        "It stores every file the user has opened",
+        "It manages the computer’s Wi-Fi connections",
+        "Its memory holds credentials and hashes that can be dumped"
+      ],
+      "correctIndex": 3,
+      "hint": "Local Security Authority.",
+      "explanation": "LSASS holds credentials and hashes in memory. Tools like Mimikatz dump them, which is why LSASS access matters during triage."
+    },
+    {
+      "id": "CYB-396",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between an alert and a case?",
+      "options": [
+        "An alert is a tool notification to triage; a case is the formal investigation record",
+        "A case is a tool notification; an alert is the formal investigation record",
+        "Alerts are only for physical security; cases are for cyber",
+        "They are the same thing in a case management tool"
+      ],
+      "correctIndex": 0,
+      "hint": "Notification versus investigation.",
+      "explanation": "An alert is a notification that needs triage. When activity warrants formal tracking, it becomes a case: a structured record with tasks, evidence and ownership."
+    },
+    {
+      "id": "CYB-397",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In case management, what is an observable?",
+      "options": [
+        "A supporting file like a PCAP or memory dump attached to the case",
+        "A value like an IP, domain, URL or hash that can be searched and enriched",
+        "The analyst who is currently responsible for the case",
+        "A camera feed used to watch the security operations room"
+      ],
+      "correctIndex": 1,
+      "hint": "Something you can look up.",
+      "explanation": "An observable is a discrete value linked to a case that can be examined or enriched. An attachment is a supporting file such as an email or PCAP."
+    },
+    {
+      "id": "CYB-398",
+      "category": "Security Monitoring and Incident Response",
+      "question": "How can case management reveal that two incidents are part of the same campaign?",
+      "options": [
+        "Cases are automatically merged once they are a week old",
+        "Each case is given a random campaign number",
+        "Related cases share observables, like the same IP or hash",
+        "Cases with the same severity are always linked"
+      ],
+      "correctIndex": 2,
+      "hint": "Shared details.",
+      "explanation": "Related cases are linked through shared observables or other common details, helping identify repeated activity, campaigns or trends."
+    },
+    {
+      "id": "CYB-399",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is TheHive?",
+      "options": [
+        "A threat-intelligence sharing platform for indicators",
+        "A network monitoring tool formerly called Bro",
+        "A tool for creating forensic disk images",
+        "An open-source platform for managing incident-response cases and tasks"
+      ],
+      "correctIndex": 3,
+      "hint": "A security incident response platform (SIRP).",
+      "explanation": "TheHive is an open-source SIRP for cases, tasks, observables, alerts and collaboration. MISP is a threat-intel sharing platform that can enrich its observables."
+    },
+    {
+      "id": "CYB-400",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a case template and a task template?",
+      "options": [
+        "A case template sets up a whole investigation; a task template sets up one step",
+        "A task template sets up a whole investigation; a case template sets up one step",
+        "Case templates are for alerts; task templates are for reports",
+        "They are identical and can be used interchangeably"
+      ],
+      "correctIndex": 0,
+      "hint": "Whole versus part.",
+      "explanation": "A case template standardises the overall investigation structure. A task template standardises an individual response or investigation action."
+    },
+    {
+      "id": "CYB-401",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between case severity and case impact?",
+      "options": [
+        "Impact is how urgent it is; severity is the effect it had on the business",
+        "Severity is how serious or urgent it is; impact is the effect it had on the business",
+        "Severity is set by the attacker; impact is set by the SIEM",
+        "They both just record the date the case was opened"
+      ],
+      "correctIndex": 1,
+      "hint": "Priority versus effect.",
+      "explanation": "Severity expresses how serious or urgent a case is, helping prioritise. Impact records how the incident actually affected the organisation."
+    },
+    {
+      "id": "CYB-402",
+      "category": "Security Monitoring and Incident Response",
+      "question": "How does case management differ from a SIEM?",
+      "options": [
+        "Case management collects logs; a SIEM records the human investigation",
+        "A SIEM is only for small companies; case management is for large ones",
+        "A SIEM detects suspicious activity; case management records the human investigation",
+        "They do exactly the same job in a SOC"
+      ],
+      "correctIndex": 2,
+      "hint": "Detection versus tracking the work.",
+      "explanation": "A SIEM aggregates and analyses telemetry to detect activity. Case management records, coordinates and documents the investigation and response."
+    },
+    {
+      "id": "CYB-403",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Blocking a malicious domain at the DNS server and adding a firewall block at the boundary is which containment layer?",
+      "options": [
+        "Endpoint containment",
+        "Network containment",
+        "Physical containment",
+        "Perimeter containment"
+      ],
+      "correctIndex": 3,
+      "hint": "At the edge.",
+      "explanation": "Perimeter containment controls traffic at the boundary with firewall blocks, IPS filters, WAF policies and DNS blocking. Network containment restricts internal paths."
+    },
+    {
+      "id": "CYB-404",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Using EDR to isolate one infected laptop from the network is which containment layer?",
+      "options": [
+        "Endpoint containment",
+        "Perimeter containment",
+        "Network containment",
+        "Cloud containment"
+      ],
+      "correctIndex": 0,
+      "hint": "The host itself.",
+      "explanation": "Endpoint containment restricts the affected host itself, such as EDR isolation, disconnecting it or applying local firewall rules."
+    },
+    {
+      "id": "CYB-405",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Moving a compromised device into a restricted VLAN is which containment layer?",
+      "options": [
+        "Endpoint containment",
+        "Network containment",
+        "Perimeter containment",
+        "Application containment"
+      ],
+      "correctIndex": 1,
+      "hint": "Inside the environment.",
+      "explanation": "Network containment restricts movement within the environment through VLAN or segment isolation, port blocking and access control lists."
+    },
+    {
+      "id": "CYB-406",
+      "category": "Security Monitoring and Incident Response",
+      "question": "After isolating a host, the team keeps watching for traffic it should no longer be able to send. What is this?",
+      "options": [
+        "Recovery validation",
+        "Threat hunting",
+        "Containment verification",
+        "Lessons learned"
+      ],
+      "correctIndex": 2,
+      "hint": "Checking the block worked.",
+      "explanation": "Containment verification confirms the asset can no longer perform the blocked activity. Unexpected traffic should be escalated immediately."
+    },
+    {
+      "id": "CYB-407",
+      "category": "Networks and the Web",
+      "question": "What does null-routing a malicious domain in DNS achieve?",
+      "options": [
+        "The domain is permanently taken down on the internet",
+        "The attacker is told they have been detected",
+        "Every email from the domain is deleted",
+        "Internal hosts can no longer resolve it to its real address"
+      ],
+      "correctIndex": 3,
+      "hint": "It goes nowhere.",
+      "explanation": "Null-routing stops a domain resolving to its real destination, so internal hosts can’t make normal connections to it."
+    },
+    {
+      "id": "CYB-408",
+      "category": "Digital Forensics",
+      "question": "Why should a memory dump usually be taken before a compromised machine is powered off?",
+      "options": [
+        "RAM is volatile, so running processes and keys vanish when power is lost",
+        "The hard drive is wiped automatically when the machine shuts down",
+        "A memory dump can only be taken while Wi-Fi is turned on",
+        "Windows deletes all its event logs during shutdown"
+      ],
+      "correctIndex": 0,
+      "hint": "Volatile evidence.",
+      "explanation": "RAM holds running processes, network artefacts and credentials that disappear when power is lost, so volatile evidence is collected early."
+    },
+    {
+      "id": "CYB-409",
+      "category": "Digital Forensics",
+      "question": "What does a hardware write blocker do?",
+      "options": [
+        "Encrypts the evidence so only the court can read it",
+        "Stops any data being written to the original drive during acquisition",
+        "Speeds up copying data from the suspect drive",
+        "Deletes malware from the drive before it is copied"
+      ],
+      "correctIndex": 1,
+      "hint": "Protecting the original.",
+      "explanation": "A write blocker sits between the suspect storage and the forensic workstation so the original media can’t be modified during acquisition."
+    },
+    {
+      "id": "CYB-410",
+      "category": "Digital Forensics",
+      "question": "How do investigators show a forensic copy is identical to the original drive?",
+      "options": [
+        "By checking both drives are the same make and size",
+        "By opening a few files on each and comparing them",
+        "By comparing cryptographic hashes of the source and the copy",
+        "By checking the copy was made on the same day"
+      ],
+      "correctIndex": 2,
+      "hint": "Matching fingerprints.",
+      "explanation": "Hash verification compares hashes of the source and the forensic copy to show the acquired data hasn’t changed."
+    },
+    {
+      "id": "CYB-411",
+      "category": "Digital Forensics",
+      "question": "What is a bit-by-bit copy?",
+      "options": [
+        "A copy of only the files the user can see in their folders",
+        "A compressed backup made by Windows each night",
+        "A copy of a single file split into smaller pieces",
+        "A sector-level copy reproducing all readable data, not just visible files"
+      ],
+      "correctIndex": 3,
+      "hint": "Everything, including what’s hidden.",
+      "explanation": "A bit-by-bit copy reproduces all readable data from the source at sector level, including deleted and unallocated areas, not just visible files."
+    },
+    {
+      "id": "CYB-412",
+      "category": "Digital Forensics",
+      "question": "Which tool is used to rapidly collect targeted forensic artefacts, including from live systems?",
+      "options": [
+        "KAPE",
+        "Wireshark",
+        "TheHive",
+        "pfSense"
+      ],
+      "correctIndex": 0,
+      "hint": "Kroll Artifact Parser and Extractor.",
+      "explanation": "KAPE rapidly collects targeted forensic artefacts, including volatile evidence from live systems. FTK Imager creates forensic disk images."
+    },
+    {
+      "id": "CYB-413",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why is reimaging often preferred over manually removing malware after a deep compromise?",
+      "options": [
+        "Reimaging keeps every file the user created since the infection",
+        "Rebuilding from a trusted image is less likely to miss hidden persistence",
+        "Manual removal is not allowed under GDPR",
+        "Reimaging is faster than restarting the computer"
+      ],
+      "correctIndex": 1,
+      "hint": "Starting clean.",
+      "explanation": "Reimaging rebuilds from a trusted pre-infection source, which is more reliable for deep compromise, though newer data may be lost. Manual removal risks missing persistence."
+    },
+    {
+      "id": "CYB-414",
+      "category": "Malware and Attacks",
+      "question": "Malware adds an entry to a registry Run key. Why must eradication remove that entry too?",
+      "options": [
+        "Registry entries slow down the computer’s start-up",
+        "It stores the attacker’s IP address for the SIEM",
+        "It’s persistence: the malware would run again at the next logon",
+        "Windows can’t update while the entry exists"
+      ],
+      "correctIndex": 2,
+      "hint": "It brings the malware back.",
+      "explanation": "Registry persistence makes malicious code run automatically. Eradication must remove the persistence entry as well as its payload."
+    },
+    {
+      "id": "CYB-415",
+      "category": "Malware and Attacks",
+      "question": "On Linux, which scheduled mechanism can attackers abuse for persistence?",
+      "options": [
+        "A GPO",
+        "A registry Run key",
+        "A SPAN port",
+        "A cron job"
+      ],
+      "correctIndex": 3,
+      "hint": "Linux’s scheduler.",
+      "explanation": "Cron jobs schedule commands on Linux and Unix systems and can be abused for persistence, so they should be reviewed during eradication."
+    },
+    {
+      "id": "CYB-416",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between containment verification and recovery validation?",
+      "options": [
+        "One checks the harmful activity is blocked; the other checks restored systems are clean",
+        "One checks restored systems are clean; the other checks harmful activity is blocked",
+        "Both just check that backups were taken correctly",
+        "Neither is needed if the system was reimaged"
+      ],
+      "correctIndex": 0,
+      "hint": "Two different checks at two stages.",
+      "explanation": "Containment verification checks that harmful activity is actually blocked. Recovery validation checks remediated systems are clean, patched and safe for production."
+    },
+    {
+      "id": "CYB-417",
+      "category": "Security Monitoring and Incident Response",
+      "question": "After an incident, the team searches the rest of the network for the same indicators. What is this?",
+      "options": [
+        "A tabletop exercise",
+        "A threat exposure check",
+        "Recovery validation",
+        "A risk transfer"
+      ],
+      "correctIndex": 1,
+      "hint": "Are others affected too?",
+      "explanation": "A threat exposure check searches the wider environment for indicators or behaviours from the incident to find other affected systems."
+    },
+    {
+      "id": "CYB-418",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between eradication and hardening?",
+      "options": [
+        "Hardening removes the current threat; eradication makes a repeat less likely",
+        "Eradication is about people; hardening is about buildings",
+        "Eradication removes the current threat; hardening makes a repeat attack less likely",
+        "They both mean restoring data from a backup"
+      ],
+      "correctIndex": 2,
+      "hint": "Remove it, then strengthen.",
+      "explanation": "Eradication removes the current threat and attacker changes. Hardening reduces attack surface so the same or a similar attack is less likely to succeed."
+    },
+    {
+      "id": "CYB-419",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does MTTD measure?",
+      "options": [
+        "The average time taken to fully restore affected systems",
+        "The average cost of each security incident",
+        "The average number of alerts raised per day",
+        "The average time taken to notice an incident has happened"
+      ],
+      "correctIndex": 3,
+      "hint": "Mean Time to Detect.",
+      "explanation": "MTTD is how quickly the team notices an incident. MTTR measures how quickly they respond or resolve it, and remediation time is how long full recovery takes."
+    },
+    {
+      "id": "CYB-420",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between MTTR and remediation time?",
+      "options": [
+        "MTTR is how fast the team responds; remediation time is until systems are fully back",
+        "Remediation time is how fast the team responds; MTTR is until systems are back",
+        "MTTR measures cost; remediation time measures alert volume",
+        "They measure exactly the same thing"
+      ],
+      "correctIndex": 0,
+      "hint": "Responding versus fully recovered.",
+      "explanation": "MTTR measures how quickly the team takes effective action and resolves the issue. Remediation time covers full recovery and return to production."
+    },
+    {
+      "id": "CYB-421",
+      "category": "Resilience and Security Management",
+      "question": "What is the difference between an SLA and an SLO?",
+      "options": [
+        "An SLO is the overall agreement; an SLA is a specific target in it",
+        "An SLA is the overall agreement; an SLO is a specific measurable target in it",
+        "An SLA is internal only; an SLO is shared with customers",
+        "They are two names for the same document"
+      ],
+      "correctIndex": 1,
+      "hint": "Agreement versus objective.",
+      "explanation": "A Service Level Agreement sets broad expectations with a customer. A Service Level Objective is a specific measurable goal inside it, such as uptime."
+    },
+    {
+      "id": "CYB-422",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does the ‘alerts created per incident’ metric help a team find?",
+      "options": [
+        "How much the incident cost the business",
+        "How many staff were affected by the incident",
+        "Where detections fired or were missing along the attack path",
+        "How long the incident took to recover from"
+      ],
+      "correctIndex": 2,
+      "hint": "Detection coverage.",
+      "explanation": "Counting alerts during an incident shows where detection existed and where it was missing across the attacker’s path."
+    },
+    {
+      "id": "CYB-423",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which section of an incident report gives a short, non-technical overview focused on business impact?",
+      "options": [
+        "The incident investigation",
+        "The appendix",
+        "The incident timeline",
+        "The executive summary"
+      ],
+      "correctIndex": 3,
+      "hint": "For senior leaders.",
+      "explanation": "The executive summary is a concise business view. The investigation is the detailed technical narrative, and the appendix holds bulky supporting material."
+    },
+    {
+      "id": "CYB-424",
+      "category": "Security Monitoring and Incident Response",
+      "question": "An incident spans offices in London, New York and Tokyo. Which timezone should the report timeline use?",
+      "options": [
+        "UTC, so everything is on one reference time",
+        "The local time of each office for each event",
+        "Whichever timezone the analyst is in",
+        "The timezone of the attacker’s IP address"
+      ],
+      "correctIndex": 0,
+      "hint": "One common reference.",
+      "explanation": "Incident timelines are normalised to one timezone, commonly UTC, so events from different locations can be compared accurately."
+    },
+    {
+      "id": "CYB-425",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the key rule for evidence-backed incident reporting?",
+      "options": [
+        "Keep the report vague so it can’t be challenged later",
+        "Make a point, then back it up with evidence like logs or screenshots",
+        "Only include findings the attacker has admitted to",
+        "Put all evidence in the executive summary"
+      ],
+      "correctIndex": 1,
+      "hint": "Point, then proof.",
+      "explanation": "Reports should make a point and then provide evidence such as logs, screenshots, PCAPs or case notes, rather than unsupported speculation."
+    },
+    {
+      "id": "CYB-426",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Where should a long list of IOCs go in an incident report?",
+      "options": [
+        "The executive summary",
+        "The title page",
+        "The appendix",
+        "The timeline"
+      ],
+      "correctIndex": 2,
+      "hint": "Bulky supporting material.",
+      "explanation": "The appendix holds large tables, figures, long IOC lists and other material referenced from the main report."
+    },
+    {
+      "id": "CYB-427",
+      "category": "Threat Intelligence",
+      "question": "What is MITRE ATT&CK?",
+      "options": [
+        "A government agency that investigates cyber crime",
+        "A SIEM product used by large SOCs",
+        "A list of every known software vulnerability",
+        "A knowledge base of real-world attacker tactics and techniques"
+      ],
+      "correctIndex": 3,
+      "hint": "Mapping adversary behaviour.",
+      "explanation": "MITRE ATT&CK is a knowledge base of adversary tactics and techniques used to map attacks, assess visibility, improve detections and support hunting."
+    },
+    {
+      "id": "CYB-428",
+      "category": "Threat Intelligence",
+      "question": "In ATT&CK, what is the difference between a tactic and a technique?",
+      "options": [
+        "A tactic is the attacker’s goal; a technique is how they achieve it",
+        "A technique is the attacker’s goal; a tactic is how they achieve it",
+        "Tactics are for Windows; techniques are for Linux",
+        "Tactics are defensive controls; techniques are attacks"
+      ],
+      "correctIndex": 0,
+      "hint": "Why versus how.",
+      "explanation": "A tactic is the adversary’s goal, like Credential Access. A technique is the method used, like OS Credential Dumping. Sub-techniques are more specific methods."
+    },
+    {
+      "id": "CYB-429",
+      "category": "Threat Intelligence",
+      "question": "How many tactics does the BTL1 course list in the ATT&CK Enterprise matrix?",
+      "options": [
+        "7",
+        "12",
+        "10",
+        "20"
+      ],
+      "correctIndex": 1,
+      "hint": "Initial Access to Impact.",
+      "explanation": "The course covers 12 tactics: Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command and Control, Exfiltration and Impact."
+    },
+    {
+      "id": "CYB-430",
+      "category": "Threat Intelligence",
+      "question": "An attacker gathers files of interest and stages them inside the network. Which ATT&CK tactic is this?",
+      "options": [
+        "Exfiltration",
+        "Discovery",
+        "Collection",
+        "Impact"
+      ],
+      "correctIndex": 2,
+      "hint": "Before it leaves.",
+      "explanation": "Collection gathers and stages data inside the environment. Exfiltration is removing it from the environment."
+    },
+    {
+      "id": "CYB-431",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between the Persistence and Privilege Escalation tactics?",
+      "options": [
+        "Privilege Escalation keeps access; Persistence gains higher permissions",
+        "Persistence steals data; Privilege Escalation deletes it",
+        "They describe the same goal",
+        "Persistence keeps access; Privilege Escalation gains higher permissions"
+      ],
+      "correctIndex": 3,
+      "hint": "Staying versus climbing.",
+      "explanation": "Persistence maintains access across restarts or credential changes. Privilege Escalation gains higher permissions, like admin or SYSTEM."
+    },
+    {
+      "id": "CYB-432",
+      "category": "Threat Intelligence",
+      "question": "An attacker clears event logs and disables antivirus. Which ATT&CK tactic is this?",
+      "options": [
+        "Defense Evasion",
+        "Credential Access",
+        "Impact",
+        "Collection"
+      ],
+      "correctIndex": 0,
+      "hint": "Hiding from defenders.",
+      "explanation": "Defense Evasion covers avoiding, disabling or bypassing security controls and removing evidence, such as Impair Defenses (T1562) and Indicator Removal (T1070)."
+    },
+    {
+      "id": "CYB-433",
+      "category": "Threat Intelligence",
+      "question": "An attacker enumerates domain accounts and scans for open services. Which ATT&CK tactic is this?",
+      "options": [
+        "Lateral Movement",
+        "Discovery",
+        "Initial Access",
+        "Execution"
+      ],
+      "correctIndex": 1,
+      "hint": "Learning about the environment.",
+      "explanation": "Discovery is learning about accounts, systems and services. Lateral Movement then uses that knowledge to move between systems."
+    },
+    {
+      "id": "CYB-434",
+      "category": "Threat Intelligence",
+      "question": "Which ATT&CK technique ID is Phishing?",
+      "options": [
+        "T1486",
+        "T1078",
+        "T1566",
+        "T1003"
+      ],
+      "correctIndex": 2,
+      "hint": "An Initial Access technique.",
+      "explanation": "T1566 is Phishing. T1486 is Data Encrypted for Impact, T1078 is Valid Accounts and T1003 is OS Credential Dumping."
+    },
+    {
+      "id": "CYB-435",
+      "category": "Threat Intelligence",
+      "question": "Ransomware encrypting files maps to which ATT&CK technique?",
+      "options": [
+        "Defacement (T1491)",
+        "Account Access Removal (T1531)",
+        "Scheduled Transfer (T1029)",
+        "Data Encrypted for Impact (T1486)"
+      ],
+      "correctIndex": 3,
+      "hint": "An Impact technique.",
+      "explanation": "T1486 Data Encrypted for Impact covers encrypting data to deny access, commonly associated with ransomware."
+    },
+    {
+      "id": "CYB-436",
+      "category": "Threat Intelligence",
+      "question": "An attacker logs in using a real employee’s stolen credentials. Which ATT&CK technique is this?",
+      "options": [
+        "Valid Accounts (T1078)",
+        "Brute Force (T1110)",
+        "User Execution (T1204)",
+        "Phishing (T1566)"
+      ],
+      "correctIndex": 0,
+      "hint": "Legitimate credentials.",
+      "explanation": "T1078 Valid Accounts is using legitimate credentials to access systems or higher privileges, often after phishing or credential theft."
+    },
+    {
+      "id": "CYB-437",
+      "category": "Threat Intelligence",
+      "question": "Dumping password hashes from LSASS memory falls under which ATT&CK technique?",
+      "options": [
+        "Brute Force (T1110)",
+        "OS Credential Dumping (T1003)",
+        "Account Discovery (T1087)",
+        "Screen Capture (T1113)"
+      ],
+      "correctIndex": 1,
+      "hint": "Credential Access.",
+      "explanation": "T1003 OS Credential Dumping retrieves credentials from OS stores or process memory. LSASS Memory is one of its sub-techniques."
+    },
+    {
+      "id": "CYB-438",
+      "category": "Threat Intelligence",
+      "question": "An attacker uses RDP with stolen credentials to hop to another server. Which ATT&CK technique is this?",
+      "options": [
+        "External Remote Services (T1133)",
+        "Internal Spearphishing (T1534)",
+        "Remote Services (T1021)",
+        "Web Service (T1102)"
+      ],
+      "correctIndex": 2,
+      "hint": "Lateral Movement.",
+      "explanation": "T1021 Remote Services uses RDP, SMB, SSH, VNC or WinRM to move between systems inside the network. T1133 is internet-facing services used for initial access."
+    },
+    {
+      "id": "CYB-439",
+      "category": "Threat Intelligence",
+      "question": "An attacker uses a compromised internal mailbox to phish colleagues. Which ATT&CK technique is this?",
+      "options": [
+        "Phishing (T1566)",
+        "Email Collection (T1114)",
+        "Valid Accounts (T1078)",
+        "Internal Spearphishing (T1534)"
+      ],
+      "correctIndex": 3,
+      "hint": "Lateral Movement through trust.",
+      "explanation": "T1534 Internal Spearphishing uses a compromised internal mailbox or channel to send convincing phishing to other users."
+    },
+    {
+      "id": "CYB-440",
+      "category": "Threat Intelligence",
+      "question": "Malware spread on USB sticks into an air-gapped network maps to which ATT&CK technique?",
+      "options": [
+        "Replication Through Removable Media (T1091)",
+        "External Remote Services (T1133)",
+        "Non-Standard Port (T1571)",
+        "Exfiltration Over C2 Channel (T1041)"
+      ],
+      "correctIndex": 0,
+      "hint": "Initial Access by hand.",
+      "explanation": "T1091 Replication Through Removable Media uses devices like USB sticks to carry malware, including into air-gapped environments."
+    },
+    {
+      "id": "CYB-441",
+      "category": "Threat Intelligence",
+      "question": "An attacker creates an inbox rule forwarding the CFO’s emails to an outside address. Which ATT&CK tactic does this fall under?",
+      "options": [
+        "Impact (Defacement, T1491)",
+        "Collection (Email Collection, T1114)",
+        "Discovery (Account Discovery, T1087)",
+        "Execution (User Execution, T1204)"
+      ],
+      "correctIndex": 1,
+      "hint": "Gathering information.",
+      "explanation": "Email forwarding rules fall under Email Collection (T1114), part of Collection. They keep the attacker’s access to data even if other access is lost."
+    },
+    {
+      "id": "CYB-442",
+      "category": "Threat Intelligence",
+      "question": "C2 traffic is sent over HTTPS port 8443 instead of 443 to slip past filtering. Which technique is this?",
+      "options": [
+        "Web Service (T1102)",
+        "Scheduled Transfer (T1029)",
+        "Non-Standard Port (T1571)",
+        "Valid Accounts (T1078)"
+      ],
+      "correctIndex": 2,
+      "hint": "An unexpected port.",
+      "explanation": "T1571 Non-Standard Port uses a protocol on an unexpected port to evade filtering or complicate analysis."
+    },
+    {
+      "id": "CYB-443",
+      "category": "Threat Intelligence",
+      "question": "Malware uses a public cloud storage service to relay its commands. Which ATT&CK technique is this?",
+      "options": [
+        "Non-Standard Port (T1571)",
+        "Remote Services (T1021)",
+        "External Remote Services (T1133)",
+        "Web Service (T1102)"
+      ],
+      "correctIndex": 3,
+      "hint": "Hiding in legitimate services.",
+      "explanation": "T1102 Web Service uses legitimate external web or cloud services as a relay or storage mechanism for C2."
+    },
+    {
+      "id": "CYB-444",
+      "category": "Threat Intelligence",
+      "question": "What is ATT&CK Navigator used for?",
+      "options": [
+        "Colouring and mapping techniques to track detection coverage and gaps",
+        "Scanning the network for vulnerable services",
+        "Converting Sigma rules into Splunk searches",
+        "Managing incident cases and their tasks"
+      ],
+      "correctIndex": 0,
+      "hint": "Visualising the matrix.",
+      "explanation": "ATT&CK Navigator maps and colours techniques for threat hunting, adversary emulation and assessing detection coverage."
+    },
+    {
+      "id": "CYB-445",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between threat hunting and adversary emulation?",
+      "options": [
+        "Emulation searches for hidden attackers; hunting copies an actor’s behaviour",
+        "Hunting searches for hidden attackers; emulation copies an actor’s behaviour to test defences",
+        "Hunting is done by red teams; emulation by the helpdesk",
+        "They both mean writing new SIEM rules"
+      ],
+      "correctIndex": 1,
+      "hint": "Searching versus imitating.",
+      "explanation": "Threat hunting proactively searches for attackers already inside. Adversary emulation reproduces a known actor’s tactics and techniques to test defenders."
+    },
+    {
+      "id": "CYB-446",
+      "category": "Threat Intelligence",
+      "question": "Changing a malicious file’s timestamps so it blends in with system files is called what?",
+      "options": [
+        "Jitter",
+        "Beaconing",
+        "Timestomping",
+        "Defanging"
+      ],
+      "correctIndex": 2,
+      "hint": "Time plus stomping.",
+      "explanation": "Timestomping changes file timestamps so it’s less obvious when a file was created or modified. It’s a Defense Evasion action."
     }
   ]
 }
