@@ -236,7 +236,7 @@ export function BlitzDone({ result, prevBest, best, xp, rate, byId }: DoneProps)
               </li>
             ))}
           </ul>
-          <p className="p-note">{missed.length === 1 ? 'It’s' : 'They’re'} now in Practice for review.</p>
+          <p className="p-note">{missed.length === 1 ? 'It’s' : 'They’re'} now in Smart Practice for review.</p>
         </>
       ) : (
         <p className="p-note">{result.correct > 0 ? 'Every answer right. Clean round.' : 'No answers this round.'}</p>

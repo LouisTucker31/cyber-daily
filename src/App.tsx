@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
-  answer, completeDay, dateKey, daysUntil, drawPractice, dueIds, ensureToday, loadState, parseBank,
-  practiceIds, recordResult, saveState,
+  answer, boxCounts, completeDay, dateKey, daysUntil, drawPractice, dueDoneToday, dueIds, dueToday, ensureToday,
+  finishPractice, loadState, parseBank, practiceIds, recordResult, saveState,
   shownStreak, type PracticeSession, type Question, type State
 } from './lib/quiz.ts';
 import {
@@ -11,6 +11,7 @@ import Header from './components/Header.tsx';
 import Home from './components/Home.tsx';
 import QuestionView from './components/QuestionView.tsx';
 import DoneView from './components/DoneView.tsx';
+import PracticeIntro from './components/PracticeIntro.tsx';
 import Profile from './components/Profile.tsx';
 import Celebration from './components/Celebration.tsx';
 import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
@@ -55,7 +56,8 @@ export default function App() {
   const [state, setState] = useState<State | null>(null);
   const stateRef = useRef<State | null>(null);
   const [view, setView] = useState<View>('home');
-  const [practice, setPractice] = useState<PracticeSession | null>(null);
+  const [practice, setPractice] = useState<PracticeSession | null>(null); // null = showing the intro
+  const [practiceXp, setPracticeXp] = useState(0); // XP the last finished round earned
   const [motion, setMotion] = useState<Motion>('none');
   const [round, setRound] = useState(0); // bumps on each new screen so the slide animation replays
   const [blitz, setBlitz] = useState<Blitz>({ phase: 'intro' });
@@ -194,8 +196,15 @@ export default function App() {
     update((s) => { items = drawPractice(practiceBank, s); });
     setPractice({ items, index: 0 });
     haptic();
+    window.scrollTo(0, 0);
+  }, [practiceBank, update]);
+
+  /* Home opens the Smart Practice intro; Start / Another round begin a round */
+  const openPractice = useCallback(() => {
+    setPractice(null);
+    haptic();
     open('practice');
-  }, [practiceBank, update, open]);
+  }, [open]);
 
   /* Acronym Blitz: Home opens the intro; Start / Play again begin a round straight away */
   const openBlitz = useCallback(() => {
@@ -335,11 +344,11 @@ export default function App() {
       <Home
         day={day}
         learned={practiceIds(state, practiceBank!).length}
-        due={dueIds(state, practiceBank!).length}
+        due={dueToday(state, practiceBank!)}
         onDaily={() => { haptic(); open('daily'); }}
         onProfile={() => { haptic(); open('profile'); }}
         level={levelInfo(state.xp)}
-        onPractice={startPractice}
+        onPractice={openPractice}
         blitz={{ best: state.blitz.best, available: (acronyms?.length ?? 0) >= 4 }}
         onBlitz={openBlitz}
         phish={{ best: state.phish.best, available: !!phishBank }}
@@ -396,15 +405,35 @@ export default function App() {
         onDaily={() => open('daily')}
       />
     );
+  } else if (view === 'practice' && !practice) {
+    nav = { label: 'Smart Practice', onHome: () => goHome() };
+    const left = dueToday(state, practiceBank!);
+    const waiting = dueIds(state, practiceBank!).length - left;
+    body = (
+      <PracticeIntro
+        dueToday={left}
+        waiting={waiting}
+        doneToday={dueDoneToday(state)}
+        learned={practiceIds(state, practiceBank!).length}
+        boxes={boxCounts(state, practiceBank!)}
+      />
+    );
+    barButton = (
+      <button type="button" className="btn" onClick={startPractice}>
+        {left > 0 || waiting > 0 ? 'Start round' : 'Practise anyway'}<ArrowIcon />
+      </button>
+    );
   } else if (view === 'practice' && practice) {
-    nav = { label: 'Practice', onHome: () => goHome() };
+    nav = { label: 'Smart Practice', onHome: () => goHome() };
     if (practice.index >= practice.items.length) {
+      const left = dueToday(state, practiceBank!);
       body = (
         <DoneView
           mode="practice"
           items={practice.items}
           byId={practiceById}
           strength={(id) => state.srs[id]?.box ?? 1}
+          practice={{ xp: practiceXp, left, waiting: dueIds(state, practiceBank!).length - left }}
         />
       );
       barButton = endBar('Another round', startPractice);
@@ -445,7 +474,16 @@ export default function App() {
           <button
             type="button"
             className="btn"
-            onClick={() => { setPractice((p) => p && { ...p, index: p.index + 1 }); window.scrollTo(0, 0); }}
+            onClick={() => {
+              if (last) { // round finished: pay the round bonus once, remember the total for the results
+                let xp = 0;
+                update((s) => { xp = finishPractice(s, practice.items); });
+                setPracticeXp(xp);
+                haptic('success');
+              }
+              setPractice((p) => p && { ...p, index: p.index + 1 });
+              window.scrollTo(0, 0);
+            }}
           >
             {last ? 'See results' : 'Next question'}
             <ArrowIcon />
@@ -541,7 +579,7 @@ export default function App() {
       {state && state.celebrations.length > 0 && (
         view === 'home' || view === 'profile' ||
         (view === 'daily' && dayDone) ||
-        (view === 'practice' && practice && practice.index >= practice.items.length) ||
+        (view === 'practice' && (!practice || practice.index >= practice.items.length)) ||
         (view === 'blitz' && blitz.phase !== 'play') ||
         (view === 'phish' && phish.phase !== 'play') ||
         (view === 'incident' && incident.phase !== 'play')

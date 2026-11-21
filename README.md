@@ -82,8 +82,10 @@ Uses every question you've ever answered correctly, plus every acronym you've mi
 - A right answer on a due question moves it up a box. A wrong answer sends it back to box 1 (back tomorrow) and shows the right answer.
 - Answering correctly before it's due doesn't move it up, so repeating Practice can't max everything out.
 - A round of up to 10 picks due questions first, then your weakest categories, then a couple at random.
-- The Practice tile shows how many are due.
-- Practice never changes daily progress or the streak.
+- Daily target: at most 20 due reviews a day (`PRACTICE_DAILY_CAP` in `src/lib/quiz.ts`), most overdue first. Reviews answered today are counted in `practiceDay` in saved state, right or wrong. Anything over the target waits until tomorrow; you can keep playing, and those still count as real reviews.
+- The Smart Practice tile shows how many reviews are left in today's target (no badge). Tapping it opens an intro (`src/components/PracticeIntro.tsx`) explaining the mode, today's numbers and a chart of items per box, then Start round.
+- XP: 5 per due review right, 1 if it wasn't due, plus 10 for finishing a round with at least one due review in it (`finishPractice`). The results screen shows the XP earned and how many reviews are left today.
+- Smart Practice never changes daily progress or the streak.
 
 Every answer in every mode is logged with its category (`log` in saved state), ready for the Profile.
 
@@ -201,7 +203,7 @@ Scenarios live in `public/incident.json`. Each has `facts` (hidden flags rolled 
 Tap the level ring (top right of Home) or the Profile tile.
 
 **XP and ranks**
-- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Practice (1 if it wasn't due). Acronym Blitz: 2 per right answer and 10 per finished round. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round. Incident Commander: 60 for an A down to 12 for an E. Games pay full XP for the first 3 rounds each day, then half (to round 10), then a quarter.
+- XP: 10 per daily question right, 20 for finishing the set, 50 for a clean sweep, 5 per due review right in Smart Practice (1 if it wasn't due) and 10 per round with a due review in it. Acronym Blitz: 2 per right answer and 10 per finished round. Spot the Phish: 2 per right call (3 at Analyst, 4 at Expert) and 10 per round. Incident Commander: 60 for an A down to 12 for an E. Games pay full XP for the first 3 rounds each day, then half (to round 10), then a quarter.
 - Ranks run from Trainee (level 1) to CISO (level 10). Tap your rank name on the Profile to see your XP and all the ranks; tap the level ring to flip it. The XP needed for each is set in `RANKS` in `src/lib/progress.ts`.
 
 **Category scores**

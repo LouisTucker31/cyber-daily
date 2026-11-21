@@ -1,6 +1,6 @@
 /* Levels, XP, badges, streak freezes and the category scores behind the Profile.
    Everything here works on the saved State and is called from quiz.ts / App.tsx. */
-import { dateKey, dayBefore, daysUntil, dueIds, learnedIds, MAX_BOX, type Question, type State } from './quiz.ts';
+import { dateKey, dayBefore, daysUntil, dueToday, learnedIds, MAX_BOX, type Question, type State } from './quiz.ts';
 
 /* ---------- XP & levels ---------- */
 
@@ -10,6 +10,7 @@ export const XP = {
   cleanSweep: 50,
   practiceDue: 5,     // a right answer on a question that was due
   practiceEarly: 1,   // right, but not due yet (stops grinding)
+  practiceRound: 10,  // finishing a Smart Practice round that had at least one due review
   blitzCorrect: 2,    // per right answer in a finished Acronym Blitz round
   blitzRound: 10,     // for finishing a Blitz round
   phishCorrect: 2,    // per right call in Spot the Phish (+1 at Analyst, +2 at Expert)
@@ -219,9 +220,9 @@ export const BADGES: BadgeDef[] = [
     progress: (c) => count(c.learned, 50), earned: (c) => c.learned >= 50 },
   { id: 'bank-100', tier: 'gold', name: 'Encyclopaedic', desc: 'Learn 100 questions.', glyph: 'stack',
     progress: (c) => count(c.learned, 100), earned: (c) => c.learned >= 100 },
-  { id: 'locked-in', tier: 'silver', name: 'Locked In', desc: 'Get a question to full strength in Practice.', glyph: 'dots',
+  { id: 'locked-in', tier: 'silver', name: 'Locked In', desc: 'Get a question to full strength in Smart Practice.', glyph: 'dots',
     earned: (c) => Object.values(c.state.srs).some((e) => e.box >= MAX_BOX) },
-  { id: 'inbox-zero', tier: 'silver', name: 'Inbox Zero', desc: 'Clear every review that’s due in a day (at least 5).', glyph: 'tray',
+  { id: 'inbox-zero', tier: 'silver', name: 'Inbox Zero', desc: 'Finish all of a day’s Smart Practice reviews (at least 5).', glyph: 'tray',
     earned: (c) => c.state.stats.reviewsCleared >= 1 },
   { id: 'second-chance', tier: 'bronze', name: 'Second Chance', desc: 'Get a daily question right that you’d got wrong before.', glyph: 'loop',
     earned: (c) => c.state.stats.secondChance >= 1 },
@@ -230,7 +231,7 @@ export const BADGES: BadgeDef[] = [
   { id: 'all-rounder', tier: 'gold', name: 'All-Rounder', desc: 'Score 70+ in every category (from 10+ answers each).', glyph: 'web',
     progress: (c) => count(c.rows.filter((r) => r.score !== null && r.score >= 70 && r.n >= 10).length, c.rows.length),
     earned: (c) => c.rows.length > 0 && c.rows.every((r) => r.score !== null && r.score >= 70 && r.n >= 10) },
-  { id: 'first-practice', tier: 'bronze', name: 'Back for More', desc: 'Play Practice for the first time.', glyph: 'cycle',
+  { id: 'first-practice', tier: 'bronze', name: 'Back for More', desc: 'Play Smart Practice for the first time.', glyph: 'cycle',
     earned: (c) => c.state.log.some((e) => e.m === 'practice') || Object.values(c.state.srs).some((e) => e.box > 1) },
   { id: 'first-blitz', tier: 'bronze', name: 'Off the Mark', desc: 'Finish your first round of Acronym Blitz.', glyph: 'bolt',
     earned: (c) => c.state.blitz.rounds >= 1 },
@@ -270,9 +271,9 @@ export const BADGES: BadgeDef[] = [
 export function evaluateProgress(state: State, bank: Question[], silent = false, practiceBank: Question[] = bank): void {
   const today = dateKey();
 
-  // Inbox Zero: everything due is cleared, with at least 5 reviews answered today
+  // Inbox Zero: today's reviews are all done (the daily target), with at least 5 answered today
   const reviewedToday = state.log.filter((e) => e.m === 'practice' && e.d === today).length;
-  if (reviewedToday >= 5 && state.stats.lastCleared !== today && dueIds(state, practiceBank).length === 0) {
+  if (reviewedToday >= 5 && state.stats.lastCleared !== today && dueToday(state, practiceBank) === 0) {
     state.stats.reviewsCleared += 1;
     state.stats.lastCleared = today;
   }

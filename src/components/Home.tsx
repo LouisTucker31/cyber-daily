@@ -89,21 +89,20 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
     };
   }
 
-  /* ---------- Practice ---------- */
+  /* ---------- Smart Practice ---------- */
   const practice: TileSpec = learned > 0
     ? {
         id: 'practice',
-        title: 'Practice',
+        title: 'Smart Practice',
         icon: <PracticeIcon />,
-        meta: due > 0 ? `${due} due for review` : `All caught up · ${learned} learned`,
-        badge: due,
+        meta: due > 0 ? `${due} to review today` : `All caught up · ${learned} learned`,
         tone: 'plain',
         onOpen: onPractice,
         foot: <span className="tile-cta">Play</span>
       }
     : {
         id: 'practice',
-        title: 'Practice',
+        title: 'Smart Practice',
         icon: <LockIcon />,
         meta: 'Unlocks when you get a daily question right',
         tone: 'locked'

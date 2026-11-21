@@ -53,6 +53,7 @@ export interface State {
   blitzReview: string[];                // acronym ids missed in Blitz (feed Practice; never resets)
   phish: PhishStats;                    // Spot the Phish records
   incident: IncidentStats;              // Incident Commander records
+  practiceDay: { date: string; due: number }; // due reviews answered today (Smart Practice daily target)
   skillTiers?: Record<string, number>;  // best medal reached per skill (1 bronze to 4 platinum), for skill-up celebrations
 }
 
@@ -215,7 +216,8 @@ export function freshState(): State {
     blitz: freshBlitz(),
     blitzReview: [],
     phish: freshPhish(),
-    incident: freshIncident()
+    incident: freshIncident(),
+    practiceDay: { date: '', due: 0 }
   };
 }
 
@@ -389,7 +391,12 @@ export function recordResult(state: State, q: Question, mode: LogEntry['m'], ok:
   logAnswer(state, mode, q.id, q.category, ok);
 
   const entry = state.srs[q.id];
-  if (mode === 'practice' && ok) state.xp += entry && entry.due > today ? XP.practiceEarly : XP.practiceDue;
+  const wasDue = !entry || entry.due <= today;
+  if (mode === 'practice' && ok) state.xp += wasDue ? XP.practiceDue : XP.practiceEarly;
+  if (mode === 'practice' && wasDue) { // counts towards today's review target, right or wrong
+    if (state.practiceDay.date !== today) state.practiceDay = { date: today, due: 0 };
+    state.practiceDay.due += 1;
+  }
   if (ok) {
     if (!entry) {
       state.srs[q.id] = { box: 1, due: addDays(today, INTERVALS[0]) }; // just learned: first review tomorrow
@@ -442,6 +449,35 @@ export function practiceIds(state: State, bank: Question[]): string[] {
 export function dueIds(state: State, bank: Question[]): string[] {
   const today = dateKey();
   return practiceIds(state, bank).filter((id) => (state.srs[id]?.due ?? today) <= today);
+}
+
+/* Daily target: at most this many due reviews are asked of you each day, most overdue first.
+   Anything over waits for tomorrow (nothing is lost), and you can still keep going if you want. */
+export const PRACTICE_DAILY_CAP = 20;
+
+export function dueDoneToday(state: State): number {
+  return state.practiceDay.date === dateKey() ? state.practiceDay.due : 0;
+}
+
+/* What the Home tile and intro show: due reviews left in today's target. */
+export function dueToday(state: State, bank: Question[]): number {
+  return Math.min(dueIds(state, bank).length, Math.max(0, PRACTICE_DAILY_CAP - dueDoneToday(state)));
+}
+
+/* How many items sit in each box (index 0 = box 1). Items not yet reviewed count as box 1. */
+export function boxCounts(state: State, bank: Question[]): number[] {
+  const counts = new Array(MAX_BOX).fill(0);
+  practiceIds(state, bank).forEach((id) => { counts[(state.srs[id]?.box ?? 1) - 1] += 1; });
+  return counts;
+}
+
+/* End of a round: a bonus if it had at least one due review in it (so replaying when caught up can't farm it).
+   Returns the XP the round earned in total. */
+export function finishPractice(state: State, items: PracticeItem[]): number {
+  const hadDue = items.some((it) => !it.early);
+  if (hadDue) state.xp += XP.practiceRound;
+  return items.reduce((n, it) => n + (it.correct ? (it.early ? XP.practiceEarly : XP.practiceDue) : 0), 0)
+    + (hadDue ? XP.practiceRound : 0);
 }
 
 export function drawPractice(bank: Question[], state: State, count = PRACTICE_COUNT): PracticeItem[] {
