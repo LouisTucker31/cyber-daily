@@ -15,7 +15,7 @@ import Profile from './components/Profile.tsx';
 import Celebration from './components/Celebration.tsx';
 import { BlitzDone, BlitzGame, BlitzIntro } from './components/BlitzView.tsx';
 import { DirectorySheet, PhishDone, PhishGame, PhishIntro } from './components/PhishView.tsx';
-import { IncidentDebrief, IncidentGame, IncidentIntro } from './components/IncidentView.tsx';
+import { HARD_LEVEL, IncidentDebrief, IncidentGame, IncidentIntro } from './components/IncidentView.tsx';
 import {
   finishIncident, incidentRoundsToday, logIncidentDecision, newRun, parseIncident,
   type IncidentBank, type IncidentResult, type Run
@@ -65,6 +65,7 @@ export default function App() {
   const [incident, setIncident] = useState<Incident>({ phase: 'intro' });
   const [timed, setTimed] = useState(true); // Incident Commander countdowns (on by default)
   const [scenarioPick, setScenarioPick] = useState<string | null>(null); // chosen on the start page
+  const [hardPick, setHardPick] = useState(false); // Incident Commander Hard mode (from level 6)
 
   const bank = load.status === 'ready' ? load.bank : null;
   const acronyms = load.status === 'ready' ? load.acronyms : null;
@@ -276,6 +277,7 @@ export default function App() {
   const playable = useMemo(() => (incidentBank?.scenarios ?? []).filter((x) => !x.soon && x.beats?.length && level >= x.level),
     [incidentBank, level]);
   const scenarioId = playable.some((x) => x.id === scenarioPick) ? scenarioPick! : (playable[0]?.id ?? '');
+  const hard = hardPick && level >= HARD_LEVEL;
   const startIncident = useCallback(() => {
     const scenario = playable.find((x) => x.id === scenarioId);
     if (!incidentBank || !scenario) return;
@@ -467,11 +469,11 @@ export default function App() {
     nav = { label: 'Incident Commander', onHome: () => goHome() };
     if (incident.phase === 'play') {
       body = (
-        <IncidentGame key={incident.round} run={incident.run} people={incidentBank.people} timed={timed}
+        <IncidentGame key={incident.round} run={incident.run} people={incidentBank.people} timed={timed} hard={hard}
           onDecision={incidentDecision} onEnd={endIncident} />
       );
     } else if (incident.phase === 'intro') {
-      body = <IncidentIntro bank={incidentBank} level={level} best={state.incident.best} timed={timed} onTimed={setTimed}
+      body = <IncidentIntro bank={incidentBank} level={level} best={state.incident.best} timed={timed} onTimed={setTimed} hard={hard} onHard={setHardPick}
         roundsToday={incidentRoundsToday(state)} selected={scenarioId} onSelect={setScenarioPick} />;
       barButton = <button type="button" className="btn" onClick={startIncident}>Start: {playable.find((x) => x.id === scenarioId)?.title}<ArrowIcon /></button>;
     } else {

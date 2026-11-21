@@ -17,6 +17,10 @@ const colourFor = (key: string) => AVATAR[[...key].reduce((h, ch) => (h * 31 + c
 const initials = (name: string) => name.split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 const QUALITY_ICON: Record<Quality, ReactNode> = { good: <TickIcon />, ok: <WarnIcon />, poor: <CrossIcon /> };
 
+export const HARD_LEVEL = 6;
+const HARD_SPEED = 0.65;   // Hard mode countdowns are this fraction of the normal length
+const HARD_DEFAULT = 40;   // seconds, before HARD_SPEED, for decisions that normally have no timer
+
 /* ---------- before an incident ---------- */
 
 interface IntroProps {
@@ -24,13 +28,15 @@ interface IntroProps {
   level: number;
   best: Record<string, string>;
   timed: boolean;
+  hard: boolean;
+  onHard: (on: boolean) => void;
   onTimed: (on: boolean) => void;
   roundsToday: number;
   selected: string;                 // the scenario that Start will play
   onSelect: (id: string) => void;
 }
 
-export function IncidentIntro({ bank, level, best, timed, onTimed, roundsToday, selected, onSelect }: IntroProps) {
+export function IncidentIntro({ bank, level, best, timed, onTimed, hard, onHard, roundsToday, selected, onSelect }: IntroProps) {
   const rules = [
     { tone: 'decide', icon: <ChatsIcon />, value: 'Decide', label: 'updates arrive in the chat; you make the call' },
     { tone: 'timer', icon: <TimerIcon />, value: 'Timers', label: 'urgent calls have a countdown' },
@@ -78,9 +84,20 @@ export function IncidentIntro({ bank, level, best, timed, onTimed, roundsToday, 
         })}
       </div>
 
-      <button type="button" className="ic-toggle" role="switch" aria-checked={timed} onClick={() => { haptic(); onTimed(!timed); }}>
-        <span className="ph-level-text"><b>Timers</b><span>{timed ? 'Urgent decisions have a countdown' : 'Take as long as you like'}</span></span>
-        <span className={'switch' + (timed ? ' on' : '')} aria-hidden="true"><i /></span>
+      <button type="button" className="ic-toggle" role="switch" aria-checked={timed || hard} disabled={hard}
+        onClick={() => { haptic(); onTimed(!timed); }}>
+        <span className="ph-level-text"><b>Timers</b>
+          <span>{hard ? 'Always on in Hard mode' : timed ? 'Urgent decisions have a countdown' : 'Take as long as you like'}</span></span>
+        <span className={'switch' + (timed || hard ? ' on' : '')} aria-hidden="true"><i /></span>
+      </button>
+
+      {/* Hard mode (from level 6): shorter countdowns, and a countdown on every decision */}
+      <button type="button" className={'ic-toggle' + (level < HARD_LEVEL ? ' locked' : '')} role="switch" aria-checked={hard}
+        disabled={level < HARD_LEVEL} onClick={() => { haptic(); onHard(!hard); }}>
+        <span className="ph-level-text"><b>Hard mode</b>
+          <span>{level < HARD_LEVEL ? `Unlocks at level ${HARD_LEVEL}` : 'Shorter timers on every decision · +25% XP'}</span></span>
+        {level < HARD_LEVEL ? <span className="ph-level-mark"><LockIcon /></span>
+          : <span className={'switch hard' + (hard ? ' on' : '')} aria-hidden="true"><i /></span>}
       </button>
 
       <p className="blitz-foot">
@@ -127,6 +144,7 @@ interface GameProps {
   run: Run;
   people: Record<string, Person>;
   timed: boolean;
+  hard: boolean;                    // shorter countdowns, and one on every single-choice decision
   onDecision: (category: string, id: string, ok: boolean) => void;
   onEnd: (r: IncidentResult) => void;
 }
@@ -134,7 +152,7 @@ interface GameProps {
 const TYPE_MS = 750;  // gap between messages arriving
 const NEXT_MS = 1300; // pause after the last reply before the next update starts
 
-export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProps) {
+export function IncidentGame({ run, people, timed, hard, onDecision, onEnd }: GameProps) {
   const beats = run.scenario.beats ?? [];
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const [g, setG] = useState<Gauges>(run.scenario.start ?? { c: 50, o: 70, t: 70, k: 70 });
@@ -172,9 +190,9 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
     onEnd({
       scenarioId: run.scenario.id, title: run.scenario.title, org: run.org, sys: run.sys,
       recap: (run.scenario.recap ?? []).filter((r) => holds(r.if, flags.current)).map((r) => fill(r.text, run)),
-      flags: flags.current, gauges: gRef.current, grade: gradeFor(gRef.current), decisions: decisions.current
+      flags: flags.current, gauges: gRef.current, grade: gradeFor(gRef.current), decisions: decisions.current, hard
     });
-  }, [onEnd, run]);
+  }, [onEnd, run, hard]);
 
   /* Move to the next beat whose conditions fit, and queue its messages */
   const enter = useCallback((from: number) => {
@@ -262,16 +280,21 @@ export function IncidentGame({ run, people, timed, onDecision, onEnd }: GameProp
 
   // urgent decisions: when the countdown runs out, the "do nothing" outcome happens
   // (the latest choose is kept in a ref so re-renders don't restart the countdown)
-  const timer = timed && deciding && beat?.timer && beat.timeout ? beat.timer : 0;
+  // Hard mode: every countdown is shorter, and single-choice decisions without one get one,
+  // where running out picks the weakest option on offer
+  const worst = options.find((o) => o.quality === 'poor') ?? options.find((o) => o.quality === 'ok');
+  const timeoutId = beat?.timeout ?? (hard && want === 1 ? worst?.id : undefined);
+  const baseTimer = beat?.timer ?? (hard && want === 1 ? HARD_DEFAULT : 0);
+  const timer = (timed || hard) && deciding && baseTimer && timeoutId ? Math.round(baseTimer * (hard ? HARD_SPEED : 1)) : 0;
+  const timeoutRef = useRef(timeoutId);
+  timeoutRef.current = timeoutId;
   const chooseRef = useRef(choose);
   chooseRef.current = choose;
   useEffect(() => {
     if (!timer) return;
-    const out = beats[beatIdx]?.timeout;
-    if (!out) return;
-    const t = window.setTimeout(() => chooseRef.current([out], true), timer * 1000);
+    const t = window.setTimeout(() => { if (timeoutRef.current) chooseRef.current([timeoutRef.current], true); }, timer * 1000);
     return () => window.clearTimeout(t);
-  }, [timer, beatIdx, beats]);
+  }, [timer, beatIdx]);
 
   const toggle = (id: string) => {
     haptic();
@@ -369,7 +392,7 @@ export function IncidentDebrief({ result, prevBest, xp, rate }: DebriefProps) {
         </div>
       </div>
       <p className="p-note">
-        {result.title} at {result.org}.
+        {result.title} at {result.org}{result.hard ? ' · Hard mode' : ''}.
         {better ? ` Up from ${prevBest}.` : prevBest ? ` Your best is ${prevBest}.` : ''}
         {' '}+{xp} XP{rate < 1 ? ` (${xpRateText(rate)})` : ''}
       </p>

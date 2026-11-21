@@ -174,7 +174,9 @@ A few rules for writing cards:
 - Every giveaway should be checkable against the Directory.
 
 ## Incident Commander
-A tabletop exercise on the phone: you lead the response to a cyber incident. Two scenarios so far, about 5 minutes each: **Ransomware** (from level 1) and **Invoice fraud** (from level 3). Pick one on the start page. The others are listed with their unlock levels and marked "Coming soon".
+A tabletop exercise on the phone: you lead the response to a cyber incident. Six scenarios, about 5 minutes each, unlocking as you level up: **Ransomware** (level 1), **Invoice fraud** (3), **Supplier breach** (4), **Insider leak** (5), **Open cloud storage** (6) and **Launch-day DDoS** (7). Pick one on the start page.
+
+**Hard mode** (from level 6, switch on the start page): every countdown is about a third shorter, every single-choice decision gets a countdown (running out picks the weakest option), timers can’t be turned off, and it pays 25% more XP. Set in `HARD_SPEED` and `HARD_DEFAULT` in `IncidentView.tsx`.
 
 - **The incident room:** updates arrive one at a time in a chat feed on a pretend clock (Monday 08:47, Tuesday 09:00 and so on), from a cast of SOC analyst, IT lead, CEO, finance director, comms, legal/DPO, the CEO's assistant and a reporter.
 - **Decisions:** each update needs a call from 3 or 4 options, shuffled each time. Some are "pick 2" because people are limited (Confirm sits in the question card), and many are trade-offs with no single right answer. Your choice appears as your message, the cast reacts, and the next update arrives by itself: there is no Continue button.

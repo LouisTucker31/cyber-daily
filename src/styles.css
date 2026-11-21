@@ -1629,3 +1629,8 @@ mark.hl { padding: 0 2px; }
 /* Spot the Phish: the two answer buttons float, with no bar behind them */
 .actionbar.floating { background: none; border-top: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .actionbar.floating .btn { box-shadow: var(--shadow); }
+.ic-toggle:disabled { cursor: default; }
+.ic-toggle.locked { background: var(--locked); }
+.ic-toggle.locked b { color: var(--muted); }
+.ic-toggle .ph-level-mark { color: var(--muted); }
+.switch.hard.on { background: var(--signal); }

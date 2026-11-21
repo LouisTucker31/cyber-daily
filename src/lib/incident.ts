@@ -163,6 +163,7 @@ export interface IncidentResult {
   gauges: Gauges;
   grade: string;
   decisions: Decision[];
+  hard: boolean;     // played in Hard mode (+25% XP)
 }
 
 /* ---------- progress (these mutate the state passed in) ---------- */
@@ -185,7 +186,7 @@ export function finishIncident(state: State, r: IncidentResult): { prevBest: str
   if (s.xpDay !== today) { s.xpDay = today; s.xpRounds = 0; }
   const rate = gameXpRate(s.xpRounds);
   s.xpRounds += 1;
-  const xp = Math.max(1, Math.round((GRADE_XP[r.grade] ?? 12) * rate));
+  const xp = Math.max(1, Math.round((GRADE_XP[r.grade] ?? 12) * rate * (r.hard ? 1.25 : 1)));
   state.xp += xp;
   return { prevBest, xp, rate };
 }
