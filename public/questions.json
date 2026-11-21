@@ -6244,6 +6244,1448 @@
       "correctIndex": 2,
       "hint": "Time plus stomping.",
       "explanation": "Timestomping changes file timestamps so it’s less obvious when a file was created or modified. It’s a Defense Evasion action."
+    },
+    {
+      "id": "CYB-447",
+      "category": "Threat Intelligence",
+      "question": "What is threat intelligence?",
+      "options": [
+        "A list of every employee who has failed a phishing simulation",
+        "Software that blocks all malware before it reaches a device",
+        "A report on how much the security team spent last year",
+        "Information that helps understand current and future threats so defenders can reduce risk"
+      ],
+      "correctIndex": 3,
+      "hint": "Understanding the threats you face.",
+      "explanation": "Threat intelligence is information used to understand threats targeting an organisation now or in future, so defenders can reduce risk and improve detection and response."
+    },
+    {
+      "id": "CYB-448",
+      "category": "Threat Intelligence",
+      "question": "What is the correct order of the threat intelligence lifecycle?",
+      "options": [
+        "Planning, collection, processing, analysis, dissemination, feedback",
+        "Collection, analysis, planning, feedback, processing, dissemination",
+        "Analysis, collection, dissemination, planning, processing, feedback",
+        "Dissemination, planning, processing, collection, feedback, analysis"
+      ],
+      "correctIndex": 0,
+      "hint": "Decide what you need first.",
+      "explanation": "The lifecycle runs Planning & Direction, Collection, Processing, Analysis, Dissemination and Feedback, then repeats."
+    },
+    {
+      "id": "CYB-449",
+      "category": "Threat Intelligence",
+      "question": "Which lifecycle stage defines the intelligence requirement, scope and stakeholders?",
+      "options": [
+        "Collection",
+        "Planning & Direction",
+        "Dissemination",
+        "Feedback"
+      ],
+      "correctIndex": 1,
+      "hint": "Before gathering anything.",
+      "explanation": "Planning & Direction sets the requirement, scope, goals and stakeholders so collection and analysis stay focused on useful outcomes."
+    },
+    {
+      "id": "CYB-450",
+      "category": "Threat Intelligence",
+      "question": "Translating a foreign-language hacking forum post so it can be analysed happens in which stage?",
+      "options": [
+        "Collection",
+        "Analysis",
+        "Processing",
+        "Dissemination"
+      ],
+      "correctIndex": 2,
+      "hint": "Making raw data usable.",
+      "explanation": "Processing converts collected raw data into a usable format, such as translating material or normalising data, ready for analysis."
+    },
+    {
+      "id": "CYB-451",
+      "category": "Threat Intelligence",
+      "question": "Which lifecycle stage is human interpretation that turns processed information into conclusions?",
+      "options": [
+        "Processing",
+        "Collection",
+        "Planning & Direction",
+        "Analysis"
+      ],
+      "correctIndex": 3,
+      "hint": "Adding meaning.",
+      "explanation": "Analysis is where people interpret processed information to produce conclusions, context and actionable intelligence."
+    },
+    {
+      "id": "CYB-452",
+      "category": "Threat Intelligence",
+      "question": "Sending a short threat briefing to executives and IOC lists to the SOC is which lifecycle stage?",
+      "options": [
+        "Dissemination",
+        "Feedback",
+        "Processing",
+        "Collection"
+      ],
+      "correctIndex": 0,
+      "hint": "Delivering the finished product.",
+      "explanation": "Dissemination delivers finished intelligence to the people or systems that need it, in a format and level of detail that suits each audience."
+    },
+    {
+      "id": "CYB-453",
+      "category": "Threat Intelligence",
+      "question": "The SOC tells the intel team their reports are too long to act on. Which lifecycle stage is this?",
+      "options": [
+        "Dissemination",
+        "Feedback",
+        "Analysis",
+        "Planning & Direction"
+      ],
+      "correctIndex": 1,
+      "hint": "Input from the people using it.",
+      "explanation": "Feedback is input from intelligence consumers that refines priorities, collection, analysis and future outputs."
+    },
+    {
+      "id": "CYB-454",
+      "category": "Threat Intelligence",
+      "question": "What makes intelligence ‘actionable’?",
+      "options": [
+        "It has been collected from at least three separate sources",
+        "It is written in a technical format that tools can read",
+        "It’s relevant enough to support a concrete security decision or action",
+        "It has been marked as top secret by a government"
+      ],
+      "correctIndex": 2,
+      "hint": "Can you act on it?",
+      "explanation": "Actionable intelligence is processed and analysed information relevant enough to support a specific security decision or action."
+    },
+    {
+      "id": "CYB-455",
+      "category": "Threat Intelligence",
+      "question": "What is a threat feed?",
+      "options": [
+        "A live video stream of the security operations centre",
+        "A news website that only reports on data breaches",
+        "A tool that scans the network for open ports",
+        "A regularly updated list of threat data, like malicious IPs, domains or hashes"
+      ],
+      "correctIndex": 3,
+      "hint": "A stream of indicators.",
+      "explanation": "A threat feed is a regularly updated stream of threat data, commonly malicious IPs, domains, URLs or hashes, for people or tools to use."
+    },
+    {
+      "id": "CYB-456",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between a threat feed and a threat intelligence platform (TIP)?",
+      "options": [
+        "A feed is a stream of data; a TIP aggregates, enriches and shares intel from many sources",
+        "A TIP is a single stream of data; a feed aggregates intel from many sources",
+        "A feed is always paid for; a TIP is always free",
+        "They are two names for the same thing"
+      ],
+      "correctIndex": 0,
+      "hint": "Source versus platform.",
+      "explanation": "A threat feed is a stream or list of intelligence. A TIP aggregates, normalises, stores, enriches, analyses and distributes intelligence from many feeds."
+    },
+    {
+      "id": "CYB-457",
+      "category": "Threat Intelligence",
+      "question": "What is an organisation’s attack surface?",
+      "options": [
+        "The physical walls and doors of the company’s main office",
+        "All the reachable systems, services and weaknesses an attacker could use",
+        "The number of attacks the SOC blocked last month",
+        "The part of the network protected by the firewall"
+      ],
+      "correctIndex": 1,
+      "hint": "Every way in.",
+      "explanation": "The attack surface is the total set of reachable systems, services, weaknesses and other opportunities an attacker could use to gain access."
+    },
+    {
+      "id": "CYB-458",
+      "category": "Threat Intelligence",
+      "question": "Intelligence gathered from public websites, social media and domain records is called what?",
+      "options": [
+        "HUMINT",
+        "SIGINT",
+        "OSINT",
+        "GEOINT"
+      ],
+      "correctIndex": 2,
+      "hint": "Open sources.",
+      "explanation": "OSINT is open-source intelligence from publicly available sources. HUMINT comes from people, SIGINT from signals and GEOINT from imagery and geography."
+    },
+    {
+      "id": "CYB-459",
+      "category": "Threat Intelligence",
+      "question": "Intelligence gathered by interviewing or debriefing people is called what?",
+      "options": [
+        "OSINT",
+        "ELINT",
+        "COMINT",
+        "HUMINT"
+      ],
+      "correctIndex": 3,
+      "hint": "Human.",
+      "explanation": "HUMINT is human intelligence, gathered through interviews, debriefings, observation and other human interaction."
+    },
+    {
+      "id": "CYB-460",
+      "category": "Threat Intelligence",
+      "question": "What is the relationship between SIGINT, COMINT and ELINT?",
+      "options": [
+        "SIGINT is the umbrella; COMINT covers communications and ELINT other electronic signals",
+        "COMINT is the umbrella; SIGINT covers radar and ELINT covers phone calls",
+        "ELINT is the umbrella; SIGINT and COMINT are both types of human intelligence",
+        "They are three unrelated disciplines with no overlap"
+      ],
+      "correctIndex": 0,
+      "hint": "One contains the other two.",
+      "explanation": "SIGINT is the umbrella for intercepted signals. COMINT focuses on communications between people; ELINT on non-communication emissions like radar."
+    },
+    {
+      "id": "CYB-461",
+      "category": "Threat Intelligence",
+      "question": "Intelligence derived from satellite imagery and maps is called what?",
+      "options": [
+        "HUMINT",
+        "GEOINT",
+        "SIGINT",
+        "OSINT"
+      ],
+      "correctIndex": 1,
+      "hint": "Geospatial.",
+      "explanation": "GEOINT is geospatial intelligence from imagery and geographic information, used to understand locations, infrastructure and events."
+    },
+    {
+      "id": "CYB-462",
+      "category": "Threat Intelligence",
+      "question": "A report on rising cyber threats to the energy sector, written for the board, is which type of intelligence?",
+      "options": [
+        "Tactical",
+        "Operational",
+        "Strategic",
+        "Technical"
+      ],
+      "correctIndex": 2,
+      "hint": "High-level, for decision-makers.",
+      "explanation": "Strategic intelligence is mostly non-technical, aimed at executives, and focuses on trends, business risk, geopolitics, budgets and policy."
+    },
+    {
+      "id": "CYB-463",
+      "category": "Threat Intelligence",
+      "question": "A list of malicious IPs and file hashes for the SOC to block today is which type of intelligence?",
+      "options": [
+        "Strategic",
+        "Operational",
+        "Geopolitical",
+        "Tactical"
+      ],
+      "correctIndex": 3,
+      "hint": "Immediately usable, technical.",
+      "explanation": "Tactical intelligence is immediately useful technical intel, commonly shared as IOCs for detection, exposure checks and blocking."
+    },
+    {
+      "id": "CYB-464",
+      "category": "Threat Intelligence",
+      "question": "A profile of a ransomware group’s motives, campaigns and TTPs is which type of intelligence?",
+      "options": [
+        "Operational",
+        "Strategic",
+        "Tactical",
+        "Geospatial"
+      ],
+      "correctIndex": 0,
+      "hint": "About the adversaries and how they work.",
+      "explanation": "Operational intelligence covers adversaries, their motivations, campaigns and TTPs, helping defenders understand how specific actors operate."
+    },
+    {
+      "id": "CYB-465",
+      "category": "Threat Intelligence",
+      "question": "Which of these is an example of an IOC?",
+      "options": [
+        "A company’s security policy",
+        "A known-malicious file hash",
+        "A firewall’s model number",
+        "An employee’s job title"
+      ],
+      "correctIndex": 1,
+      "hint": "An observable artefact.",
+      "explanation": "IOCs are observable artefacts linked to malicious activity, such as IP addresses, domains, URLs, email addresses, filenames and file hashes."
+    },
+    {
+      "id": "CYB-466",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between a CVE and a CVSS score?",
+      "options": [
+        "A CVSS identifies a vulnerability; CVE rates its technical severity",
+        "A CVE is a patch; CVSS is the scanner that finds it",
+        "A CVE identifies a vulnerability; CVSS rates its generic technical severity",
+        "They are the same thing with different names"
+      ],
+      "correctIndex": 2,
+      "hint": "ID versus score.",
+      "explanation": "A CVE is a unique identifier for a publicly disclosed vulnerability, like CVE-2019-0708. CVSS gives it a standard severity score."
+    },
+    {
+      "id": "CYB-467",
+      "category": "Threat Intelligence",
+      "question": "Why might a vulnerability with a lower CVSS score be patched before a higher one?",
+      "options": [
+        "Lower scores always mean easier patches",
+        "CVSS scores are listed in reverse order",
+        "Higher-scored vulnerabilities fix themselves",
+        "It is being actively exploited in the wild"
+      ],
+      "correctIndex": 3,
+      "hint": "Real-world attacks.",
+      "explanation": "CVSS is generic severity. A lower-scored vulnerability that is actively exploited can carry more real risk than a higher-scored one nobody is using."
+    },
+    {
+      "id": "CYB-468",
+      "category": "Threat Intelligence",
+      "question": "How does Tenable’s VPR differ from a CVSS score?",
+      "options": [
+        "VPR changes with threat intelligence and real exploitation; CVSS is fixed and generic",
+        "VPR is fixed and generic; CVSS changes daily with exploitation activity",
+        "VPR only applies to Linux; CVSS only applies to Windows",
+        "VPR is a vulnerability ID; CVSS is a patch number"
+      ],
+      "correctIndex": 0,
+      "hint": "Dynamic priority.",
+      "explanation": "The Vulnerability Priority Rating is dynamic, updating with threat intelligence and observed exploitation. CVSS describes generic technical severity."
+    },
+    {
+      "id": "CYB-469",
+      "category": "Threat Intelligence",
+      "question": "What is a zero-day vulnerability?",
+      "options": [
+        "A vulnerability that is fixed on the same day it is reported",
+        "A flaw the vendor had no chance to fix before it was exploited or known",
+        "A flaw that can only be exploited at midnight",
+        "A vulnerability with a CVSS score of zero"
+      ],
+      "correctIndex": 1,
+      "hint": "Zero days to prepare.",
+      "explanation": "A zero-day is a vulnerability defenders or the vendor had no prior chance to fix before exploitation became possible or known."
+    },
+    {
+      "id": "CYB-470",
+      "category": "Threat Intelligence",
+      "question": "What is the NVD?",
+      "options": [
+        "A vendor’s list of its own product updates",
+        "A dark-web forum where exploits are sold",
+        "NIST’s database publishing information and enrichment for CVEs",
+        "A Windows tool for checking installed patches"
+      ],
+      "correctIndex": 2,
+      "hint": "National Vulnerability Database.",
+      "explanation": "The National Vulnerability Database, run by NIST, provides published information and enrichment for CVEs."
+    },
+    {
+      "id": "CYB-471",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between a threat and a threat actor?",
+      "options": [
+        "A threat actor is the potential for harm; a threat is who causes it",
+        "A threat is always deliberate; a threat actor is always accidental",
+        "They mean exactly the same thing",
+        "A threat is the potential for harm; a threat actor is who causes it"
+      ],
+      "correctIndex": 3,
+      "hint": "The danger versus the person.",
+      "explanation": "A threat is a danger capable of exploiting a vulnerability. A threat actor or agent is the person or group creating the harmful effect."
+    },
+    {
+      "id": "CYB-472",
+      "category": "Threat Intelligence",
+      "question": "An employee accidentally emails a customer list to the wrong person. What kind of threat is this?",
+      "options": [
+        "An unintentional threat",
+        "An intentional threat",
+        "A nation-state threat",
+        "A hacktivist threat"
+      ],
+      "correctIndex": 0,
+      "hint": "No malicious intent.",
+      "explanation": "Unintentional or accidental threats cause harm without malicious intent, such as sending data to the wrong recipient."
+    },
+    {
+      "id": "CYB-473",
+      "category": "Threat Intelligence",
+      "question": "An inexperienced attacker uses a pre-built tool they don’t really understand. What are they called?",
+      "options": [
+        "An APT",
+        "A script kiddie",
+        "A hacktivist",
+        "A nation-state actor"
+      ],
+      "correctIndex": 1,
+      "hint": "Low skill, borrowed tools.",
+      "explanation": "A script kiddie relies on pre-built tools, scripts or services rather than advanced technical knowledge."
+    },
+    {
+      "id": "CYB-474",
+      "category": "Threat Intelligence",
+      "question": "A group defaces a company’s website to protest its environmental record. What type of actor is this?",
+      "options": [
+        "Cybercriminal",
+        "Nation-state actor",
+        "Hacktivist",
+        "Insider threat"
+      ],
+      "correctIndex": 2,
+      "hint": "A cause, not cash.",
+      "explanation": "Hacktivists use cyber attacks to promote social or political beliefs. Website defacement is a classic hacktivist technique."
+    },
+    {
+      "id": "CYB-475",
+      "category": "Threat Intelligence",
+      "question": "What usually motivates a cybercriminal?",
+      "options": [
+        "Political protest",
+        "Espionage for a state",
+        "Curiosity alone",
+        "Financial gain"
+      ],
+      "correctIndex": 3,
+      "hint": "Ransomware, fraud and data theft.",
+      "explanation": "Cybercriminals are primarily motivated by money, through activity like ransomware, phishing, fraud and data theft."
+    },
+    {
+      "id": "CYB-476",
+      "category": "Threat Intelligence",
+      "question": "What makes an APT different from a conventional hacker?",
+      "options": [
+        "APTs are well resourced, sophisticated and keep long-term access to chosen targets",
+        "APTs only ever attack individuals rather than organisations",
+        "APTs use only free public tools and give up quickly",
+        "APTs are always lone teenagers working from home"
+      ],
+      "correctIndex": 0,
+      "hint": "Advanced Persistent Threat.",
+      "explanation": "APTs are highly capable, persistent groups, often state-backed, using significant resources and tailored methods to pursue long-term goals against specific targets."
+    },
+    {
+      "id": "CYB-477",
+      "category": "Threat Intelligence",
+      "question": "Stealing a rival company’s product designs for competitive advantage is called what?",
+      "options": [
+        "Hacktivism",
+        "Corporate espionage",
+        "Cryptojacking",
+        "Brand impersonation"
+      ],
+      "correctIndex": 1,
+      "hint": "Spying on business.",
+      "explanation": "Corporate espionage is stealing confidential business information for competitive, strategic or financial benefit."
+    },
+    {
+      "id": "CYB-478",
+      "category": "Malware and Attacks",
+      "question": "Attackers secretly use a company’s servers to generate cryptocurrency. What is this?",
+      "options": [
+        "Ransomware demanding crypto payment",
+        "A banking trojan stealing wallets",
+        "Cryptocurrency mining (cryptojacking)",
+        "A DDoS attack using the servers"
+      ],
+      "correctIndex": 2,
+      "hint": "Stealing computing power.",
+      "explanation": "Attackers use compromised computing resources to mine cryptocurrency for themselves, a financially motivated abuse."
+    },
+    {
+      "id": "CYB-479",
+      "category": "Malware and Attacks",
+      "question": "Malware designed to steal online banking logins is called what?",
+      "options": [
+        "Ransomware",
+        "A worm",
+        "Adware",
+        "A banking trojan"
+      ],
+      "correctIndex": 3,
+      "hint": "Aimed at financial accounts.",
+      "explanation": "A banking trojan steals banking credentials or other information used to access and steal money from financial accounts."
+    },
+    {
+      "id": "CYB-480",
+      "category": "Cybersecurity Fundamentals",
+      "question": "What is an air gap?",
+      "options": [
+        "Physically or logically separating a system from other networks",
+        "A gap in the firewall rules that lets traffic through",
+        "The delay between an attack starting and being detected",
+        "A Wi-Fi network with no password"
+      ],
+      "correctIndex": 0,
+      "hint": "No connection to other networks.",
+      "explanation": "An air gap separates a system from other networks to reduce remote attack paths, though removable media can still cross it."
+    },
+    {
+      "id": "CYB-481",
+      "category": "Malware and Attacks",
+      "question": "What is DDoS-as-a-Service?",
+      "options": [
+        "A cloud service that protects websites from DDoS attacks",
+        "A paid ‘booter’ service that lets anyone launch DDoS attacks",
+        "A free scanner that checks for open ports",
+        "A government team that investigates DDoS attacks"
+      ],
+      "correctIndex": 1,
+      "hint": "Also called a stressor.",
+      "explanation": "DDoS-as-a-Service, also called a booter or stressor, lets paying users launch DDoS attacks without running their own botnet."
+    },
+    {
+      "id": "CYB-482",
+      "category": "Threat Intelligence",
+      "question": "In CrowdStrike’s naming convention, what does ‘Bear’ in a group name indicate?",
+      "options": [
+        "Chinese nation-state activity",
+        "North Korean nation-state activity",
+        "Russian nation-state activity",
+        "Iranian nation-state activity"
+      ],
+      "correctIndex": 2,
+      "hint": "Think of the country’s national animal.",
+      "explanation": "CrowdStrike uses Bear for Russia, Panda for China, Chollima for North Korea and Kitten for Iran."
+    },
+    {
+      "id": "CYB-483",
+      "category": "Threat Intelligence",
+      "question": "In CrowdStrike’s naming convention, what does ‘Panda’ indicate?",
+      "options": [
+        "Russian nation-state activity",
+        "Iranian nation-state activity",
+        "Criminal eCrime activity",
+        "Chinese nation-state activity"
+      ],
+      "correctIndex": 3,
+      "hint": "A famous national animal.",
+      "explanation": "Panda is CrowdStrike’s label for Chinese nation-state activity."
+    },
+    {
+      "id": "CYB-484",
+      "category": "Threat Intelligence",
+      "question": "In CrowdStrike’s naming convention, what does ‘Chollima’ indicate?",
+      "options": [
+        "North Korean nation-state activity",
+        "Chinese nation-state activity",
+        "Russian nation-state activity",
+        "Hacktivist activity"
+      ],
+      "correctIndex": 0,
+      "hint": "A mythical winged horse.",
+      "explanation": "Chollima, a winged horse from Korean mythology, is CrowdStrike’s label for North Korean nation-state activity."
+    },
+    {
+      "id": "CYB-485",
+      "category": "Threat Intelligence",
+      "question": "In CrowdStrike’s naming convention, what does ‘Kitten’ indicate?",
+      "options": [
+        "North Korean nation-state activity",
+        "Iranian nation-state activity",
+        "Chinese nation-state activity",
+        "Criminal eCrime activity"
+      ],
+      "correctIndex": 1,
+      "hint": "Persian cats.",
+      "explanation": "Kitten is CrowdStrike’s label for Iranian nation-state activity."
+    },
+    {
+      "id": "CYB-486",
+      "category": "Threat Intelligence",
+      "question": "A CrowdStrike group name ends in ‘Spider’. What does that suggest?",
+      "options": [
+        "A hacktivist group",
+        "A Russian state group",
+        "A criminal (eCrime) group",
+        "An Iranian state group"
+      ],
+      "correctIndex": 2,
+      "hint": "Not tied to a country.",
+      "explanation": "Spider is CrowdStrike’s label for criminal or eCrime adversaries. Jackal is used for activist or hacktivist groups."
+    },
+    {
+      "id": "CYB-487",
+      "category": "Threat Intelligence",
+      "question": "In CrowdStrike’s naming convention, what does ‘Jackal’ indicate?",
+      "options": [
+        "Criminal eCrime adversaries",
+        "Russian nation-state activity",
+        "North Korean nation-state activity",
+        "Activist or hacktivist adversaries"
+      ],
+      "correctIndex": 3,
+      "hint": "Driven by a cause.",
+      "explanation": "Jackal is CrowdStrike’s label for activist or hacktivist adversaries."
+    },
+    {
+      "id": "CYB-488",
+      "category": "Threat Intelligence",
+      "question": "In Mandiant’s naming, which prefix is used for financially motivated groups, such as FIN7?",
+      "options": [
+        "FIN",
+        "APT",
+        "UNC",
+        "TA"
+      ],
+      "correctIndex": 0,
+      "hint": "Financial.",
+      "explanation": "Mandiant uses FIN for financially motivated cybercrime groups, APTxx for nation-state groups and UNC for unclassified clusters."
+    },
+    {
+      "id": "CYB-489",
+      "category": "Threat Intelligence",
+      "question": "What does Mandiant’s ‘UNC’ label mean?",
+      "options": [
+        "A group that has been confirmed as state-sponsored",
+        "An unclassified cluster still being analysed or not yet attributed",
+        "A financially motivated criminal gang, like FIN7",
+        "A group whose members have since been arrested"
+      ],
+      "correctIndex": 1,
+      "hint": "Not confidently attributed yet.",
+      "explanation": "UNC means unclassified: a temporary label for activity still under analysis or not yet confidently attributed."
+    },
+    {
+      "id": "CYB-490",
+      "category": "Threat Intelligence",
+      "question": "Why is attribution of an attack often uncertain?",
+      "options": [
+        "Attackers always sign their malware with their real names",
+        "Every attack comes from the same country",
+        "Tools, techniques and infrastructure can be shared, copied or spoofed",
+        "Attribution is only possible for DDoS attacks"
+      ],
+      "correctIndex": 2,
+      "hint": "Evidence can mislead.",
+      "explanation": "Shared tooling, copied TTPs and misleading infrastructure can produce false conclusions, so attribution should be evidence-based and probabilistic."
+    },
+    {
+      "id": "CYB-491",
+      "category": "Threat Intelligence",
+      "question": "What is a copycat attack?",
+      "options": [
+        "Two separate groups happening to attack the same target on the same day",
+        "Copying the victim’s files before encrypting them",
+        "Re-running the same attack against a victim twice",
+        "Deliberately imitating another group’s tools or techniques to mislead investigators"
+      ],
+      "correctIndex": 3,
+      "hint": "Shifting the blame.",
+      "explanation": "A copycat attack imitates another actor’s tools or techniques to confuse investigators or shift attribution."
+    },
+    {
+      "id": "CYB-492",
+      "category": "Threat Intelligence",
+      "question": "What are the three levels of attribution, from first to last?",
+      "options": [
+        "Machine, human, then ultimately responsible party",
+        "Human, machine, then country of origin",
+        "IP address, domain, then file hash",
+        "Strategic, operational, then tactical"
+      ],
+      "correctIndex": 0,
+      "hint": "From the computer to the sponsor.",
+      "explanation": "Machine attribution identifies the systems used, human attribution the person operating them, and ultimately responsible attribution the organisation or state behind it."
+    },
+    {
+      "id": "CYB-493",
+      "category": "Threat Intelligence",
+      "question": "Why is commodity malware less useful for attribution than custom tooling?",
+      "options": [
+        "It never leaves any traces on the infected system",
+        "Many different actors use it, so it doesn’t point to one group",
+        "It is only ever used by nation-state groups",
+        "It always contains the author’s real name"
+      ],
+      "correctIndex": 1,
+      "hint": "Widely available.",
+      "explanation": "Commodity malware is widely available and used by many actors, so it gives less confident attribution than unique tooling."
+    },
+    {
+      "id": "CYB-494",
+      "category": "Threat Intelligence",
+      "question": "An attacker uses only built-in Windows tools like PowerShell instead of custom malware. What is this called?",
+      "options": [
+        "Strategic web compromise",
+        "Typosquatting",
+        "Living off the land",
+        "Fuzzy hashing"
+      ],
+      "correctIndex": 2,
+      "hint": "Using what’s already there.",
+      "explanation": "Living off the land uses legitimate OS tools for malicious activity, reducing reliance on distinctive malware and making detection and attribution harder."
+    },
+    {
+      "id": "CYB-495",
+      "category": "Threat Intelligence",
+      "question": "How does TOR complicate attribution?",
+      "options": [
+        "It encrypts files on the victim’s computer",
+        "It deletes logs on the target server",
+        "It changes malware hashes automatically",
+        "It hides the user’s real location and traffic path"
+      ],
+      "correctIndex": 3,
+      "hint": "The Onion Router.",
+      "explanation": "TOR is an anonymity network that obscures a user’s source location and traffic path, making investigation and attribution harder."
+    },
+    {
+      "id": "CYB-496",
+      "category": "Threat Intelligence",
+      "question": "Attackers compromise an industry news website their targets often visit. What is this called?",
+      "options": [
+        "Strategic web compromise",
+        "Website defacement",
+        "Brand impersonation",
+        "Typosquatting"
+      ],
+      "correctIndex": 0,
+      "hint": "Also known as a watering hole.",
+      "explanation": "A strategic web compromise targets a site the intended victims are likely to visit, so visitors can be attacked or redirected."
+    },
+    {
+      "id": "CYB-497",
+      "category": "Malware and Attacks",
+      "question": "What is an exploit chain?",
+      "options": [
+        "A list of every exploit a vendor has patched",
+        "Linked exploits and actions where each stage enables the next",
+        "A single exploit used against many targets at once",
+        "A chain of emails used to deliver phishing"
+      ],
+      "correctIndex": 1,
+      "hint": "One step unlocks the next.",
+      "explanation": "An exploit chain is a sequence of linked exploits, scripts and actions where one stage enables the next until the attacker achieves compromise."
+    },
+    {
+      "id": "CYB-498",
+      "category": "Malware and Attacks",
+      "question": "What is an exploit kit?",
+      "options": [
+        "A toolkit used by defenders to patch vulnerabilities",
+        "A list of CVEs published by NIST each month",
+        "A bundle of exploit code that automates attacks on known vulnerabilities",
+        "A training course for penetration testers"
+      ],
+      "correctIndex": 2,
+      "hint": "Exploitation made easy.",
+      "explanation": "An exploit kit is a collection of exploit code designed to automate or simplify exploitation of known software vulnerabilities."
+    },
+    {
+      "id": "CYB-499",
+      "category": "Malware and Attacks",
+      "question": "Why do attackers obfuscate their code?",
+      "options": [
+        "To make the code run faster on the victim’s machine",
+        "To make the file smaller so it downloads quicker",
+        "To add a digital signature to the code",
+        "To make it hard to read and analyse, hindering detection"
+      ],
+      "correctIndex": 3,
+      "hint": "Deliberately confusing.",
+      "explanation": "Obfuscation makes code or data difficult to read or analyse, hindering detection and reverse engineering."
+    },
+    {
+      "id": "CYB-500",
+      "category": "Malware and Attacks",
+      "question": "What is a backdoor?",
+      "options": [
+        "A method or program giving covert remote access to a system",
+        "The emergency exit of a server room",
+        "A backup copy of a website’s files",
+        "A firewall rule that blocks incoming traffic"
+      ],
+      "correctIndex": 0,
+      "hint": "A secret way back in.",
+      "explanation": "A backdoor is a method or malicious program that provides covert remote access to a compromised system."
+    },
+    {
+      "id": "CYB-501",
+      "category": "Malware and Attacks",
+      "question": "An attacker uses a compromised web server as a stepping stone to reach the internal database. What is this?",
+      "options": [
+        "Beaconing",
+        "Pivoting",
+        "Defanging",
+        "Fingerprinting"
+      ],
+      "correctIndex": 1,
+      "hint": "Using one system to reach another.",
+      "explanation": "Pivoting uses access to one compromised system as a route to reach or attack other systems in the environment."
+    },
+    {
+      "id": "CYB-502",
+      "category": "Devices and Endpoint Security",
+      "question": "What does Microsoft AppLocker do?",
+      "options": [
+        "Encrypts applications so they can’t be copied",
+        "Locks the screen after a period of inactivity",
+        "Restricts which applications and scripts are allowed to run",
+        "Scans apps in the Microsoft Store for malware"
+      ],
+      "correctIndex": 2,
+      "hint": "Application control.",
+      "explanation": "AppLocker is Microsoft’s application-control technology for restricting which applications or scripts can execute."
+    },
+    {
+      "id": "CYB-503",
+      "category": "Threat Intelligence",
+      "question": "Why are TTPs more durable for defenders to track than individual IOCs?",
+      "options": [
+        "TTPs are always published by the attackers themselves",
+        "IOCs can’t be detected by any security tools",
+        "TTPs never change once a group is formed",
+        "Behaviour is much harder for attackers to change than an IP or hash"
+      ],
+      "correctIndex": 3,
+      "hint": "Habits are hard to break.",
+      "explanation": "IOCs like IPs and hashes are easy to swap. TTPs describe how an actor behaves, which takes far more effort to change."
+    },
+    {
+      "id": "CYB-504",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between a threat precursor and an IOC?",
+      "options": [
+        "A precursor is a warning sign before an incident; an IOC is evidence of malicious activity",
+        "An IOC is a warning sign before an incident; a precursor is evidence of compromise",
+        "A precursor is always a file hash; an IOC is always an IP",
+        "They are the same thing with different names"
+      ],
+      "correctIndex": 0,
+      "hint": "Before versus during or after.",
+      "explanation": "A precursor is an observable sign that may come before an attack, like scanning. An IOC is an artefact associated with malicious activity or compromise."
+    },
+    {
+      "id": "CYB-505",
+      "category": "Threat Intelligence",
+      "question": "Which of these is a threat precursor?",
+      "options": [
+        "Ransomware encrypting the file server",
+        "Port scanning against the company’s public servers",
+        "A confirmed data breach notice",
+        "A malware hash found on a laptop"
+      ],
+      "correctIndex": 1,
+      "hint": "A warning before an attack.",
+      "explanation": "Precursors include scanning, fingerprinting, reconnaissance and dark-web chatter, giving defenders a chance to act before an incident."
+    },
+    {
+      "id": "CYB-506",
+      "category": "Threat Intelligence",
+      "question": "An attacker probes a server to work out exactly which web server software and version it runs. What is this?",
+      "options": [
+        "Host discovery",
+        "Dumpster diving",
+        "Application fingerprinting",
+        "Living off the land"
+      ],
+      "correctIndex": 2,
+      "hint": "Identifying software and versions.",
+      "explanation": "Application fingerprinting identifies applications and versions running on a target so vulnerabilities and likely attack methods can be assessed."
+    },
+    {
+      "id": "CYB-507",
+      "category": "Phishing and Social Engineering",
+      "question": "Someone searches a company’s bins for printed documents and old USB sticks. What is this called?",
+      "options": [
+        "Shoulder surfing",
+        "Tailgating",
+        "Eavesdropping",
+        "Dumpster diving"
+      ],
+      "correctIndex": 3,
+      "hint": "Rubbish as a source.",
+      "explanation": "Dumpster diving searches discarded material for useful information or items like documents, notes, devices or removable media."
+    },
+    {
+      "id": "CYB-508",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between STIX and TAXII?",
+      "options": [
+        "STIX is the format for describing threat intel; TAXII is how it’s exchanged",
+        "TAXII is the format for describing threat intel; STIX is how it’s exchanged",
+        "STIX is for malware only; TAXII is for phishing only",
+        "They are two competing names for the same standard"
+      ],
+      "correctIndex": 0,
+      "hint": "The language versus the transport.",
+      "explanation": "STIX is a structured language for representing threat intelligence. TAXII is the protocol and service model for exchanging it, often carrying STIX data."
+    },
+    {
+      "id": "CYB-509",
+      "category": "Threat Intelligence",
+      "question": "Who created the Cyber Kill Chain?",
+      "options": [
+        "MITRE",
+        "Lockheed Martin",
+        "NIST",
+        "CrowdStrike"
+      ],
+      "correctIndex": 1,
+      "hint": "A defence company.",
+      "explanation": "The Cyber Kill Chain is a seven-stage attack model created by Lockheed Martin to help defenders detect and disrupt attacks at several stages."
+    },
+    {
+      "id": "CYB-510",
+      "category": "Threat Intelligence",
+      "question": "What is the correct order of the Cyber Kill Chain?",
+      "options": [
+        "Delivery, reconnaissance, installation, exploitation, weaponisation, C2, actions on objectives",
+        "Weaponisation, reconnaissance, exploitation, delivery, C2, installation, actions on objectives",
+        "Reconnaissance, weaponisation, delivery, exploitation, installation, C2, actions on objectives",
+        "Reconnaissance, delivery, weaponisation, installation, exploitation, actions on objectives, C2"
+      ],
+      "correctIndex": 2,
+      "hint": "Research, build, send, exploit, install, control, act.",
+      "explanation": "The seven stages are Reconnaissance, Weaponisation, Delivery, Exploitation, Installation, Command and Control, and Actions on Objectives."
+    },
+    {
+      "id": "CYB-511",
+      "category": "Threat Intelligence",
+      "question": "An attacker combines an exploit with a malicious Word document, ready to send. Which Kill Chain stage is this?",
+      "options": [
+        "Delivery",
+        "Exploitation",
+        "Reconnaissance",
+        "Weaponisation"
+      ],
+      "correctIndex": 3,
+      "hint": "Building the weapon.",
+      "explanation": "Weaponisation prepares the malicious capability, such as combining malware and an exploit into a deliverable package. Delivery is sending it."
+    },
+    {
+      "id": "CYB-512",
+      "category": "Threat Intelligence",
+      "question": "The attacker emails the malicious document to the target. Which Kill Chain stage is this?",
+      "options": [
+        "Delivery",
+        "Weaponisation",
+        "Installation",
+        "Actions on Objectives"
+      ],
+      "correctIndex": 0,
+      "hint": "Sending it.",
+      "explanation": "Delivery transmits the weaponised payload to the target, for example through spear phishing."
+    },
+    {
+      "id": "CYB-513",
+      "category": "Threat Intelligence",
+      "question": "Malware sets up a backdoor and persistence on the victim’s machine. Which Kill Chain stage is this?",
+      "options": [
+        "Exploitation",
+        "Installation",
+        "Delivery",
+        "Reconnaissance"
+      ],
+      "correctIndex": 1,
+      "hint": "Getting a foothold.",
+      "explanation": "Installation puts malware, a backdoor or persistence in place to keep a foothold. Exploitation is the step before, when the weakness is abused."
+    },
+    {
+      "id": "CYB-514",
+      "category": "Threat Intelligence",
+      "question": "How does MITRE ATT&CK differ from the Cyber Kill Chain?",
+      "options": [
+        "The Kill Chain maps detailed techniques; ATT&CK is a linear seven-stage model",
+        "ATT&CK only covers phishing; the Kill Chain covers every attack",
+        "ATT&CK maps detailed behaviours and techniques; the Kill Chain is a linear seven-stage model",
+        "They are the same framework from the same organisation"
+      ],
+      "correctIndex": 2,
+      "hint": "Detailed matrix versus a simple sequence.",
+      "explanation": "ATT&CK maps case-specific adversary behaviours and techniques. The Cyber Kill Chain models a more linear seven-stage attack sequence."
+    },
+    {
+      "id": "CYB-515",
+      "category": "Threat Intelligence",
+      "question": "What is the Unified Kill Chain?",
+      "options": [
+        "A seven-stage model created by Lockheed Martin",
+        "A list of every APT group tracked by MITRE",
+        "A Windows tool for mapping attacker activity",
+        "An 18-phase model combining ideas from the Kill Chain and ATT&CK"
+      ],
+      "correctIndex": 3,
+      "hint": "Expanded and combined.",
+      "explanation": "The Unified Kill Chain is an 18-phase model combining the Cyber Kill Chain and ATT&CK to cover a wider range of activity inside and outside the network."
+    },
+    {
+      "id": "CYB-516",
+      "category": "Threat Intelligence",
+      "question": "What does the Pyramid of Pain show?",
+      "options": [
+        "How much disruption defenders cause attackers by denying each type of indicator",
+        "How painful each type of attack is for the victim’s business",
+        "The order in which attackers move through a network",
+        "How much each security tool costs to run"
+      ],
+      "correctIndex": 0,
+      "hint": "Higher hurts the attacker more.",
+      "explanation": "The Pyramid of Pain shows that lower-level indicators are easy for attackers to change, while denying higher levels forces bigger changes in behaviour."
+    },
+    {
+      "id": "CYB-517",
+      "category": "Threat Intelligence",
+      "question": "What is the order of the Pyramid of Pain, from bottom to top?",
+      "options": [
+        "TTPs, tools, artefacts, domains, IPs, hashes",
+        "Hashes, IPs, domains, network/host artefacts, tools, TTPs",
+        "IPs, hashes, tools, domains, TTPs, artefacts",
+        "Domains, hashes, IPs, TTPs, artefacts, tools"
+      ],
+      "correctIndex": 1,
+      "hint": "Trivial at the bottom, tough at the top.",
+      "explanation": "From bottom to top: hash values, IP addresses, domain names, network/host artefacts, tools, then TTPs at the top."
+    },
+    {
+      "id": "CYB-518",
+      "category": "Threat Intelligence",
+      "question": "Why does blocking a malware hash cause attackers very little pain?",
+      "options": [
+        "Hashes can only be blocked on Linux systems",
+        "Attackers never reuse the same file twice anyway",
+        "Changing one byte of the file produces a completely new hash",
+        "Security tools can’t match hashes reliably"
+      ],
+      "correctIndex": 2,
+      "hint": "Bottom of the pyramid.",
+      "explanation": "Hashes are high-confidence indicators, but attackers can change them trivially by modifying the file, so blocking them causes little disruption."
+    },
+    {
+      "id": "CYB-519",
+      "category": "Threat Intelligence",
+      "question": "Which level of the Pyramid of Pain is hardest for attackers to change?",
+      "options": [
+        "Tools",
+        "Domain names",
+        "IP addresses",
+        "TTPs"
+      ],
+      "correctIndex": 3,
+      "hint": "The very top.",
+      "explanation": "TTPs sit at the top. Detecting and denying an actor’s behaviour forces them to change how they operate, causing the most disruption."
+    },
+    {
+      "id": "CYB-520",
+      "category": "Threat Intelligence",
+      "question": "An intel report lists IOCs for a new campaign. The analyst searches SIEM and EDR data from the past week for them. What is this?",
+      "options": [
+        "A threat exposure check",
+        "A public exposure assessment",
+        "An IOC watchlist",
+        "A tabletop exercise"
+      ],
+      "correctIndex": 0,
+      "hint": "Have we already been hit?",
+      "explanation": "A threat exposure check searches security data for known IOCs to determine whether the organisation has already been exposed."
+    },
+    {
+      "id": "CYB-521",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between a threat exposure check and an IOC watchlist?",
+      "options": [
+        "A watchlist is a one-off search; an exposure check keeps alerting on future matches",
+        "An exposure check is a one-off search; a watchlist keeps alerting on future matches",
+        "An exposure check is automated; a watchlist is always done by hand",
+        "They are the same activity with different names"
+      ],
+      "correctIndex": 1,
+      "hint": "“Have we seen this?” versus “tell us if we see it”.",
+      "explanation": "A threat exposure check is an analyst-led, point-in-time or historical search. A watchlist continuously monitors and alerts when a known indicator appears again."
+    },
+    {
+      "id": "CYB-522",
+      "category": "Threat Intelligence",
+      "question": "A watchlist alert fires on a known-bad IP. What should happen next?",
+      "options": [
+        "The affected user is disciplined straight away",
+        "The alert is closed, as the IP is already known",
+        "An analyst investigates to confirm it and decide on action",
+        "The whole network is shut down immediately"
+      ],
+      "correctIndex": 2,
+      "hint": "A match isn’t proof on its own.",
+      "explanation": "A positive IOC match prompts analyst investigation. Not every observed indicator automatically proves compromise, so it needs validating with context."
+    },
+    {
+      "id": "CYB-523",
+      "category": "Threat Intelligence",
+      "question": "What does a public exposure assessment look at?",
+      "options": [
+        "Whether known malicious IPs and hashes appear in the organisation’s internal logs",
+        "Which of the company’s vulnerabilities have the highest CVSS severity scores",
+        "How quickly the SOC responds to alerts compared with others in its sector",
+        "Information about the organisation and staff that’s publicly visible and could be abused"
+      ],
+      "correctIndex": 3,
+      "hint": "What can outsiders see?",
+      "explanation": "A public exposure assessment reviews publicly available information about the organisation and its people that attackers could exploit."
+    },
+    {
+      "id": "CYB-524",
+      "category": "Data Protection and Privacy",
+      "question": "An employee posts an office photo online. What could the image’s metadata reveal?",
+      "options": [
+        "The device used, date and time, and sometimes GPS location",
+        "The employee’s password and username",
+        "Every other photo stored on the phone",
+        "The company’s firewall configuration"
+      ],
+      "correctIndex": 0,
+      "hint": "Data hidden in the image file.",
+      "explanation": "Image metadata can reveal device details, date and time and, sometimes, GPS coordinates. Visible screens or whiteboards can also leak information."
+    },
+    {
+      "id": "CYB-525",
+      "category": "Phishing and Social Engineering",
+      "question": "Someone creates a fake social media account pretending to be your company. What is this?",
+      "options": [
+        "Account takeover",
+        "Brand impersonation",
+        "Credential stuffing",
+        "Website defacement"
+      ],
+      "correctIndex": 1,
+      "hint": "Imitating, not hacking.",
+      "explanation": "Brand impersonation creates sites, accounts or apps that imitate a legitimate organisation without needing access to its real accounts."
+    },
+    {
+      "id": "CYB-526",
+      "category": "Passwords and Authentication",
+      "question": "Why does a breach at one website put staff accounts at other services at risk?",
+      "options": [
+        "All websites share the same password database",
+        "Breaches automatically spread to linked services",
+        "Password reuse means leaked credentials may work elsewhere",
+        "Leaked emails let attackers reset any password"
+      ],
+      "correctIndex": 2,
+      "hint": "Same password, many sites.",
+      "explanation": "If someone reuses a password, credentials leaked from one service can compromise their accounts on others."
+    },
+    {
+      "id": "CYB-527",
+      "category": "Threat Intelligence",
+      "question": "What is an ISAC?",
+      "options": [
+        "A government agency that fines companies after breaches",
+        "A type of firewall used in critical infrastructure",
+        "An open-source tool for capturing network traffic",
+        "A trusted, often sector-based community for sharing threat intelligence"
+      ],
+      "correctIndex": 3,
+      "hint": "Information Sharing and Analysis Center.",
+      "explanation": "An ISAC is a trusted community where organisations in a sector exchange security and threat intelligence, giving early warning about attacks."
+    },
+    {
+      "id": "CYB-528",
+      "category": "Threat Intelligence",
+      "question": "What is MISP?",
+      "options": [
+        "An open-source platform for storing, correlating and sharing threat intelligence",
+        "A commercial SIEM product made by Microsoft for searching security logs",
+        "A tool for capturing and indexing network packets for later analysis",
+        "A case management platform for tracking incident-response tasks"
+      ],
+      "correctIndex": 0,
+      "hint": "Malware Information Sharing Platform.",
+      "explanation": "MISP is an open-source threat-intelligence platform used to collect, store, correlate, distribute and share structured indicators."
+    },
+    {
+      "id": "CYB-529",
+      "category": "Threat Intelligence",
+      "question": "In MISP, what is the difference between an event and an attribute?",
+      "options": [
+        "An attribute is a container for a report; an event is one indicator inside it",
+        "An event is a container for a report or campaign; an attribute is one indicator inside it",
+        "Events are for IPs only; attributes are for hashes only",
+        "They are two names for the same object"
+      ],
+      "correctIndex": 1,
+      "hint": "Container versus contents.",
+      "explanation": "A MISP event groups related information about an incident, campaign or report. Attributes are the individual items inside it, like an IP, domain or hash."
+    },
+    {
+      "id": "CYB-530",
+      "category": "Threat Intelligence",
+      "question": "What does a MISP warning list do?",
+      "options": [
+        "Lists the threat actors that are currently most active",
+        "Warns users that their MISP password is about to expire",
+        "Warns that an attribute may be common or benign, like a popular domain",
+        "Lists events that have not been shared yet"
+      ],
+      "correctIndex": 2,
+      "hint": "Avoiding false positives.",
+      "explanation": "Warning lists flag attributes that are likely to be common or benign, such as well-known domains, so analysts avoid false positives."
+    },
+    {
+      "id": "CYB-531",
+      "category": "Threat Intelligence",
+      "question": "An analyst pastes a block of text from a report into MISP, and it picks out the IPs and domains. Which feature is this?",
+      "options": [
+        "Fuzzy hashing",
+        "Event graph",
+        "Sharing groups",
+        "Freetext import"
+      ],
+      "correctIndex": 3,
+      "hint": "Pasting unstructured text.",
+      "explanation": "Freetext import parses pasted unstructured text and tries to identify and categorise values such as domains and IP addresses."
+    },
+    {
+      "id": "CYB-532",
+      "category": "Threat Intelligence",
+      "question": "How can MISP spot that two malware samples are similar but not identical?",
+      "options": [
+        "Fuzzy hashing, such as ssdeep",
+        "Comparing their SHA-256 hashes",
+        "Checking their file names match",
+        "Looking at their file sizes"
+      ],
+      "correctIndex": 0,
+      "hint": "Similarity, not exact match.",
+      "explanation": "Fuzzy hashing like ssdeep measures similarity between files, helping MISP correlate related artefacts that exact hashes wouldn’t link."
+    },
+    {
+      "id": "CYB-533",
+      "category": "Threat Intelligence",
+      "question": "What does a MISP event’s distribution setting control?",
+      "options": [
+        "How often the event is updated from its source feed",
+        "How widely the event can be shared, from your organisation to the public",
+        "Which analyst is responsible for the event",
+        "How the event is shown on the event graph"
+      ],
+      "correctIndex": 1,
+      "hint": "Sharing scope.",
+      "explanation": "Distribution sets how broadly an event or attribute can be shared: organisation only, this community, connected communities or all communities."
+    },
+    {
+      "id": "CYB-534",
+      "category": "Threat Intelligence",
+      "question": "Why shouldn’t a SOC ingest every IOC it can find?",
+      "options": [
+        "IOCs can only be loaded once a year",
+        "Most IOCs are illegal to store",
+        "Irrelevant indicators create noise and false positives",
+        "SIEMs can only hold ten IOCs at a time"
+      ],
+      "correctIndex": 2,
+      "hint": "Relevance matters.",
+      "explanation": "Collecting every IOC creates alert noise. Prioritise indicators linked to actors, sectors and technologies that are genuinely relevant."
+    },
+    {
+      "id": "CYB-535",
+      "category": "Threat Intelligence",
+      "question": "What is the main trade-off between OSINT and paid threat intelligence?",
+      "options": [
+        "Paid intel is free but unreliable; OSINT is curated but expensive",
+        "OSINT is always more accurate than paid intelligence",
+        "Paid intelligence never needs to be checked before use",
+        "OSINT is free but needs verifying; paid intel is curated but costs money"
+      ],
+      "correctIndex": 3,
+      "hint": "Cost versus effort.",
+      "explanation": "OSINT is free and widely accessible but needs verification and analyst time. Paid intelligence offers curated, deeper coverage at a cost. Both should be checked."
+    },
+    {
+      "id": "CYB-536",
+      "category": "Threat Intelligence",
+      "question": "What does the Traffic Light Protocol (TLP) control?",
+      "options": [
+        "How widely a piece of information may be shared",
+        "What actions can be taken against an attacker",
+        "How quickly an incident must be reported",
+        "Which traffic a firewall should block"
+      ],
+      "correctIndex": 0,
+      "hint": "Who can receive it.",
+      "explanation": "TLP states how widely sensitive information may be shared. PAP is the separate protocol for what actions may be taken."
+    },
+    {
+      "id": "CYB-537",
+      "category": "Threat Intelligence",
+      "question": "Information marked TLP:CLEAR can be shared how widely?",
+      "options": [
+        "Only within a trusted community",
+        "Publicly",
+        "Only within your organisation",
+        "Only with the named recipients"
+      ],
+      "correctIndex": 1,
+      "hint": "No restriction on sharing.",
+      "explanation": "TLP:CLEAR may be shared publicly, subject to normal copyright or licensing rules."
+    },
+    {
+      "id": "CYB-538",
+      "category": "Threat Intelligence",
+      "question": "An ISAC shares a report marked TLP:GREEN. Who can you share it with?",
+      "options": [
+        "Anyone, including on social media",
+        "Only the people in the original meeting",
+        "Your trusted community, but not publicly",
+        "Nobody, not even your own team"
+      ],
+      "correctIndex": 2,
+      "hint": "Within the community.",
+      "explanation": "TLP:GREEN can be shared within an intended trusted community, like an ISAC, but shouldn’t be made public."
+    },
+    {
+      "id": "CYB-539",
+      "category": "Threat Intelligence",
+      "question": "Information is marked TLP:AMBER+STRICT. Who can it be shared with?",
+      "options": [
+        "Your organisation and its clients",
+        "Any member of the trusted community",
+        "The public, after a short delay",
+        "Only within the receiving organisation"
+      ],
+      "correctIndex": 3,
+      "hint": "Stricter than plain amber.",
+      "explanation": "TLP:AMBER+STRICT restricts sharing to the receiving organisation only. Plain TLP:AMBER can also go to clients on a need-to-know basis."
+    },
+    {
+      "id": "CYB-540",
+      "category": "Threat Intelligence",
+      "question": "Information shared in a meeting is marked TLP:RED. What does that mean?",
+      "options": [
+        "It must stay with the people present and not be shared further",
+        "It can be shared within your whole organisation",
+        "It can be shared with your trusted community",
+        "It can be published once the meeting ends"
+      ],
+      "correctIndex": 0,
+      "hint": "The tightest level.",
+      "explanation": "TLP:RED is restricted to the specific people who received it or were present, and mustn’t be shared further without permission."
+    },
+    {
+      "id": "CYB-541",
+      "category": "Threat Intelligence",
+      "question": "What is the difference between TLP and PAP?",
+      "options": [
+        "PAP controls who can receive information; TLP controls what actions can be taken",
+        "TLP controls who can receive information; PAP controls what actions can be taken",
+        "TLP is for emails; PAP is for phone calls",
+        "They are the same protocol with different colours"
+      ],
+      "correctIndex": 1,
+      "hint": "Sharing versus acting.",
+      "explanation": "TLP restricts how far information can be shared. PAP (Permissible Action Protocol) restricts what can be done with it without exposing the investigation."
+    },
+    {
+      "id": "CYB-542",
+      "category": "Threat Intelligence",
+      "question": "Intelligence is marked PAP:AMBER. What may the analyst do?",
+      "options": [
+        "Block the attacker’s IPs at the firewall and proxy straight away",
+        "Contact the attacker directly to try to negotiate with them",
+        "Only passive analysis, with no contact with the attacker’s infrastructure",
+        "Share the intelligence publicly so others can defend too"
+      ],
+      "correctIndex": 2,
+      "hint": "Stay undetected.",
+      "explanation": "PAP:AMBER allows only passive handling so the source isn’t alerted. PAP:GREEN permits non-intrusive defensive actions like firewall blocks."
+    },
+    {
+      "id": "CYB-543",
+      "category": "Threat Intelligence",
+      "question": "Under PAP:GREEN, which action is allowed?",
+      "options": [
+        "Hacking back into the attacker’s servers",
+        "Publishing the IOCs on a public blog",
+        "Emailing the attacker to warn them off",
+        "Blocking known malicious traffic at the firewall or proxy"
+      ],
+      "correctIndex": 3,
+      "hint": "Controlled, non-intrusive defence.",
+      "explanation": "PAP:GREEN permits controlled, non-intrusive defensive actions, such as blocking known malicious traffic at a firewall or proxy."
+    },
+    {
+      "id": "CYB-544",
+      "category": "Threat Intelligence",
+      "question": "Why might an analyst avoid visiting a suspicious domain directly while investigating it?",
+      "options": [
+        "It could alert the attacker that they’re being investigated",
+        "Visiting domains is always illegal in the UK",
+        "The browser would automatically block the analyst’s account",
+        "Domains can only be checked by the police"
+      ],
+      "correctIndex": 0,
+      "hint": "Passive analysis.",
+      "explanation": "Passive analysis investigates without touching the malicious infrastructure, helping avoid revealing that defenders are looking into it."
+    },
+    {
+      "id": "CYB-545",
+      "category": "Threat Intelligence",
+      "question": "What is situational awareness in strategic threat intelligence?",
+      "options": [
+        "A camera system watching the security operations centre",
+        "A high-level update on current threat activity so teams can prepare",
+        "A list of every device connected to the network",
+        "The analyst’s knowledge of where the fire exits are"
+      ],
+      "correctIndex": 1,
+      "hint": "Understanding the current threat picture.",
+      "explanation": "Situational awareness is a high-level update giving security teams context about relevant threat activity and campaigns, so they can prepare."
+    },
+    {
+      "id": "CYB-546",
+      "category": "Threat Intelligence",
+      "question": "Why should a threat-intel source be verified before its information is used?",
+      "options": [
+        "Unverified sources are always run by attackers",
+        "Verification makes the information legally binding",
+        "Free or paid doesn’t guarantee it’s credible, relevant or accurate",
+        "Sources can only be used once they’re verified by NIST"
+      ],
+      "correctIndex": 2,
+      "hint": "Trust, but check.",
+      "explanation": "Source verification checks credibility, reliability and usefulness. Neither free nor paid automatically means reliable."
+    },
+    {
+      "id": "CYB-547",
+      "category": "Threat Intelligence",
+      "question": "A government cyber agency publishes an advisory with IOCs for a new campaign. What is this an example of?",
+      "options": [
+        "A threat precursor",
+        "A copycat attack",
+        "A sharing group",
+        "A government alert"
+      ],
+      "correctIndex": 3,
+      "hint": "An authoritative source.",
+      "explanation": "A government alert is an advisory from a national cyber authority that may include threat context, vulnerabilities, IOCs and recommended actions."
+    },
+    {
+      "id": "CYB-548",
+      "category": "Threat Intelligence",
+      "question": "What is a Cobalt Strike Beacon?",
+      "options": [
+        "A post-exploitation implant giving attackers C2 on a compromised host",
+        "A Windows feature that broadcasts the device’s location",
+        "A SIEM alert raised when beaconing is detected",
+        "A phishing simulation tool for training staff"
+      ],
+      "correctIndex": 0,
+      "hint": "A widely abused red-team tool.",
+      "explanation": "Cobalt Strike Beacon is an implant providing command-and-control and post-exploitation capabilities, often abused by real attackers."
+    },
+    {
+      "id": "CYB-549",
+      "category": "Threat Intelligence",
+      "question": "Why monitor dark-web marketplaces as part of threat intelligence?",
+      "options": [
+        "All malware is legally sold there with licences",
+        "Stolen company data or credentials may be offered for sale there",
+        "It’s where vendors publish official security patches",
+        "Dark-web sites are the main source of CVE numbers"
+      ],
+      "correctIndex": 1,
+      "hint": "Early warning of leaked data.",
+      "explanation": "Stolen data and credentials may be sold on hidden marketplaces, so threat-intel teams monitor them for signs of exposure."
     }
   ]
 }
