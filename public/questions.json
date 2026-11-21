@@ -1400,6 +1400,1714 @@
       "correctIndex": 1,
       "hint": "Speed of response makes a big difference to how bad things get.",
       "explanation": "Quick reporting gives security teams the best chance to contain an incident before it spreads, for example by resetting a password before an attacker uses it. A supportive, no-blame culture encourages people to report early instead of hiding mistakes out of fear."
+    },
+    {
+      "id": "CYB-101",
+      "category": "Networks and the Web",
+      "question": "Which protocol is used to send email and transfer it between mail servers?",
+      "options": [
+        "IMAP",
+        "SMTP",
+        "POP3",
+        "SNMP"
+      ],
+      "correctIndex": 1,
+      "hint": "Sending, not reading.",
+      "explanation": "SMTP (Simple Mail Transfer Protocol) submits and transfers email between servers. IMAP and POP3 are used to retrieve mail, and SNMP is for managing network devices."
+    },
+    {
+      "id": "CYB-102",
+      "category": "Networks and the Web",
+      "question": "A user wants to read the same mailbox on their phone, laptop and tablet, with everything kept on the server. Which protocol suits this?",
+      "options": [
+        "POP3",
+        "SMTP",
+        "IMAP",
+        "FTP"
+      ],
+      "correctIndex": 2,
+      "hint": "One of the retrieval protocols leaves messages where they are.",
+      "explanation": "IMAP keeps messages on the mail server, so the same mailbox looks the same on every device. POP3 typically downloads messages to one client and removes them from the server."
+    },
+    {
+      "id": "CYB-103",
+      "category": "Networks and the Web",
+      "question": "What does POP3 typically do with messages when a client downloads them?",
+      "options": [
+        "Keeps them on the server for every device",
+        "Forwards them to another mail server",
+        "Encrypts them with the recipient’s public key",
+        "Removes them from the server"
+      ],
+      "correctIndex": 3,
+      "hint": "Think ‘post office’: you collect your post and it’s no longer there.",
+      "explanation": "POP3 downloads messages from the mail server to the client and, by default, removes them from the server. That’s why it suits a single device better than several."
+    },
+    {
+      "id": "CYB-104",
+      "category": "Networks and the Web",
+      "question": "Which TCP port is associated with secure email submission using TLS?",
+      "options": [
+        "587",
+        "25",
+        "110",
+        "143"
+      ],
+      "correctIndex": 0,
+      "hint": "Port 25 is the traditional one for server-to-server transfer.",
+      "explanation": "TCP 587 is used for modern mail submission with TLS. Port 25 is the traditional SMTP transfer port, 110 is POP3 and 143 is IMAP."
+    },
+    {
+      "id": "CYB-105",
+      "category": "Phishing and Social Engineering",
+      "question": "In the address sam.lee@kestrelgroup.co.uk, what is ‘sam.lee’ called?",
+      "options": [
+        "The email domain",
+        "The mailbox or local-part",
+        "The display name",
+        "The Message-ID"
+      ],
+      "correctIndex": 1,
+      "hint": "It’s the part before the @.",
+      "explanation": "The local-part (mailbox) comes before the @ and identifies the user. The domain after the @ identifies the organisation responsible for the mailbox."
+    },
+    {
+      "id": "CYB-106",
+      "category": "Phishing and Social Engineering",
+      "question": "Which part of an email holds the metadata about its journey, such as timestamps and the servers it passed through?",
+      "options": [
+        "The body",
+        "The signature",
+        "The header",
+        "The subject line"
+      ],
+      "correctIndex": 2,
+      "hint": "It’s not the part the recipient reads.",
+      "explanation": "The header contains metadata about the message and its transport: sender, recipient, timestamps and intermediary servers. The body is the content written for the recipient."
+    },
+    {
+      "id": "CYB-107",
+      "category": "Phishing and Social Engineering",
+      "question": "An analyst wants to reconstruct the route an email took through mail servers. Which header fields help most?",
+      "options": [
+        "The Subject header",
+        "The To header",
+        "The Message-ID",
+        "The Received headers"
+      ],
+      "correctIndex": 3,
+      "hint": "Each server along the way adds one.",
+      "explanation": "Each intermediary mail server adds a Received header recording when it handled the message, so reading them in order rebuilds the delivery path."
+    },
+    {
+      "id": "CYB-108",
+      "category": "Phishing and Social Engineering",
+      "question": "An email shows ‘From: payroll@kestrelgroup.co.uk’ but replies would go to a webmail address. Which header controls where replies go?",
+      "options": [
+        "Reply-To",
+        "From",
+        "Received",
+        "X-Originating-IP"
+      ],
+      "correctIndex": 0,
+      "hint": "It’s separate from the apparent sender.",
+      "explanation": "The Reply-To header sets where replies are sent and can differ from the From address. A mismatch is a classic sign of phishing or business email compromise."
+    },
+    {
+      "id": "CYB-109",
+      "category": "Phishing and Social Engineering",
+      "question": "What is the Message-ID header?",
+      "options": [
+        "The IP address of the sending server",
+        "A unique identifier assigned to the email",
+        "The name of the recipient’s mailbox",
+        "The result of the spam check"
+      ],
+      "correctIndex": 1,
+      "hint": "Every message gets its own.",
+      "explanation": "The Message-ID is a unique identifier for an individual email. It helps track a specific message across systems during an investigation."
+    },
+    {
+      "id": "CYB-110",
+      "category": "Phishing and Social Engineering",
+      "question": "A header named ‘X-Spam-Score’ appears on an email. What kind of header is it?",
+      "options": [
+        "A mandatory header every email must have",
+        "A header showing the original sender’s IP",
+        "A custom X-header added by a system",
+        "A header created by the recipient"
+      ],
+      "correctIndex": 2,
+      "hint": "Look at how the name starts.",
+      "explanation": "Headers beginning with X- are custom headers that systems add for extra information, such as anti-spam results. They aren’t part of the core standard set."
+    },
+    {
+      "id": "CYB-111",
+      "category": "Phishing and Social Engineering",
+      "question": "Why can’t an analyst trust the From header on its own?",
+      "options": [
+        "It is only added after the email has been opened",
+        "It always shows the mail server rather than a person",
+        "It is hidden from the recipient by most email clients",
+        "It can be edited to make a message appear to come from someone else"
+      ],
+      "correctIndex": 3,
+      "hint": "Think about header spoofing.",
+      "explanation": "Header values like From can be manipulated (header spoofing), so they don’t prove who really sent a message. Analysts check other headers and authentication results too."
+    },
+    {
+      "id": "CYB-112",
+      "category": "Cybersecurity Fundamentals",
+      "question": "An email body contains a long block of Base64. What is true about it?",
+      "options": [
+        "It is encoding, so it can be decoded without a key",
+        "It is encryption, so it needs a secret key",
+        "It is a hash, so it can’t be reversed",
+        "It is compressed malware that must be run to read"
+      ],
+      "correctIndex": 0,
+      "hint": "Encoding isn’t about secrecy.",
+      "explanation": "Base64 is an encoding used so data travels safely through email systems. It isn’t encryption: anyone can decode it, for example with CyberChef."
+    },
+    {
+      "id": "CYB-113",
+      "category": "Cybersecurity Fundamentals",
+      "question": "Which web-based tool is commonly used to decode Base64 and perform other data transformations?",
+      "options": [
+        "Wireshark",
+        "CyberChef",
+        "VirusTotal",
+        "WHOIS"
+      ],
+      "correctIndex": 1,
+      "hint": "Its name sounds like a kitchen job.",
+      "explanation": "CyberChef performs data transformations such as decoding Base64 back into readable text. Wireshark captures traffic, VirusTotal checks reputation and WHOIS looks up domain registration."
+    },
+    {
+      "id": "CYB-114",
+      "category": "Phishing and Social Engineering",
+      "question": "What is the main aim of phishing?",
+      "options": [
+        "To slow down a mail server with traffic",
+        "To test whether an email address is spelled correctly",
+        "To trick the recipient into doing something they normally wouldn’t",
+        "To encrypt a company’s email"
+      ],
+      "correctIndex": 2,
+      "hint": "It targets people, not machines.",
+      "explanation": "Phishing uses deceptive messages to coerce someone into disclosing information, downloading malicious files, sending money or taking another unsafe action."
+    },
+    {
+      "id": "CYB-115",
+      "category": "Phishing and Social Engineering",
+      "question": "An attacker phones staff pretending to be the IT helpdesk. What is this called?",
+      "options": [
+        "Smishing",
+        "Whaling",
+        "Spamming",
+        "Vishing"
+      ],
+      "correctIndex": 3,
+      "hint": "V for voice.",
+      "explanation": "Vishing is voice phishing: phone calls used to deceive. Smishing uses SMS, and whaling targets senior executives."
+    },
+    {
+      "id": "CYB-116",
+      "category": "Phishing and Social Engineering",
+      "question": "A text message claims a parcel fee is due and includes a link. What type of attack is this?",
+      "options": [
+        "Smishing",
+        "Vishing",
+        "Whaling",
+        "Credential stuffing"
+      ],
+      "correctIndex": 0,
+      "hint": "SMS plus phishing.",
+      "explanation": "Smishing is phishing by SMS or text message. Fake parcel fees are one of the most common smishing lures."
+    },
+    {
+      "id": "CYB-117",
+      "category": "Phishing and Social Engineering",
+      "question": "What is social engineering?",
+      "options": [
+        "Designing secure social media platforms for businesses",
+        "Manipulating people to get information or make them act unsafely",
+        "Configuring firewalls to filter social networking traffic",
+        "Analysing malware behaviour inside a sandbox"
+      ],
+      "correctIndex": 1,
+      "hint": "It attacks the human, not the technology.",
+      "explanation": "Social engineering manipulates people rather than technology, persuading them to reveal information or take actions that help an attacker."
+    },
+    {
+      "id": "CYB-118",
+      "category": "Phishing and Social Engineering",
+      "question": "A phishing email copies a bank’s logo, colours and wording exactly. What is this technique called?",
+      "options": [
+        "Typosquatting",
+        "Credential stuffing",
+        "Brand impersonation",
+        "Tracking"
+      ],
+      "correctIndex": 2,
+      "hint": "The attacker is pretending to be a trusted organisation.",
+      "explanation": "Brand impersonation makes a phishing email look like it came from a trusted organisation by copying its branding, wording or sender details."
+    },
+    {
+      "id": "CYB-119",
+      "category": "Phishing and Social Engineering",
+      "question": "An email with almost no content arrives. It seems designed just to see whether the mailbox exists or bounces. What is it?",
+      "options": [
+        "A whaling email",
+        "A lure document",
+        "Malspam",
+        "A recon email"
+      ],
+      "correctIndex": 3,
+      "hint": "Reconnaissance comes before the real attack.",
+      "explanation": "Recon emails test whether a mailbox exists, is monitored or is active, so it can be targeted later. A bounce message (or the lack of one) tells the attacker a lot."
+    },
+    {
+      "id": "CYB-120",
+      "category": "Phishing and Social Engineering",
+      "question": "A tiny invisible image in an email loads from an external server when the message is opened. What is it?",
+      "options": [
+        "A tracking pixel",
+        "A malicious macro",
+        "A lure document",
+        "A DKIM signature"
+      ],
+      "correctIndex": 0,
+      "hint": "It reports back when you open the email.",
+      "explanation": "A tracking pixel is an externally loaded image or element that tells a remote server the email was opened, and can reveal details like IP address, time and email client."
+    },
+    {
+      "id": "CYB-121",
+      "category": "Phishing and Social Engineering",
+      "question": "An attacker collects details such as operating system, browser and screen resolution from a target. What is this called?",
+      "options": [
+        "Credential harvesting",
+        "System fingerprinting",
+        "Defanging",
+        "Sandboxing"
+      ],
+      "correctIndex": 1,
+      "hint": "Building a profile of the target’s system.",
+      "explanation": "System fingerprinting gathers technical details about a target’s device or client, which attackers use to tailor later attacks."
+    },
+    {
+      "id": "CYB-122",
+      "category": "Phishing and Social Engineering",
+      "question": "What is a credential harvester?",
+      "options": [
+        "A tool that securely resets passwords for locked accounts",
+        "A list of mail servers approved to send for a domain",
+        "A campaign that sends victims to a fake login page to capture what they type",
+        "Malware that encrypts the passwords saved in a browser"
+      ],
+      "correctIndex": 2,
+      "hint": "It ‘harvests’ usernames and passwords.",
+      "explanation": "A credential harvester directs victims to a fake login page or form designed to capture usernames, passwords or other sensitive information."
+    },
+    {
+      "id": "CYB-123",
+      "category": "Passwords and Authentication",
+      "question": "Attackers take passwords stolen from one website and try them on many other services. What is this?",
+      "options": [
+        "Brute forcing every possible password",
+        "Phishing",
+        "Password spraying one common password",
+        "Credential stuffing"
+      ],
+      "correctIndex": 3,
+      "hint": "It relies on people reusing passwords.",
+      "explanation": "Credential stuffing reuses credentials stolen from one service against other services, betting that people use the same password in more than one place."
+    },
+    {
+      "id": "CYB-124",
+      "category": "Phishing and Social Engineering",
+      "question": "A link shows the text ‘microsoft.com.secure-login.net’. Which domain does it actually belong to?",
+      "options": [
+        "secure-login.net",
+        "microsoft.com",
+        "login.net",
+        "com.secure"
+      ],
+      "correctIndex": 0,
+      "hint": "Read the domain from the right, before the first slash.",
+      "explanation": "This is subdomain impersonation: the real registered domain is secure-login.net. Putting a trusted brand name in a subdomain doesn’t make it legitimate."
+    },
+    {
+      "id": "CYB-125",
+      "category": "Phishing and Social Engineering",
+      "question": "A highly researched phishing email targets the company’s CFO by name. What is this best called?",
+      "options": [
+        "Smishing",
+        "Whaling",
+        "Malspam",
+        "A recon email"
+      ],
+      "correctIndex": 1,
+      "hint": "It targets the ‘big fish’.",
+      "explanation": "Whaling is highly targeted phishing aimed at senior managers or executives, usually built on detailed research to make it convincing."
+    },
+    {
+      "id": "CYB-126",
+      "category": "Phishing and Social Engineering",
+      "question": "How does spear phishing differ from ordinary phishing?",
+      "options": [
+        "It only ever uses phone calls instead of email",
+        "It is sent to millions of random addresses at once",
+        "It is tailored to a specific person or organisation using research",
+        "It never contains links or attachments of any kind"
+      ],
+      "correctIndex": 2,
+      "hint": "A spear has one target.",
+      "explanation": "Spear phishing is tailored to a particular person or group using information gathered about them, often from OSINT, making it more convincing than mass phishing."
+    },
+    {
+      "id": "CYB-127",
+      "category": "Malware and Attacks",
+      "question": "A Word attachment shows a message: ‘Enable editing and content to view this document’. What is the attacker most likely relying on?",
+      "options": [
+        "A tracking pixel",
+        "A homoglyph domain",
+        "DNS blackholing",
+        "Macro malware"
+      ],
+      "correctIndex": 3,
+      "hint": "Office automation that is disabled by default.",
+      "explanation": "Macro malware hides malicious code in Office macros. Macros are usually disabled by default, so attackers try to persuade users to enable them."
+    },
+    {
+      "id": "CYB-128",
+      "category": "Malware and Attacks",
+      "question": "An email links to a website where the victim is persuaded to download and run a file. What is this delivery method called?",
+      "options": [
+        "Hosted malware",
+        "Macro malware",
+        "A tracking pixel",
+        "Sender spoofing"
+      ],
+      "correctIndex": 0,
+      "hint": "The malware lives on a web server, not in the email.",
+      "explanation": "Hosted malware sits on a website and is delivered by convincing the user to visit a link, download the file and run it."
+    },
+    {
+      "id": "CYB-129",
+      "category": "Malware and Attacks",
+      "question": "A legitimate local business website has been taken over and is now hosting a malicious file. What is it called?",
+      "options": [
+        "A malicious domain registered by the attacker",
+        "A compromised domain",
+        "A typosquatted domain",
+        "A sinkholed domain"
+      ],
+      "correctIndex": 1,
+      "hint": "It was genuine before the attacker arrived.",
+      "explanation": "A compromised domain is a legitimate site taken over by an attacker. That’s different from a malicious domain the attacker registered for the purpose."
+    },
+    {
+      "id": "CYB-130",
+      "category": "Phishing and Social Engineering",
+      "question": "What is the difference between spam and malspam?",
+      "options": [
+        "Spam is always malicious; malspam is just unwanted marketing",
+        "Malspam is spam that has been caught by a filter",
+        "Spam is unwanted but not necessarily malicious; malspam is malicious email sent at scale",
+        "Spam targets one person; malspam targets a whole company"
+      ],
+      "correctIndex": 2,
+      "hint": "The ‘mal’ is the clue.",
+      "explanation": "Spam is unsolicited or unwanted email, like marketing, that isn’t necessarily harmful. Malspam is malicious email distributed on a mass scale to spread malware or phishing."
+    },
+    {
+      "id": "CYB-131",
+      "category": "Phishing and Social Engineering",
+      "question": "A user reports a genuine supplier invoice as phishing. What is this outcome called?",
+      "options": [
+        "A false negative",
+        "A true positive",
+        "A recon email",
+        "A false positive"
+      ],
+      "correctIndex": 3,
+      "hint": "Something safe was flagged as bad.",
+      "explanation": "A false positive is a legitimate email incorrectly reported as malicious. It’s much better than the alternative of missing a real phishing email."
+    },
+    {
+      "id": "CYB-132",
+      "category": "Malware and Attacks",
+      "question": "What is sandboxing?",
+      "options": [
+        "Running suspicious content in an isolated environment to watch its behaviour safely",
+        "Deleting every suspicious email before anyone can read it",
+        "Blocking all attachments at the gateway regardless of type",
+        "Encrypting files so they can’t be opened in transit"
+      ],
+      "correctIndex": 0,
+      "hint": "A safe place to let it play out.",
+      "explanation": "Sandboxing opens or executes suspicious content in an isolated environment so its behaviour can be observed without risking production systems."
+    },
+    {
+      "id": "CYB-133",
+      "category": "Phishing and Social Engineering",
+      "question": "An attacker studies a target’s LinkedIn and company website before writing a phishing email. What is this information called?",
+      "options": [
+        "SIGINT",
+        "OSINT",
+        "IOCs",
+        "TTPs"
+      ],
+      "correctIndex": 1,
+      "hint": "Publicly available sources.",
+      "explanation": "OSINT (Open-Source Intelligence) is information collected from public sources like websites and social media. Attackers use it to make phishing more convincing."
+    },
+    {
+      "id": "CYB-134",
+      "category": "Phishing and Social Engineering",
+      "question": "An attacker registers ‘paypa1.com’ to fool people at a glance. What is this technique called?",
+      "options": [
+        "Subdomain impersonation",
+        "Credential stuffing",
+        "Typosquatting",
+        "Sender spoofing"
+      ],
+      "correctIndex": 2,
+      "hint": "A deliberate misspelling.",
+      "explanation": "Typosquatting uses a deliberately misspelled version of a legitimate domain so it looks genuine at a glance."
+    },
+    {
+      "id": "CYB-135",
+      "category": "Phishing and Social Engineering",
+      "question": "A domain uses a Cyrillic ‘а’ that looks identical to the Latin ‘a’. What is this attack called?",
+      "options": [
+        "Typosquatting",
+        "A tracking pixel",
+        "Zombie phishing",
+        "A homograph attack"
+      ],
+      "correctIndex": 3,
+      "hint": "The characters look the same but aren’t.",
+      "explanation": "A homograph attack uses visually similar characters (homoglyphs) from other writing systems so a malicious domain looks almost identical to a real one."
+    },
+    {
+      "id": "CYB-136",
+      "category": "Phishing and Social Engineering",
+      "question": "What is a homoglyph?",
+      "options": [
+        "A character that looks like another but has a different code point",
+        "A deliberately misspelled version of a well-known domain name",
+        "A hidden image in an email that reports when it’s opened",
+        "A custom email header whose name begins with X-"
+      ],
+      "correctIndex": 0,
+      "hint": "‘Same shape’.",
+      "explanation": "A homoglyph looks very similar or identical to another character but is technically different, which attackers abuse in lookalike domains."
+    },
+    {
+      "id": "CYB-137",
+      "category": "Phishing and Social Engineering",
+      "question": "What does IDN stand for, in the context of domain names?",
+      "options": [
+        "Internal Domain Network",
+        "Internationalised Domain Name",
+        "Internet Delivery Node",
+        "Identity Domain Number"
+      ],
+      "correctIndex": 1,
+      "hint": "It allows non-Latin characters.",
+      "explanation": "An Internationalised Domain Name can contain non-Latin characters. These can be abused in homograph attacks when characters resemble Latin letters."
+    },
+    {
+      "id": "CYB-138",
+      "category": "Phishing and Social Engineering",
+      "question": "A message’s From address shows a trusted bank, but it was really sent from an unrelated server. What is this?",
+      "options": [
+        "Typosquatting",
+        "Whaling",
+        "Sender spoofing",
+        "Defanging"
+      ],
+      "correctIndex": 2,
+      "hint": "The apparent sender is faked.",
+      "explanation": "Sender spoofing makes the From address appear to be a trusted sender even though the message came from somewhere else."
+    },
+    {
+      "id": "CYB-139",
+      "category": "Phishing and Social Engineering",
+      "question": "Which header may reveal the IP address of the system that originated an email?",
+      "options": [
+        "Subject",
+        "Reply-To",
+        "Message-ID",
+        "X-Originating-IP"
+      ],
+      "correctIndex": 3,
+      "hint": "The name says ‘originating’.",
+      "explanation": "X-Originating-IP can show the IP of the system that originated the email, useful for checking whether a claimed sender is genuine."
+    },
+    {
+      "id": "CYB-140",
+      "category": "Networks and the Web",
+      "question": "An analyst wants to find out who registered a suspicious domain and when. Which lookup should they use?",
+      "options": [
+        "WHOIS",
+        "Reverse DNS",
+        "Traceroute",
+        "Ping"
+      ],
+      "correctIndex": 0,
+      "hint": "Domain registration records.",
+      "explanation": "WHOIS retrieves registration information for domains and IP resources, such as registration dates and registrar details, where available."
+    },
+    {
+      "id": "CYB-141",
+      "category": "Phishing and Social Engineering",
+      "question": "Which email authentication control lets a domain publish which mail servers may send email on its behalf?",
+      "options": [
+        "DKIM",
+        "SPF",
+        "DMARC",
+        "TLS"
+      ],
+      "correctIndex": 1,
+      "hint": "It’s a list of permitted senders.",
+      "explanation": "SPF (Sender Policy Framework) publishes which servers are authorised to send for a domain. DKIM signs messages, and DMARC sets the policy using both."
+    },
+    {
+      "id": "CYB-142",
+      "category": "Phishing and Social Engineering",
+      "question": "Which email authentication method uses a cryptographic signature to show a message wasn’t altered in transit?",
+      "options": [
+        "SPF",
+        "DMARC",
+        "DKIM",
+        "POP3"
+      ],
+      "correctIndex": 2,
+      "hint": "Think ‘keys’ and signatures.",
+      "explanation": "DKIM (DomainKeys Identified Mail) adds a cryptographic signature that the receiver checks with the domain’s public key to confirm authenticity and integrity."
+    },
+    {
+      "id": "CYB-143",
+      "category": "Phishing and Social Engineering",
+      "question": "Which control tells receiving servers what to do with mail that fails SPF and DKIM checks?",
+      "options": [
+        "SPF",
+        "DKIM",
+        "MX records",
+        "DMARC"
+      ],
+      "correctIndex": 3,
+      "hint": "It’s the policy layer on top of the other two.",
+      "explanation": "DMARC builds on SPF and DKIM and tells receivers how to handle failures: none, quarantine or reject. It also provides reporting."
+    },
+    {
+      "id": "CYB-144",
+      "category": "Phishing and Social Engineering",
+      "question": "Which three actions can a DMARC policy request for mail that fails its checks?",
+      "options": [
+        "None, quarantine or reject",
+        "Allow, warn or delete",
+        "Encrypt, sign or forward",
+        "Log, archive or bounce"
+      ],
+      "correctIndex": 0,
+      "hint": "One of them does nothing at all.",
+      "explanation": "DMARC policies are none (monitor only), quarantine (treat as suspicious, e.g. junk) or reject (refuse the message)."
+    },
+    {
+      "id": "CYB-145",
+      "category": "Phishing and Social Engineering",
+      "question": "What does ‘-all’ at the end of an SPF record mean?",
+      "options": [
+        "Every server in the world may send for the domain",
+        "Mail from unauthorised servers should fail SPF (a hard fail)",
+        "SPF checking is turned off",
+        "Only DKIM-signed mail is accepted"
+      ],
+      "correctIndex": 1,
+      "hint": "The minus sign is strict.",
+      "explanation": "‘-all’ is the SPF hard fail: mail from sources not listed in the policy should fail SPF validation."
+    },
+    {
+      "id": "CYB-146",
+      "category": "Phishing and Social Engineering",
+      "question": "Which HTML element creates a hyperlink, and is worth inspecting in a suspicious email?",
+      "options": [
+        "The <img> tag",
+        "The <table> tag",
+        "The anchor tag <a>",
+        "The <style> tag"
+      ],
+      "correctIndex": 2,
+      "hint": "Hyperlinks use the href attribute.",
+      "explanation": "The anchor tag (<a href=…>) creates hyperlinks. The visible link text can differ from the real destination in the href, so analysts check both."
+    },
+    {
+      "id": "CYB-147",
+      "category": "Phishing and Social Engineering",
+      "question": "An attachment is a harmless-looking PDF whose only purpose is to get you to click a malicious link inside it. What is it?",
+      "options": [
+        "Macro malware",
+        "A tracking pixel",
+        "A recon email",
+        "A lure document"
+      ],
+      "correctIndex": 3,
+      "hint": "The file itself may contain no malware.",
+      "explanation": "A lure document isn’t necessarily malicious itself; it’s designed to persuade the recipient to click a malicious link or take another unsafe step."
+    },
+    {
+      "id": "CYB-148",
+      "category": "Networks and the Web",
+      "question": "A phishing email uses a Bitly link. Why do attackers use URL shortening?",
+      "options": [
+        "To hide the final destination behind a redirect",
+        "To make the page load faster for victims",
+        "To encrypt the link so filters can’t read it",
+        "To prove to the victim that the link is safe"
+      ],
+      "correctIndex": 0,
+      "hint": "You can’t see where it really goes.",
+      "explanation": "URL shorteners replace the real destination with a short link that redirects. It hides where the link goes, so analysts resolve the redirect safely before trusting it."
+    },
+    {
+      "id": "CYB-149",
+      "category": "Networks and the Web",
+      "question": "Which HTTP status code means a resource has been permanently redirected?",
+      "options": [
+        "200",
+        "301",
+        "404",
+        "500"
+      ],
+      "correctIndex": 1,
+      "hint": "It’s a 3xx code.",
+      "explanation": "HTTP 301 means ‘Moved Permanently’. The Location header in the response shows where the browser is being sent, which can reveal a shortened link’s target."
+    },
+    {
+      "id": "CYB-150",
+      "category": "Networks and the Web",
+      "question": "When checking a redirect, which HTTP response header shows the destination URL?",
+      "options": [
+        "User-Agent",
+        "Host",
+        "Location",
+        "Accept"
+      ],
+      "correctIndex": 2,
+      "hint": "It tells the browser where to go next.",
+      "explanation": "The Location header in a redirect response holds the destination URL. User-Agent and Host are request headers."
+    },
+    {
+      "id": "CYB-151",
+      "category": "Networks and the Web",
+      "question": "What does the User-Agent header identify?",
+      "options": [
+        "The organisation that owns the website",
+        "The final destination of a redirect",
+        "The user’s account name on the site",
+        "The browser or client making the web request"
+      ],
+      "correctIndex": 3,
+      "hint": "It’s sent by the client.",
+      "explanation": "User-Agent is a request header that identifies the browser, application or client making the request."
+    },
+    {
+      "id": "CYB-152",
+      "category": "Networks and the Web",
+      "question": "Which HTTP status code means a request succeeded?",
+      "options": [
+        "200",
+        "301",
+        "403",
+        "500"
+      ],
+      "correctIndex": 0,
+      "hint": "The ‘OK’ code.",
+      "explanation": "HTTP 200 OK means the request succeeded and the resource is available. 500 is an internal server error."
+    },
+    {
+      "id": "CYB-153",
+      "category": "Networks and the Web",
+      "question": "A web capture of a phishing link returns HTTP 500. What does that mean?",
+      "options": [
+        "The page has been permanently moved to a new address",
+        "The server hit an internal error and couldn’t fulfil the request",
+        "The request succeeded and the page loaded normally",
+        "The page requires the visitor to sign in first"
+      ],
+      "correctIndex": 1,
+      "hint": "5xx codes are server-side problems.",
+      "explanation": "HTTP 500 Internal Server Error is a generic server-side error: the server couldn’t complete the request."
+    },
+    {
+      "id": "CYB-154",
+      "category": "Phishing and Social Engineering",
+      "question": "Attackers send phishing from a real Gmail-style webmail account or host files on a well-known cloud service. What is this tactic called?",
+      "options": [
+        "Typosquatting",
+        "Header spoofing",
+        "Legitimate service abuse",
+        "DNS blackholing"
+      ],
+      "correctIndex": 2,
+      "hint": "Trusted services help them blend in.",
+      "explanation": "Legitimate service abuse uses trusted webmail, marketing or cloud-hosting services to deliver phishing or host malicious files, so it’s harder to block."
+    },
+    {
+      "id": "CYB-155",
+      "category": "Phishing and Social Engineering",
+      "question": "An attacker impersonates the CEO and pressures a finance assistant to make an urgent transfer. Which BEC pattern is this?",
+      "options": [
+        "A vendor attack",
+        "Zombie phishing",
+        "A recon email",
+        "CEO fraud"
+      ],
+      "correctIndex": 3,
+      "hint": "The executive is the disguise.",
+      "explanation": "CEO fraud is a business email compromise where the attacker impersonates a senior executive to pressure staff into transferring money or taking another sensitive action."
+    },
+    {
+      "id": "CYB-156",
+      "category": "Phishing and Social Engineering",
+      "question": "A supplier’s hijacked mailbox is used to send fake invoices to its customers. Which BEC scenario is this?",
+      "options": [
+        "A vendor attack",
+        "CEO fraud",
+        "Whaling",
+        "Smishing"
+      ],
+      "correctIndex": 0,
+      "hint": "The compromised business is a supplier.",
+      "explanation": "In a vendor attack, a compromised or impersonated business account sends fraudulent payment requests or invoices to the people it does business with."
+    },
+    {
+      "id": "CYB-157",
+      "category": "Phishing and Social Engineering",
+      "question": "An email asks a company to send all future payments to a new bank account. Which BEC scenario is this?",
+      "options": [
+        "A recon email",
+        "An alternative payment attack",
+        "Credential stuffing",
+        "A tracking pixel attack"
+      ],
+      "correctIndex": 1,
+      "hint": "The payment destination changes.",
+      "explanation": "An alternative payment attack directs the victim to send future payments to an attacker-controlled account. A call-back to a known number defeats it."
+    },
+    {
+      "id": "CYB-158",
+      "category": "Phishing and Social Engineering",
+      "question": "A compromised mailbox replies to an old, genuine email thread and slips in a malicious link. What is this called?",
+      "options": [
+        "Whaling",
+        "Typosquatting",
+        "Zombie phishing",
+        "Spam recon"
+      ],
+      "correctIndex": 2,
+      "hint": "The old conversation comes back to life.",
+      "explanation": "Zombie phishing reuses a compromised mailbox to reply to old legitimate threads, taking advantage of the trust in an existing conversation."
+    },
+    {
+      "id": "CYB-159",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In a phishing investigation, what is an ‘artifact’?",
+      "options": [
+        "A deleted email recovered from the company backups",
+        "The final written report sent to management",
+        "An antivirus signature created by the vendor",
+        "A specific piece of information collected from the email for analysis"
+      ],
+      "correctIndex": 3,
+      "hint": "Things you collect: addresses, URLs, hashes.",
+      "explanation": "An artifact is a specific piece of information from the email, such as a sending address, URL or file hash, collected for investigation, sharing or blocking."
+    },
+    {
+      "id": "CYB-160",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which of these is a web artifact from a phishing email?",
+      "options": [
+        "The full URL and its root domain",
+        "The sending server IP",
+        "The attachment’s SHA-256 hash",
+        "The Reply-To address"
+      ],
+      "correctIndex": 0,
+      "hint": "Web means links.",
+      "explanation": "Web artifacts are mainly the full URL and root domain. The sending IP and Reply-To are email artifacts, and hashes are file artifacts."
+    },
+    {
+      "id": "CYB-161",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which set makes up the core file artifacts from a suspicious attachment?",
+      "options": [
+        "Sender, subject and date",
+        "File name, extension and hash",
+        "Full URL and root domain",
+        "Received headers and Message-ID"
+      ],
+      "correctIndex": 1,
+      "hint": "Everything about the file itself.",
+      "explanation": "File artifacts are the attachment name, its extension and a cryptographic hash (preferably SHA-256) for reputation checks and blocking."
+    },
+    {
+      "id": "CYB-162",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why do analysts record every recipient of a phishing email?",
+      "options": [
+        "To send each of them a formal warning letter",
+        "To block all of their accounts as a precaution",
+        "To understand the scope of the campaign and who to notify",
+        "Because the recipients are usually the attackers"
+      ],
+      "correctIndex": 2,
+      "hint": "Who else might have clicked?",
+      "explanation": "Knowing everyone who received the email shows the campaign’s scope and lets you notify and protect them all."
+    },
+    {
+      "id": "CYB-163",
+      "category": "Phishing and Social Engineering",
+      "question": "Why might attackers put targets in the BCC field?",
+      "options": [
+        "To make the email pass SPF and DKIM checks",
+        "To encrypt the message for every recipient",
+        "To prove the email came from a real company",
+        "To hide recipients from each other in a mass phishing email"
+      ],
+      "correctIndex": 3,
+      "hint": "Blind carbon copy.",
+      "explanation": "BCC hides recipient addresses from other recipients, so a mass phishing email looks personal and no one sees how many others received it."
+    },
+    {
+      "id": "CYB-164",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why is the sending server IP useful when investigating a phishing email?",
+      "options": [
+        "It shows the server that actually sent it and can expose spoofing",
+        "It shows where the recipient was when they read it",
+        "It proves the email is safe if it’s a UK address",
+        "It lets the analyst decrypt the email’s body"
+      ],
+      "correctIndex": 0,
+      "hint": "The From address can lie; the server tells you more.",
+      "explanation": "The sending server IP identifies the machine that actually transmitted the message, which helps reveal the true origin and detect sender spoofing."
+    },
+    {
+      "id": "CYB-165",
+      "category": "Networks and the Web",
+      "question": "What does a reverse DNS lookup do?",
+      "options": [
+        "Maps a hostname to an IP address",
+        "Maps an IP address back to a hostname",
+        "Finds who registered a domain",
+        "Shows an email’s delivery route"
+      ],
+      "correctIndex": 1,
+      "hint": "It works backwards from the usual DNS lookup.",
+      "explanation": "Reverse DNS turns an IP address into a hostname, helping analysts see which provider or server actually sent an email."
+    },
+    {
+      "id": "CYB-166",
+      "category": "Networks and the Web",
+      "question": "What is the root domain of https://login.example-bank.co.uk/verify?id=7?",
+      "options": [
+        "login.example-bank.co.uk/verify",
+        "https://login",
+        "example-bank.co.uk",
+        "verify?id=7"
+      ],
+      "correctIndex": 2,
+      "hint": "The core domain, without the subdomain or path.",
+      "explanation": "The root domain is the core registered domain, example-bank.co.uk. The full URL includes the protocol, subdomain, path and query."
+    },
+    {
+      "id": "CYB-167",
+      "category": "Digital Forensics",
+      "question": "Why do analysts collect a file hash from a suspicious attachment?",
+      "options": [
+        "To open the file without any risk",
+        "To decrypt the file so it can be read",
+        "To find out exactly who sent the file",
+        "To identify the exact file and check its reputation"
+      ],
+      "correctIndex": 3,
+      "hint": "A fingerprint for the file.",
+      "explanation": "A hash is a fixed-length value calculated from the file’s data. It uniquely identifies that version of the file for reputation checks and blocking."
+    },
+    {
+      "id": "CYB-168",
+      "category": "Digital Forensics",
+      "question": "Which hashing algorithm does the course treat as the current standard for file hashing?",
+      "options": [
+        "SHA-256",
+        "MD5",
+        "SHA-1",
+        "Base64"
+      ],
+      "correctIndex": 0,
+      "hint": "The other two hashes have known collision weaknesses.",
+      "explanation": "SHA-256 is the current standard. MD5 and SHA-1 have known collision weaknesses, and Base64 isn’t a hash at all."
+    },
+    {
+      "id": "CYB-169",
+      "category": "Digital Forensics",
+      "question": "What is a hash collision?",
+      "options": [
+        "Two copies of a file with different hashes",
+        "Two different inputs producing the same hash",
+        "A hash that can’t be calculated",
+        "An encrypted file that won’t open"
+      ],
+      "correctIndex": 1,
+      "hint": "Why MD5 and SHA-1 aren’t trusted.",
+      "explanation": "A collision is when two different inputs produce the same hash value. Known collision weaknesses are why MD5 and SHA-1 shouldn’t be preferred."
+    },
+    {
+      "id": "CYB-170",
+      "category": "Digital Forensics",
+      "question": "Which PowerShell cmdlet calculates a file’s hash, using SHA-256 by default?",
+      "options": [
+        "Get-Content",
+        "Test-Path",
+        "Get-FileHash",
+        "Get-Process"
+      ],
+      "correctIndex": 2,
+      "hint": "It does exactly what its name says.",
+      "explanation": "Get-FileHash calculates a file hash and uses SHA-256 by default, though other algorithms can be specified."
+    },
+    {
+      "id": "CYB-171",
+      "category": "Digital Forensics",
+      "question": "On Linux, which command produces a SHA-256 hash of a file?",
+      "options": [
+        "md5sum",
+        "chmod",
+        "grep",
+        "sha256sum"
+      ],
+      "correctIndex": 3,
+      "hint": "It names its algorithm.",
+      "explanation": "sha256sum generates a SHA-256 hash. sha1sum and md5sum do the same for the older algorithms."
+    },
+    {
+      "id": "CYB-172",
+      "category": "Phishing and Social Engineering",
+      "question": "Which file format stores a whole email, including headers and body, so it can be inspected in a text editor?",
+      "options": [
+        ".eml",
+        ".csv",
+        ".exe",
+        ".png"
+      ],
+      "correctIndex": 0,
+      "hint": "E for email.",
+      "explanation": "An .eml file stores an email message with its headers and body. Outlook’s equivalent format is .msg."
+    },
+    {
+      "id": "CYB-173",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Where should an analyst open and investigate suspicious emails and websites?",
+      "options": [
+        "On their normal work laptop, with care",
+        "On a dedicated dirty system or virtual machine",
+        "On the company’s main email server",
+        "On a colleague’s spare computer"
+      ],
+      "correctIndex": 1,
+      "hint": "Keep risky work away from production.",
+      "explanation": "A ‘dirty system’ is a dedicated non-production machine for risky tasks, so a malicious link or file can’t harm the corporate network."
+    },
+    {
+      "id": "CYB-174",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What does PhishTool do in a phishing investigation?",
+      "options": [
+        "Sends simulated phishing emails to test staff awareness",
+        "Blocks malicious domains at the perimeter firewall",
+        "Automatically extracts email, web and file artifacts and helps produce a report",
+        "Encrypts suspicious emails so no one can open them"
+      ],
+      "correctIndex": 2,
+      "hint": "It speeds up artifact collection.",
+      "explanation": "PhishTool is a forensic email analysis platform that extracts artifacts automatically, tags indicators and generates investigation reports."
+    },
+    {
+      "id": "CYB-175",
+      "category": "Security Monitoring and Incident Response",
+      "question": "An analyst wants to see what a phishing page looks like without visiting it. What should they use?",
+      "options": [
+        "Their own browser, in a private window",
+        "A WHOIS lookup on the page’s domain",
+        "The DMARC aggregate report for the domain",
+        "A URL visualisation service like URL2PNG or urlscan.io"
+      ],
+      "correctIndex": 3,
+      "hint": "A screenshot taken somewhere else.",
+      "explanation": "URL visualisation tools render the page remotely and return a screenshot, so the analyst can inspect it without browsing to it directly."
+    },
+    {
+      "id": "CYB-176",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A URL and file hash both come back clean on VirusTotal. What should the analyst conclude?",
+      "options": [
+        "It hasn’t been flagged yet, which doesn’t prove it’s safe",
+        "It is definitely safe and can be released",
+        "It must be a false positive from the user",
+        "It should be deleted without further checks"
+      ],
+      "correctIndex": 0,
+      "hint": "New and targeted attacks may not be known yet.",
+      "explanation": "A clean reputation result only means no vendor has flagged it yet. New or targeted attacks often aren’t detected at first, so other evidence still matters."
+    },
+    {
+      "id": "CYB-177",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which public sources list known malicious and phishing URLs?",
+      "options": [
+        "WHOIS and reverse DNS",
+        "URLhaus and PhishTank",
+        "SPF and DKIM",
+        "CyberChef and Wireshark"
+      ],
+      "correctIndex": 1,
+      "hint": "Community threat feeds.",
+      "explanation": "URLhaus is a public database of malicious URLs, and PhishTank is a community-verified list of phishing sites."
+    },
+    {
+      "id": "CYB-178",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the key difference between a reputation check and sandboxing?",
+      "options": [
+        "Reputation runs the file; sandboxing looks it up in an online database",
+        "They are two names for the same automated scan",
+        "Reputation asks if others have flagged it; sandboxing runs it to watch what it does",
+        "Sandboxing only works on URLs; reputation only works on files"
+      ],
+      "correctIndex": 2,
+      "hint": "One looks it up; the other watches it.",
+      "explanation": "Reputation checks ask whether something has been seen and flagged before. Sandboxing executes it in isolation to observe its actual behaviour."
+    },
+    {
+      "id": "CYB-179",
+      "category": "Malware and Attacks",
+      "question": "Which online service detonates submitted files in cloud virtual machines and produces behavioural reports?",
+      "options": [
+        "WHOIS",
+        "PhishTank",
+        "CyberChef",
+        "Hybrid Analysis"
+      ],
+      "correctIndex": 3,
+      "hint": "An online malware sandbox.",
+      "explanation": "Hybrid Analysis runs submitted files or URLs in cloud-based virtual machines and produces behavioural and reputation reports."
+    },
+    {
+      "id": "CYB-180",
+      "category": "Malware and Attacks",
+      "question": "A sandbox report shows malware reaching out to a remote server for instructions. What is that server called?",
+      "options": [
+        "Command and control (C2)",
+        "A mail relay",
+        "A web proxy",
+        "A DNS sinkhole"
+      ],
+      "correctIndex": 0,
+      "hint": "Where the attacker gives orders from.",
+      "explanation": "Command and control (C2) infrastructure is what compromised systems contact to receive commands, send data or download more modules."
+    },
+    {
+      "id": "CYB-181",
+      "category": "Malware and Attacks",
+      "question": "What does a RAT give an attacker?",
+      "options": [
+        "A list of the victim’s contacts only",
+        "Remote access and control of the victim’s system",
+        "A copy of the victim’s antivirus logs",
+        "Access to the victim’s SPF record"
+      ],
+      "correctIndex": 1,
+      "hint": "Remote Access Trojan.",
+      "explanation": "A Remote Access Trojan lets an attacker remotely access and control the infected system."
+    },
+    {
+      "id": "CYB-182",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a preventative and a reactive control?",
+      "options": [
+        "Preventative is always technical; reactive is always staff training",
+        "Reactive controls are applied before an attack; preventative ones after",
+        "Preventative stops attacks before harm; reactive contains them after detection",
+        "There is no real difference; the terms are interchangeable"
+      ],
+      "correctIndex": 2,
+      "hint": "Before versus after.",
+      "explanation": "Preventative controls aim to stop or reduce attacks before harm occurs. Reactive controls are used after detection to contain the threat and limit impact."
+    },
+    {
+      "id": "CYB-183",
+      "category": "Resilience and Security Management",
+      "question": "Security awareness training is an example of which type of control?",
+      "options": [
+        "Technical",
+        "Physical",
+        "Reactive only",
+        "Administrative"
+      ],
+      "correctIndex": 3,
+      "hint": "It’s about people and process, not technology.",
+      "explanation": "Administrative controls are people- and process-based, like policies, procedures and training. Email filtering would be a technical control."
+    },
+    {
+      "id": "CYB-184",
+      "category": "Phishing and Social Engineering",
+      "question": "Emails from outside the organisation are tagged [EXTERNAL]. What is the purpose?",
+      "options": [
+        "To make users pause before clicking, opening or replying",
+        "To encrypt every email from outside the company",
+        "To block external email unless IT approves it",
+        "To prove the sender passed SPF and DKIM checks"
+      ],
+      "correctIndex": 0,
+      "hint": "It’s a visual warning.",
+      "explanation": "External email marking warns users that a message came from outside, so they think twice. It doesn’t authenticate the sender like SPF, DKIM and DMARC do."
+    },
+    {
+      "id": "CYB-185",
+      "category": "Phishing and Social Engineering",
+      "question": "In Microsoft Exchange, what is used to automatically add an [EXTERNAL] tag to incoming mail?",
+      "options": [
+        "A DKIM key",
+        "A mail flow rule",
+        "A reverse DNS record",
+        "A tracking pixel"
+      ],
+      "correctIndex": 1,
+      "hint": "A rule that acts when conditions are met.",
+      "explanation": "A mail flow rule automatically takes an action when conditions are met, such as marking messages that come from outside the organisation."
+    },
+    {
+      "id": "CYB-186",
+      "category": "Phishing and Social Engineering",
+      "question": "A spam filter learns from messages users mark as spam or not spam. What type of filter is it?",
+      "options": [
+        "A rule-based filter",
+        "A gateway filter",
+        "A Bayesian filter",
+        "A desktop filter"
+      ],
+      "correctIndex": 2,
+      "hint": "Statistical and adaptive.",
+      "explanation": "A Bayesian filter uses statistics learned from classified messages to judge future email. Rule-based filters apply fixed criteria instead."
+    },
+    {
+      "id": "CYB-187",
+      "category": "Phishing and Social Engineering",
+      "question": "Where does a gateway spam filter sit?",
+      "options": [
+        "On each individual user’s laptop or desktop",
+        "Inside the recipient’s web browser as an add-on",
+        "On the sending organisation’s mail server",
+        "At the organisation’s network or email gateway, before delivery"
+      ],
+      "correctIndex": 3,
+      "hint": "At the edge.",
+      "explanation": "A gateway spam filter inspects inbound mail at the organisation’s edge before delivery. Hosted filters run in the cloud, and desktop filters run on individual devices."
+    },
+    {
+      "id": "CYB-188",
+      "category": "Malware and Attacks",
+      "question": "What is the difference between attachment filtering and attachment sandboxing?",
+      "options": [
+        "Filtering applies rules to block or strip files; sandboxing runs them in isolation to watch behaviour",
+        "Filtering runs the file to watch it; sandboxing simply deletes it straight away",
+        "Both only check the file name and ignore the contents completely",
+        "Sandboxing is done by the recipient; filtering is done by the sender"
+      ],
+      "correctIndex": 0,
+      "hint": "Rules versus running it.",
+      "explanation": "Attachment filtering uses rules like file type to block, strip or quarantine. Attachment sandboxing detonates the file in an isolated environment before delivery."
+    },
+    {
+      "id": "CYB-189",
+      "category": "Resilience and Security Management",
+      "question": "Why do organisations run authorised simulated phishing campaigns?",
+      "options": [
+        "To identify and discipline staff who click links",
+        "To measure whether staff spot, report or fall for phishing",
+        "To test how quickly the mail server delivers email",
+        "To collect staff passwords for a security audit"
+      ],
+      "correctIndex": 1,
+      "hint": "Testing the training.",
+      "explanation": "Simulated phishing tests whether awareness training works by measuring detection, reporting and clicks. The aim is learning, not punishment."
+    },
+    {
+      "id": "CYB-190",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the first step of the immediate response process for a reported phishing email?",
+      "options": [
+        "Block the sender’s domain",
+        "Write the report",
+        "Retrieve the original email",
+        "Notify the press"
+      ],
+      "correctIndex": 2,
+      "hint": "You need the real evidence first.",
+      "explanation": "The order is: retrieve the original email, gather artifacts, notify recipients, analyse artifacts, take defensive measures, then complete the report."
+    },
+    {
+      "id": "CYB-191",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why should analysts work from the original email rather than a forwarded copy?",
+      "options": [
+        "Forwarded emails can’t be opened in any analysis tool",
+        "Original emails are always encrypted end to end",
+        "Forwarding is faster, so it saves the analyst time",
+        "Forwarding can change or strip the headers and attachments needed for analysis"
+      ],
+      "correctIndex": 3,
+      "hint": "Evidence quality.",
+      "explanation": "The original from the mail platform, gateway or reporter keeps the headers, body and attachments intact so the investigation is reliable."
+    },
+    {
+      "id": "CYB-192",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which email block is the narrowest?",
+      "options": [
+        "Blocking the single sender address",
+        "Blocking the sender’s domain",
+        "Blocking the sending server IP",
+        "Blocking the whole country"
+      ],
+      "correctIndex": 0,
+      "hint": "Narrowest affects the fewest legitimate senders.",
+      "explanation": "Blocking one sender address is narrowest. A domain block is broader, and a sending server IP block is very broad because one IP may serve many senders."
+    },
+    {
+      "id": "CYB-193",
+      "category": "Security Monitoring and Incident Response",
+      "question": "A campaign uses many different sender addresses but always the same subject line. Which block helps most?",
+      "options": [
+        "A single sender address block",
+        "A subject line block",
+        "A DMARC policy change",
+        "A WHOIS lookup"
+      ],
+      "correctIndex": 1,
+      "hint": "Find what stays the same.",
+      "explanation": "A subject line block catches every message in the campaign even when the attacker rotates sender addresses."
+    },
+    {
+      "id": "CYB-194",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Why is blocking a sending server IP considered a strong, high-impact measure?",
+      "options": [
+        "It only ever affects a single email message",
+        "It can be undone automatically within an hour",
+        "One IP can serve many domains, including legitimate senders",
+        "It also blocks the attacker’s phone and laptop"
+      ],
+      "correctIndex": 2,
+      "hint": "Shared infrastructure.",
+      "explanation": "A single sending server IP may carry mail for many domains, so blocking it could stop legitimate email too. Justify it carefully."
+    },
+    {
+      "id": "CYB-195",
+      "category": "Networks and the Web",
+      "question": "What is the trade-off between a URL block and a domain block?",
+      "options": [
+        "A URL block blocks every site on the server; a domain block blocks one page only",
+        "They have exactly the same effect, so the choice doesn’t matter",
+        "A domain block only works on email; a URL block only works on the web",
+        "A URL block is precise but easy to bypass; a domain block is stronger but may block legitimate access"
+      ],
+      "correctIndex": 3,
+      "hint": "Precision versus strength.",
+      "explanation": "A URL block targets one exact address but the attacker can change it. A domain block covers the whole domain and subdomains, with more risk of blocking legitimate business."
+    },
+    {
+      "id": "CYB-196",
+      "category": "Networks and the Web",
+      "question": "What is DNS blackholing?",
+      "options": [
+        "Returning a controlled DNS answer so users reach a safe place instead of a malicious site",
+        "Removing a malicious domain from the internet so nobody can register it again",
+        "Flooding a DNS server with requests until it stops answering anyone at all",
+        "Hiding the company’s own DNS records so attackers can’t look them up"
+      ],
+      "correctIndex": 0,
+      "hint": "The request goes into a ‘hole’.",
+      "explanation": "DNS blackholing gives a controlled response for a malicious domain, redirecting users to a safe destination instead of the real malicious site."
+    },
+    {
+      "id": "CYB-197",
+      "category": "Networks and the Web",
+      "question": "What does a web proxy do?",
+      "options": [
+        "Speeds up email delivery by relaying messages between the company’s mail servers",
+        "Sits between users and the internet and allows or denies web requests by policy",
+        "Stores a full backup copy of every website staff have visited that week",
+        "Signs every outgoing email with the company’s DKIM key before sending"
+      ],
+      "correctIndex": 1,
+      "hint": "A middleman for web traffic.",
+      "explanation": "A web proxy sits between users and internet destinations, allowing or denying outbound web requests according to organisational policy."
+    },
+    {
+      "id": "CYB-198",
+      "category": "Malware and Attacks",
+      "question": "Why is blocking a malicious file by its hash usually better than blocking by file name?",
+      "options": [
+        "File names are always encrypted, so security tools can’t read them",
+        "A hash block stops every future version of the malware forever",
+        "A hash identifies the exact file; names can be changed or shared by legitimate files",
+        "File names only exist on Linux, so name blocks miss Windows files"
+      ],
+      "correctIndex": 2,
+      "hint": "Renaming a file is easy.",
+      "explanation": "A hash matches one exact file version, while file names are easy to change and might collide with legitimate files. SHA-256 is the preferred hash to block."
+    },
+    {
+      "id": "CYB-199",
+      "category": "Malware and Attacks",
+      "question": "Malware changes its code with each version so its hash keeps changing. What is this called?",
+      "options": [
+        "A homoglyph",
+        "Macro malware",
+        "A lure document",
+        "Polymorphic malware"
+      ],
+      "correctIndex": 3,
+      "hint": "Many forms.",
+      "explanation": "Polymorphic malware changes its code or representation between versions, which defeats simple hash-based blocking."
+    },
+    {
+      "id": "CYB-200",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is a watchlist used for?",
+      "options": [
+        "Monitoring suspicious indicators and alerting analysts instead of blocking automatically",
+        "Automatically blocking every indicator on the list straight away",
+        "Listing staff who failed the last phishing simulation",
+        "Storing encrypted passwords for privileged accounts"
+      ],
+      "correctIndex": 0,
+      "hint": "Watch rather than block.",
+      "explanation": "A watchlist holds suspicious indicators that are monitored rather than blocked. A match raises an alert for an analyst to investigate."
+    },
+    {
+      "id": "CYB-201",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is an IOC?",
+      "options": [
+        "An internal operations committee that approves security changes",
+        "An observable artifact linked to malicious activity, like a URL, IP or file hash",
+        "A type of email encryption used between mail servers",
+        "A firewall rule that blocks traffic from other countries"
+      ],
+      "correctIndex": 1,
+      "hint": "Indicator of Compromise.",
+      "explanation": "An Indicator of Compromise is an observable artifact associated with malicious activity, such as a sender address, URL, domain, IP address or file hash."
+    },
+    {
+      "id": "CYB-202",
+      "category": "Security Monitoring and Incident Response",
+      "question": "In a report, an analyst writes hxxps://evil[.]com instead of the real link. Why?",
+      "options": [
+        "It’s the encrypted form of the link for safe storage",
+        "It’s a shortened URL created for the report",
+        "It’s defanged so no one clicks or contacts it by accident",
+        "It hides the domain name from the report’s reader"
+      ],
+      "correctIndex": 2,
+      "hint": "Making dangerous artifacts safe to show.",
+      "explanation": "Defanging changes URLs and IPs into non-clickable forms, replacing dots with [.] and http/https with hxxp/hxxps, so they can be shared safely."
+    },
+    {
+      "id": "CYB-203",
+      "category": "Security Monitoring and Incident Response",
+      "question": "How would 8.8.8.8 be written when defanged?",
+      "options": [
+        "8.8.8.8",
+        "hxxp://8.8.8.8",
+        "8-8-8-8",
+        "8[.]8[.]8[.]8"
+      ],
+      "correctIndex": 3,
+      "hint": "Brackets around the dots.",
+      "explanation": "Defanged IP addresses replace each dot with [.], so 8.8.8.8 becomes 8[.]8[.]8[.]8 and can’t be used as a link by accident."
+    },
+    {
+      "id": "CYB-204",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What makes a phishing report ‘concise but complete’?",
+      "options": [
+        "Only relevant information, but enough that another analyst needn’t repeat the work",
+        "As short as possible, even if some investigation steps are missing",
+        "Every log line from the investigation pasted in full",
+        "Just the final verdict, with no artifacts or reasoning"
+      ],
+      "correctIndex": 0,
+      "hint": "Could someone else pick it up?",
+      "explanation": "Concise means only the relevant information; complete means another analyst can understand the case without re-investigating it."
+    },
+    {
+      "id": "CYB-205",
+      "category": "Security Monitoring and Incident Response",
+      "question": "When choosing a defensive measure, what does the course recommend?",
+      "options": [
+        "Always apply the broadest block available, just in case",
+        "The narrowest effective control, with the reasoning documented",
+        "Avoid blocking anything that might affect the business",
+        "Use whichever control is quickest to put in place"
+      ],
+      "correctIndex": 1,
+      "hint": "Reduce risk without stopping the business.",
+      "explanation": "Pick the narrowest control that effectively reduces risk without unnecessarily disrupting legitimate business, and document the justification."
+    },
+    {
+      "id": "CYB-206",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the purpose of an audit trail in an investigation?",
+      "options": [
+        "A list of staff who reported phishing",
+        "A log of the attacker’s own actions only",
+        "A traceable record of what was found, analysed and changed",
+        "A backup of all deleted emails"
+      ],
+      "correctIndex": 2,
+      "hint": "Accountability.",
+      "explanation": "An audit trail records what was identified, analysed and changed, supporting accountability and later review."
+    },
+    {
+      "id": "CYB-207",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is email triage?",
+      "options": [
+        "Automatically deleting all spam before it reaches inboxes",
+        "Encrypting suspicious emails so they can be stored safely",
+        "Writing the final investigation report for management",
+        "The first assessment to decide if an email is legitimate, spam, suspicious or malicious"
+      ],
+      "correctIndex": 3,
+      "hint": "Sorting before the deep dive.",
+      "explanation": "Email triage is the initial assessment that classifies a reported email and decides how much investigation it needs."
+    },
+    {
+      "id": "CYB-208",
+      "category": "Malware and Attacks",
+      "question": "An attachment is called invoice.pdf.exe. What type of file is it?",
+      "options": [
+        "An executable",
+        "A PDF document",
+        "A compressed archive",
+        "A web page"
+      ],
+      "correctIndex": 0,
+      "hint": "Read the final extension.",
+      "explanation": "This is a double extension. The last extension decides the real type, so invoice.pdf.exe is an executable disguised as a PDF."
+    },
+    {
+      "id": "CYB-209",
+      "category": "Phishing and Social Engineering",
+      "question": "What does an email gateway do when it performs attachment stripping?",
+      "options": [
+        "Compresses attachments so emails take up less space",
+        "Removes a dangerous attachment before delivery, sometimes leaving a notice",
+        "Adds a digital signature to every attachment",
+        "Converts attachments into Base64 for safe delivery"
+      ],
+      "correctIndex": 1,
+      "hint": "The attachment never arrives.",
+      "explanation": "Attachment stripping removes suspicious or malicious attachments at the gateway before delivery, often replacing them with a notice."
+    },
+    {
+      "id": "CYB-210",
+      "category": "Phishing and Social Engineering",
+      "question": "An email’s display name says ‘IT Service Desk’. What should an analyst check?",
+      "options": [
+        "Nothing more: display names are verified by the server",
+        "Only the subject line and the time it was sent",
+        "The real sending address and supporting header evidence",
+        "Whether the email contains the company logo"
+      ],
+      "correctIndex": 2,
+      "hint": "The friendly name can be set to anything.",
+      "explanation": "Display names can say anything. Verify the actual address and headers, such as the sending server and authentication results."
+    },
+    {
+      "id": "CYB-211",
+      "category": "Phishing and Social Engineering",
+      "question": "Suspicious appearance alone is enough to classify an email as malicious. True or false?",
+      "options": [
+        "True: any email that looks odd should be treated as malicious",
+        "True, but only if the email contains an attachment",
+        "False: only the person who received it can decide",
+        "False: classify on intent, artifacts and analysis evidence"
+      ],
+      "correctIndex": 3,
+      "hint": "Evidence, not looks.",
+      "explanation": "Odd formatting doesn’t prove malice. Classify based on intent, artifacts and the results of analysis."
+    },
+    {
+      "id": "CYB-212",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the end-to-end phishing workflow taught in the course?",
+      "options": [
+        "Triage, collect artifacts, analyse, defend, report",
+        "Report, defend, analyse, collect, triage",
+        "Block, delete, forget",
+        "Analyse, report, then triage"
+      ],
+      "correctIndex": 0,
+      "hint": "Classify first, report last.",
+      "explanation": "The workflow is: triage and classify, collect artifacts, analyse them, choose defensive measures, then report the findings."
+    },
+    {
+      "id": "CYB-213",
+      "category": "Malware and Attacks",
+      "question": "What are Microsoft ASR rules used for?",
+      "options": [
+        "Checking whether a domain’s SPF record is valid",
+        "Restricting risky behaviour, like Office apps creating executable content",
+        "Sending simulated phishing emails to employees",
+        "Defanging URLs automatically in incident reports"
+      ],
+      "correctIndex": 1,
+      "hint": "Attack Surface Reduction.",
+      "explanation": "Attack Surface Reduction rules block risky behaviours, such as Office applications creating executables, to reduce chances for malware to run."
+    },
+    {
+      "id": "CYB-214",
+      "category": "Phishing and Social Engineering",
+      "question": "Attackers copy the Outlook on the web sign-in page to steal work passwords. What is this page usually called in the course?",
+      "options": [
+        "A DMARC report",
+        "A mail relay",
+        "A fake OWA login portal",
+        "A tracking pixel"
+      ],
+      "correctIndex": 2,
+      "hint": "OWA is Outlook’s web access.",
+      "explanation": "OWA (Outlook Web Access) login pages are frequently imitated in credential-harvesting campaigns."
+    },
+    {
+      "id": "CYB-215",
+      "category": "Phishing and Social Engineering",
+      "question": "What is a lure email?",
+      "options": [
+        "A bounce message sent back by a mail server when an address doesn’t exist",
+        "An email that has passed SPF and DKIM checks and been signed by the sender",
+        "A marketing newsletter the user subscribed to and has since forgotten about",
+        "The first deceptive email that persuades the victim to click, open or enter details"
+      ],
+      "correctIndex": 3,
+      "hint": "It’s the bait.",
+      "explanation": "A lure email is the initial deceptive message designed to get the recipient to take the attacker’s desired action."
+    },
+    {
+      "id": "CYB-216",
+      "category": "Networks and the Web",
+      "question": "What is a mail relay?",
+      "options": [
+        "An intermediary server that forwards email towards its destination",
+        "A tool that decodes Base64 in email bodies",
+        "A type of spam filter that learns from users",
+        "A web page used to read email in a browser"
+      ],
+      "correctIndex": 0,
+      "hint": "Passing the message along.",
+      "explanation": "A mail relay is an intermediary mail server that forwards email towards another server or its final destination."
+    },
+    {
+      "id": "CYB-217",
+      "category": "Networks and the Web",
+      "question": "What is an MTA?",
+      "options": [
+        "A Malware Threat Alert raised by antivirus",
+        "A Mail Transfer Agent that moves email between servers",
+        "A Message Tracking Archive kept for audits",
+        "A Managed Trust Authority that signs certificates"
+      ],
+      "correctIndex": 1,
+      "hint": "Like a mail-sorting office.",
+      "explanation": "A Mail Transfer Agent transports email between servers, a bit like a sorting office passing post along."
+    },
+    {
+      "id": "CYB-218",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What is the difference between a threat feed and a one-off reputation search?",
+      "options": [
+        "A feed checks one file at a time; a search covers every known indicator",
+        "They are identical: both are updated continuously in the background",
+        "A feed supplies regularly updated bad indicators; a one-off search checks one artifact now",
+        "A search runs automatically; a feed has to be checked by hand each time"
+      ],
+      "correctIndex": 2,
+      "hint": "Continuous versus at that moment.",
+      "explanation": "A threat feed keeps supplying updated known-bad indicators for proactive blocking. A one-off reputation search checks a single artifact at investigation time."
+    },
+    {
+      "id": "CYB-219",
+      "category": "Security Monitoring and Incident Response",
+      "question": "Which Cisco service checks a file’s SHA-256 hash against its reputation database?",
+      "options": [
+        "PhishTank",
+        "URLhaus",
+        "WHOIS",
+        "Talos File Reputation"
+      ],
+      "correctIndex": 3,
+      "hint": "Cisco’s intelligence team is called Talos.",
+      "explanation": "Talos File Reputation checks SHA-256 hashes against the Talos database and returns a reputation result plus file metadata."
+    },
+    {
+      "id": "CYB-220",
+      "category": "Threat Intelligence",
+      "question": "A sandbox report maps the malware’s behaviour to tactics and techniques. Which framework is it most likely using?",
+      "options": [
+        "MITRE ATT&CK",
+        "The CIA triad",
+        "The OSI model",
+        "DMARC"
+      ],
+      "correctIndex": 0,
+      "hint": "A framework describing adversary behaviour.",
+      "explanation": "MITRE ATT&CK describes adversary behaviour as tactics and techniques, and sandbox reports often map observed activity to it."
+    },
+    {
+      "id": "CYB-221",
+      "category": "Phishing and Social Engineering",
+      "question": "What does a recon email that bounces back tell the attacker?",
+      "options": [
+        "That the user clicked the link",
+        "That the mailbox probably doesn’t exist",
+        "That the user’s password is weak",
+        "That SPF is misconfigured"
+      ],
+      "correctIndex": 1,
+      "hint": "Undeliverable means…",
+      "explanation": "A bounce (undeliverable message) suggests the mailbox doesn’t exist. No bounce suggests it does, making it a future target."
+    },
+    {
+      "id": "CYB-222",
+      "category": "Security Monitoring and Incident Response",
+      "question": "What should a phishing investigation report include?",
+      "options": [
+        "Only the attacker’s name and where they are based",
+        "Just the total number of emails that were received",
+        "Email description, artifacts, analysis, defensive actions and lessons learned",
+        "The affected users’ passwords so they can be reset"
+      ],
+      "correctIndex": 2,
+      "hint": "Enough to understand and act on the case.",
+      "explanation": "A good report covers what the email looked like, the artifacts or IOCs, the analysis and results, the defensive measures taken, and lessons learned."
     }
   ]
 }

@@ -122,7 +122,9 @@ const SHORT: Record<string, string> = {
   'Data Protection and Privacy': 'Data',
   'Security Monitoring and Incident Response': 'Monitoring',
   'Cloud and Application Security': 'Cloud',
-  'Resilience and Security Management': 'Resilience'
+  'Resilience and Security Management': 'Resilience',
+  'Digital Forensics': 'Forensics',
+  'Threat Intelligence': 'Threat Intel'
 };
 export const shortName = (c: string) => SHORT[c] ?? c.split(' ')[0];
 
@@ -137,7 +139,9 @@ export const SKILL_INFO: Record<string, string> = {
   'Data Protection and Privacy': 'Handling personal data properly, backups, sharing safely and privacy law.',
   'Security Monitoring and Incident Response': 'Noticing when something is wrong and what to do next: logs, alerts and incident steps.',
   'Cloud and Application Security': 'Securing cloud services and the apps built on them, from settings to secure code.',
-  'Resilience and Security Management': 'Policies, planning and recovery that keep an organisation running through an attack.'
+  'Resilience and Security Management': 'Policies, planning and recovery that keep an organisation running through an attack.',
+  'Digital Forensics': 'Collecting, preserving and examining digital evidence: disks, memory, logs and file systems, without changing it.',
+  'Threat Intelligence': 'Understanding attackers: who they are, how they operate, and turning that knowledge into better defence.'
 };
 
 /* A skill's score as a medal tier */
