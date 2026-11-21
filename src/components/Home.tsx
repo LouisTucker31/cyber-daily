@@ -95,7 +95,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         id: 'practice',
         title: 'Smart Practice',
         icon: <PracticeIcon />,
-        meta: due > 0 ? `${due} to review today` : `All caught up · ${learned} learned`,
+        meta: due > 0 ? `${due} to review` : `All caught up · ${learned} learned`,
         tone: 'plain',
         onOpen: onPractice,
         foot: <span className="tile-cta">Play</span>
