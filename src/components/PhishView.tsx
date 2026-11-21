@@ -444,8 +444,8 @@ const SWIPE = 90;      // px to count as a decision
 const EDGE = 28;       // touches starting this close to the left edge are the "back" swipe
 const HOLD_MS = 420;   // press and hold a link this long to preview it
 const FLY_MS = 300;    // the card flies off the screen this fast
-const SHOW_RIGHT = 1100; // how long the verdict shows before the next card (right answer)
-const SHOW_WRONG = 1900; // a little longer after a mistake, so there's time to tap Why?
+const SHOW_RIGHT = 1700; // how long the verdict shows before the next card (right answer)
+const SHOW_WRONG = 2700; // a little longer after a mistake, so there's time to tap Why?
 
 interface GameProps {
   cards: PhishCard[];
@@ -780,7 +780,7 @@ const breakable = (s: string) => s.split('.').map((part, i) => <Fragment key={i}
 export function DirectorySheet({ directory, onClose }: { directory: DirectoryEntry[]; onClose: () => void }) {
   return (
     <Sheet onClose={onClose} labelledBy="dir-title" scroll>
-      {(close) => (
+      {() => (
         <div className="dir">
           <h2 className="sheet-title" id="dir-title">Directory</h2>
           <p className="sheet-small">The real details. Anything else isn’t them.</p>
@@ -800,7 +800,6 @@ export function DirectorySheet({ directory, onClose }: { directory: DirectoryEnt
               </ul>
             </section>
           ))}
-          <button type="button" className="btn" onClick={() => close()}>Done</button>
         </div>
       )}
     </Sheet>

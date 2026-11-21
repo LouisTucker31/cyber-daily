@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { TickIcon } from './icons.tsx';
 
 export interface TileSpec {
   id: string;
@@ -16,13 +17,16 @@ export interface TileSpec {
   badge?: number;
   /** Spread across both columns */
   wide?: boolean;
+  /** Today's part of this mode is finished: a small tick in the corner, and a quieter call to action */
+  done?: boolean;
 }
 
-export default function Tile({ title, icon, meta, foot, tone, onOpen, wide, badge }: TileSpec) {
-  const cls = `tile tile-${tone}` + (wide ? ' tile-wide' : '');
+export default function Tile({ title, icon, meta, foot, tone, onOpen, wide, badge, done }: TileSpec) {
+  const cls = `tile tile-${tone}` + (wide ? ' tile-wide' : '') + (done ? ' tile-done' : '');
   const inner = (
     <>
       <span className="tile-icon">{icon}</span>
+      {done && <span className="tile-done-mark" aria-label="Done for today"><TickIcon /></span>}
       {!!badge && badge > 0 && <span className="tile-badge" aria-label={`${badge} due`}>{badge > 99 ? '99+' : badge}</span>}
       <span className="tile-body">
         <span className="tile-title">{title}</span>

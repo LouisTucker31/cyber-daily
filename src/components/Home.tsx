@@ -12,19 +12,26 @@ interface Props {
   onPractice: () => void;
   onProfile: () => void;
   level: { level: number; rank: string; progress: number; toNext: number; next: { name: string } | null };
-  /** Acronym Blitz: best score, and false if the acronym bank couldn't load */
-  blitz: { best: number; available: boolean };
+  /** Acronym Blitz: best score, false if the acronym bank couldn't load, and whether today's full-XP rounds are used */
+  blitz: { best: number; available: boolean; done: boolean };
   onBlitz: () => void;
-  /** Spot the Phish: best score, and false if the card bank couldn't load */
-  phish: { best: number; available: boolean };
+  /** Spot the Phish: best score, false if the card bank couldn't load, and whether today's full-XP rounds are used */
+  phish: { best: number; available: boolean; done: boolean };
   onPhish: () => void;
-  /** Incident Commander: best grade so far, and false if the scenarios couldn't load */
-  incident: { best: string | null; available: boolean };
+  /** Incident Commander: best grade so far, false if the scenarios couldn't load, and whether today's full-XP rounds are used */
+  incident: { best: string | null; available: boolean; done: boolean };
   onIncident: () => void;
 }
 
 /* Home tagline: one short line, picked at random once per app open (kept short so it fits one line on a phone). */
 const LINES = {
+  all: [ // Today's 10, Smart Practice and every game's full-XP rounds are done
+    'That’s everything for today.',
+    'All done. Go touch grass.',
+    'Everything ticked off. Nice.',
+    'Full house. See you tomorrow.',
+    'Nothing left. Well defended.'
+  ],
   done: [
     'Today’s set is done.',
     'Done for today. Nice work.',
@@ -53,7 +60,7 @@ const LINES = {
   ]
 };
 const pick = (list: string[]) => list[Math.floor(Math.random() * list.length)];
-const TAGLINE = { done: pick(LINES.done), started: pick(LINES.started), fresh: pick(LINES.fresh) };
+const TAGLINE = { all: pick(LINES.all), done: pick(LINES.done), started: pick(LINES.started), fresh: pick(LINES.fresh) };
 
 export default function Home({ day, learned, due, onDaily, onPractice, onProfile, level, blitz, onBlitz, phish, onPhish, incident, onIncident }: Props) {
   const total = day.items.length;
@@ -71,6 +78,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
       icon: <DailyIcon />,
       meta: `Done · ${right} of ${total} correct`,
       tone: 'feature-done',
+      done: true,
       onOpen: onDaily, // opens today's results (read only)
       foot: <span className="tile-link">See results</span>
     };
@@ -97,6 +105,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         icon: <PracticeIcon />,
         meta: due > 0 ? `${due} to review` : `All caught up · ${learned} learned`,
         tone: 'plain',
+        done: due === 0,
         onOpen: onPractice,
         foot: <span className="tile-cta">Play</span>
       }
@@ -116,6 +125,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         icon: <BlitzIcon />,
         meta: blitz.best > 0 ? `Best ${blitz.best}` : '60-second speed round',
         tone: 'plain',
+        done: blitz.done,
         onOpen: onBlitz,
         foot: <span className="tile-cta">Play</span>
       }
@@ -135,6 +145,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         icon: <PhishIcon />,
         meta: phish.best > 0 ? `Best ${phish.best}` : 'Phish or legit? 10 cards',
         tone: 'plain',
+        done: phish.done,
         onOpen: onPhish,
         foot: <span className="tile-cta">Play</span>
       }
@@ -154,6 +165,7 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
         icon: <IncidentIcon />,
         meta: incident.best ? `Best grade ${incident.best}` : 'Lead the response to a cyber attack',
         tone: 'plain',
+        done: incident.done,
         onOpen: onIncident,
         foot: <span className="tile-cta">Play</span>
       }
@@ -180,11 +192,13 @@ export default function Home({ day, learned, due, onDaily, onPractice, onProfile
   /* Add new modes here: each entry becomes a tile in the grid. */
   // the primary pair (Today's 10, Practice), the Profile, then the games as square tiles
   const tiles: TileSpec[] = [daily, practice, profile, blitzTile, phishTile, incidentTile];
+  // everything that can be finished today is finished (locked or unavailable tiles don't count against you)
+  const allDone = done && tiles.every((t) => t.done || t.wide || t.tone === 'locked');
 
   return (
     <>
       <p className="home-intro">
-        {done ? TAGLINE.done : started ? TAGLINE.started : TAGLINE.fresh}
+        {allDone ? TAGLINE.all : done ? TAGLINE.done : started ? TAGLINE.started : TAGLINE.fresh}
       </p>
       <div className={'tile-grid' + (done ? ' pill-space' : '')}>
         {tiles.map((t) => <Tile key={t.id} {...t} />)}

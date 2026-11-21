@@ -25,7 +25,7 @@ import {
   applyCast, directoryFor, drawRound, finishPhish, logPhishAnswer, parsePhish, phishRoundsToday, pickCast, TIERS,
   type Cast, type PhishBank, type PhishCard, type PhishResult, type Tier
 } from './lib/phish.ts';
-import { evaluateProgress, levelInfo } from './lib/progress.ts';
+import { evaluateProgress, FULL_XP_ROUNDS, levelInfo } from './lib/progress.ts';
 import useCountdown from './hooks/useCountdown.ts';
 import useEdgeSwipe from './hooks/useEdgeSwipe.ts';
 import { haptic } from './lib/haptics.ts';
@@ -349,11 +349,12 @@ export default function App() {
         onProfile={() => { haptic(); open('profile'); }}
         level={levelInfo(state.xp)}
         onPractice={openPractice}
-        blitz={{ best: state.blitz.best, available: (acronyms?.length ?? 0) >= 4 }}
+        blitz={{ best: state.blitz.best, available: (acronyms?.length ?? 0) >= 4, done: blitzRoundsToday(state) >= FULL_XP_ROUNDS }}
         onBlitz={openBlitz}
-        phish={{ best: state.phish.best, available: !!phishBank }}
+        phish={{ best: state.phish.best, available: !!phishBank, done: phishRoundsToday(state) >= FULL_XP_ROUNDS }}
         onPhish={openPhish}
-        incident={{ best: Object.values(state.incident.best).sort()[0] ?? null, available: !!incidentBank }}
+        incident={{ best: Object.values(state.incident.best).sort()[0] ?? null, available: !!incidentBank,
+          done: incidentRoundsToday(state) >= FULL_XP_ROUNDS }}
         onIncident={openIncident}
       />
     );

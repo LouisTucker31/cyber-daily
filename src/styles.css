@@ -124,6 +124,10 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* No visible scrollbars anywhere (scrolling still works as normal) */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
 /* Faint topographic lines behind every screen. Fixed, so they stay put while the page scrolls.
    The SVG is only a mask; the colour comes from --bg-art, so it follows light/dark. */
 body { background: transparent; } /* html paints the paper colour; body must not cover the layer */
@@ -518,6 +522,19 @@ button.tile:active { transform: scale(0.98); }
 .tile-feature-done .tile-icon { color: var(--orange); }
 .tile-feature-done .tile-meta { color: var(--orange-deep); }
 .tile-feature-done .tile-link { color: var(--orange-deep); text-decoration-color: var(--orange-underline); }
+
+/* done for today: a small green tick in the corner, and the Play pill turns to an outline */
+.tile-done-mark {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--good) 14%, transparent);
+  color: var(--good);
+}
+.tile-done-mark svg { width: 16px; height: 16px; display: block; }
+.tile-done .tile-cta { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line-strong, var(--muted)); }
 
 /* locked / finished tile */
 .tile-locked { background: var(--locked); border-color: var(--locked); }

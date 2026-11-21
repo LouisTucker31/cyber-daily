@@ -66,7 +66,11 @@ Each build stamps `sw.js` with a new cache version, so old copies are cleared au
 Progress is stored on the device (localStorage, same key as the original version, so existing progress carries over).
 
 ## Adding a home-screen tile
-In `src/components/Home.tsx`, add an entry to the `tiles` list. Each tile has a `title`, `icon`, one-line `meta`, optional `foot`, a `tone` (`feature` orange, `feature-done` soft orange, `plain` white, `locked` grey) and an `onOpen` action. Tiles flow into the two-column grid automatically; set `wide: true` to span both columns.
+In `src/components/Home.tsx`, add an entry to the `tiles` list. Each tile has a `title`, `icon`, one-line `meta`, optional `foot`, a `tone` (`feature` orange, `feature-done` soft orange, `plain` white, `locked` grey), an `onOpen` action and optional `done`.
+
+`done` marks today's part as finished: a small green tick in the corner and an outlined Play button. Today's 10 is done when finished, Smart Practice when today's reviews are cleared, and each game after its 3 full-XP rounds (`FULL_XP_ROUNDS`). When everything is done, the Home tagline switches to an "all done" line.
+
+Every slide-up sheet (`src/components/Sheet.tsx`) closes by swiping down anywhere on it: a scrolling sheet scrolls first, and drags once it's at the top. Scrollbars are hidden app-wide. Tiles flow into the two-column grid automatically; set `wide: true` to span both columns.
 
 ## Smart Practice
 Uses every question you've ever answered correctly, plus every acronym you've missed in Acronym Blitz (this list never resets). Acronyms appear as "What does X stand for?" questions. Each item sits in one of five boxes:
@@ -127,13 +131,13 @@ Ten messages a round. Swipe left (or tap **Phish**) if it's an attack, swipe rig
 
 - **Cards:** emails, texts, Kestrel Chat messages, bare links, sign-in prompts, sign-in pages, app permission requests and voicemails.
 - **A new cast every round:** one employer, bank, delivery company and energy supplier, picked at random from the fictional ones in `casts` in `public/phish.json` (4 employers, 3 of each of the others). Phone numbers come from Ofcom's ranges reserved for drama, so none are real.
-- **The Directory** shows just the genuine details for this round's cast: each organisation's domain and phone number or text sender as small chips, plus a rule or two. It's built in `directoryFor()` in `src/lib/phish.ts`. Open it from the intro or the chip above the card.
+- **The Directory** shows just the genuine details for this round's cast: each organisation's domain and phone number or text sender as small chips, plus a rule or two. It's built in `directoryFor()` in `src/lib/phish.ts`. Open it from the intro or the chip above the card; swipe it down or tap outside to close.
 - **Inspecting, as on a real phone:**
   - Tap a sender's name to see the full address, including any different reply-to address.
   - Tap a browser address bar to see the full web address.
   - Press and hold a link to see where it really goes. A short tap just shows a reminder.
 - **Cards look like the real thing:** a mail app, a message thread, a work chat, a voicemail player, a lock-screen sign-in notification, a browser and a shared-link preview (generic, no real brands).
-- **After each call** the card flies off, a quick verdict shows for about a second, and the next card comes in by itself. Tap **Why?** for the full annotated explanation of that card.
+- **After each call** the card flies off, a quick verdict shows (about 1.7 seconds after a right call, 2.7 after a mistake: `SHOW_RIGHT` / `SHOW_WRONG` in `PhishView.tsx`), and the next card comes in by itself. Tap **Why?** for the full annotated explanation of that card.
 - **Results:** your score, then every mistake explained in full with the warning signs (red) or reasons it was safe (green) highlighted where they appear, each with a numbered note. The ones you got right are folded underneath; tap one to see it.
 - **Levels:**
   - **Rookie:** from level 1, Rookie cards only.
