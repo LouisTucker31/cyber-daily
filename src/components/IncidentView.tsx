@@ -211,7 +211,7 @@ export function IncidentGame({ run, people, timed, hard, onDecision, onEnd }: Ga
       pendingOutcome.current = {
         effects: outs.reduce((acc, o) => addEffects(acc, o.effects), {} as Effects),
         decision: { beatId: b.id, clock: fill(b.clock, run), ask: null, timedOut: false,
-          picks: outs.map((o) => ({ text: fill(o.messages[0]?.text ?? '', run), quality: o.quality, note: o.note })) }
+          picks: outs.map((o) => ({ text: fill(o.messages[0]?.text ?? '', run), quality: o.quality, note: fill(o.note, run) })) }
       };
     } else {
       (b.messages ?? []).filter((m) => holds(m.if, flags.current))
@@ -268,7 +268,7 @@ export function IncidentGame({ run, people, timed, hard, onDecision, onEnd }: Ga
     resolved.forEach((r) => onDecision(beat.category, `${run.scenario.id}:${beat.id}:${r.o.id}`, !timedOut && r.quality === 'good'));
     decisions.current.push({
       beatId: beat.id, clock: fill(beat.clock, run), ask: fill(beat.ask ?? '', run), timedOut, deltas,
-      picks: resolved.map((r) => ({ text: fill(r.o.text, run), quality: r.quality, note: r.note }))
+      picks: resolved.map((r) => ({ text: fill(r.o.text, run), quality: r.quality, note: fill(r.note, run) }))
     });
     haptic(timedOut ? 'error' : 'tap');
     setAnswered(true);
