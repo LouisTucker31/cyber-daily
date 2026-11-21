@@ -37,7 +37,13 @@ export default function Sheet({ onClose, labelledBy, scroll = false, children }:
     return () => window.removeEventListener('keydown', onKey);
   }, [close]);
 
-  /* Native listeners, so touchmove can be non-passive and stop the page/sheet scrolling while dragging. */
+  // the latest close, read by the touch listeners below (the parent re-renders often, e.g. the countdown clock,
+  // and re-attaching the listeners mid-swipe would lose the gesture)
+  const closeRef = useRef(close);
+  closeRef.current = close;
+
+  /* Native listeners, so touchmove can be non-passive and stop the page/sheet scrolling while dragging.
+     Attached once; all gesture state lives here, outside React. */
   useEffect(() => {
     const el = sheet.current;
     if (!el) return;
@@ -64,7 +70,7 @@ export default function Sheet({ onClose, labelledBy, scroll = false, children }:
     const end = (e: TouchEvent) => {
       if (g?.mode === 'drag') {
         const speed = g.d / Math.max(1, e.timeStamp - g.t);
-        if (g.d > SWIPE_CLOSE || (g.d > 24 && speed > FLICK)) close();
+        if (g.d > SWIPE_CLOSE || (g.d > 24 && speed > FLICK)) closeRef.current();
         else setDrag(0);
       }
       g = null;
@@ -80,7 +86,7 @@ export default function Sheet({ onClose, labelledBy, scroll = false, children }:
       el.removeEventListener('touchend', end);
       el.removeEventListener('touchcancel', end);
     };
-  }, [close]);
+  }, []);
 
   // rendered into <body> so the screen's slide animation can't affect its fixed position
   return createPortal(
